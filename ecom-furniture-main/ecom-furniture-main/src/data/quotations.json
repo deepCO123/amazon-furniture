@@ -1,0 +1,64 @@
+[
+  {
+    "id": "QOT-2026-001",
+    "customerName": "شركة دلتا للاستشارات الهندسية",
+    "customerPhone": "+20 100 555 8899",
+    "customerEmail": "procurement@delta-eng.eg",
+    "companyName": "Delta Engineering Consultants",
+    "city": "المنصورة - شارع المشاية",
+    "items": [
+      {
+        "product": {
+          "id": "1",
+          "name": "طقم كراسي مديرين هيدروليك جلد طبيعي",
+          "slug": "executive-leather-chair-set",
+          "description": "شاسيه حديد مع ميكانيزم تركي 180 درجة",
+          "price": 8500,
+          "images": ["https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800"],
+          "category": "كراسي مكتب",
+          "material": "جلد طبيعي وشاسيه حديد",
+          "color": "أسود",
+          "dimensions": { "width": 65, "height": 120, "depth": 65 },
+          "weight": 18,
+          "rating": 4.9,
+          "reviewCount": 35,
+          "inStock": true,
+          "featured": true,
+          "tags": ["office", "executive"]
+        },
+        "quantity": 6,
+        "color": "أسود"
+      },
+      {
+        "product": {
+          "id": "2",
+          "name": "مكتب مدير تنفيذي خشب زان وميلامين 200 سم",
+          "slug": "executive-desk-200cm",
+          "description": "شامل وحدة أدراج جانبية وخزينة سرية",
+          "price": 17500,
+          "images": ["https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800"],
+          "category": "مكاتب",
+          "material": "خشب زان أحمر وميلامين إسباني",
+          "color": "بني جوزي",
+          "dimensions": { "width": 200, "height": 78, "depth": 90 },
+          "weight": 70,
+          "rating": 5,
+          "reviewCount": 18,
+          "inStock": true,
+          "featured": true,
+          "tags": ["desk", "office"]
+        },
+        "quantity": 2,
+        "color": "بني جوزي"
+      }
+    ],
+    "subtotal": 86000,
+    "discount": 8600,
+    "tax": 0,
+    "total": 77400,
+    "validUntil": "2026-10-15T23:59:59.000Z",
+    "notes": "الأسعار تشمل التوصيل والتركيب المجاني داخل مقر الشركة بالمنصورة وضمان معتمد 3 سنوات.",
+    "status": "sent",
+    "createdAt": "2026-09-15T11:20:00.000Z"
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "id": "CNS-2026-001",
+    "fullName": "د. أحمد حسام",
+    "phone": "01012345678",
+    "consultType": "mansoura",
+    "address": "المنصورة - شارع الجيش - برج النور الطبي - الدور الخامس",
+    "googleMapsUrl": "https://maps.google.com/?q=31.0409,31.3785",
+    "spaceType": "عيادة طبية أو مركز",
+    "preferredTime": "غداً مساءً (5 م - 9 م)",
+    "notes": "محتاج ركنة انتظار مريحة مع مكتب طبي وستائر رول عازلة",
+    "status": "scheduled",
+    "createdAt": "2026-09-17T14:30:00.000Z"
+  }
+]

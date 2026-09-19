@@ -1,0 +1,74 @@
+[
+  {
+    "id": "cust_1789673992715",
+    "name": "طارق الدسوقي",
+    "email": "tarek.designer@gmail.com",
+    "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=%D8%B7%D8%A7%D8%B1%D9%82%20%D8%A7%D9%84%D8%AF%D8%B3%D9%88%D9%82%D9%8A&backgroundColor=c5a880",
+    "phone": "01234567890",
+    "city": "الجيزة",
+    "createdAt": "2026-09-17T19:39:52.715Z",
+    "provider": "google",
+    "ordersCount": 0,
+    "totalSpent": 0
+  },
+  {
+    "id": "cust_1789673921517",
+    "name": "سامي علي",
+    "email": "samy.vip@gmail.com",
+    "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=%D8%B3%D8%A7%D9%85%D9%8A%20%D8%B9%D9%84%D9%8A&backgroundColor=c5a880",
+    "phone": "01122334455",
+    "city": "الإسكندرية",
+    "createdAt": "2026-09-17T19:38:41.518Z",
+    "provider": "google",
+    "ordersCount": 0,
+    "totalSpent": 0
+  },
+  {
+    "id": "cust_1789642719385",
+    "name": "khaled Eldeep",
+    "email": "khaledeldeep900@gmail.com",
+    "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=khaled%20Eldeep&backgroundColor=c5a880",
+    "phone": "",
+    "city": "القاهرة",
+    "createdAt": "2026-09-17T10:58:39.385Z",
+    "provider": "google",
+    "ordersCount": 0,
+    "totalSpent": 0
+  },
+  {
+    "id": "cust_1",
+    "name": "أحمد محمود إبراهيم",
+    "email": "ahmed.mahmoud@gmail.com",
+    "phone": "01099887766",
+    "city": "mansoura",
+    "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120",
+    "createdAt": "2026-08-15T10:30:00.000Z",
+    "provider": "google",
+    "ordersCount": 3,
+    "totalSpent": 71614
+  },
+  {
+    "id": "cust_2",
+    "name": "م. سارة كمال الدين",
+    "email": "sarah.kamal@gmail.com",
+    "phone": "+20 112 345 6789",
+    "city": "الجيزة - الشيخ زايد",
+    "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120",
+    "createdAt": "2026-08-28T14:15:00.000Z",
+    "provider": "google",
+    "ordersCount": 1,
+    "totalSpent": 21990
+  },
+  {
+    "id": "cust_3",
+    "name": "د. طارق عبد الرحمن",
+    "email": "tarek.abdelrahman@gmail.com",
+    "phone": "+20 120 987 6543",
+    "city": "الإسكندرية - سموحة",
+    "avatar": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=120",
+    "createdAt": "2026-09-02T09:00:00.000Z",
+    "provider": "email",
+    "ordersCount": 1,
+    "totalSpent": 12990
+  }
+]
