@@ -1,0 +1,361 @@
+[
+  {
+    "id": "prod_1789668044779",
+    "name": "كرسي المدير",
+    "slug": "-4780",
+    "description": "قطعة أثاث فاخرة من تصميم وتنفيذ مصنع ومعرض Amazon Furniture بخامات عالية الجودة.",
+    "price": 4500,
+    "images": [
+      "/uploads/IMG_6983_1789668016322.jpeg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "خشب زان أحمر طبيعي",
+    "color": "طبيعي",
+    "dimensions": {
+      "width": 120,
+      "height": 75,
+      "depth": 80
+    },
+    "weight": 20,
+    "stockQuantity": 3,
+    "rating": 5,
+    "reviewCount": 1,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب"
+    ],
+    "createdAt": "2026-09-19T18:40:54.104Z",
+    "updatedAt": "2026-09-19T18:40:54.104Z"
+  },
+  {
+    "id": "4",
+    "name": "كرسي طبي إرجونوميك معتمد لدعم العمود الفقري",
+    "slug": "orthopedic-lumbar-chair",
+    "description": "كرسي طبي معتمد خصيصاً لمن يعانون من آلام الغضروف وفقرات الظهر، مزود بنظام ديناميكي يتبع حركة الظهر مع قاعدة هيدروليك معتمدة من الفئة 4 لتحمل الأوزان الثقيلة.",
+    "price": 4200,
+    "originalPrice": 4900,
+    "images": [
+      "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?w=800",
+      "https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=800"
+    ],
+    "category": "كراسي طبية",
+    "material": "شاسيه ألومنيوم مقوى مع شبك إرجونوميك",
+    "color": "رمادي فاتح مع أسود",
+    "dimensions": {
+      "width": 68,
+      "height": 128,
+      "depth": 68
+    },
+    "weight": 20,
+    "stockQuantity": 12,
+    "rating": 4.9,
+    "reviewCount": 165,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي طبية",
+      "إرجونوميك",
+      "علاج طبيعي"
+    ],
+    "createdAt": "2026-09-19T18:40:54.106Z",
+    "updatedAt": "2026-09-19T18:40:54.106Z"
+  },
+  {
+    "id": "7",
+    "name": "كرسي مديرين فخم جلد طبيعي كابتونيه هيدروليك",
+    "slug": "executive-leather-chair-tufted",
+    "description": "كرسي مدير تنفيذي بتصميم كابتونيه إنجليزي فخم، مكسو بجلد طبيعي فاخر مع قاعدة خماسية حديد مكسوة بخشب زان طبيعي، ماكينة هيدروليك ألمانية تتحمل حتى 170 كجم.",
+    "price": 6800,
+    "originalPrice": 7900,
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+      "https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=800"
+    ],
+    "category": "كراسي مكتب",
+    "material": "خشب زان مع جلد طبيعي فاخر وشاسيه مقوى",
+    "color": "بني جملي / أسود ملكي",
+    "dimensions": {
+      "width": 72,
+      "height": 130,
+      "depth": 72
+    },
+    "weight": 26,
+    "stockQuantity": 7,
+    "rating": 4.9,
+    "reviewCount": 85,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "مديرين",
+      "جلد طبيعي"
+    ],
+    "createdAt": "2026-09-19T18:40:54.106Z",
+    "updatedAt": "2026-09-19T18:40:54.106Z"
+  },
+  {
+    "id": "10",
+    "name": "كرسي استرخاء ليزي بوي ميكانيزم هزاز ودوار - LZ-301",
+    "slug": "lazy-boy-recliner-armchair-lz301",
+    "description": "كرسي ليزي بوي طبي استرخاء بآلية ألمانية قابلة للفرد الكامل والاهتزاز والدوران 360 درجة، تنجيد فائق النعومة مكسو بقماش كتان مستورد معالج ضد البقع.",
+    "price": 9800,
+    "originalPrice": 13500,
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+      "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800"
+    ],
+    "category": "ليزي بوي",
+    "material": "شاسيه حديد مقوى مع خشب زان وتنجيد كتان",
+    "color": "بيج كريمي / رمادي فاتح",
+    "dimensions": {
+      "width": 95,
+      "height": 105,
+      "depth": 90
+    },
+    "weight": 45,
+    "stockQuantity": 8,
+    "rating": 4.9,
+    "reviewCount": 118,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ليزي بوي",
+      "كرسي استرخاء",
+      "مريح",
+      "LZ-301"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "12",
+    "name": "طقم انتريه فاخر من خشب الزان مع تنجيد كتان أو قطيفة",
+    "slug": "luxury-living-room-set-beech-wood",
+    "description": "طقم صالون وانتريه متكامل مكون من كنبة ثلاثية + كنبة ثنائية + 2 فوتيه مع بف استراحة، هيكل خشب زان أحمر 100% مع ضمان 10 سنوات ضد عيوب الصناعة.",
+    "price": 31666,
+    "originalPrice": 38000,
+    "images": [
+      "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?w=800",
+      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"
+    ],
+    "category": "ركن ومجالس",
+    "material": "خشب زان أحمر طبيعي مع قماش كتان معالج",
+    "color": "بيج فاتح دافئ",
+    "dimensions": {
+      "width": 320,
+      "height": 90,
+      "depth": 240
+    },
+    "weight": 140,
+    "stockQuantity": 3,
+    "rating": 5,
+    "reviewCount": 82,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "انتريه",
+      "ركن ومجالس",
+      "خشب زان"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "19",
+    "name": "ترابيزة تليفزيون و ترابيزة قهوة خشب Mdf عالي الجودة - ANT-108",
+    "slug": "tv-table-coffee-table-set-ant-108",
+    "description": "طقم طاولة تليفزيون مع طاولة قهوة مدمجة ذات أرفف ذكية وأدراج سحب ناعمة، مصنعة من أخشاب MDF عالية الجودة.",
+    "price": 18317,
+    "originalPrice": 22000,
+    "images": [
+      "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800",
+      "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=800"
+    ],
+    "category": "ترابيزة تليفزيون",
+    "material": "خشب MDF تركي مع قشرة مقاومة للخدش",
+    "color": "أسود كربوني مع خشب دافئ",
+    "dimensions": {
+      "width": 200,
+      "height": 50,
+      "depth": 45
+    },
+    "weight": 48,
+    "stockQuantity": 5,
+    "rating": 4.9,
+    "reviewCount": 78,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ترابيزة تليفزيون",
+      "ANT-108",
+      "طقم"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "20",
+    "name": "استاند حامل زهور خشب زان متعدد الاستخدام للحدائق - مقاوم للعوامل الجوية | OS-WD-034",
+    "slug": "wooden-plant-stand-outdoor-os-wd-034",
+    "description": "حامل نباتات وزهور متعدد الطبقات مصنوع من خشب زان طبيعي معالج بدهانات مقاومة لأشعة الشمس والرطوبة والأمطار.",
+    "price": 5159,
+    "originalPrice": 7270,
+    "images": [
+      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=800",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800"
+    ],
+    "category": "أثاث خارجي",
+    "material": "خشب زان طبيعي معالج عازل للمياه",
+    "color": "بني خشبي طبيعي",
+    "dimensions": {
+      "width": 90,
+      "height": 130,
+      "depth": 35
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "rating": 4.8,
+    "reviewCount": 94,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "أثاث خارجي",
+      "OS-WD-034",
+      "استاند زهور"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "21",
+    "name": "سرير بدورين معدني أبيض",
+    "slug": "white-metal-bunk-bed",
+    "description": "سرير بدورين معدني متين مطلي ببوية فرن إلكتروستاتيك مقاومة للصدأ والخدش مع سلم صلب ودرابزين أمان.",
+    "price": 10222,
+    "originalPrice": 13381,
+    "images": [
+      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800",
+      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"
+    ],
+    "category": "سرير مودرن",
+    "material": "حديد صلب معالج ودهان إلكتروستاتيك",
+    "color": "أبيض ناصع",
+    "dimensions": {
+      "width": 100,
+      "height": 175,
+      "depth": 200
+    },
+    "weight": 52,
+    "stockQuantity": 9,
+    "rating": 4.7,
+    "reviewCount": 63,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "سرير مودرن",
+      "سرير بدورين",
+      "معدني"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "22",
+    "name": "كرسي مكتب مستورد - OMD-309",
+    "slug": "imported-office-desk-chair-omd-309",
+    "description": "كرسي مكتب دوار مستورد هيدروليك بمسند رأس شبكي مريح وقاعدة نجمية كروم متينة وعجلات صامتة.",
+    "price": 2706,
+    "originalPrice": 3838,
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+      "https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=800"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك تنفسي وقاعدة كروم هيدروليك",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 120,
+      "depth": 62
+    },
+    "weight": 14,
+    "stockQuantity": 20,
+    "rating": 4.9,
+    "reviewCount": 188,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "OMD-309",
+      "طبي"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "25",
+    "name": "بين باج ووتربروف حجم جامبو مريح",
+    "slug": "jumbo-waterproof-bean-bag",
+    "description": "بين باج جامبو محشو بحبيبات فوم عالية الكثافة مع قماش ووتربروف تركي سهل الغسيل ومناسب للحدائق والمنازل.",
+    "price": 1150,
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+      "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800"
+    ],
+    "category": "بين باج",
+    "material": "قماش ووتربروف مع حشوة فوم ميموري",
+    "color": "كحلي / رمادي / أصفر مسطردة",
+    "dimensions": {
+      "width": 85,
+      "height": 85,
+      "depth": 85
+    },
+    "weight": 5,
+    "stockQuantity": 30,
+    "rating": 4.8,
+    "reviewCount": 92,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "بين باج",
+      "استرخاء",
+      "ووتربروف"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "26",
+    "name": "أباجورة وإضاءة ليد أرضية مودرن معدنية دافئة",
+    "slug": "modern-floor-lamp-warm-led",
+    "description": "إضاءة أرضية مودرن بتصميم عصري من المعدن المطلي بالأسود والذهبي مع لمبة ليد دافئة موفرة للطاقة.",
+    "price": 1850,
+    "originalPrice": 2400,
+    "images": [
+      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800",
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800"
+    ],
+    "category": "اضاءة",
+    "material": "معدن مطلي مع زجاج أوبالين وليد",
+    "color": "أسود مات مع نحاسي",
+    "dimensions": {
+      "width": 35,
+      "height": 165,
+      "depth": 35
+    },
+    "weight": 7,
+    "stockQuantity": 16,
+    "rating": 4.9,
+    "reviewCount": 44,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "اضاءة",
+      "مودرن",
+      "ديكور"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  }
+]

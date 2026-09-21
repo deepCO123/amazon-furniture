@@ -34,7 +34,7 @@ export const useProductStore = create<ProductState>()(
         set({ loading: true, error: null });
         try {
           const data = await apiClient.getProducts();
-          if (Array.isArray(data) && data.length > 0) {
+          if (Array.isArray(data)) {
             set({ products: data, loading: false, lastFetched: Date.now() });
           } else {
             set({ loading: false });

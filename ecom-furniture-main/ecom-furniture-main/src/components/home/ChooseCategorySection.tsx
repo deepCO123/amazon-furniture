@@ -151,7 +151,13 @@ export default function ChooseCategorySection() {
             ref={scrollContainerRef}
             className="flex items-stretch gap-4 sm:gap-6 overflow-x-auto scrollbar-none py-2 px-1 scroll-smooth"
           >
-            {displayProducts.map((product) => {
+            {displayProducts.length === 0 ? (
+              <div className="w-full py-14 text-center text-gray-500 bg-gray-50/70 rounded-2xl border border-dashed border-gray-200">
+                <p className="text-base font-bold text-gray-700 mb-1">لا توجد منتجات مضافة في هذا القسم حالياً</p>
+                <p className="text-xs text-gray-400">يمكن لإدارة المتجر إضافة المنتجات وتحديد أقسامها بسهولة من لوحة التحكم</p>
+              </div>
+            ) : (
+              displayProducts.map((product) => {
               const discountPercent = product.originalPrice
                 ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
                 : 25;
@@ -269,7 +275,7 @@ export default function ChooseCategorySection() {
                   </div>
                 </div>
               );
-            })}
+            }))}
           </div>
 
           {/* Dots Indicator (Oscar Image 2) */}

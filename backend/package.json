@@ -7,6 +7,8 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "seed": "node scripts/seed.js",
+    "db:clean": "node scripts/reset_clean_store.js",
+    "db:sample": "node scripts/restore_sample_data.js",
     "test:e2e": "node scripts/audit_e2e.js",
     "test:system": "node scripts/verify_system.js"
   },

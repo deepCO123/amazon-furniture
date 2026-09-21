@@ -29,6 +29,10 @@ export default function SaveQuarterCostSection() {
       ? exactProducts
       : products.filter((p) => p.originalPrice && p.originalPrice > p.price).slice(0, 5);
 
+  if (saleProducts.length === 0) {
+    return null;
+  }
+
   const scrollLeft = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: -280, behavior: "smooth" });
