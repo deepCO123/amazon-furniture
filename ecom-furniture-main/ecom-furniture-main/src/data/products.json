@@ -1,1 +1,607 @@
-[]
+[
+  {
+    "id": "1",
+    "name": "سرير مودرن خشب زان أحمر مع تنجيد الراس",
+    "slug": "سرير-مودرن-خشب-زان-أحمر-مع-تنجيد-الراس-1",
+    "description": "سرير مقاس 180 سم بتصميم مودرن وراس منجدة. هيكل خشب زان أحمر متين وتشطيب لاكيه ناعم.",
+    "price": 27500,
+    "originalPrice": 32000,
+    "images": [
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800",
+      "https://images.unsplash.com/photo-1540518614846-7ede433c4ef7?w=800"
+    ],
+    "category": "غرف النوم",
+    "material": "خشب زان أحمر طبيعي",
+    "color": "جوزي غامق",
+    "dimensions": {
+      "width": 180,
+      "height": 120,
+      "depth": 215
+    },
+    "weight": 95,
+    "rating": 4.9,
+    "reviewCount": 20,
+    "inStock": true,
+    "stockQuantity": 5,
+    "featured": true,
+    "tags": [
+      "غرف النوم",
+      "جوزي غامق",
+      "خشب زان أحمر طبيعي",
+      "تخفيضات",
+      "مميز"
+    ],
+    "specs": {
+      "woodType": "خشب زان أحمر روماني",
+      "fabricType": "كتان معالج ضد البقع",
+      "waterRepellent": true,
+      "chassisType": "قاعدة خشب زان بعرضيات مدعمة",
+      "leadTimeDays": 21,
+      "requiresAssembly": true,
+      "isDisassemblable": true,
+      "warrantyYears": 3,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "2",
+    "name": "دولاب 4 ضلف خشب زان مودرن",
+    "slug": "دولاب-4-ضلف-خشب-زان-مودرن-2",
+    "description": "دولاب 4 ضلف بتقسيم داخلي مريح وأدراج وشماعات. مفصلات هيدروليك وتشطيب مقاوم للخدش.",
+    "price": 25000,
+    "originalPrice": 29000,
+    "images": [
+      "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800",
+      "https://images.unsplash.com/photo-1558997519-83ea9252def8?w=800"
+    ],
+    "category": "غرف النوم",
+    "material": "خشب زان أحمر طبيعي",
+    "color": "بيج",
+    "dimensions": {
+      "width": 200,
+      "height": 220,
+      "depth": 60
+    },
+    "weight": 180,
+    "rating": 4.9,
+    "reviewCount": 18,
+    "inStock": true,
+    "stockQuantity": 4,
+    "featured": false,
+    "tags": [
+      "غرف النوم",
+      "بيج",
+      "خشب زان أحمر طبيعي",
+      "تخفيضات"
+    ],
+    "specs": {
+      "woodType": "خشب زان أحمر روماني",
+      "waterRepellent": false,
+      "chassisType": "مفصلات هيدروليك هادئة",
+      "leadTimeDays": 25,
+      "requiresAssembly": true,
+      "isDisassemblable": true,
+      "warrantyYears": 3,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "3",
+    "name": "مطبخ MDF بولي لاك مودرن 3 متر",
+    "slug": "مطبخ-mdf-بولي-لاك-مودرن-3-متر-3",
+    "description": "وحدات مطبخ سفلية وعلوية بتشطيب بولي لاك لامع سهل التنظيف. مقاوم للرطوبة ومناسب للاستخدام اليومي.",
+    "price": 49500,
+    "originalPrice": 58000,
+    "images": [
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800",
+      "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=800"
+    ],
+    "category": "المطابخ",
+    "material": "MDF عالي الكثافة بتشطيب بولي لاك",
+    "color": "أبيض لامع",
+    "dimensions": {
+      "width": 300,
+      "height": 85,
+      "depth": 60
+    },
+    "weight": 220,
+    "rating": 4.9,
+    "reviewCount": 16,
+    "inStock": true,
+    "stockQuantity": 3,
+    "featured": true,
+    "tags": [
+      "المطابخ",
+      "أبيض لامع",
+      "MDF عالي الكثافة بتشطيب بولي لاك",
+      "تخفيضات",
+      "مميز"
+    ],
+    "specs": {
+      "woodType": "MDF مقاوم للرطوبة",
+      "waterRepellent": false,
+      "chassisType": "مفصلات وسحابات هيدروليك",
+      "leadTimeDays": 30,
+      "requiresAssembly": true,
+      "isDisassemblable": true,
+      "warrantyYears": 5,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "4",
+    "name": "مطبخ أكريليك مودرن مع جزيرة",
+    "slug": "مطبخ-أكريليك-مودرن-مع-جزيرة-4",
+    "description": "مطبخ بواجهات أكريليك وجزيرة وسط مع أدراج بإغلاق هادئ. تصميم عملي بمساحات تخزين كبيرة.",
+    "price": 78000,
+    "originalPrice": 90000,
+    "images": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800",
+      "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=800"
+    ],
+    "category": "المطابخ",
+    "material": "MDF مقاوم للماء بواجهة أكريليك",
+    "color": "رمادي مطفي",
+    "dimensions": {
+      "width": 350,
+      "height": 85,
+      "depth": 65
+    },
+    "weight": 260,
+    "rating": 4.9,
+    "reviewCount": 33,
+    "inStock": true,
+    "stockQuantity": 2,
+    "featured": false,
+    "tags": [
+      "المطابخ",
+      "رمادي مطفي",
+      "MDF مقاوم للماء بواجهة أكريليك",
+      "تخفيضات"
+    ],
+    "specs": {
+      "woodType": "MDF مقاوم للماء",
+      "waterRepellent": false,
+      "chassisType": "مفصلات هيدروليك وأدراج سوفت كلوز",
+      "leadTimeDays": 35,
+      "requiresAssembly": true,
+      "isDisassemblable": true,
+      "warrantyYears": 5,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "5",
+    "name": "كرسي مكتب مريح بظهر شبك وسند قطني",
+    "slug": "كرسي-مكتب-مريح-بظهر-شبك-وسند-قطني-5",
+    "description": "كرسي مكتب بظهر شبك يسمح بالتهوية وسند قطني قابل للتعديل. ارتفاع قابل للضبط وإمالة مريحة للجلوس الطويل.",
+    "price": 3400,
+    "originalPrice": 4200,
+    "images": [
+      "https://images.unsplash.com/photo-1580481077195-c3ef0545f1b6?w=800",
+      "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?w=800"
+    ],
+    "category": "الكراسي والمكاتب",
+    "material": "هيكل نايلون مقوى",
+    "color": "أسود",
+    "dimensions": {
+      "width": 65,
+      "height": 120,
+      "depth": 65
+    },
+    "weight": 14,
+    "rating": 4.9,
+    "reviewCount": 15,
+    "inStock": true,
+    "stockQuantity": 25,
+    "featured": true,
+    "tags": [
+      "الكراسي والمكاتب",
+      "أسود",
+      "هيكل نايلون مقوى",
+      "تخفيضات",
+      "مميز"
+    ],
+    "specs": {
+      "woodType": "نايلون مقوى + معدن",
+      "fabricType": "شبك تنفس على الظهر وقماش على المقعد",
+      "waterRepellent": false,
+      "foamDensity": "كثافة 40 عالي المرونة",
+      "chassisType": "قاعدة معدن مع ذراع هيدروليك وميكانيزم إمالة",
+      "leadTimeDays": 5,
+      "requiresAssembly": true,
+      "isDisassemblable": true,
+      "warrantyYears": 2,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "6",
+    "name": "مكتب مودرن خشب زان 140 سم",
+    "slug": "مكتب-مودرن-خشب-زان-140-سم-6",
+    "description": "مكتب عملي بمساحة عمل واسعة وتشطيب طبيعي. مناسب للمكتب المنزلي أو الإداري.",
+    "price": 7800,
+    "originalPrice": 9500,
+    "images": [
+      "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800",
+      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800"
+    ],
+    "category": "الكراسي والمكاتب",
+    "material": "خشب زان أحمر طبيعي",
+    "color": "جوزي",
+    "dimensions": {
+      "width": 140,
+      "height": 75,
+      "depth": 70
+    },
+    "weight": 38,
+    "rating": 4.9,
+    "reviewCount": 35,
+    "inStock": true,
+    "stockQuantity": 8,
+    "featured": false,
+    "tags": [
+      "الكراسي والمكاتب",
+      "جوزي",
+      "خشب زان أحمر طبيعي",
+      "تخفيضات"
+    ],
+    "specs": {
+      "woodType": "خشب زان أحمر روماني",
+      "waterRepellent": false,
+      "chassisType": "أرجل خشب مدعمة",
+      "leadTimeDays": 10,
+      "requiresAssembly": true,
+      "isDisassemblable": true,
+      "warrantyYears": 3,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "7",
+    "name": "ركنة L مودرن قماش كتان",
+    "slug": "ركنة-l-مودرن-قماش-كتان-7",
+    "description": "ركنة L واسعة بمقاعد مريحة وتنجيد كتان مقاوم للبقع. هيكل خشب زان قوي ومتين.",
+    "price": 36000,
+    "originalPrice": 42000,
+    "images": [
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
+      "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800"
+    ],
+    "category": "ركن ومجالس",
+    "material": "هيكل خشب زان أحمر",
+    "color": "رمادي فاتح",
+    "dimensions": {
+      "width": 300,
+      "height": 85,
+      "depth": 180
+    },
+    "weight": 110,
+    "rating": 4.9,
+    "reviewCount": 34,
+    "inStock": true,
+    "stockQuantity": 3,
+    "featured": true,
+    "tags": [
+      "ركن ومجالس",
+      "رمادي فاتح",
+      "هيكل خشب زان أحمر",
+      "تخفيضات",
+      "مميز"
+    ],
+    "specs": {
+      "woodType": "خشب زان أحمر روماني",
+      "fabricType": "كتان معالج ضد البقع",
+      "waterRepellent": true,
+      "foamDensity": "كثافة 33 سوبر سوفت",
+      "chassisType": "شاسيه خشب مدعم بسوست",
+      "leadTimeDays": 20,
+      "requiresAssembly": true,
+      "isDisassemblable": true,
+      "warrantyYears": 3,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "8",
+    "name": "مجلس عربي أرضي 5 قطع",
+    "slug": "مجلس-عربي-أرضي-5-قطع-8",
+    "description": "مجلس عربي أرضي بمساند ومخدات وتنجيد مخمل. مناسب للاستقبال والجلسات العائلية.",
+    "price": 14500,
+    "originalPrice": 18000,
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+      "https://images.unsplash.com/photo-1512212621149-107ffe572d2f?w=800"
+    ],
+    "category": "ركن ومجالس",
+    "material": "هيكل خشب زان",
+    "color": "بني/ذهبي",
+    "dimensions": {
+      "width": 400,
+      "height": 45,
+      "depth": 90
+    },
+    "weight": 70,
+    "rating": 4.9,
+    "reviewCount": 22,
+    "inStock": true,
+    "stockQuantity": 4,
+    "featured": false,
+    "tags": [
+      "ركن ومجالس",
+      "بني/ذهبي",
+      "هيكل خشب زان",
+      "تخفيضات"
+    ],
+    "specs": {
+      "woodType": "خشب زان أحمر",
+      "fabricType": "قماش مخمل",
+      "waterRepellent": true,
+      "foamDensity": "كثافة 30 مريح",
+      "chassisType": "شاسيه خشب",
+      "leadTimeDays": 15,
+      "requiresAssembly": false,
+      "isDisassemblable": true,
+      "warrantyYears": 2,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "9",
+    "name": "طقم جاردن ألوميتال 4 كراسي وترابيزة",
+    "slug": "طقم-جاردن-ألوميتال-4-كراسي-وترابيزة-9",
+    "description": "طقم خارجي من 4 كراسي وترابيزة مقاوم للصدأ والعوامل الجوية. خفيف وسهل النقل والتركيب.",
+    "price": 9200,
+    "originalPrice": 11500,
+    "images": [
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800",
+      "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=800"
+    ],
+    "category": "أثاث خارجي",
+    "material": "ألوميتال مقاوم للصدأ",
+    "color": "أسود",
+    "dimensions": {
+      "width": 120,
+      "height": 75,
+      "depth": 70
+    },
+    "weight": 22,
+    "rating": 4.9,
+    "reviewCount": 33,
+    "inStock": true,
+    "stockQuantity": 6,
+    "featured": true,
+    "tags": [
+      "أثاث خارجي",
+      "أسود",
+      "ألوميتال مقاوم للصدأ",
+      "تخفيضات",
+      "مميز"
+    ],
+    "specs": {
+      "woodType": "ألوميتال بطلاء بودرة",
+      "waterRepellent": false,
+      "chassisType": "هيكل ألوميتال قابل للفك",
+      "leadTimeDays": 7,
+      "requiresAssembly": false,
+      "isDisassemblable": true,
+      "warrantyYears": 2,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "10",
+    "name": "أرجوحة حديقة خشب مع مظلة",
+    "slug": "أرجوحة-حديقة-خشب-مع-مظلة-10",
+    "description": "أرجوحة تتسع لشخصين بمظلة وخشب معالج للاستخدام في الحدائق والبلكونات.",
+    "price": 10900,
+    "originalPrice": 13500,
+    "images": [
+      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800",
+      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800"
+    ],
+    "category": "أثاث خارجي",
+    "material": "خشب معالج للاستخدام الخارجي",
+    "color": "طبيعي",
+    "dimensions": {
+      "width": 170,
+      "height": 190,
+      "depth": 120
+    },
+    "weight": 65,
+    "rating": 4.9,
+    "reviewCount": 25,
+    "inStock": true,
+    "stockQuantity": 3,
+    "featured": false,
+    "tags": [
+      "أثاث خارجي",
+      "طبيعي",
+      "خشب معالج للاستخدام الخارجي",
+      "تخفيضات"
+    ],
+    "specs": {
+      "woodType": "خشب معالج ضد الرطوبة",
+      "fabricType": "قماش خارجي مقاوم للماء",
+      "waterRepellent": true,
+      "chassisType": "هيكل خشب مدعم",
+      "leadTimeDays": 14,
+      "requiresAssembly": true,
+      "isDisassemblable": true,
+      "warrantyYears": 2,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "11",
+    "name": "دريسنج روم مودرن مع مرايا وإضاءة LED",
+    "slug": "دريسنج-روم-مودرن-مع-مرايا-وإضاءة-led-11",
+    "description": "دريسنج روم بوحدات تعليق وأدراج وإضاءة LED مدمجة ومرايا. تقسيم داخلي عملي للملابس والإكسسوارات.",
+    "price": 44000,
+    "originalPrice": 52000,
+    "images": [
+      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800",
+      "https://images.unsplash.com/photo-1558997519-83ea9252def8?w=800"
+    ],
+    "category": "دريسنج رووم",
+    "material": "MDF مقاوم للرطوبة",
+    "color": "أبيض وجوزي",
+    "dimensions": {
+      "width": 300,
+      "height": 240,
+      "depth": 60
+    },
+    "weight": 210,
+    "rating": 4.9,
+    "reviewCount": 15,
+    "inStock": true,
+    "stockQuantity": 2,
+    "featured": true,
+    "tags": [
+      "دريسنج رووم",
+      "أبيض وجوزي",
+      "MDF مقاوم للرطوبة",
+      "تخفيضات",
+      "مميز"
+    ],
+    "specs": {
+      "woodType": "MDF مقاوم للرطوبة",
+      "waterRepellent": false,
+      "chassisType": "مفصلات هيدروليك وأدراج سوفت كلوز",
+      "leadTimeDays": 35,
+      "requiresAssembly": true,
+      "isDisassemblable": true,
+      "warrantyYears": 3,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "12",
+    "name": "تسريحة مودرن مع مرآة وبوف",
+    "slug": "تسريحة-مودرن-مع-مرآة-وبوف-12",
+    "description": "تسريحة بمرآة كبيرة وأدراج للإكسسوارات وبوف مطابق. تصميم أنيق يناسب غرف النوم الحديثة.",
+    "price": 6200,
+    "originalPrice": 7500,
+    "images": [
+      "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800"
+    ],
+    "category": "دريسنج رووم",
+    "material": "خشب زان أحمر طبيعي",
+    "color": "بيج",
+    "dimensions": {
+      "width": 100,
+      "height": 150,
+      "depth": 45
+    },
+    "weight": 42,
+    "rating": 4.9,
+    "reviewCount": 30,
+    "inStock": true,
+    "stockQuantity": 6,
+    "featured": false,
+    "tags": [
+      "دريسنج رووم",
+      "بيج",
+      "خشب زان أحمر طبيعي",
+      "تخفيضات"
+    ],
+    "specs": {
+      "woodType": "خشب زان أحمر روماني",
+      "fabricType": "بوف منجد كتان",
+      "waterRepellent": true,
+      "foamDensity": "كثافة 30",
+      "chassisType": "أدراج بسحابات سوفت كلوز",
+      "leadTimeDays": 12,
+      "requiresAssembly": false,
+      "isDisassemblable": true,
+      "warrantyYears": 2,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "13",
+    "name": "مرآة حائط دائرية بإطار خشب",
+    "slug": "مرآة-حائط-دائرية-بإطار-خشب-13",
+    "description": "مرآة دائرية بإطار خشب طبيعي تضيف لمسة ديكور للمدخل أو غرفة النوم.",
+    "price": 1650,
+    "originalPrice": 2200,
+    "images": [
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800"
+    ],
+    "category": "ديكور وإكسسوار",
+    "material": "إطار خشب زان",
+    "color": "جوزي",
+    "dimensions": {
+      "width": 80,
+      "height": 80,
+      "depth": 4
+    },
+    "weight": 6,
+    "rating": 4.9,
+    "reviewCount": 31,
+    "inStock": true,
+    "stockQuantity": 20,
+    "featured": true,
+    "tags": [
+      "ديكور وإكسسوار",
+      "جوزي",
+      "إطار خشب زان",
+      "تخفيضات",
+      "مميز"
+    ],
+    "specs": {
+      "woodType": "خشب زان",
+      "waterRepellent": false,
+      "chassisType": "تعليق حائط بمسامير مرفقة",
+      "leadTimeDays": 4,
+      "requiresAssembly": false,
+      "isDisassemblable": true,
+      "warrantyYears": 1,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  },
+  {
+    "id": "14",
+    "name": "طقم ترابيزات خدمة 3 قطع",
+    "slug": "طقم-ترابيزات-خدمة-3-قطع-14",
+    "description": "طقم 3 ترابيزات متدرجة الأحجام تدخل في بعضها لتوفير المساحة. مناسبة للصالون وغرف المعيشة.",
+    "price": 3900,
+    "originalPrice": 4800,
+    "images": [
+      "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800",
+      "https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?w=800"
+    ],
+    "category": "ديكور وإكسسوار",
+    "material": "MDF بتشطيب لاكيه + أرجل معدن",
+    "color": "أبيض وذهبي",
+    "dimensions": {
+      "width": 60,
+      "height": 50,
+      "depth": 60
+    },
+    "weight": 18,
+    "rating": 4.9,
+    "reviewCount": 27,
+    "inStock": true,
+    "stockQuantity": 10,
+    "featured": false,
+    "tags": [
+      "ديكور وإكسسوار",
+      "أبيض وذهبي",
+      "MDF بتشطيب لاكيه + أرجل معدن",
+      "تخفيضات"
+    ],
+    "specs": {
+      "woodType": "MDF مقاوم للخدش",
+      "waterRepellent": false,
+      "chassisType": "أرجل معدن مطلية",
+      "leadTimeDays": 7,
+      "requiresAssembly": false,
+      "isDisassemblable": true,
+      "warrantyYears": 1,
+      "careInstructions": "يُنظف بقطعة قماش ناعمة جافة مع تجنب استخدام الكيماويات الحارقة."
+    }
+  }
+]

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { SlidersHorizontal, X, Grid3X3, List } from "lucide-react";
@@ -12,7 +12,12 @@ import { useLanguageStore } from "@/store/languageStore";
 import { cn } from "@/lib/utils";
 
 export default function ProductGrid() {
-  const products = useProductStore((s) => s.products);
+  const { products, fetchProducts } = useProductStore();
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
   const { language } = useLanguageStore();
   const isEn = language === "en";
 

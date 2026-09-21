@@ -280,6 +280,7 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchProducts();
     loadCustomers();
     loadOrders();
     loadReturns();
@@ -658,14 +659,14 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* ── 3. The 4 Metric Cards Row (EXACT match to the user screenshot!) ── */}
+        {/* ── 3. The 4 Metric Cards Row (Connected 100% to Live Real Store Data) ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Card 1: المبلغ المصروف */}
+          {/* Card 1: إجمالي الإيرادات والمبيعات الفعلية */}
           <div className={`border rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden group transition-all ${
             isDark ? "bg-[#12151D] border-[#1F2433] hover:border-[#2D354A]" : "bg-white border-slate-200 shadow-sm hover:border-slate-300"
           }`}>
             <div className="flex items-center justify-between mb-3">
-              <span className={`text-xs font-bold ${textMuted}`}>المبلغ المصروف</span>
+              <span className={`text-xs font-bold ${textMuted}`}>إجمالي المبيعات والإيرادات</span>
               <div className={`w-8 h-8 rounded-xl border flex items-center justify-center ${
                 isDark ? "bg-[#1A1E29] border-[#282E3E] text-slate-300" : "bg-slate-100 border-slate-200 text-slate-700"
               }`}>
@@ -673,59 +674,59 @@ export default function AdminDashboardPage() {
               </div>
             </div>
             <p className={`text-2xl sm:text-3xl font-black ${textTitle}`}>
-              51,959.58 <span className={`text-xs font-bold ${textMuted}`}>ج.م</span>
+              {customerStats.totalRevenue.toLocaleString("ar-EG")} <span className={`text-xs font-bold ${textMuted}`}>ج.م</span>
             </p>
             <span className="text-[11px] text-emerald-500 font-semibold block mt-1.5">
-              ↑ +18.4% نمو المبيعات الشهرية
+              {orders.length > 0 ? `محسوبة من ${orders.length} طلب بيع مؤكد` : "يبدأ الحساب تلقائياً مع أول طلب"}
             </span>
           </div>
 
-          {/* Card 2: إجمالي النتائج (Cyan Accent Highlighted!) */}
+          {/* Card 2: إجمالي طلبات الشراء (Cyan Accent Highlighted!) */}
           <div className={`border rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden group transition-all ${
             isDark
               ? "bg-[#12151D] border-cyan-500/30 bg-gradient-to-b from-[#12151D] to-[#111A26] hover:border-cyan-500/50"
               : "bg-white border-cyan-300 bg-gradient-to-b from-white to-cyan-50/50 shadow-sm hover:border-cyan-400"
           }`}>
             <div className="flex items-center justify-between mb-3">
-              <span className={`text-xs font-bold ${isDark ? "text-cyan-300" : "text-cyan-700"}`}>إجمالي النتائج</span>
+              <span className={`text-xs font-bold ${isDark ? "text-cyan-300" : "text-cyan-700"}`}>إجمالي طلبات الشراء</span>
               <div className="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-400 flex items-center justify-center">
                 <Zap size={16} />
               </div>
             </div>
             <p className={`text-2xl sm:text-3xl font-black ${isDark ? "text-cyan-400" : "text-cyan-600"}`}>
-              5,239
+              {orders.length.toLocaleString("ar-EG")}
             </p>
             <span className={`text-[11px] font-semibold block mt-1.5 ${isDark ? "text-cyan-300/80" : "text-cyan-600"}`}>
-              {orders.length > 0 ? `${orders.length} طلب تصنيع وتوريد نشط` : "أوردرات مؤكدة وشحن فوري"}
+              {orders.filter((o) => o.status === "pending" || o.status === "processing").length} طلب قيد التجهيز والتصنيع
             </span>
           </div>
 
-          {/* Card 3: مرات الظهور */}
+          {/* Card 3: الموديلات وقطع المخزون */}
           <div className={`border rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden group transition-all ${
             isDark ? "bg-[#12151D] border-[#1F2433] hover:border-[#2D354A]" : "bg-white border-slate-200 shadow-sm hover:border-slate-300"
           }`}>
             <div className="flex items-center justify-between mb-3">
-              <span className={`text-xs font-bold ${textMuted}`}>مرات الظهور</span>
+              <span className={`text-xs font-bold ${textMuted}`}>الموديلات والمنتجات</span>
               <div className={`w-8 h-8 rounded-xl border flex items-center justify-center ${
                 isDark ? "bg-[#1A1E29] border-[#282E3E] text-slate-300" : "bg-slate-100 border-slate-200 text-slate-700"
               }`}>
-                <Eye size={16} />
+                <Package size={16} />
               </div>
             </div>
             <p className={`text-2xl sm:text-3xl font-black ${textTitle}`}>
-              1,008,967
+              {products.length.toLocaleString("ar-EG")} <span className={`text-xs font-bold ${textMuted}`}>موديل</span>
             </p>
             <span className={`text-[11px] font-semibold block mt-1.5 ${textMuted}`}>
-              زيارات كتالوج ومعروضات المتجر
+              {productStats.inStock} متاح للطلب • {productStats.totalUnits} قطعة بالمستودع
             </span>
           </div>
 
-          {/* Card 4: الوصول (Reach) */}
+          {/* Card 4: إجمالي العملاء والاستشارات */}
           <div className={`border rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden group transition-all ${
             isDark ? "bg-[#12151D] border-[#1F2433] hover:border-[#2D354A]" : "bg-white border-slate-200 shadow-sm hover:border-slate-300"
           }`}>
             <div className="flex items-center justify-between mb-3">
-              <span className={`text-xs font-bold ${textMuted}`}>الوصول (Reach)</span>
+              <span className={`text-xs font-bold ${textMuted}`}>العملاء والاستشارات</span>
               <div className={`w-8 h-8 rounded-xl border flex items-center justify-center ${
                 isDark ? "bg-[#1A1E29] border-[#282E3E] text-slate-300" : "bg-slate-100 border-slate-200 text-slate-700"
               }`}>
@@ -733,10 +734,10 @@ export default function AdminDashboardPage() {
               </div>
             </div>
             <p className={`text-2xl sm:text-3xl font-black ${textTitle}`}>
-              568,285
+              {(customers.length + consultations.length).toLocaleString("ar-EG")} <span className={`text-xs font-bold ${textMuted}`}>جهة اتصال</span>
             </p>
             <span className={`text-[11px] font-semibold block mt-1.5 ${textMuted}`}>
-              عميل مستهدف في المنصورة والدلتا
+              {customers.length} عميل مسجل • {consultations.length} طلب استشارة
             </span>
           </div>
         </div>
