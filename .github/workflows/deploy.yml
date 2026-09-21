@@ -1,19 +1,20 @@
-name: 🚀 Automated Production Deployment (CI/CD)
+name: 🚀 Production VPS Deployment (Manual Trigger)
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: # يتيح تشغيل النشر يدوياً بضغطة زر واحدة من واجهة GitHub
+  workflow_dispatch: # يتم التشغيل يدوياً فقط عند رغبتك بالضغط على Run Workflow من واجهة GitHub
+  # push:
+  #   branches:
+  #     - main
 
 concurrency:
   group: production-deploy
-  cancel-in-progress: false # منع تداخل عمليتي نشر متزامنتين لضمان استقرار السيرفر
+  cancel-in-progress: false
 
 jobs:
   deploy:
     name: 🌐 Deploy to Ubuntu VPS
     runs-on: ubuntu-latest
+    if: "${{ secrets.SSH_HOST != '' }}" # يتم التخطي بأمان في حال عدم إدخال الـ Secrets
 
     steps:
       - name: 🔐 Execute Remote Deployment via SSH
@@ -23,11 +24,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
-          script_stop: true # إيقاف التنفيذ فوراً في حال حدوث أي خطأ
+          script_stop: true
           command_timeout: 30m
           script: |
             echo "========================================================"
-            echo "🚀 بدء عملية النشر المؤتمتة لسيرفر الإنتاج..."
+            echo "🚀 بدء عملية النشر لسيرفر الإنتاج..."
             echo "========================================================"
 
             # 1. الانتقال إلى مسار المشروع على السيرفر
@@ -39,15 +40,15 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            # 3. إعادة بناء وتشغيل حاويات Docker في الخلفية مع الحفاظ على استمرارية العمل
+            # 3. إعادة بناء وتشغيل حاويات Docker في الخلفية
             echo "🐳 جاري إعادة بناء وتشغيل الحاويات (Docker Compose)..."
             docker compose up -d --build
 
-            # 4. تنظيف الصور القديمة غير المستخدمة (Dangling Images) لتوفير مساحة القرص
-            echo "🧹 تنظيف الصور المؤقتة والمهملة لمنع امتلاء مساحة السيرفر..."
+            # 4. تنظيف الصور القديمة غير المستخدمة لتوفير مساحة القرص
+            echo "🧹 تنظيف الصور المؤقتة..."
             docker image prune -f
 
-            # 5. فحص وتأكيد حالة الحاويات النشطة
+            # 5. فحص وتأكيد حالة الحاويات
             echo "========================================================"
             echo "✅ حالة الحاويات بعد النشر:"
             docker compose ps
