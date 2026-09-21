@@ -27,7 +27,17 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    title: "أثاث مكتبي يلهم الإبداع والكفاءة",
+    title: "أقوى عروض وتخفيضات أمازون للأثاث",
+    subtitle: "خصومات كبرى وتصاميم عصرية فاخرة لغرف النوم والركنات والمطابخ مع استشارة هندسية وضمان 10 سنوات..",
+    image: "/oscar-hero.jpg",
+    cta1Text: "تسوق العروض الآن",
+    cta1Link: "/products",
+    cta2Text: "احجز استشارة مجانية",
+    cta2Link: "/#consultation",
+  },
+  {
+    id: 2,
+    title: "أثاث مكتبي ومنزلي يلهم الإبداع والكفاءة",
     subtitle: "مجموعة متميزة من الأثاث المكتبي والحلول العملية بأسعار حصرية... والركنات الأنيقة لمساحة عمل متكاملة..",
     image: "/hero-office-day.jpg",
     cta1Text: "تواصل معنا",
@@ -36,9 +46,9 @@ const slides: Slide[] = [
     cta2Link: "/#consultation",
   },
   {
-    id: 2,
-    title: "فخامة التنفيذ لأرقى المساحات المكتبية",
-    subtitle: "تصاميم تنفيذية راقية وتشطيبات خشب زان روماني طبيعي تمنح مكتبك هيبة استثنائية وأداء يدوم طويلاً..",
+    id: 3,
+    title: "فخامة التنفيذ لأرقى المساحات",
+    subtitle: "تصاميم تنفيذية راقية وتشطيبات خشب زان روماني طبيعي تمنح مكانك هيبة استثنائية وأداء يدوم طويلاً..",
     image: "/hero-office-night.jpg",
     cta1Text: "تواصل معنا",
     cta1Link: "https://wa.me/201099684784?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%A3%D8%AB%D8%A7%D8%AB%20%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A",
@@ -62,11 +72,11 @@ export default function OscarHeroBanner() {
   return (
     <section className="w-full bg-[#f6f2ec]">
       {/* ── 1. Full-Bleed Edge-to-Edge Hero Banner ───────────────────── */}
-      <div className="relative w-full h-[480px] sm:h-[540px] md:h-[600px] lg:h-[680px] overflow-hidden select-none bg-neutral-900">
+      <div className="relative w-full h-[480px] sm:h-[540px] md:h-[600px] lg:h-[680px] overflow-hidden select-none bg-[#1e1b18]">
         <AnimatePresence mode="wait">
           <motion.div
             key={slide.id}
-            initial={{ opacity: 0 }}
+            initial={false}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
@@ -78,7 +88,6 @@ export default function OscarHeroBanner() {
               alt={slide.title}
               fill
               priority
-              quality={95}
               className="object-cover object-center w-full h-full"
               sizes="100vw"
             />
@@ -88,7 +97,7 @@ export default function OscarHeroBanner() {
               className="absolute inset-0 pointer-events-none"
               style={{
                 background:
-                  "linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.65) 30%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0) 80%)",
+                  "linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.65) 35%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 85%)",
               }}
             />
           </motion.div>
@@ -100,10 +109,10 @@ export default function OscarHeroBanner() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={slide.id}
-                initial={{ opacity: 0, x: 20 }}
+                initial={false}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5, delay: 0.15 }}
+                transition={{ duration: 0.5 }}
                 className="space-y-4 sm:space-y-5"
               >
                 {/* Main Heading */}

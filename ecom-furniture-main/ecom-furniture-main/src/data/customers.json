@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": "cust_1789992545360",
+    "email": "khaled0elsayed1@gmail.com",
+    "name": "عميل كريم",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-09-21T12:09:05.360Z",
+    "passwordHash": "$2a$12$XpIvrWh5D1j0QcNQu7uXEOtPtBycjVsvSNrOV48f6szsQ1LgHjyvy"
+  }
+]

@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Allow Cloudflare tunnels and local development
+  allowedDevOrigins: [
+    "*.trycloudflare.com",
+    "localhost:3000",
+    "127.0.0.1:3000",
+  ],
   // Proxy ALL /api/* requests to Express backend — eliminates CORS
   // and makes the frontend a pure UI layer with zero filesystem I/O
   async rewrites() {
