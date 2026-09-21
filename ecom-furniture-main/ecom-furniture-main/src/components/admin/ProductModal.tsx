@@ -140,21 +140,35 @@ export default function ProductModal({
     try {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const formData = new FormData();
-        formData.append("file", file);
 
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!res.ok) {
-          throw new Error("فشل رفع الصورة، يرجى المحاولة مرة أخرى");
+        // Try server upload first, fallback to base64 Data URL
+        let uploadedUrl = "";
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+          const res = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.url) uploadedUrl = data.url;
+          }
+        } catch {
+          // Fallback to local Data URL
         }
 
-        const data = await res.json();
-        if (data.url) {
-          setImages((prev) => [...prev, data.url]);
+        if (!uploadedUrl) {
+          uploadedUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = () => reject(new Error("فشل قراءة ملف الصورة"));
+            reader.readAsDataURL(file);
+          });
+        }
+
+        if (uploadedUrl) {
+          setImages((prev) => [...prev, uploadedUrl]);
         }
       }
     } catch (err: unknown) {

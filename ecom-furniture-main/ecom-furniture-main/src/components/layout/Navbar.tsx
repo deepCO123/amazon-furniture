@@ -21,6 +21,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useProductStore } from "@/store/productStore";
 import { useToastStore } from "@/components/ui/Toast";
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 import { formatPrice, cn } from "@/lib/utils";
 import { useHydrated } from "@/hooks/useHydrated";
 
@@ -34,7 +35,6 @@ export default function Navbar() {
   const [selectedCategory, setSelectedCategory] = useState("كل الأقسام");
   const [query, setQuery] = useState("");
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
-  const [showPromoModal, setShowPromoModal] = useState(false);
 
   const searchRef = useRef<HTMLDivElement>(null);
   const hydrated = useHydrated();
@@ -65,16 +65,17 @@ export default function Navbar() {
     highlight?: boolean;
   }
 
-  // Secondary dark bar navigation links matching Oscar Screenshot 1
+  // Secondary dark bar navigation links (Centered Features Bar)
   const secondaryNavLinks: NavLinkItem[] = [
     { href: "/products?tag=sale", label: "عروض أمازون", hasBadge: true, badge: "New", highlight: true },
-    { href: "/products", label: "أثاث" },
+    { href: "/products?category=غرفة نوم كاملة", label: "غرف النوم" },
+    { href: "/products?category=مطبخ كامل", label: "المطابخ" },
+    { href: "/products?category=كراسي مكتب", label: "الكراسي والمكاتب" },
+    { href: "/products?category=ركن ومجالس", label: "ركن ومجالس" },
     { href: "/products?category=أثاث خارجي", label: "أثاث خارجي" },
-    { href: "/products?category=كراسي مكتب", label: "أثاث مكتبي" },
-    { href: "/products?category=مطبخ كامل", label: "المطبخ" },
-    { href: "/products?category=اضاءة", label: "ديكور واكسسور" },
-    { href: "/products?category=سرير مودرن", label: "غرفة طفلك" },
-    { href: "/products?category=ستائر مكتبية", label: "مفروشات" },
+    { href: "/products?category=دريسنج", label: "دريسنج رووم" },
+    { href: "/products?category=اضاءة", label: "ديكور وإكسسوار" },
+    { href: "/products", label: "جميع الأثاث" },
   ];
 
   // Filtered search results
@@ -124,136 +125,37 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ── Sticky Side Promo Tab (Oscar-style) ────────────────────────── */}
-      <div className="fixed left-0 top-1/2 -translate-y-1/2 z-40 hidden sm:block">
-        <button
-          onClick={() => setShowPromoModal(true)}
-          className="bg-gradient-to-r from-red-600 to-amber-600 text-white font-bold text-xs px-2.5 py-3 rounded-r-xl shadow-lg hover:from-red-500 hover:to-amber-500 transition-all flex flex-col items-center gap-1.5 [writing-mode:vertical-rl] tracking-wider"
-          title="عرض خاص 🎁"
-        >
-          <span>عرض خاص 🎁</span>
-        </button>
-      </div>
-
-      {/* ── Promo Modal Popup ─────────────────────────────────────────── */}
-      <AnimatePresence>
-        {showPromoModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl border border-amber-500/30 text-center"
-            >
-              <button
-                onClick={() => setShowPromoModal(false)}
-                className="absolute top-4 left-4 text-gray-400 hover:text-gray-700"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl shadow-lg">
-                🎁
-              </div>
-
-              <span className="inline-block px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full mb-2">
-                عرض حصري لفترة محدودة
-              </span>
-
-              <h3 className="text-xl font-bold text-primary mb-2">
-                خصم إضافي 50% + توصيل وتركيب مجاني!
-              </h3>
-              <p className="text-sm text-gray-600 mb-5 leading-relaxed">
-                استخدم كود الخصم في سلة المشتريات أو عند الطلب عبر الواتساب للاستفادة من أقوى عروض Amazon Furniture من المصنع لحد باب بيتك:
-              </p>
-
-              <div className="flex items-center justify-between bg-amber-50 border-2 border-dashed border-amber-400 rounded-xl px-4 py-3 mb-6">
-                <span className="font-mono text-xl font-black text-red-600 tracking-widest">
-                  AMZ50
-                </span>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText("AMZ50");
-                    addToast("تم نسخ كود الخصم بنجاح: AMZ50", "success");
-                  }}
-                  className="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition-colors"
-                >
-                  نسخ الكود
-                </button>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-2.5">
-                <Link
-                  href="/products?tag=sale"
-                  onClick={() => setShowPromoModal(false)}
-                  className="flex-1 bg-primary hover:bg-primary-light text-white font-bold text-sm py-3 rounded-xl transition-colors"
-                >
-                  تسوق العروض الآن
-                </Link>
-                <Link
-                  href="/#consultation"
-                  onClick={() => setShowPromoModal(false)}
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm py-3 rounded-xl transition-colors flex items-center justify-center gap-1.5"
-                >
-                  <Ruler size={16} />
-                  استشارة ومعاينة مجانية
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
       <header className="sticky top-0 left-0 right-0 z-40 bg-white shadow-sm border-b border-gray-100">
-        {/* ── 1. Top Announcement Bar (Oscar-Style) ───────────────────── */}
+        {/* ── 1. Top Announcement Bar ─────────────────────────────────── */}
         <div className="bg-white border-b border-gray-100 text-xs py-2 px-4">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
-            {/* Currency & Language Controls on Left */}
+            {/* Currency, Language & Theme Controls on Left */}
             <div className="flex items-center gap-3 shrink-0">
               <LanguageSwitcher />
               <div className="h-3 w-px bg-gray-200 hidden md:block" />
               <span className="hidden md:inline-flex items-center gap-1 text-gray-700 font-semibold text-xs">
                 <span>🇪🇬 EGP</span>
               </span>
+              <div className="h-3 w-px bg-gray-200" />
+              <ThemeToggle variant="minimal" />
             </div>
-
-            {/* Promo Text in Center (Red in Oscar) */}
-            <div className="flex-1 text-center">
-              <p className="text-[#e60000] font-bold text-xs sm:text-sm">
-                احصل علي خصم 50 % باستخدام كود:{" "}
-                <span className="font-mono font-black">AMZ50</span> ⚡{" "}
-                <Link href="/products?tag=sale" className="hover:underline text-[#e60000]">
-                  تسوق الآن
-                </Link>
-              </p>
-            </div>
-
-            <div className="hidden md:block w-28" />
           </div>
         </div>
 
         {/* ── 2. Main Header Row (Oscar Layout) ───────────────────────── */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center justify-between gap-4 lg:gap-8">
             {/* Right: Brand Logo */}
-            <Link href="/" className="flex items-center gap-3 shrink-0 group">
-              <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden shadow-xs border border-amber-300 group-hover:border-amber-500 transition-all duration-300">
+            <Link href="/" className="flex items-center shrink-0 group py-0.5">
+              <div className="relative h-10 sm:h-12 w-36 sm:w-44 transition-transform duration-200 group-hover:scale-[1.02]">
                 <Image
-                  src="/logo-icon.png"
+                  src="/amazon-furniture-logo-clean.png"
                   alt={SITE_NAME}
                   fill
-                  sizes="48px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="(max-width: 640px) 144px, 176px"
+                  className="object-contain object-right"
                   priority
                 />
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight group-hover:text-amber-700 transition-colors">
-                  {SITE_NAME}
-                </span>
-                <span className="text-[10px] tracking-wider uppercase text-amber-700 font-bold mt-0.5">
-                  من المصنع لحد باب البيت
-                </span>
               </div>
             </Link>
 
@@ -487,18 +389,22 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── 3. Secondary Dark Sub-Navbar (Oscar Layout - Scrollable on mobile) ──────── */}
-        <nav className="bg-[#1e1e1e] text-white border-t border-neutral-800 overflow-x-auto no-scrollbar scroll-smooth">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between min-w-max lg:min-w-0 h-10 sm:h-11 gap-4">
-            {/* Right: Category Links */}
-            <div className="flex items-center gap-3 sm:gap-4 xl:gap-6 shrink-0">
+        {/* ── 3. Secondary Dark Sub-Navbar (Centered, Pure White, Refined Typography) ──────── */}
+        <nav className="bg-[#181818] text-white border-t border-neutral-800/80 shadow-xs overflow-x-auto no-scrollbar scroll-smooth">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center justify-center min-w-max lg:min-w-0 h-11 sm:h-12">
+            {/* Centered Category Links in the exact middle of the page */}
+            <div className="flex items-center justify-center gap-3.5 sm:gap-5 md:gap-6 lg:gap-7 xl:gap-8 mx-auto">
               {secondaryNavLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="relative py-1 text-xs font-bold text-gray-200 hover:text-white transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                  className="group relative py-1 text-xs sm:text-[13.5px] font-bold text-white tracking-wide hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap"
                 >
-                  <span>{link.label}</span>
+                  <span className="relative">
+                    {link.label}
+                    {/* Refined subtle underline hover indicator */}
+                    <span className="absolute -bottom-0.5 right-0 left-0 h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-right rounded-full" />
+                  </span>
                   {link.hasBadge && (
                     <span className="bg-[#e60000] text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs">
                       {link.badge}
@@ -508,10 +414,10 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Left: "شوف مساحتك قبل التنفيذ" in clean text style */}
+            {/* Left Desktop Utility Link: "شوف مساحتك قبل التنفيذ" */}
             <Link
               href="/#consultation"
-              className="text-xs font-bold text-amber-400 hover:text-amber-300 transition-colors whitespace-nowrap shrink-0 border-r border-neutral-700 pr-3 lg:border-none"
+              className="hidden 2xl:flex items-center absolute left-6 text-xs font-bold text-amber-300 hover:text-amber-200 transition-colors whitespace-nowrap"
             >
               شوف مساحتك قبل التنفيذ ✨
             </Link>

@@ -14,6 +14,7 @@ interface AuthStore {
   register: (name: string, email: string, password: string, phone?: string, city?: string) => Promise<{ success: boolean; message?: string }>;
   logout: () => Promise<void>;
   checkSession: () => Promise<void>;
+  googleLogin: () => void;
   addOrder: (order: Order) => void;
   isAuthenticated: () => boolean;
 }
@@ -37,6 +38,7 @@ export const useAuthStore = create<AuthStore>()(
               id: res.user.id,
               name: res.user.name,
               email: res.user.email,
+              role: (res.user.role as "customer" | "admin") || "customer",
               avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(res.user.name)}&backgroundColor=c5a880`,
             };
             set({ user: loggedInUser, loading: false });
@@ -63,25 +65,11 @@ export const useAuthStore = create<AuthStore>()(
               email: res.user.email,
               phone: phone || "",
               city: city || "المنصورة",
+              role: "customer",
+              provider: "credentials",
               avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(res.user.name)}&backgroundColor=c5a880`,
             };
             set({ user: newUser, loading: false });
-
-            // Sync with Next.js customer CRM (fire-and-forget)
-            if (typeof window !== "undefined") {
-              fetch("/api/customers", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  name: newUser.name,
-                  email: newUser.email,
-                  phone: newUser.phone,
-                  city: newUser.city,
-                  provider: "credentials",
-                }),
-              }).catch((err) => console.warn("Background customer sync notice:", err));
-            }
-
             return { success: true };
           }
 
@@ -112,7 +100,8 @@ export const useAuthStore = create<AuthStore>()(
               user: {
                 id: res.user.id,
                 email: res.user.email,
-                name: currentUser?.name || res.user.email.split("@")[0],
+                name: res.user.name || currentUser?.name || res.user.email.split("@")[0],
+                role: (res.user.role as "customer" | "admin") || "customer",
                 avatar: currentUser?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(res.user.email)}&backgroundColor=c5a880`,
                 phone: currentUser?.phone,
                 city: currentUser?.city,
@@ -124,6 +113,12 @@ export const useAuthStore = create<AuthStore>()(
           }
         } catch {
           // Network error — keep existing user state (offline support)
+        }
+      },
+
+      googleLogin: () => {
+        if (typeof window !== "undefined") {
+          window.location.href = apiClient.getGoogleAuthUrl();
         }
       },
 

@@ -159,8 +159,10 @@ export interface User {
   avatar?: string;
   phone?: string;
   city?: string;
+  role?: "customer" | "admin";
+  googleId?: string;
   createdAt?: string;
-  provider?: "google" | "email";
+  provider?: "google" | "email" | "credentials";
   ordersCount?: number;
   totalSpent?: number;
 }

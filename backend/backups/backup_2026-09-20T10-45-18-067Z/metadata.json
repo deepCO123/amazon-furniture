@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-09-20T10:45:18.106Z",
+  "version": "1.0.0",
+  "source": "Amazon Furniture Disaster Recovery Unit",
+  "mongoConnected": false,
+  "recordCounts": {
+    "products": 28,
+    "orders": 4,
+    "customers": 9,
+    "consultations": 1,
+    "quotations": 1,
+    "returns": 2,
+    "emails": 9
+  },
+  "filesCount": 7
+}

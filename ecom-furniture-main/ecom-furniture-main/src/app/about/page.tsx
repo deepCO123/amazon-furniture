@@ -99,6 +99,7 @@ export default function AboutPage() {
               src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=800"
               alt="Our workshop"
               fill
+              priority
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />

@@ -5,12 +5,10 @@
     "dev": "concurrently --kill-others-on-fail \"npm run backend\" \"npm run frontend\"",
     "frontend": "npm --prefix ecom-furniture-main/ecom-furniture-main run dev",
     "backend": "node backend/server.js",
+    "seed": "npm --prefix backend run seed",
+    "install:all": "npm install && npm --prefix backend install && npm --prefix ecom-furniture-main/ecom-furniture-main install",
     "build": "npm --prefix ecom-furniture-main/ecom-furniture-main run build",
     "start": "npm --prefix ecom-furniture-main/ecom-furniture-main run start"
-  },
-  "dependencies": {
-    "dotenv": "^17.4.2",
-    "nodemailer": "^10.0.10"
   },
   "devDependencies": {
     "concurrently": "^10.0.5"

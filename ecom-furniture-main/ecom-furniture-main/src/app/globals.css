@@ -1,7 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 * {
-  font-family: var(--font-cairo), 'Cairo', system-ui, -apple-system, sans-serif;
+  font-family: 'Cairo', var(--font-cairo), system-ui, -apple-system, sans-serif;
   scrollbar-width: thin;
   scrollbar-color: #C4A77D #F0EBE3;
 }
@@ -21,7 +22,31 @@
 [dir="rtl"] p,
 [dir="rtl"] span,
 [dir="rtl"] a {
-  font-family: var(--font-cairo), 'Cairo', system-ui, -apple-system, sans-serif !important;
+  font-family: 'Cairo', var(--font-cairo), system-ui, -apple-system, sans-serif !important;
+}
+
+/* Professional Cairo font typography for Admin Dashboard */
+.admin-dashboard,
+.admin-dashboard *,
+.admin-dashboard button,
+.admin-dashboard input,
+.admin-dashboard select,
+.admin-dashboard textarea,
+.admin-dashboard h1,
+.admin-dashboard h2,
+.admin-dashboard h3,
+.admin-dashboard h4,
+.admin-dashboard h5,
+.admin-dashboard h6,
+.admin-dashboard p,
+.admin-dashboard span,
+.admin-dashboard tr,
+.admin-dashboard td,
+.admin-dashboard th {
+  font-family: 'Cairo', var(--font-cairo), system-ui, -apple-system, sans-serif !important;
+  letter-spacing: 0px !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @theme inline {
@@ -44,6 +69,157 @@
 :root {
   --background: #FAF7F2;
   --foreground: #2C1810;
+}
+
+.dark,
+[data-theme="dark"] {
+  --background: #0B0E14;
+  --foreground: #F8FAFC;
+}
+
+/* ── Light mode theme styles for Admin Dashboard ── */
+.light .admin-dashboard,
+[data-theme="light"] .admin-dashboard {
+  background-color: #F4F6FB !important;
+  color: #1E293B !important;
+}
+
+.light .admin-dashboard aside,
+[data-theme="light"] .admin-dashboard aside {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Containers with dark background in light mode */
+.light .admin-dashboard .bg-\[\#12151D\],
+[data-theme="light"] .admin-dashboard .bg-\[\#12151D\] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05) !important;
+}
+
+.light .admin-dashboard .bg-\[\#151922\],
+[data-theme="light"] .admin-dashboard .bg-\[\#151922\] {
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+
+.light .admin-dashboard .bg-\[\#0E1119\],
+[data-theme="light"] .admin-dashboard .bg-\[\#0E1119\] {
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
+}
+
+.light .admin-dashboard .bg-\[\#171B24\],
+[data-theme="light"] .admin-dashboard .bg-\[\#171B24\] {
+  background-color: #F1F5F9 !important;
+  border-color: #E2E8F0 !important;
+  color: #334155 !important;
+}
+
+.light .admin-dashboard .bg-\[\#161B26\],
+[data-theme="light"] .admin-dashboard .bg-\[\#161B26\] {
+  background-color: #F1F5F9 !important;
+  border-color: #E2E8F0 !important;
+  color: #475569 !important;
+}
+
+.light .admin-dashboard .bg-\[\#1A1E29\],
+[data-theme="light"] .admin-dashboard .bg-\[\#1A1E29\] {
+  background-color: #F1F5F9 !important;
+  border-color: #E2E8F0 !important;
+}
+
+.light .admin-dashboard .bg-\[\#1B202C\],
+[data-theme="light"] .admin-dashboard .bg-\[\#1B202C\] {
+  background-color: #E2E8F0 !important;
+  color: #475569 !important;
+}
+
+.light .admin-dashboard .bg-\[\#182a3d\],
+[data-theme="light"] .admin-dashboard .bg-\[\#182a3d\] {
+  background-color: #E0F2FE !important;
+  border-color: #BAE6FD !important;
+  color: #0369A1 !important;
+}
+
+/* Borders in light mode */
+.light .admin-dashboard .border-\[\#1F2433\],
+[data-theme="light"] .admin-dashboard .border-\[\#1F2433\],
+.light .admin-dashboard .border-\[\#232838\],
+[data-theme="light"] .admin-dashboard .border-\[\#232838\],
+.light .admin-dashboard .border-\[\#262C3D\],
+[data-theme="light"] .admin-dashboard .border-\[\#262C3D\] {
+  border-color: #E2E8F0 !important;
+}
+
+.light .admin-dashboard .border-\[\#1A1F2C\],
+[data-theme="light"] .admin-dashboard .border-\[\#1A1F2C\] {
+  border-color: #F1F5F9 !important;
+}
+
+.light .admin-dashboard .border-\[\#282E3E\],
+[data-theme="light"] .admin-dashboard .border-\[\#282E3E\] {
+  border-color: #CBD5E1 !important;
+}
+
+/* Text colors in light mode */
+.light .admin-dashboard .text-white,
+[data-theme="light"] .admin-dashboard .text-white {
+  color: #0F172A !important;
+}
+
+.light .admin-dashboard .text-slate-100,
+[data-theme="light"] .admin-dashboard .text-slate-100 {
+  color: #1E293B !important;
+}
+
+.light .admin-dashboard .text-slate-200,
+[data-theme="light"] .admin-dashboard .text-slate-200 {
+  color: #334155 !important;
+}
+
+.light .admin-dashboard .text-slate-300,
+[data-theme="light"] .admin-dashboard .text-slate-300 {
+  color: #475569 !important;
+}
+
+.light .admin-dashboard .text-slate-400,
+[data-theme="light"] .admin-dashboard .text-slate-400 {
+  color: #64748B !important;
+}
+
+/* Accent text and card background tweaks */
+.light .admin-dashboard .text-cyan-400,
+[data-theme="light"] .admin-dashboard .text-cyan-400 {
+  color: #0891B2 !important;
+}
+
+.light .admin-dashboard .from-\[\#12151D\],
+[data-theme="light"] .admin-dashboard .from-\[\#12151D\] {
+  --tw-gradient-from: #FFFFFF !important;
+}
+
+.light .admin-dashboard .to-\[\#111A26\],
+[data-theme="light"] .admin-dashboard .to-\[\#111A26\] {
+  --tw-gradient-to: #F0F9FF !important;
+}
+
+/* Table rows and hover */
+.light .admin-dashboard tr:hover,
+[data-theme="light"] .admin-dashboard tr:hover {
+  background-color: #F8FAFC !important;
+}
+
+/* Inputs text */
+.light .admin-dashboard input,
+.light .admin-dashboard select,
+.light .admin-dashboard textarea,
+[data-theme="light"] .admin-dashboard input,
+[data-theme="light"] .admin-dashboard select,
+[data-theme="light"] .admin-dashboard textarea {
+  color: #0F172A !important;
 }
 
 html, body {

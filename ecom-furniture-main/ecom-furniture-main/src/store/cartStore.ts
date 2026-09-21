@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { CartItem, Product } from "@/types";
+import { trackAddToCart } from "@/lib/analytics";
 
 interface CartStore {
   items: CartItem[];
@@ -20,6 +21,9 @@ export const useCartStore = create<CartStore>()(
       items: [],
 
       addItem: (product, quantity = 1, color, curtainType) => {
+        // Track AddToCart for Meta Pixel and GA4
+        trackAddToCart(product, quantity, color);
+
         set((state) => {
           const existing = state.items.find(
             (item) => item.product.id === product.id && item.color === color && item.curtainType === curtainType

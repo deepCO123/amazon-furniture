@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Plus,
   Search,
@@ -35,16 +36,35 @@ import {
   Calendar,
   MapPin,
   Navigation,
+  Zap,
+  CreditCard,
+  Activity,
+  LogOut,
+  SlidersHorizontal,
 } from "lucide-react";
+import { useAdminAuthStore } from "@/store/adminAuthStore";
 import { useProductStore } from "@/store/productStore";
+import { useThemeStore } from "@/store/themeStore";
 import type { Product, User, Order, EmailLog, ReturnRequest, Quotation, ConsultationBooking } from "@/types";
 import { categories } from "@/data/categories";
 import { formatPrice } from "@/lib/utils";
-import ProductModal from "@/components/admin/ProductModal";
-import CustomerModal from "@/components/admin/CustomerModal";
-import QuotationModal from "@/components/admin/QuotationModal";
+import { apiClient } from "@/lib/apiClient";
+import dynamic from "next/dynamic";
 import { useToastStore } from "@/components/ui/Toast";
 import Button from "@/components/ui/Button";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+import { useAdminSocket } from "@/hooks/useAdminSocket";
+
+// Lazy-load heavy admin modals to significantly reduce initial JS bundle size
+const ProductModal = dynamic(() => import("@/components/admin/ProductModal"), {
+  ssr: false,
+});
+const CustomerModal = dynamic(() => import("@/components/admin/CustomerModal"), {
+  ssr: false,
+});
+const QuotationModal = dynamic(() => import("@/components/admin/QuotationModal"), {
+  ssr: false,
+});
 
 type AdminTab = "products" | "customers" | "orders" | "returns" | "quotations" | "consultations" | "analytics" | "emails";
 
@@ -62,7 +82,40 @@ export default function AdminDashboardPage() {
   } = useProductStore();
 
   const [activeTab, setActiveTab] = useState<AdminTab>("products");
+  const { theme } = useThemeStore();
+  const isDark = theme === "dark";
+
+  // Dynamic Theme Styling Tokens
+  const panelCls = isDark
+    ? "bg-[#12151D] border-[#1F2433] text-slate-100"
+    : "bg-white border-slate-200 text-slate-800 shadow-sm";
+  const subcardCls = isDark
+    ? "bg-[#151922] border-[#232838]"
+    : "bg-slate-50/90 border-slate-200 shadow-xs";
+  const inputCls = isDark
+    ? "bg-[#0E1119] border-[#282E3E] text-white placeholder:text-slate-500"
+    : "bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 shadow-xs";
+  const chipCls = isDark
+    ? "bg-[#171B24] border-[#262C3D] text-slate-200"
+    : "bg-slate-100 border-slate-200 text-slate-700";
+  const textTitle = isDark ? "text-white" : "text-slate-900";
+  const textMuted = isDark ? "text-slate-400" : "text-slate-500";
+  const borderSep = isDark ? "border-[#1F2433]" : "border-slate-200";
+  const thCls = isDark
+    ? "bg-[#161B26] text-slate-400 border-[#1F2433]"
+    : "bg-slate-100 text-slate-700 border-slate-200";
+  const trHoverCls = isDark
+    ? "border-[#1A1F2C] hover:bg-[#161B26]/60"
+    : "border-slate-100 hover:bg-slate-50";
+
   const addToast = useToastStore((s) => s.addToast);
+  const router = useRouter();
+  const { logout } = useAdminAuthStore();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/admin/login");
+  };
 
   // Products Tab State
   const [searchQuery, setSearchQuery] = useState("");
@@ -120,11 +173,8 @@ export default function AdminDashboardPage() {
   const loadCustomers = async () => {
     setCustomersLoading(true);
     try {
-      const res = await fetch("/api/customers", { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        setCustomers(Array.isArray(data) ? data : []);
-      }
+      const data = await apiClient.getCustomers();
+      setCustomers(data);
     } catch (e) {
       console.error("Failed to load customers", e);
     } finally {
@@ -136,11 +186,8 @@ export default function AdminDashboardPage() {
   const loadOrders = async () => {
     setOrdersLoading(true);
     try {
-      const res = await fetch("/api/orders", { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        setOrders(Array.isArray(data) ? data : []);
-      }
+      const data = await apiClient.getOrders();
+      setOrders(data);
     } catch (e) {
       console.error("Failed to load orders", e);
     } finally {
@@ -148,15 +195,17 @@ export default function AdminDashboardPage() {
     }
   };
 
+  // Real-time listener for incoming customer orders via Socket.io
+  useAdminSocket(() => {
+    loadOrders();
+  });
+
   // Fetch Returns
   const loadReturns = async () => {
     setReturnsLoading(true);
     try {
-      const res = await fetch("/api/returns", { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        setReturns(Array.isArray(data) ? data : []);
-      }
+      const data = await apiClient.getReturns();
+      setReturns(data);
     } catch (e) {
       console.error("Failed to load returns", e);
     } finally {
@@ -168,11 +217,8 @@ export default function AdminDashboardPage() {
   const loadQuotations = async () => {
     setQuotationsLoading(true);
     try {
-      const res = await fetch("/api/quotations", { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        setQuotations(Array.isArray(data) ? data : []);
-      }
+      const data = await apiClient.getQuotations();
+      setQuotations(data);
     } catch (e) {
       console.error("Failed to load quotations", e);
     } finally {
@@ -184,11 +230,8 @@ export default function AdminDashboardPage() {
   const loadEmails = async () => {
     setEmailsLoading(true);
     try {
-      const res = await fetch("/api/email", { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        setEmails(Array.isArray(data) ? data : []);
-      }
+      const data = await apiClient.getEmails();
+      setEmails(data);
     } catch (e) {
       console.error("Failed to load emails", e);
     } finally {
@@ -200,11 +243,8 @@ export default function AdminDashboardPage() {
   const loadConsultations = async () => {
     setConsultationsLoading(true);
     try {
-      const res = await fetch("/api/consultations", { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        setConsultations(Array.isArray(data) ? data : []);
-      }
+      const data = await apiClient.getConsultations();
+      setConsultations(data);
     } catch (e) {
       console.error("Failed to load consultations", e);
     } finally {
@@ -214,12 +254,8 @@ export default function AdminDashboardPage() {
 
   const handleUpdateConsultationStatus = async (id: string, status: ConsultationBooking["status"]) => {
     try {
-      const res = await fetch("/api/consultations", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, status }),
-      });
-      if (res.ok) {
+      const res = await apiClient.updateConsultationStatus(id, status);
+      if (res.success) {
         setConsultations((prev) =>
           prev.map((c) => (c.id === id ? { ...c, status } : c))
         );
@@ -426,180 +462,308 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className={`admin-dashboard flex flex-col lg:flex-row min-h-screen font-sans selection:bg-cyan-500 selection:text-black transition-colors duration-200 ${
+      isDark ? "bg-[#0B0E14] text-slate-100" : "bg-[#F4F6F9] text-slate-800"
+    }`} dir="rtl">
       {/* Toast notification */}
       {notification && (
-        <div className="fixed bottom-6 left-6 z-[300] bg-slate-900 text-white border border-[#C5A880] px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 animate-fade-in">
-          <CheckCircle2 size={20} className="text-emerald-400 shrink-0" />
+        <div className="fixed bottom-6 left-6 z-[300] bg-[#161A24] text-white border border-cyan-500/40 px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 animate-fade-in">
+          <CheckCircle2 size={20} className="text-cyan-400 shrink-0" />
           <span className="text-sm font-semibold">{notification}</span>
         </div>
       )}
 
-      {/* Top Banner */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold bg-[#C5A880]/15 text-[#8B6E45]">
-              <ShieldCheck size={14} />
-              <span>لوحة التحكم الرئيسية للمدير — أ. محمد إسماعيل</span>
-            </span>
+      {/* Desktop spacer to preserve layout flow while sidebar is fixed */}
+      <div className="hidden lg:block lg:w-64 xl:w-72 shrink-0" aria-hidden="true" />
+
+      {/* ── 1. Right Sidebar (100% Fixed to Viewport, Never Scrolls Away) ── */}
+      <aside className={`w-full lg:fixed lg:top-0 lg:right-0 lg:w-64 xl:w-72 lg:h-screen lg:max-h-screen shrink-0 border-b lg:border-b-0 lg:border-s p-4 lg:p-5 flex flex-col justify-between z-40 transition-colors duration-200 ${panelCls}`}>
+        <div className="flex flex-col flex-1 min-h-0">
+          {/* Brand header */}
+          <div className={`flex items-center gap-3 pb-4 border-b mb-3 shrink-0 ${borderSep}`}>
+            <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-lg border border-cyan-500/40 bg-[#171B24] shrink-0">
+              <Image src="/logo-icon.png" alt="Amazon Furniture" fill className="object-cover" />
+            </div>
+            <div className="min-w-0">
+              <h2 className={`font-black text-sm truncate ${textTitle}`}>Amazon Furniture</h2>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                <span className={`text-[11px] font-bold ${textMuted}`}>لوحة الإدارة المباشرة</span>
+              </div>
+            </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-            نظام إدارة Amazon Furniture المتكامل
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            إدارة فورية للمخزون، تتبع حسابات وأوردرات العملاء، مراقبة الطلبات الجديدة، وإرسال إيميلات الـ VIP تلقائياً.
-          </p>
+
+          {/* Navigation Items (Scrollable internally with no-scrollbar if viewport is short) */}
+          <nav className="space-y-1 overflow-y-auto no-scrollbar flex-1 pe-0.5">
+            {[
+              { id: "products", label: "المنتجات والمخزون", icon: Package, count: products.length },
+              { id: "orders", label: "الطلبات والتصنيع", icon: ShoppingBag, count: orders.length },
+              { id: "customers", label: "العملاء (CRM)", icon: Users, count: customers.length },
+              { id: "consultations", label: "الاستشارات واللوكيشن", icon: Calendar, count: consultations.length },
+              { id: "quotations", label: "عروض الأسعار B2B", icon: FileText, count: quotations.length },
+              { id: "returns", label: "المرتجعات وفحص الجودة", icon: RotateCcw, count: returns.length },
+              { id: "analytics", label: "تحليلات الأثاث والـ Feed", icon: BarChart3 },
+              { id: "emails", label: "سجل الإيميلات", icon: Mail, count: emails.length },
+            ].map((tab) => {
+              const isActive = activeTab === tab.id;
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as AdminTab)}
+                  className={`w-full text-right px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between transition-all cursor-pointer ${
+                    isActive
+                      ? isDark
+                        ? "bg-[#182a3d] text-cyan-400 border border-cyan-500/30 shadow-lg shadow-cyan-950/40 font-black"
+                        : "bg-cyan-50 text-cyan-800 border border-cyan-300 shadow-sm font-black"
+                      : isDark
+                        ? "text-slate-400 hover:text-slate-100 hover:bg-[#181C26] border border-transparent"
+                        : "text-slate-600 hover:text-slate-950 hover:bg-slate-100 border border-transparent"
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Icon size={17} className={isActive ? "text-cyan-500" : isDark ? "text-slate-400" : "text-slate-500"} />
+                    <span>{tab.label}</span>
+                  </div>
+                  {tab.count !== undefined && (
+                    <span
+                      className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                        isActive
+                          ? isDark
+                            ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                            : "bg-cyan-100 text-cyan-800 border border-cyan-200"
+                          : isDark
+                            ? "bg-[#1B202C] text-slate-400"
+                            : "bg-slate-100 text-slate-600"
+                      }`}
+                    >
+                      {tab.count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
         </div>
 
-        <div className="flex items-center gap-2.5 shrink-0">
-          <button
-            onClick={refreshAll}
-            disabled={productsLoading || customersLoading || ordersLoading}
-            className="p-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors flex items-center gap-2 text-sm font-bold"
-            title="تحديث ومزامنة البيانات"
-          >
-            <RefreshCw
-              size={18}
-              className={
-                productsLoading || customersLoading || ordersLoading
-                  ? "animate-spin text-[#C5A880]"
-                  : ""
-              }
-            />
-            <span className="hidden sm:inline">تحديث البيانات</span>
-          </button>
+        {/* Sidebar Footer Actions (Firmly Pinned in Viewport at all times) */}
+        <div className={`pt-3 border-t space-y-2 mt-2 shrink-0 ${borderSep}`}>
+          {/* Dark / Light Mode Switcher */}
+          <ThemeToggle variant="sidebar" />
 
           <button
-            type="button"
             onClick={handleOpenCreate}
-            className="font-bold text-sm sm:text-base py-3 px-5 rounded-xl shadow-md bg-[#C5A880] hover:bg-[#b0936b] active:scale-95 text-slate-950 flex items-center gap-2 cursor-pointer transition-all"
+            className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25 transition-all cursor-pointer"
           >
-            <Plus size={20} />
+            <Plus size={16} strokeWidth={2.5} />
             <span>إضافة منتج جديد +</span>
           </button>
+
+          <Link
+            href="/"
+            target="_blank"
+            className={`w-full py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors ${
+              isDark
+                ? "bg-[#171B24] hover:bg-[#1E2330] text-slate-300 hover:text-white"
+                : "bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-950 border border-slate-200"
+            }`}
+          >
+            <ExternalLink size={14} />
+            <span>معاينة المتجر ↗</span>
+          </Link>
+
+          <button
+            onClick={handleLogout}
+            className={`w-full py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+              isDark ? "text-red-400 hover:bg-red-500/10 hover:text-red-300" : "text-red-600 hover:bg-red-50 hover:text-red-700"
+            }`}
+          >
+            <LogOut size={14} />
+            <span>تسجيل الخروج</span>
+          </button>
         </div>
-      </div>
+      </aside>
 
-      {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 p-1.5 bg-slate-200/70 rounded-2xl overflow-x-auto">
-        <button
-          onClick={() => setActiveTab("products")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
-            activeTab === "products"
-              ? "bg-white text-slate-900 shadow-sm"
-              : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
-          }`}
-        >
-          <Package size={17} className={activeTab === "products" ? "text-[#8B6E45]" : ""} />
-          <span>المنتجات والمخزون</span>
-          <span className="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">
-            {products.length}
-          </span>
-        </button>
+      {/* ── 2. Main Content Area (To the left of Sidebar in RTL) ── */}
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 max-w-[1600px] w-full mx-auto overflow-x-hidden">
+        {/* Top Header Row matching the user screenshot */}
+        <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border rounded-2xl p-4 sm:p-5 shadow-lg transition-colors ${panelCls}`}>
+          {/* Right: Section title & live radar icon */}
+          <div className="flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-md shadow-cyan-500/10 shrink-0">
+              <Activity size={22} className="animate-pulse" />
+            </div>
+            <div>
+              <h1 className={`text-lg sm:text-xl font-black ${textTitle}`}>
+                {activeTab === "products" && "إدارة المنتجات والمخزون"}
+                {activeTab === "orders" && "الطلبات والتصنيع الفوري"}
+                {activeTab === "customers" && "سجل العملاء وإدارة العلاقات CRM"}
+                {activeTab === "consultations" && "حجز الاستشارات المجانية واللوكيشن"}
+                {activeTab === "quotations" && "عروض الأسعار B2B وتجهيز المقرات"}
+                {activeTab === "returns" && "طلبات الاسترجاع وفحص الجودة"}
+                {activeTab === "analytics" && "تحليلات المشاهدات ومبيعات الأثاث"}
+                {activeTab === "emails" && "سجل الإيميلات والتنبيهات الآلية"}
+              </h1>
+              <p className={`text-xs font-medium mt-0.5 ${textMuted}`}>
+                تتبع أداء حملاتك، مبيعاتك، ومخزونك بدقة لحظية
+              </p>
+            </div>
+          </div>
 
-        <button
-          onClick={() => setActiveTab("customers")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
-            activeTab === "customers"
-              ? "bg-white text-slate-900 shadow-sm"
-              : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
-          }`}
-        >
-          <Users size={17} className={activeTab === "customers" ? "text-[#8B6E45]" : ""} />
-          <span>العملاء (CRM)</span>
-          <span className="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">
-            {customers.length}
-          </span>
-        </button>
+          {/* Left: Date selector pill, Quick Add button, Theme Toggle, & user profile */}
+          <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
+            {/* Dark / Light Mode Switcher */}
+            <ThemeToggle variant="header" />
 
-        <button
-          onClick={() => setActiveTab("orders")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
-            activeTab === "orders"
-              ? "bg-white text-slate-900 shadow-sm"
-              : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
-          }`}
-        >
-          <ShoppingBag size={17} className={activeTab === "orders" ? "text-[#8B6E45]" : ""} />
-          <span>الطلبات والتصنيع</span>
-          <span className="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">
-            {orders.length}
-          </span>
-        </button>
+            {/* Quick Add Product Button in the Top Bar */}
+            <button
+              onClick={handleOpenCreate}
+              className="py-2 px-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-md shadow-cyan-500/20 transition-all cursor-pointer"
+            >
+              <Plus size={15} strokeWidth={2.5} />
+              <span>إضافة منتج +</span>
+            </button>
 
-        <button
-          onClick={() => setActiveTab("returns")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
-            activeTab === "returns"
-              ? "bg-white text-slate-900 shadow-sm"
-              : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
-          }`}
-        >
-          <RotateCcw size={17} className={activeTab === "returns" ? "text-[#8B6E45]" : ""} />
-          <span>المرتجعات وفحص الجودة</span>
-          <span className="px-2 py-0.5 rounded-full text-xs bg-purple-100 text-purple-800 font-bold">
-            {returns.length}
-          </span>
-        </button>
+            {/* "مدى الحياة (Lifetime)" selector pill matching screenshot */}
+            <div className={`flex items-center gap-1.5 border px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${chipCls}`}>
+              <Calendar size={13} className="text-cyan-500" />
+              <span>مدى الحياة (Lifetime)</span>
+            </div>
 
-        <button
-          onClick={() => setActiveTab("quotations")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
-            activeTab === "quotations"
-              ? "bg-white text-slate-900 shadow-sm"
-              : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
-          }`}
-        >
-          <FileText size={17} className={activeTab === "quotations" ? "text-[#8B6E45]" : ""} />
-          <span>عروض الأسعار B2B</span>
-          <span className="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">
-            {quotations.length}
-          </span>
-        </button>
+            {/* User Profile avatar */}
+            <div className={`flex items-center gap-2 border px-3 py-1.5 rounded-xl text-xs transition-colors ${chipCls}`}>
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-600 to-blue-500 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                M
+              </div>
+              <div className="text-start">
+                <span className={`font-bold block text-xs leading-tight ${textTitle}`}>محمد إسماعيل</span>
+                <span className="text-[10px] text-emerald-500 font-bold block">● متصل الآن</span>
+              </div>
+            </div>
 
-        <button
-          onClick={() => setActiveTab("consultations")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
-            activeTab === "consultations"
-              ? "bg-white text-slate-900 shadow-sm"
-              : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
-          }`}
-        >
-          <Calendar size={17} className={activeTab === "consultations" ? "text-[#8B6E45]" : ""} />
-          <span>حجز الاستشارات واللوكيشن</span>
-          <span className="px-2 py-0.5 rounded-full text-xs bg-emerald-100 text-emerald-800 font-bold">
-            {consultations.length}
-          </span>
-        </button>
+            {/* Refresh Button */}
+            <button
+              onClick={refreshAll}
+              disabled={productsLoading || customersLoading || ordersLoading}
+              className={`p-2.5 border rounded-xl transition-colors cursor-pointer ${
+                isDark ? "bg-[#171B24] border-[#262C3D] hover:bg-[#1E2330] text-slate-300 hover:text-white" : "bg-slate-100 border-slate-200 hover:bg-slate-200 text-slate-700 hover:text-slate-950"
+              }`}
+              title="تحديث البيانات"
+            >
+              <RefreshCw
+                size={14}
+                className={productsLoading || customersLoading || ordersLoading ? "animate-spin text-cyan-400" : ""}
+              />
+            </button>
+          </div>
+        </div>
 
-        <button
-          onClick={() => setActiveTab("analytics")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
-            activeTab === "analytics"
-              ? "bg-white text-slate-900 shadow-sm"
-              : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
-          }`}
-        >
-          <BarChart3 size={17} className={activeTab === "analytics" ? "text-[#8B6E45]" : ""} />
-          <span>تحليلات الأثاث والـ Feed</span>
-        </button>
+        {/* ── 3. The 4 Metric Cards Row (EXACT match to the user screenshot!) ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Card 1: المبلغ المصروف */}
+          <div className={`border rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden group transition-all ${
+            isDark ? "bg-[#12151D] border-[#1F2433] hover:border-[#2D354A]" : "bg-white border-slate-200 shadow-sm hover:border-slate-300"
+          }`}>
+            <div className="flex items-center justify-between mb-3">
+              <span className={`text-xs font-bold ${textMuted}`}>المبلغ المصروف</span>
+              <div className={`w-8 h-8 rounded-xl border flex items-center justify-center ${
+                isDark ? "bg-[#1A1E29] border-[#282E3E] text-slate-300" : "bg-slate-100 border-slate-200 text-slate-700"
+              }`}>
+                <CreditCard size={16} />
+              </div>
+            </div>
+            <p className={`text-2xl sm:text-3xl font-black ${textTitle}`}>
+              51,959.58 <span className={`text-xs font-bold ${textMuted}`}>ج.م</span>
+            </p>
+            <span className="text-[11px] text-emerald-500 font-semibold block mt-1.5">
+              ↑ +18.4% نمو المبيعات الشهرية
+            </span>
+          </div>
 
-        <button
-          onClick={() => setActiveTab("emails")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all whitespace-nowrap ${
-            activeTab === "emails"
-              ? "bg-white text-slate-900 shadow-sm"
-              : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
-          }`}
-        >
-          <Mail size={17} className={activeTab === "emails" ? "text-[#8B6E45]" : ""} />
-          <span>سجل الإيميلات</span>
-          <span className="px-2 py-0.5 rounded-full text-xs bg-slate-100 text-slate-700">
-            {emails.length}
-          </span>
-        </button>
-      </div>
+          {/* Card 2: إجمالي النتائج (Cyan Accent Highlighted!) */}
+          <div className={`border rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden group transition-all ${
+            isDark
+              ? "bg-[#12151D] border-cyan-500/30 bg-gradient-to-b from-[#12151D] to-[#111A26] hover:border-cyan-500/50"
+              : "bg-white border-cyan-300 bg-gradient-to-b from-white to-cyan-50/50 shadow-sm hover:border-cyan-400"
+          }`}>
+            <div className="flex items-center justify-between mb-3">
+              <span className={`text-xs font-bold ${isDark ? "text-cyan-300" : "text-cyan-700"}`}>إجمالي النتائج</span>
+              <div className="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-400 flex items-center justify-center">
+                <Zap size={16} />
+              </div>
+            </div>
+            <p className={`text-2xl sm:text-3xl font-black ${isDark ? "text-cyan-400" : "text-cyan-600"}`}>
+              5,239
+            </p>
+            <span className={`text-[11px] font-semibold block mt-1.5 ${isDark ? "text-cyan-300/80" : "text-cyan-600"}`}>
+              {orders.length > 0 ? `${orders.length} طلب تصنيع وتوريد نشط` : "أوردرات مؤكدة وشحن فوري"}
+            </span>
+          </div>
+
+          {/* Card 3: مرات الظهور */}
+          <div className={`border rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden group transition-all ${
+            isDark ? "bg-[#12151D] border-[#1F2433] hover:border-[#2D354A]" : "bg-white border-slate-200 shadow-sm hover:border-slate-300"
+          }`}>
+            <div className="flex items-center justify-between mb-3">
+              <span className={`text-xs font-bold ${textMuted}`}>مرات الظهور</span>
+              <div className={`w-8 h-8 rounded-xl border flex items-center justify-center ${
+                isDark ? "bg-[#1A1E29] border-[#282E3E] text-slate-300" : "bg-slate-100 border-slate-200 text-slate-700"
+              }`}>
+                <Eye size={16} />
+              </div>
+            </div>
+            <p className={`text-2xl sm:text-3xl font-black ${textTitle}`}>
+              1,008,967
+            </p>
+            <span className={`text-[11px] font-semibold block mt-1.5 ${textMuted}`}>
+              زيارات كتالوج ومعروضات المتجر
+            </span>
+          </div>
+
+          {/* Card 4: الوصول (Reach) */}
+          <div className={`border rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden group transition-all ${
+            isDark ? "bg-[#12151D] border-[#1F2433] hover:border-[#2D354A]" : "bg-white border-slate-200 shadow-sm hover:border-slate-300"
+          }`}>
+            <div className="flex items-center justify-between mb-3">
+              <span className={`text-xs font-bold ${textMuted}`}>الوصول (Reach)</span>
+              <div className={`w-8 h-8 rounded-xl border flex items-center justify-center ${
+                isDark ? "bg-[#1A1E29] border-[#282E3E] text-slate-300" : "bg-slate-100 border-slate-200 text-slate-700"
+              }`}>
+                <Users size={16} />
+              </div>
+            </div>
+            <p className={`text-2xl sm:text-3xl font-black ${textTitle}`}>
+              568,285
+            </p>
+            <span className={`text-[11px] font-semibold block mt-1.5 ${textMuted}`}>
+              عميل مستهدف في المنصورة والدلتا
+            </span>
+          </div>
+        </div>
+
+        {/* ── 4. Main Panel Container (Matching "حملاتي الإعلانية" with LIVE badge) ── */}
+        <div className={`border rounded-2xl p-4 sm:p-6 shadow-xl space-y-6 transition-colors ${panelCls}`}>
+          {/* Panel Header */}
+          <div className={`flex items-center justify-between pb-4 border-b ${borderSep}`}>
+            <div className="flex items-center gap-2.5">
+              <div className="w-3 h-3 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400/50 animate-pulse" />
+              <h2 className={`text-base sm:text-lg font-black ${textTitle}`}>
+                {activeTab === "products" && "حملاتي الإعلانية • إدارة المنتجات والمخزون"}
+                {activeTab === "orders" && "حملاتي الإعلانية • سجل الطلبات والمبيعات"}
+                {activeTab === "customers" && "قاعدة بيانات العملاء المسجلين CRM"}
+                {activeTab === "consultations" && "جدول مواعيد المعاينات والاستشارات"}
+                {activeTab === "quotations" && "طلبات مقايسة وتجهيز مقرات الشركات B2B"}
+                {activeTab === "returns" && "فحص المرتجعات وتقارير الجودة"}
+                {activeTab === "analytics" && "لوحة التحليلات المتقدمة"}
+                {activeTab === "emails" && "سجل الإيميلات والتنبيهات الآلية"}
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-2 bg-emerald-950/70 border border-emerald-800/60 px-3.5 py-1 rounded-full text-emerald-400 text-xs font-black">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <span>LIVE</span>
+            </div>
+          </div>
 
       {/* ======================================================== */}
       {/* TAB 1: PRODUCTS & INVENTORY */}
@@ -608,61 +772,61 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           {/* Stats Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div className={`p-4 sm:p-5 rounded-2xl border shadow-sm transition-colors ${subcardCls}`}>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500">إجمالي الموديلات</span>
-                <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                  <Package size={18} />
+                <span className={`text-xs font-bold ${textMuted}`}>إجمالي الموديلات</span>
+                <div className="w-8 h-8 rounded-xl bg-blue-500/15 text-blue-400 border border-blue-500/30 flex items-center justify-center">
+                  <Package size={17} />
                 </div>
               </div>
-              <p className="text-3xl font-extrabold text-slate-900 mt-3">{productStats.total}</p>
-              <span className="text-[11px] text-slate-400 mt-1 block">قطعة مسجلة بالمتجر</span>
+              <p className={`text-2xl sm:text-3xl font-black mt-2.5 ${textTitle}`}>{productStats.total}</p>
+              <span className={`text-[11px] ${textMuted} mt-1 block`}>موديل مسجل بالمتجر</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div className={`p-4 sm:p-5 rounded-2xl border shadow-sm transition-colors ${subcardCls}`}>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500">إجمالي قطع المخزون</span>
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                  <Layers size={18} />
+                <span className={`text-xs font-bold ${textMuted}`}>إجمالي قطع المخزون</span>
+                <div className="w-8 h-8 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center">
+                  <Layers size={17} />
                 </div>
               </div>
-              <p className="text-3xl font-extrabold text-emerald-600 mt-3">{productStats.totalUnits}</p>
-              <span className="text-[11px] text-slate-400 mt-1 block">قطعة جاهزة للتسليم فوراً</span>
+              <p className="text-2xl sm:text-3xl font-black text-emerald-500 mt-2.5">{productStats.totalUnits}</p>
+              <span className={`text-[11px] ${textMuted} mt-1 block`}>قطعة جاهزة للتسليم فوراً</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div className={`p-4 sm:p-5 rounded-2xl border shadow-sm transition-colors ${subcardCls}`}>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500">أوشكت على النفاد (1-3)</span>
-                <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                  <AlertTriangle size={18} />
+                <span className={`text-xs font-bold ${textMuted}`}>أوشكت على النفاد (1-3)</span>
+                <div className="w-8 h-8 rounded-xl bg-amber-500/15 text-amber-400 border border-amber-500/30 flex items-center justify-center">
+                  <AlertTriangle size={17} />
                 </div>
               </div>
-              <p className="text-3xl font-extrabold text-amber-600 mt-3">{productStats.lowStock}</p>
-              <span className="text-[11px] text-slate-400 mt-1 block">تحتاج إنتاج وتصنيع إضافي</span>
+              <p className="text-2xl sm:text-3xl font-black text-amber-500 mt-2.5">{productStats.lowStock}</p>
+              <span className={`text-[11px] ${textMuted} mt-1 block`}>تحتاج تصنيع إضافي</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div className={`p-4 sm:p-5 rounded-2xl border shadow-sm transition-colors ${subcardCls}`}>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500">المميزة بالرئيسية</span>
-                <div className="w-8 h-8 rounded-xl bg-[#C5A880]/20 text-[#8B6E45] flex items-center justify-center">
-                  <Sparkles size={18} />
+                <span className={`text-xs font-bold ${textMuted}`}>المميزة بالرئيسية</span>
+                <div className="w-8 h-8 rounded-xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 flex items-center justify-center">
+                  <Sparkles size={17} />
                 </div>
               </div>
-              <p className="text-3xl font-extrabold text-slate-900 mt-3">{productStats.featured}</p>
-              <span className="text-[11px] text-slate-400 mt-1 block">تظهر في الواجهة الأولى</span>
+              <p className={`text-2xl sm:text-3xl font-black mt-2.5 ${textTitle}`}>{productStats.featured}</p>
+              <span className={`text-[11px] ${textMuted} mt-1 block`}>معروضة بالصفحة الأولى</span>
             </div>
           </div>
 
           {/* Filters & Search Toolbar */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row items-center gap-3">
+          <div className={`p-4 rounded-2xl border shadow-sm flex flex-col md:flex-row items-center gap-3 transition-colors ${subcardCls}`}>
             {/* Search */}
             <div className="relative flex-1 w-full">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="بحث بالاسم، القسم، أو الخامة..."
-                className="w-full pl-4 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#C5A880]"
+                placeholder="بحث بالاسم، القسم، أو الماتريال..."
+                className={`w-full pl-4 pr-10 py-2.5 rounded-xl border text-sm focus:outline-none focus:border-cyan-500 transition-colors ${inputCls}`}
               />
               <Search size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
             </div>
@@ -672,11 +836,11 @@ export default function AdminDashboardPage() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full md:w-44 px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#C5A880]"
+                className={`w-full md:w-44 px-3 py-2.5 rounded-xl border text-sm focus:outline-none focus:border-cyan-500 transition-colors ${inputCls}`}
               >
                 <option value="ALL">جميع الأقسام</option>
                 {categories.map((c) => (
-                  <option key={c.id} value={c.name}>
+                  <option key={c.id} value={c.name} className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>
                     {c.name}
                   </option>
                 ))}
@@ -686,21 +850,21 @@ export default function AdminDashboardPage() {
               <select
                 value={stockFilter}
                 onChange={(e) => setStockFilter(e.target.value)}
-                className="w-full md:w-44 px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#C5A880]"
+                className={`w-full md:w-44 px-3 py-2.5 rounded-xl border text-sm focus:outline-none focus:border-cyan-500 transition-colors ${inputCls}`}
               >
-                <option value="ALL">كل حالات المخزون</option>
-                <option value="IN_STOCK">متوفر فقط</option>
-                <option value="LOW_STOCK">أوشك على النفاد (1-3)</option>
-                <option value="OUT_OF_STOCK">نفد المخزون (0)</option>
+                <option value="ALL" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>كل حالات المخزون</option>
+                <option value="IN_STOCK" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>متوفر فقط</option>
+                <option value="LOW_STOCK" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>أوشك على النفاد (1-3)</option>
+                <option value="OUT_OF_STOCK" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>نفد المخزون (0)</option>
               </select>
             </div>
           </div>
 
           {/* Products Table with Live Stock */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+          <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
               <table className="w-full text-start text-sm">
-                <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 text-xs font-bold uppercase tracking-wider">
+                <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">المنتج والصورة</th>
                     <th className="px-6 py-3.5 text-start">القسم</th>
@@ -711,12 +875,12 @@ export default function AdminDashboardPage() {
                     <th className="px-6 py-3.5 text-center">الإجراءات</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className={`divide-y ${isDark ? "divide-[#1D2230]" : "divide-slate-100"}`}>
                   {filteredProducts.length === 0 ? (
                     <tr>
                       <td colSpan={7} className="text-center py-12 text-slate-400">
-                        <Package size={36} className="mx-auto mb-2 opacity-40" />
-                        <p className="font-semibold text-slate-600">لا توجد منتجات مطابقة للبحث</p>
+                        <Package size={36} className="mx-auto mb-2 opacity-40 text-cyan-400" />
+                        <p className="font-semibold text-slate-300">لا توجد منتجات مطابقة للبحث</p>
                       </td>
                     </tr>
                   ) : (
@@ -726,11 +890,13 @@ export default function AdminDashboardPage() {
                       const isZero = qty === 0;
 
                       return (
-                        <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
+                        <tr key={p.id} className={`transition-colors ${isDark ? "hover:bg-[#1A1F2D]" : "hover:bg-slate-50/80"}`}>
                           {/* Image & Name */}
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
-                              <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                              <div className={`relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border ${
+                                isDark ? "bg-[#0D1017] border-[#282E3E]" : "bg-slate-100 border-slate-200"
+                              }`}>
                                 <Image
                                   src={p.images[0] || "/placeholder.jpg"}
                                   alt={p.name}
@@ -739,19 +905,18 @@ export default function AdminDashboardPage() {
                                 />
                               </div>
                               <div className="min-w-0">
-                                <h3 className="font-bold text-slate-900 text-sm truncate max-w-xs">
+                                <h3 className={`font-bold text-sm truncate max-w-xs ${textTitle}`}>
                                   {p.name}
                                 </h3>
-                                <p className="text-xs text-slate-400 truncate">
+                                <p className={`text-xs truncate ${textMuted}`}>
                                   {p.material} • {p.color}
                                 </p>
                                 <Link
                                   href={`/products/${p.slug}`}
                                   target="_blank"
-                                  className="text-[11px] text-[#8B6E45] hover:underline inline-flex items-center gap-0.5 mt-0.5"
+                                  className="text-[11px] text-cyan-500 hover:text-cyan-600 inline-flex items-center gap-0.5 mt-0.5 font-bold"
                                 >
-                                  <span>رابط المنتج بالمتجر</span>
-                                  <ExternalLink size={10} />
+                                  <span>رابط المنتج بالمتجر ↗</span>
                                 </Link>
                               </div>
                             </div>
@@ -759,18 +924,20 @@ export default function AdminDashboardPage() {
 
                           {/* Category */}
                           <td className="px-6 py-4">
-                            <span className="inline-block px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700">
+                            <span className={`inline-block px-2.5 py-1 rounded-lg text-xs font-bold ${
+                              isDark ? "bg-[#192231] text-cyan-300 border border-[#26354D]" : "bg-cyan-50 text-cyan-800 border border-cyan-200"
+                            }`}>
                               {p.category}
                             </span>
                           </td>
 
                           {/* Price */}
                           <td className="px-6 py-4">
-                            <div className="font-bold text-slate-900">
+                            <div className={`font-black ${textTitle}`}>
                               {formatPrice(p.price)}
                             </div>
                             {p.originalPrice && (
-                              <div className="text-xs text-slate-400 line-through">
+                              <div className="text-xs text-slate-500 line-through">
                                 {formatPrice(p.originalPrice)}
                               </div>
                             )}
@@ -778,7 +945,7 @@ export default function AdminDashboardPage() {
 
                           {/* Live Stock Adjustment (+ / -) */}
                           <td className="px-6 py-4 text-center">
-                            <div className="inline-flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
+                            <div className="inline-flex items-center gap-2 bg-[#0E121A] px-3 py-1.5 rounded-xl border border-[#252C3E]">
                               <button
                                 onClick={() => handleQuickStockChange(p, -1)}
                                 className="w-6 h-6 rounded-lg bg-white hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors disabled:opacity-30"
@@ -1301,12 +1468,8 @@ export default function AdminDashboardPage() {
                               onChange={async (e) => {
                                 const newStatus = e.target.value as Order["status"];
                                 try {
-                                  const res = await fetch("/api/orders", {
-                                    method: "PATCH",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({ orderId: order.id, status: newStatus }),
-                                  });
-                                  if (res.ok) {
+                                  const res = await apiClient.updateOrderStatus(order.id, newStatus);
+                                  if (res.success) {
                                     setOrders((prev) =>
                                       prev.map((o) => (o.id === order.id ? { ...o, status: newStatus } : o))
                                     );
@@ -1545,16 +1708,14 @@ export default function AdminDashboardPage() {
                               onChange={async (e) => {
                                 const newStatus = e.target.value as ReturnRequest["status"];
                                 try {
-                                  const res = await fetch("/api/returns", {
-                                    method: "PATCH",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({ returnId: ret.id, status: newStatus }),
-                                  });
-                                  if (res.ok) {
+                                  const res = await apiClient.updateReturnStatus(ret.id, newStatus);
+                                  if (res.success) {
                                     setReturns((prev) =>
                                       prev.map((r) => (r.id === ret.id ? { ...r, status: newStatus } : r))
                                     );
                                     addToast("تم تحديث حالة المرتجع بنجاح", "success");
+                                  } else {
+                                    addToast("تعذر تحديث حالة المرتجع", "error");
                                   }
                                 } catch {
                                   addToast("خطأ في الاتصال بالخادم", "error");
@@ -1586,16 +1747,12 @@ export default function AdminDashboardPage() {
                               <button
                                 onClick={async () => {
                                   try {
-                                    const res = await fetch("/api/returns", {
-                                      method: "PATCH",
-                                      headers: { "Content-Type": "application/json" },
-                                      body: JSON.stringify({
-                                        returnId: ret.id,
-                                        status: "outlet_restocked",
-                                        conditionAssessment: "minor_scratch",
-                                      }),
-                                    });
-                                    if (res.ok) {
+                                    const res = await apiClient.updateReturn(
+                                      ret.id,
+                                      "outlet_restocked",
+                                      "minor_scratch"
+                                    );
+                                    if (res.success) {
                                       setReturns((prev) =>
                                         prev.map((r) =>
                                           r.id === ret.id ? { ...r, status: "outlet_restocked" } : r
@@ -2262,6 +2419,9 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       )}
+
+        </div>
+      </main>
 
       {/* ======================================================== */}
       {/* MODALS */}

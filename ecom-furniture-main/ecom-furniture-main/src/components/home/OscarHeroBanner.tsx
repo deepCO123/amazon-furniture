@@ -5,57 +5,45 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft,
   ShieldCheck,
   Wrench,
   Truck,
   MessageCircle,
-  Ruler,
   ChevronRight,
   ChevronLeft,
 } from "lucide-react";
 
 interface Slide {
   id: number;
-  badge?: string;
-  titleMain: string;
-  titleAccent: string;
-  codeText: string;
-  code: string;
+  title: string;
   subtitle: string;
   image: string;
-  ctaText: string;
-  ctaLink: string;
-  secondaryCtaText?: string;
-  secondaryCtaLink?: string;
+  cta1Text: string;
+  cta1Link: string;
+  cta2Text: string;
+  cta2Link: string;
 }
 
 const slides: Slide[] = [
   {
     id: 1,
-    titleMain: "خصم إضافي",
-    titleAccent: "على جميع المنتجات",
-    codeText: "عند أستخدامك كود :",
-    code: "AMAZON",
-    subtitle: "أفخم تصاميم الأثاث المكتبي والركن وغرف النوم والمطابخ من المصنع لحد باب بيتك بأعلى خامات الخشب الزان.",
-    image: "/oscar-hero-exact.jpg",
-    ctaText: "تسوق العروض الآن",
-    ctaLink: "/products?tag=sale",
-    secondaryCtaText: "استشارة ومعاينة مجانية بالمنصورة",
-    secondaryCtaLink: "/#consultation",
+    title: "أثاث مكتبي يلهم الإبداع والكفاءة",
+    subtitle: "مجموعة متميزة من الأثاث المكتبي والحلول العملية بأسعار حصرية... والركنات الأنيقة لمساحة عمل متكاملة..",
+    image: "/hero-office-day.jpg",
+    cta1Text: "تواصل معنا",
+    cta1Link: "https://wa.me/201099684784?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%A3%D8%AB%D8%A7%D8%AB%20%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A",
+    cta2Text: "صمم الآن",
+    cta2Link: "/#consultation",
   },
   {
     id: 2,
-    titleMain: "شوف مساحتك",
-    titleAccent: "قبل التنفيذ مجاناً",
-    codeText: "عند حجز كود :",
-    code: "CONSULT",
-    subtitle: "فريق هندسي متخصص يزور موقعك داخل المنصورة أو ميتنج أونلاين لمراجعة المخططات ورفع المقاسات مجاناً.",
-    image: "/oscar-hero.jpg",
-    ctaText: "احجز استشارتك الآن",
-    ctaLink: "/#consultation",
-    secondaryCtaText: "تصفح أحدث الموديلات",
-    secondaryCtaLink: "/products",
+    title: "فخامة التنفيذ لأرقى المساحات المكتبية",
+    subtitle: "تصاميم تنفيذية راقية وتشطيبات خشب زان روماني طبيعي تمنح مكتبك هيبة استثنائية وأداء يدوم طويلاً..",
+    image: "/hero-office-night.jpg",
+    cta1Text: "تواصل معنا",
+    cta1Link: "https://wa.me/201099684784?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%A3%D8%AB%D8%A7%D8%AB%20%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A",
+    cta2Text: "صمم الآن",
+    cta2Link: "/#consultation",
   },
 ];
 
@@ -65,7 +53,7 @@ export default function OscarHeroBanner() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 8000);
+    }, 7000);
     return () => clearInterval(timer);
   }, []);
 
@@ -73,123 +61,109 @@ export default function OscarHeroBanner() {
 
   return (
     <section className="w-full bg-[#f6f2ec]">
-      {/* ── 1. Full-Bleed Edge-to-Edge Hero Banner (Oscar Style) ─────── */}
-      <div className="relative w-full h-[460px] sm:h-[540px] md:h-[580px] lg:h-[640px] overflow-hidden select-none">
+      {/* ── 1. Full-Bleed Edge-to-Edge Hero Banner ───────────────────── */}
+      <div className="relative w-full h-[480px] sm:h-[540px] md:h-[600px] lg:h-[680px] overflow-hidden select-none bg-neutral-900">
         <AnimatePresence mode="wait">
           <motion.div
             key={slide.id}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8 }}
             className="absolute inset-0 w-full h-full"
           >
             {/* Full-width edge-to-edge background photograph */}
             <Image
               src={slide.image}
-              alt="Amazon Furniture Hero Banner"
+              alt={slide.title}
               fill
               priority
+              quality={95}
               className="object-cover object-center w-full h-full"
               sizes="100vw"
             />
 
-            {/* Subtle soft directional gradient to guarantee high text contrast without darkening the beautiful room */}
-            <div className="absolute inset-0 bg-gradient-to-l from-black/50 via-black/25 to-transparent sm:from-black/45 sm:via-transparent sm:to-transparent" />
+            {/* Gradient overlay on the right side for clear typography legibility */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.65) 30%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0) 80%)",
+              }}
+            />
           </motion.div>
         </AnimatePresence>
 
-        {/* Content Container aligned inside standard max width */}
-        <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex items-center justify-between">
-          {/* Right Text Block (RTL First Focus) */}
-          <div className="max-w-xl text-right space-y-4 sm:space-y-6 pt-4">
+        {/* Content Container aligned strictly to the RIGHT (RTL First Focus) */}
+        <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex items-center justify-start pb-8 sm:pb-12">
+          <div className="max-w-xl text-right space-y-4 sm:space-y-6">
             <AnimatePresence mode="wait">
               <motion.div
                 key={slide.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="space-y-4"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="space-y-4 sm:space-y-5"
               >
-                {/* Main Heading identical to Oscar typography */}
-                <div>
-                  <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] font-sans">
-                    {slide.titleMain}
-                  </h1>
-                  <p className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white mt-1 drop-shadow-[0_3px_12px_rgba(0,0,0,0.6)]">
-                    {slide.titleAccent}
-                  </p>
-                </div>
-
-                {/* Promo Code Line (Oscar Orange Code) */}
-                <div className="flex items-center gap-3 pt-1">
-                  <span className="text-lg sm:text-2xl lg:text-3xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
-                    {slide.codeText}
-                  </span>
-                  <span className="text-[#e58e26] text-2xl sm:text-3xl lg:text-4xl font-black tracking-wider drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] font-mono">
-                    {slide.code}
-                  </span>
-                </div>
+                {/* Main Heading */}
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] font-sans">
+                  {slide.title}
+                </h1>
 
                 {/* Subtitle description */}
-                <p className="text-xs sm:text-sm md:text-base text-gray-100 max-w-lg leading-relaxed font-medium drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
+                <p className="text-sm sm:text-base lg:text-lg text-gray-100 max-w-lg leading-relaxed font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
                   {slide.subtitle}
                 </p>
 
-                {/* Interactive Action Buttons */}
-                <div className="pt-2 flex flex-wrap items-center gap-3">
+                {/* Interactive Action Buttons side-by-side */}
+                <div className="pt-3 flex flex-wrap items-center gap-3.5 justify-start">
                   <Link
-                    href={slide.ctaLink}
-                    className="inline-flex items-center gap-2 bg-[#e58e26] hover:bg-[#d6801c] text-white font-extrabold text-xs sm:text-sm px-6 py-3 rounded-full shadow-lg hover:shadow-amber-600/30 transition-all group cursor-pointer"
+                    href={slide.cta1Link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center bg-white hover:bg-gray-100 text-gray-900 font-extrabold text-sm sm:text-base px-8 sm:px-10 py-3 rounded-lg shadow-xl hover:shadow-2xl transition-all cursor-pointer"
                   >
-                    <span>{slide.ctaText}</span>
-                    <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                    <span>{slide.cta1Text}</span>
                   </Link>
 
-                  {slide.secondaryCtaText && slide.secondaryCtaLink && (
-                    <Link
-                      href={slide.secondaryCtaLink}
-                      className="inline-flex items-center gap-2 bg-black/40 hover:bg-black/60 text-white border border-white/30 backdrop-blur-sm font-bold text-xs sm:text-sm px-5 py-3 rounded-full transition-all cursor-pointer"
-                    >
-                      <Ruler size={15} className="text-[#e58e26]" />
-                      <span>{slide.secondaryCtaText}</span>
-                    </Link>
-                  )}
+                  <Link
+                    href={slide.cta2Link}
+                    className="inline-flex items-center justify-center bg-[#3c2a1e]/85 hover:bg-[#3c2a1e] text-white border border-white/30 backdrop-blur-md font-extrabold text-sm sm:text-base px-8 sm:px-10 py-3 rounded-lg shadow-xl transition-all cursor-pointer"
+                  >
+                    <span>{slide.cta2Text}</span>
+                  </Link>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
-
-          {/* Left area: Left open so the photorealistic 3D 5% sculpture in the background is fully showcased */}
-          <div className="hidden lg:block w-72" />
         </div>
 
-        {/* Carousel Slider Arrows (Next / Prev) */}
+        {/* Carousel Navigation Arrows */}
         <button
           onClick={() => setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1))}
           aria-label="السابق"
-          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/30 hover:bg-black/60 text-white backdrop-blur-sm flex items-center justify-center transition-all opacity-80 hover:opacity-100"
+          className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm flex items-center justify-center transition-all opacity-80 hover:opacity-100 cursor-pointer shadow-lg"
         >
-          <ChevronRight size={22} />
+          <ChevronRight size={24} />
         </button>
 
         <button
           onClick={() => setCurrent((prev) => (prev + 1) % slides.length)}
           aria-label="التالي"
-          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/30 hover:bg-black/60 text-white backdrop-blur-sm flex items-center justify-center transition-all opacity-80 hover:opacity-100"
+          className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm flex items-center justify-center transition-all opacity-80 hover:opacity-100 cursor-pointer shadow-lg"
         >
-          <ChevronLeft size={22} />
+          <ChevronLeft size={24} />
         </button>
 
-        {/* Slider Pagination Dots (Exact Oscar Style) */}
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+        {/* Slider Pagination Dots */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
           {slides.map((s, idx) => (
             <button
               key={s.id}
               onClick={() => setCurrent(idx)}
-              className={`h-2.5 rounded-full transition-all duration-300 ${
-                current === idx ? "w-8 bg-[#e58e26]" : "w-2.5 bg-white/60 hover:bg-white"
+              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                current === idx ? "w-8 bg-[#e58e26]" : "w-2.5 bg-white/70 hover:bg-white"
               }`}
               aria-label={`Slide ${idx + 1}`}
             />
@@ -209,7 +183,7 @@ export default function OscarHeroBanner() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-[#faf8f5] border border-amber-100/80 rounded-xl p-3 sm:p-4 flex items-center gap-3 shadow-2xs hover:shadow-xs transition-shadow"
+                className="bg-[#faf8f5] border border-amber-100/80 rounded-xl p-3.5 sm:p-4 flex items-center gap-3 shadow-2xs hover:shadow-xs transition-shadow"
               >
                 <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
                   <item.icon size={20} />

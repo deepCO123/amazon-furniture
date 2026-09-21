@@ -26,14 +26,32 @@ const helmetConfig = helmet({
   xssFilter: true,
   noSniff: true,
   hidePoweredBy: true,
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true,
+  },
+  frameguard: {
+    action: 'deny',
+  },
 });
 
-// 2. إعدادات CORS الصارمة لدومين الفرونت إند فقط
+// 2. إعدادات CORS الصارمة لدومين الفرونت إند المعتمد فقط
+const allowedOrigin = process.env.CLIENT_URL || "http://localhost:3000";
 const corsConfig = cors({
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
-  credentials: true, // ضروري جداً للسماح بتبادل الـ HttpOnly Cookies
+  origin: (origin, callback) => {
+    // السماح بالطلبات الداخلية بدون Origin (مثل Server-to-Server أو أدوات الاختبار)
+    if (!origin) return callback(null, true);
+    if (origin === allowedOrigin || origin === 'http://localhost:3000' || origin === 'http://127.0.0.1:3000') {
+      return callback(null, true);
+    }
+    return callback(new Error(`CORS policy violation: origin ${origin} is strictly not allowed.`));
+  },
+  credentials: true, // ضروري جداً لتبادل الـ HttpOnly Cookies
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  exposedHeaders: ['Set-Cookie'],
+  maxAge: 86400, // 24 hours preflight cache
 });
 
 // 3. محدد معدل الطلبات العام للـ API (General Rate Limiter)

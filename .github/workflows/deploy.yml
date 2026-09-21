@@ -1,0 +1,55 @@
+name: 🚀 Automated Production Deployment (CI/CD)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # يتيح تشغيل النشر يدوياً بضغطة زر واحدة من واجهة GitHub
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false # منع تداخل عمليتي نشر متزامنتين لضمان استقرار السيرفر
+
+jobs:
+  deploy:
+    name: 🌐 Deploy to Ubuntu VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔐 Execute Remote Deployment via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script_stop: true # إيقاف التنفيذ فوراً في حال حدوث أي خطأ
+          command_timeout: 30m
+          script: |
+            echo "========================================================"
+            echo "🚀 بدء عملية النشر المؤتمتة لسيرفر الإنتاج..."
+            echo "========================================================"
+
+            # 1. الانتقال إلى مسار المشروع على السيرفر
+            cd /var/www/amazon-furniture || exit 1
+            echo "📁 المسار الحالي: $(pwd)"
+
+            # 2. سحب أحدث نسخة من الكود المصدري من فرع main
+            echo "📥 جاري سحب أحدث التحديثات من GitHub..."
+            git fetch origin main
+            git reset --hard origin/main
+
+            # 3. إعادة بناء وتشغيل حاويات Docker في الخلفية مع الحفاظ على استمرارية العمل
+            echo "🐳 جاري إعادة بناء وتشغيل الحاويات (Docker Compose)..."
+            docker compose up -d --build
+
+            # 4. تنظيف الصور القديمة غير المستخدمة (Dangling Images) لتوفير مساحة القرص
+            echo "🧹 تنظيف الصور المؤقتة والمهملة لمنع امتلاء مساحة السيرفر..."
+            docker image prune -f
+
+            # 5. فحص وتأكيد حالة الحاويات النشطة
+            echo "========================================================"
+            echo "✅ حالة الحاويات بعد النشر:"
+            docker compose ps
+            echo "========================================================"
+            echo "🎉 تم النشر بنجاح والموقع يعمل بكفاءة!"

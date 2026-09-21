@@ -1,0 +1,41 @@
+# ========================================================
+# Nginx Configuration Template for Amazon Furniture API Gateway
+# Place in: /etc/nginx/sites-available/amazon-furniture
+# Symlink to: /etc/nginx/sites-enabled/amazon-furniture
+# ========================================================
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name api.yourdomain.com;
+
+    # Allow uploading high-res furniture pictures via Multer & Cloudinary
+    client_max_body_size 25M;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_http_version 1.1;
+
+        # WebSocket support for Socket.io real-time order alerts
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        # Pass true client IP and Host headers
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Prevent buffering for real-time WebSocket connections
+        proxy_buffering off;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 86400s;
+        proxy_send_timeout 86400s;
+    }
+
+    # Custom health check endpoint location
+    location /health {
+        proxy_pass http://127.0.0.1:5000/health;
+        access_log off;
+    }
+}

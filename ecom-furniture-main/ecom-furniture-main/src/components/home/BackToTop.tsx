@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 
 export default function BackToTop() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -12,6 +14,8 @@ export default function BackToTop() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });

@@ -5,11 +5,11 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { SlidersHorizontal, X, Grid3X3, List } from "lucide-react";
 import type { FilterState, SortOption } from "@/types";
-import { COLORS, SORT_OPTIONS } from "@/lib/constants";
+import { SORT_OPTIONS } from "@/lib/constants";
 import { useProductStore } from "@/store/productStore";
 import ProductCard from "./ProductCard";
 import { useLanguageStore } from "@/store/languageStore";
-import { formatPrice, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 export default function ProductGrid() {
   const products = useProductStore((s) => s.products);
@@ -51,35 +51,11 @@ export default function ProductGrid() {
     return [...new Set(products.map((p) => p.category).filter(Boolean))];
   }, [products]);
 
-  const materials = useMemo(() => {
-    return [...new Set(products.map((p) => p.material).filter(Boolean))];
-  }, [products]);
-
-  const priceRanges = [
-    { label: isEn ? "All Prices" : "جميع الأسعار", min: 0, max: 500000 },
-    { label: isEn ? "Under 3,000 EGP" : `أقل من ${formatPrice(3000)}`, min: 0, max: 3000 },
-    { label: isEn ? "3,000 - 6,000 EGP" : `من ${formatPrice(3000)} إلى ${formatPrice(6000)}`, min: 3000, max: 6000 },
-    { label: isEn ? "6,000 - 10,000 EGP" : `من ${formatPrice(6000)} إلى ${formatPrice(10000)}`, min: 6000, max: 10000 },
-    { label: isEn ? "Over 10,000 EGP" : `أكثر من ${formatPrice(10000)}`, min: 10000, max: 500000 },
-  ];
-
   const filteredProducts = products
     .filter((p) => {
       if (
         filters.category.length > 0 &&
         !filters.category.includes(p.category)
-      )
-        return false;
-      if (
-        filters.material.length > 0 &&
-        !filters.material.includes(p.material)
-      )
-        return false;
-      if (filters.color.length > 0 && !filters.color.includes(p.color))
-        return false;
-      if (
-        p.price < filters.priceRange[0] ||
-        p.price > filters.priceRange[1]
       )
         return false;
       if (
@@ -143,9 +119,9 @@ export default function ProductGrid() {
         >
           <SlidersHorizontal size={15} className="text-[#8B6E45]" />
           <span>{isEn ? "Filter & Sort" : "تصفية وفرز المنتجات"}</span>
-          {filters.category.length + filters.material.length + filters.color.length > 0 && (
+          {filters.category.length > 0 && (
             <span className="w-5 h-5 bg-[#8B6E45] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-              {filters.category.length + filters.material.length + filters.color.length}
+              {filters.category.length}
             </span>
           )}
         </button>
@@ -214,96 +190,9 @@ export default function ProductGrid() {
             </div>
           </div>
 
-          {/* Price */}
-          <div>
-            <h3 className="text-sm font-bold text-primary mb-3">
-              {isEn ? "Price Range" : "السعر الفعلي"}
-            </h3>
-            <div className="space-y-2">
-              {priceRanges.map((range) => (
-                <label
-                  key={range.label}
-                  className="flex items-center gap-2 cursor-pointer hover:text-accent transition-colors"
-                >
-                  <input
-                    type="radio"
-                    name="price"
-                    checked={
-                      filters.priceRange[0] === range.min &&
-                      filters.priceRange[1] === range.max
-                    }
-                    onChange={() =>
-                      setFilters((prev) => ({
-                        ...prev,
-                        priceRange: [range.min, range.max],
-                      }))
-                    }
-                    className="w-4 h-4 border-surface-dark text-accent focus:ring-accent/20 accent-[#C5A880]"
-                  />
-                  <span className="text-sm text-primary/80">{range.label}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Material (Dynamically from Admin) */}
-          <div>
-            <h3 className="text-sm font-bold text-primary mb-3 flex items-center justify-between">
-              <span>{isEn ? "Material & Wood" : "الخامة ونوع الخشب"}</span>
-              <span className="text-[10px] text-muted bg-surface px-2 py-0.5 rounded">من المعرض</span>
-            </h3>
-            <div className="space-y-2 max-h-48 overflow-y-auto pe-1">
-              {materials.length === 0 ? (
-                <span className="text-xs text-muted">لا توجد خامات مسجلة</span>
-              ) : (
-                materials.map((mat) => (
-                  <label
-                    key={mat}
-                    className="flex items-center gap-2 cursor-pointer hover:text-accent transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={filters.material.includes(mat)}
-                      onChange={() => toggleFilter("material", mat)}
-                      className="w-4 h-4 rounded border-surface-dark text-accent focus:ring-accent/20 accent-[#C5A880]"
-                    />
-                    <span className="text-sm text-primary/80">{mat}</span>
-                  </label>
-                ))
-              )}
-            </div>
-          </div>
-
-          {/* Color */}
-          <div>
-            <h3 className="text-sm font-bold text-primary mb-3">
-              {isEn ? "Color" : "الألوان المتاحة"}
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {COLORS.map((color) => (
-                <button
-                  key={color.name}
-                  onClick={() => toggleFilter("color", color.name)}
-                  className={cn(
-                    "w-8 h-8 rounded-full border-2 transition-all",
-                    filters.color.includes(color.name)
-                      ? "border-accent scale-110"
-                      : "border-surface-dark hover:border-muted"
-                  )}
-                  style={{ backgroundColor: color.hex }}
-                  title={color.name}
-                />
-              ))}
-            </div>
-          </div>
-
           {/* Clear Filters */}
           {(filters.category.length > 0 ||
-            filters.material.length > 0 ||
-            filters.color.length > 0 ||
             filters.search !== "" ||
-            filters.priceRange[0] !== 0 ||
-            filters.priceRange[1] !== 500000 ||
             urlTag === "sale") && (
             <button
               onClick={handleClearFilters}

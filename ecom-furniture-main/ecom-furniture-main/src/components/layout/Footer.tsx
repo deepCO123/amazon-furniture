@@ -125,23 +125,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Brand + Contact + Newsletter */}
           <div className="lg:col-span-5">
-            <Link href="/" className="flex items-center gap-3 mb-4 group">
-              <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-sm border border-accent/40 group-hover:border-accent transition-all duration-300 shrink-0">
+            <Link href="/" className="flex items-center mb-5 group">
+              <div className="relative h-11 w-48 transition-transform duration-200 group-hover:scale-[1.02]">
                 <Image
-                  src="/logo-icon.png"
+                  src="/amazon-furniture-logo-white.png"
                   alt={SITE_NAME}
                   fill
-                  sizes="40px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="192px"
+                  className="object-contain object-right"
                 />
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">
-                  {SITE_NAME}
-                </span>
-                <span className="text-[10px] tracking-[0.22em] uppercase text-accent-light/80 font-semibold mt-0.5">
-                  {t.est}
-                </span>
               </div>
             </Link>
             <p className="text-white/70 text-sm leading-relaxed mb-6 max-w-md">

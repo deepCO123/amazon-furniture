@@ -1,13 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Proxy Express backend routes through Next.js dev server to avoid CORS
+  // Proxy ALL /api/* requests to Express backend — eliminates CORS
+  // and makes the frontend a pure UI layer with zero filesystem I/O
   async rewrites() {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
     return [
       {
-        source: "/api/auth/:path*",
-        destination: `${backendUrl}/api/auth/:path*`,
+        source: "/api/:path*",
+        destination: `${backendUrl}/api/:path*`,
       },
       {
         source: "/health",

@@ -59,6 +59,7 @@ export default function LoginPage() {
                   src="/logo-icon.png"
                   alt="Amazon Furniture"
                   fill
+                  priority
                   sizes="56px"
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />

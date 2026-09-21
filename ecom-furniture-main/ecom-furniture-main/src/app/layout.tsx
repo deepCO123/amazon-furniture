@@ -9,6 +9,7 @@ import ScrollProgress from "@/components/ui/ScrollProgress";
 import DirectionSync from "@/components/layout/DirectionSync";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import MobileBottomNav from "@/components/layout/MobileBottomNav";
+import Analytics from "@/components/analytics/Analytics";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -106,9 +107,16 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/logo-icon.png" />
         <link rel="canonical" href={siteUrl} />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="min-h-full flex flex-col bg-surface font-sans overflow-x-hidden w-full pb-16 md:pb-0">
         <DirectionSync />
+        <Analytics />
         <ScrollProgress />
         <Navbar />
         <main className="flex-1">{children}</main>

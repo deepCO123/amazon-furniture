@@ -26,8 +26,10 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
+import OtpModal from "@/components/checkout/OtpModal";
 import { useProductStore } from "@/store/productStore";
 import type { Order } from "@/types";
+import { trackPurchase, trackInitiateCheckout } from "@/lib/analytics";
 
 const checkoutSchema = z.object({
   fullName: z.string().min(3, "يرجى كتابة الاسم ثلاثي بالكامل"),
@@ -51,6 +53,8 @@ export default function CheckoutPage() {
   const [createdOrderId, setCreatedOrderId] = useState<string>("");
   const [createdWhatsappUrl, setCreatedWhatsappUrl] = useState<string>("");
   const [submittingOrder, setSubmittingOrder] = useState(false);
+  const [otpModalOpen, setOtpModalOpen] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
 
   const total = getTotal();
   const grandTotal = total;
@@ -83,6 +87,36 @@ export default function CheckoutPage() {
   const onDeliverySubmit = (data: CheckoutForm) => {
     setCustomerData(data);
     setCurrentStep(2);
+  };
+
+  const handleInitiateOrderWithOtp = async () => {
+    if (!customerData) return;
+    setSendingOtp(true);
+
+    try {
+      const res = await fetch("/api/otp/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: customerData.phone }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(
+          data.message ||
+            (isEn ? "Failed to send verification code." : "تعذر إرسال رمز التحقق، يرجى المحاولة لاحقاً.")
+        );
+        return;
+      }
+
+      setOtpModalOpen(true);
+    } catch (err) {
+      console.error("Error sending OTP:", err);
+      alert(isEn ? "Connection error. Please try again." : "حدث خطأ في الاتصال بالخادم.");
+    } finally {
+      setSendingOtp(false);
+    }
   };
 
   const generateAndSendOrder = async () => {
@@ -201,6 +235,9 @@ ${itemsListText}
     clearCart();
     setSubmittingOrder(false);
     setCurrentStep(3);
+
+    // Track Purchase event for GA4 and Meta Pixel
+    trackPurchase(orderId, grandTotal, items);
 
     // Open WhatsApp
     if (typeof window !== "undefined") {
@@ -509,15 +546,17 @@ ${itemsListText}
                     {/* Buttons */}
                     <div className="space-y-3">
                       <button
-                        onClick={generateAndSendOrder}
-                        disabled={submittingOrder}
+                        onClick={handleInitiateOrderWithOtp}
+                        disabled={submittingOrder || sendingOtp}
                         className="w-full py-4 px-6 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-lg flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                       >
                         <MessageCircle size={24} />
                         <span>
-                          {submittingOrder
-                            ? (isEn ? "Processing order..." : "جاري تسجيل الطلب...")
-                            : (isEn ? "Complete Order & Chat on WhatsApp" : "تأكيد الطلب والدفع عبر واتساب الآن")}
+                          {sendingOtp
+                            ? (isEn ? "Sending security code..." : "جاري إرسال رمز التحقق...")
+                            : submittingOrder
+                            ? (isEn ? "Processing order..." : "جاري تأكيد الطلب...")
+                            : (isEn ? "Verify Phone & Place Order" : "تأكيد الطلب والدفع عبر واتساب")}
                         </span>
                       </button>
 
@@ -631,6 +670,18 @@ ${itemsListText}
           </div>
         )}
       </div>
+
+      {/* OTP Verification Modal */}
+      <OtpModal
+        isOpen={otpModalOpen}
+        onClose={() => setOtpModalOpen(false)}
+        phone={customerData?.phone || ""}
+        onVerified={() => {
+          setOtpModalOpen(false);
+          generateAndSendOrder();
+        }}
+        isEn={isEn}
+      />
     </div>
   );
 }

@@ -45,6 +45,7 @@ export default function AdminLoginPage() {
               src="/logo-icon.png"
               alt="Amazon Furniture"
               fill
+              priority
               className="object-cover"
             />
           </div>

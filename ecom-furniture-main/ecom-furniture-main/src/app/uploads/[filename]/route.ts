@@ -25,27 +25,14 @@ export async function GET(
       return new NextResponse("Invalid filename", { status: 400 });
     }
 
-    // Possible candidate paths on disk
-    const candidatePaths = [
-      path.join(process.cwd(), "public", "uploads", filename),
-      path.join(process.cwd(), "ecom-furniture-main", "ecom-furniture-main", "public", "uploads", filename),
-      path.join(__dirname, "..", "..", "..", "..", "public", "uploads", filename),
-      path.resolve("public", "uploads", filename),
-    ];
+    // Resolve upload path
+    const filePath = path.join(process.cwd(), "public", "uploads", filename);
 
-    let foundPath: string | null = null;
-    for (const p of candidatePaths) {
-      if (existsSync(p)) {
-        foundPath = p;
-        break;
-      }
-    }
-
-    if (!foundPath) {
+    if (!existsSync(filePath)) {
       return new NextResponse("Image not found", { status: 404 });
     }
 
-    const fileBuffer = await readFile(foundPath);
+    const fileBuffer = await readFile(filePath);
     const ext = path.extname(filename).toLowerCase();
     const contentType = MIME_TYPES[ext] || "image/jpeg";
 

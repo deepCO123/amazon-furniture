@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Product } from "@/types";
 import { products as fallbackProducts } from "@/data/products";
+import { apiClient } from "@/lib/apiClient";
 
 interface ProductState {
   products: Product[];
@@ -32,9 +33,7 @@ export const useProductStore = create<ProductState>()(
       fetchProducts: async () => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch("/api/products", { cache: "no-store" });
-          if (!res.ok) throw new Error("Failed to fetch products");
-          const data: Product[] = await res.json();
+          const data = await apiClient.getProducts();
           if (Array.isArray(data) && data.length > 0) {
             set({ products: data, loading: false, lastFetched: Date.now() });
           } else {
@@ -50,18 +49,7 @@ export const useProductStore = create<ProductState>()(
       addProduct: async (productData) => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch("/api/products", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(productData),
-          });
-
-          if (!res.ok) {
-            const err = await res.json();
-            throw new Error(err.error || "Failed to add product");
-          }
-
-          const created: Product = await res.json();
+          const created = await apiClient.createProduct(productData);
           set((state) => ({
             products: [created, ...state.products.filter((p) => p.id !== created.id)],
             loading: false,
@@ -77,18 +65,7 @@ export const useProductStore = create<ProductState>()(
       updateProduct: async (id, updates) => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch("/api/products", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id, ...updates }),
-          });
-
-          if (!res.ok) {
-            const err = await res.json();
-            throw new Error(err.error || "Failed to update product");
-          }
-
-          const updated: Product = await res.json();
+          const updated = await apiClient.updateProduct(id, updates);
           set((state) => ({
             products: state.products.map((p) => (p.id === id ? updated : p)),
             loading: false,
@@ -104,15 +81,7 @@ export const useProductStore = create<ProductState>()(
       deleteProduct: async (id) => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch(`/api/products?id=${encodeURIComponent(id)}`, {
-            method: "DELETE",
-          });
-
-          if (!res.ok) {
-            const err = await res.json();
-            throw new Error(err.error || "Failed to delete product");
-          }
-
+          await apiClient.deleteProduct(id);
           set((state) => ({
             products: state.products.filter((p) => p.id !== id),
             loading: false,
@@ -129,9 +98,9 @@ export const useProductStore = create<ProductState>()(
         const product = get().products.find((p) => p.id === id);
         if (!product) return;
         const nextInStock = !product.inStock;
-        await get().updateProduct(id, { 
+        await get().updateProduct(id, {
           inStock: nextInStock,
-          stockQuantity: nextInStock ? (product.stockQuantity && product.stockQuantity > 0 ? product.stockQuantity : 5) : 0
+          stockQuantity: nextInStock ? (product.stockQuantity && product.stockQuantity > 0 ? product.stockQuantity : 5) : 0,
         });
       },
 

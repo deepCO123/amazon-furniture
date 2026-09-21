@@ -1,0 +1,933 @@
+[
+  {
+    "id": "prod_1789845837392",
+    "name": "طربيظه",
+    "slug": "-7394",
+    "description": "قطعة أثاث فاخرة من تصميم وتنفيذ مصنع ومعرض Amazon Furniture بخامات عالية الجودة.",
+    "price": 2500,
+    "originalPrice": 2700,
+    "images": [
+      "/uploads/OIP_1789845809984.webp"
+    ],
+    "category": "مكتبات ووحدات تخزين",
+    "material": "خشب زان أحمر طبيعي",
+    "color": "طبيعي",
+    "dimensions": {
+      "width": 120,
+      "height": 75,
+      "depth": 80
+    },
+    "weight": 20,
+    "stockQuantity": 11,
+    "rating": 5,
+    "reviewCount": 1,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكتبات ووحدات تخزين"
+    ],
+    "specs": {
+      "woodType": "خشب زان أحمر روماني",
+      "fabricType": "كتان معالج ضد البقع",
+      "waterRepellent": true,
+      "foamDensity": "كثافة 33 سوبر سوفت",
+      "chassisType": "شاسيه حديد دهان إلكتروستاتيك",
+      "leadTimeDays": 7,
+      "requiresAssembly": true,
+      "isDisassemblable": true,
+      "warrantyYears": 1,
+      "model3dUrl": "",
+      "volumetricWeight": 144
+    }
+  },
+  {
+    "id": "prod_1789668044779",
+    "name": "كرسي المدير",
+    "slug": "-4780",
+    "description": "قطعة أثاث فاخرة من تصميم وتنفيذ مصنع ومعرض Amazon Furniture بخامات عالية الجودة.",
+    "price": 4500,
+    "images": [
+      "/uploads/IMG_6983_1789668016322.jpeg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "خشب زان أحمر طبيعي",
+    "color": "طبيعي",
+    "dimensions": {
+      "width": 120,
+      "height": 75,
+      "depth": 80
+    },
+    "weight": 20,
+    "stockQuantity": 0,
+    "rating": 5,
+    "reviewCount": 1,
+    "inStock": false,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب"
+    ],
+    "createdAt": "2026-09-19T18:40:54.104Z",
+    "updatedAt": "2026-09-19T18:40:54.104Z"
+  },
+  {
+    "id": "1",
+    "name": "كرسي مكتب شبك طبي هيدروليك إرجونوميك",
+    "slug": "ergonomic-mesh-office-chair",
+    "description": "كرسي مكتبي طبي هيدروليك مزود بمسند رقبة قابل للتعديل وشبكة تهوية ظهر تنفسية مانعة للتعرق، مع آلية إمالة ودعم متقدم للفقرات القطنية مخصص لساعات العمل الطويلة.",
+    "price": 3850,
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+      "https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=800"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي تنفسي وشاسيه فولاذي",
+    "color": "أسود كلاسيك",
+    "dimensions": {
+      "width": 65,
+      "height": 125,
+      "depth": 65
+    },
+    "weight": 18,
+    "stockQuantity": 0,
+    "rating": 4.9,
+    "reviewCount": 142,
+    "inStock": false,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "طبي",
+      "شبك"
+    ],
+    "createdAt": "2026-09-19T18:40:54.105Z",
+    "updatedAt": "2026-09-19T18:40:54.105Z"
+  },
+  {
+    "id": "2",
+    "name": "كرسي جيمينج احترافي برو شاسيه حديد مع وسائد",
+    "slug": "pro-steel-gaming-chair",
+    "description": "كرسي ألعاب احترافي مصنوع من شاسيه حديد صلب غير قابل للكسر، مكسو بجلد نابا صناعي عالي التحمل مع إسفنج بارد عالي الكثافة وإمالة كاملة حتى 180 درجة ومساند يدين 3D.",
+    "price": 5400,
+    "originalPrice": 6200,
+    "images": [
+      "https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=800",
+      "https://images.unsplash.com/photo-1616627547584-bf28cee262db?w=800"
+    ],
+    "category": "كراسي جيمينج",
+    "material": "شاسيه حديد صلب وجلد نابا مقاوم للخدش",
+    "color": "أسود مع أحمر",
+    "dimensions": {
+      "width": 70,
+      "height": 135,
+      "depth": 70
+    },
+    "weight": 24,
+    "stockQuantity": 8,
+    "rating": 5,
+    "reviewCount": 189,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جيمينج",
+      "ألعاب",
+      "احترافي"
+    ],
+    "createdAt": "2026-09-19T18:40:54.105Z",
+    "updatedAt": "2026-09-19T18:40:54.105Z"
+  },
+  {
+    "id": "3",
+    "name": "مكتب مديرين خشب ميلامين وزان فاخر مع وحدة أدراج",
+    "slug": "executive-wooden-desk",
+    "description": "مكتب إداري فاخر مصنوع من خشب ميلامين إسباني عالي المقاومة للخدش والحرارة مع شاسيه وقوائم خشب زان أحمر طبيعي، يتضمن وحدة أدراج جانبية بقفل مركزي ومخرج كابلات ذكي.",
+    "price": 8900,
+    "originalPrice": 10500,
+    "images": [
+      "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800",
+      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800"
+    ],
+    "category": "مكاتب",
+    "material": "خشب ميلامين مستورد وقوائم خشب زان",
+    "color": "بني جوزي / رمادي أسمنتي",
+    "dimensions": {
+      "width": 180,
+      "height": 76,
+      "depth": 90
+    },
+    "weight": 55,
+    "stockQuantity": 6,
+    "rating": 4.8,
+    "reviewCount": 98,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "مديرين",
+      "خشب زان"
+    ],
+    "createdAt": "2026-09-19T18:40:54.106Z",
+    "updatedAt": "2026-09-19T18:40:54.106Z"
+  },
+  {
+    "id": "4",
+    "name": "كرسي طبي إرجونوميك معتمد لدعم العمود الفقري",
+    "slug": "orthopedic-lumbar-chair",
+    "description": "كرسي طبي معتمد خصيصاً لمن يعانون من آلام الغضروف وفقرات الظهر، مزود بنظام ديناميكي يتبع حركة الظهر مع قاعدة هيدروليك معتمدة من الفئة 4 لتحمل الأوزان الثقيلة.",
+    "price": 4200,
+    "originalPrice": 4900,
+    "images": [
+      "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?w=800",
+      "https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=800"
+    ],
+    "category": "كراسي طبية",
+    "material": "شاسيه ألومنيوم مقوى مع شبك إرجونوميك",
+    "color": "رمادي فاتح مع أسود",
+    "dimensions": {
+      "width": 68,
+      "height": 128,
+      "depth": 68
+    },
+    "weight": 20,
+    "stockQuantity": 12,
+    "rating": 4.9,
+    "reviewCount": 165,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي طبية",
+      "إرجونوميك",
+      "علاج طبيعي"
+    ],
+    "createdAt": "2026-09-19T18:40:54.106Z",
+    "updatedAt": "2026-09-19T18:40:54.106Z"
+  },
+  {
+    "id": "5",
+    "name": "ركنة مكتب واستقبال جلد فاخر خشب زان أحمر",
+    "slug": "office-reception-corner-sofa",
+    "description": "ركنة استقبال مكتبية مريحة جداً مصنعة من هيكل داخلي خشب زان أحمر روماني مجفف، وتنجيد إسفنج سوفت مضغوط كثافة 33 مكسو بجلد مستورد فاخر يعطي رونقاً وجاذبية لغرف ومكاتب الشركات.",
+    "price": 14500,
+    "originalPrice": 16800,
+    "images": [
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
+      "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800"
+    ],
+    "category": "ركن ومجالس",
+    "material": "خشب زان أحمر طبيعي مع جلد مستورد",
+    "color": "كحلي داكن / هافان",
+    "dimensions": {
+      "width": 260,
+      "height": 85,
+      "depth": 180
+    },
+    "weight": 70,
+    "stockQuantity": 4,
+    "rating": 5,
+    "reviewCount": 76,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ركن ومجالس",
+      "جلد فاخر",
+      "خشب زان"
+    ],
+    "createdAt": "2026-09-19T18:40:54.106Z",
+    "updatedAt": "2026-09-19T18:40:54.106Z"
+  },
+  {
+    "id": "6",
+    "name": "ستائر مكتبية عازلة للشمس والحرارة (متعددة الأنواع)",
+    "slug": "office-curtains-blinds-custom",
+    "description": "ستائر مكتبية هندسية بأعلى مواصفات الجودة لعزل الضوء والحرارة بنسبة 100%، متوفرة بعدة أنظمة (رول بلاك أوت، زيبرا، شرائح معدنية ألومنيوم، شرائح رأسية فورتيكال) بما يناسب تصميم مكتبك.",
+    "price": 1200,
+    "originalPrice": 1500,
+    "images": [
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800",
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
+    ],
+    "category": "ستائر مكتبية",
+    "material": "قماش بلاك أوت تركي عازل مع ألومنيوم",
+    "color": "أوف وايت / رمادي عصري / بيج",
+    "dimensions": {
+      "width": 150,
+      "height": 200,
+      "depth": 5
+    },
+    "weight": 4,
+    "stockQuantity": 30,
+    "rating": 4.9,
+    "reviewCount": 112,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ستائر مكتبية",
+      "بلاك أوت",
+      "زيبرا"
+    ],
+    "createdAt": "2026-09-19T18:40:54.106Z",
+    "updatedAt": "2026-09-19T18:40:54.106Z"
+  },
+  {
+    "id": "7",
+    "name": "كرسي مديرين فخم جلد طبيعي كابتونيه هيدروليك",
+    "slug": "executive-leather-chair-tufted",
+    "description": "كرسي مدير تنفيذي بتصميم كابتونيه إنجليزي فخم، مكسو بجلد طبيعي فاخر مع قاعدة خماسية حديد مكسوة بخشب زان طبيعي، ماكينة هيدروليك ألمانية تتحمل حتى 170 كجم.",
+    "price": 6800,
+    "originalPrice": 7900,
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+      "https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=800"
+    ],
+    "category": "كراسي مكتب",
+    "material": "خشب زان مع جلد طبيعي فاخر وشاسيه مقوى",
+    "color": "بني جملي / أسود ملكي",
+    "dimensions": {
+      "width": 72,
+      "height": 130,
+      "depth": 72
+    },
+    "weight": 26,
+    "stockQuantity": 7,
+    "rating": 4.9,
+    "reviewCount": 85,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "مديرين",
+      "جلد طبيعي"
+    ],
+    "createdAt": "2026-09-19T18:40:54.106Z",
+    "updatedAt": "2026-09-19T18:40:54.106Z"
+  },
+  {
+    "id": "8",
+    "name": "مكتبة ملفات ومستندات مكتبية خشب ميلامين وزان",
+    "slug": "office-bookcase-storage-cabinet",
+    "description": "مكتبة تخزين أنيقة للمكاتب والشركات، بأرفف خشبية سميكة تتحمل الأوزان الثقيلة مع أبواب سفلية مغلقة بقفل لحفظ الملفات الحساسة.",
+    "price": 4900,
+    "originalPrice": 5600,
+    "images": [
+      "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=800",
+      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800"
+    ],
+    "category": "مكتبات ووحدات تخزين",
+    "material": "خشب ميلامين إسباني مع قوائم زان",
+    "color": "بيج خشبي مع أبيض",
+    "dimensions": {
+      "width": 120,
+      "height": 200,
+      "depth": 40
+    },
+    "weight": 42,
+    "stockQuantity": 9,
+    "rating": 4.7,
+    "reviewCount": 54,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "مكتبات ووحدات تخزين",
+      "ملفات"
+    ],
+    "createdAt": "2026-09-19T18:40:54.109Z",
+    "updatedAt": "2026-09-19T18:40:54.109Z"
+  },
+  {
+    "id": "9",
+    "name": "غرفة نوم كاملة خشب ام دي اف اسباني - MAD-009",
+    "slug": "modern-bedroom-full-set-mad009",
+    "description": "غرفة نوم ماستر كاملة فاخرة تشمل سرير 160 سم + دولاب جرار 3 ضلفة + 2 كومود + تسريحة مودرن مع مرآة LED، مصنعة من خشب إسباني عالي الكثافة ومقاوم للرطوبة والخدش.",
+    "price": 39100,
+    "originalPrice": 53319,
+    "images": [
+      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800",
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
+    ],
+    "category": "غرفة نوم كاملة",
+    "material": "خشب ام دي اف اسباني مع قشرة ميلامين",
+    "color": "أبيض مع خشب أرو طبيعي",
+    "dimensions": {
+      "width": 240,
+      "height": 220,
+      "depth": 200
+    },
+    "weight": 180,
+    "stockQuantity": 5,
+    "rating": 5,
+    "reviewCount": 94,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "غرفة نوم كاملة",
+      "خشب اسباني",
+      "مودرن",
+      "MAD-009"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "10",
+    "name": "كرسي استرخاء ليزي بوي ميكانيزم هزاز ودوار - LZ-301",
+    "slug": "lazy-boy-recliner-armchair-lz301",
+    "description": "كرسي ليزي بوي طبي استرخاء بآلية ألمانية قابلة للفرد الكامل والاهتزاز والدوران 360 درجة، تنجيد فائق النعومة مكسو بقماش كتان مستورد معالج ضد البقع.",
+    "price": 9800,
+    "originalPrice": 13500,
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+      "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800"
+    ],
+    "category": "ليزي بوي",
+    "material": "شاسيه حديد مقوى مع خشب زان وتنجيد كتان",
+    "color": "بيج كريمي / رمادي فاتح",
+    "dimensions": {
+      "width": 95,
+      "height": 105,
+      "depth": 90
+    },
+    "weight": 45,
+    "stockQuantity": 8,
+    "rating": 4.9,
+    "reviewCount": 118,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ليزي بوي",
+      "كرسي استرخاء",
+      "مريح",
+      "LZ-301"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "11",
+    "name": "كنبة ثلاثية فاخرة خشب زان أحمر تنجيد كتان - SF-202",
+    "slug": "luxury-3seater-sofa-sf202",
+    "description": "كنبة ثلاثية فندقية عصرية مصممة لغرف الاستقبال والمكاتب الراقية، هيكل خشب زان أحمر روماني مع إسفنج سوفت مضغوط كثافة 36 لراحة استثنائية طوال اليوم.",
+    "price": 11500,
+    "originalPrice": 15800,
+    "images": [
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
+      "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800"
+    ],
+    "category": "ركن ومجالس",
+    "material": "خشب زان أحمر طبيعي مع قماش كتان تركي",
+    "color": "أوف وايت ناعم",
+    "dimensions": {
+      "width": 220,
+      "height": 85,
+      "depth": 95
+    },
+    "weight": 52,
+    "stockQuantity": 6,
+    "rating": 4.8,
+    "reviewCount": 67,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كنبة",
+      "ركن ومجالس",
+      "خشب زان",
+      "SF-202"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "12",
+    "name": "طقم انتريه فاخر من خشب الزان مع تنجيد كتان أو قطيفة",
+    "slug": "luxury-living-room-set-beech-wood",
+    "description": "طقم صالون وانتريه متكامل مكون من كنبة ثلاثية + كنبة ثنائية + 2 فوتيه مع بف استراحة، هيكل خشب زان أحمر 100% مع ضمان 10 سنوات ضد عيوب الصناعة.",
+    "price": 31666,
+    "originalPrice": 38000,
+    "images": [
+      "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?w=800",
+      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"
+    ],
+    "category": "ركن ومجالس",
+    "material": "خشب زان أحمر طبيعي مع قماش كتان معالج",
+    "color": "بيج فاتح دافئ",
+    "dimensions": {
+      "width": 320,
+      "height": 90,
+      "depth": 240
+    },
+    "weight": 140,
+    "stockQuantity": 3,
+    "rating": 5,
+    "reviewCount": 82,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "انتريه",
+      "ركن ومجالس",
+      "خشب زان"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "13",
+    "name": "غرفة نوم كاملة مودرن فاخرة بتصميم عملي وتشطيب راقي - OSM-607",
+    "slug": "luxury-modern-bedroom-set-osm-607",
+    "description": "غرفة نوم كاملة راقية بتشطيب متميز تتضمن سرير كابتونيه فاخر ودولاب جرار واسع مع تسريحة كومود ومرآة بإضاءة هادئة.",
+    "price": 55260,
+    "originalPrice": 61500,
+    "images": [
+      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800",
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
+    ],
+    "category": "غرفة نوم كاملة",
+    "material": "خشب ام دي اف اسباني مع قشرة طبيعية",
+    "color": "أوف وايت / بيج دافئ",
+    "dimensions": {
+      "width": 260,
+      "height": 220,
+      "depth": 200
+    },
+    "weight": 190,
+    "stockQuantity": 4,
+    "rating": 5,
+    "reviewCount": 142,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "غرفة نوم كاملة",
+      "OSM-607",
+      "تخفيض",
+      "مودرن"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "14",
+    "name": "غرفة نوم مودرن خشب كونتر وفايبر تايلاندي - سرير + دولاب + 2 كومود + تسريحة مع برواز - موديل ABG-004-A",
+    "slug": "modern-bedroom-thai-wood-abg-004-a",
+    "description": "غرفة نوم فندقية متكاملة مصنعة من خشب كونتر مضغوط وفايبر تايلاندي مستورد عالي الكثافة ومقاوم للرطوبة مع تشطيب فائق الجودة.",
+    "price": 73846,
+    "originalPrice": 123076,
+    "images": [
+      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800",
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
+    ],
+    "category": "غرفة نوم كاملة",
+    "material": "خشب كونتر وفايبر تايلاندي",
+    "color": "أخضر زمردي مع خشب طبيعي",
+    "dimensions": {
+      "width": 270,
+      "height": 225,
+      "depth": 200
+    },
+    "weight": 210,
+    "stockQuantity": 3,
+    "rating": 4.9,
+    "reviewCount": 98,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "غرفة نوم كاملة",
+      "ABG-004-A",
+      "مودرن",
+      "تايلاندي"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "15",
+    "name": "غرفة نوم كاملة مودرن خشب كونتر - سرير + دولاب + 2 كومود + تسريحة - موديل ABG-002-A",
+    "slug": "modern-bedroom-counter-wood-abg-002-a",
+    "description": "غرفة نوم كاملة خشب كونتر مكسو ميلامين مقاوم للخدش، تصميم عملي ومساحات تخزين رحبة تناسب الشقق العصرية.",
+    "price": 70769,
+    "originalPrice": 116015,
+    "images": [
+      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800",
+      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"
+    ],
+    "category": "غرفة نوم كاملة",
+    "material": "خشب كونتر ألماني وميلامين",
+    "color": "خشب هافان طبيعي",
+    "dimensions": {
+      "width": 260,
+      "height": 220,
+      "depth": 200
+    },
+    "weight": 200,
+    "stockQuantity": 5,
+    "rating": 4.9,
+    "reviewCount": 85,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "غرفة نوم كاملة",
+      "ABG-002-A",
+      "مودرن"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "16",
+    "name": "غرفة نوم ماستر خشب ام دي اف اسباني - MAD-003",
+    "slug": "master-bedroom-spanish-mdf-mad-003",
+    "description": "غرفة نوم ماستر بيضاء بتصميم مينيمال راقي مع إضاءات مخفية وأدراج هيدروليك سيلنت.",
+    "price": 25666,
+    "originalPrice": 42777,
+    "images": [
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800",
+      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"
+    ],
+    "category": "غرفة نوم كاملة",
+    "material": "خشب ام دي اف اسباني 18 مم",
+    "color": "أبيض لؤلؤي",
+    "dimensions": {
+      "width": 240,
+      "height": 210,
+      "depth": 190
+    },
+    "weight": 160,
+    "stockQuantity": 6,
+    "rating": 4.8,
+    "reviewCount": 67,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "غرفة نوم كاملة",
+      "MAD-003",
+      "ابيض",
+      "اسباني"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "17",
+    "name": "غرفة نوم كاملة خشب ام دي اف اسباني - MAD-021",
+    "slug": "complete-bedroom-spanish-mdf-mad-021",
+    "description": "غرفة نوم شبابية/عائلية خشب إسباني عالي التحمل مع مكتب دراسي مدمج وتسريحة ودولاب جرار ذكي.",
+    "price": 22083,
+    "originalPrice": 34350,
+    "images": [
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
+    ],
+    "category": "غرفة نوم كاملة",
+    "material": "خشب ام دي اف اسباني مكسو ميلامين",
+    "color": "أبيض مع بلوط طبيعي",
+    "dimensions": {
+      "width": 220,
+      "height": 200,
+      "depth": 180
+    },
+    "weight": 140,
+    "stockQuantity": 8,
+    "rating": 4.7,
+    "reviewCount": 54,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "غرفة نوم كاملة",
+      "MAD-021",
+      "شبابي"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "18",
+    "name": "ترابيزة تليفزيون خشب MDF اسباني - 40cmX180cm - ITM-027",
+    "slug": "tv-table-spanish-mdf-itm-027",
+    "description": "طاولة شاشة مودرن بتصميم عصري وأرجل ذهبية أنيقة وأدراج تخزين واسعة لحفظ الأجهزة والكابلات.",
+    "price": 6576,
+    "originalPrice": 7963,
+    "images": [
+      "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=800",
+      "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800"
+    ],
+    "category": "ترابيزة تليفزيون",
+    "material": "خشب MDF اسباني مع قوائم معدنية ذهبية",
+    "color": "أسود ملكي مع ذهبي",
+    "dimensions": {
+      "width": 180,
+      "height": 45,
+      "depth": 40
+    },
+    "weight": 35,
+    "stockQuantity": 12,
+    "rating": 4.9,
+    "reviewCount": 112,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ترابيزة تليفزيون",
+      "ITM-027",
+      "خصم 26%"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "19",
+    "name": "ترابيزة تليفزيون و ترابيزة قهوة خشب Mdf عالي الجودة - ANT-108",
+    "slug": "tv-table-coffee-table-set-ant-108",
+    "description": "طقم طاولة تليفزيون مع طاولة قهوة مدمجة ذات أرفف ذكية وأدراج سحب ناعمة، مصنعة من أخشاب MDF عالية الجودة.",
+    "price": 18317,
+    "originalPrice": 22000,
+    "images": [
+      "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800",
+      "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=800"
+    ],
+    "category": "ترابيزة تليفزيون",
+    "material": "خشب MDF تركي مع قشرة مقاومة للخدش",
+    "color": "أسود كربوني مع خشب دافئ",
+    "dimensions": {
+      "width": 200,
+      "height": 50,
+      "depth": 45
+    },
+    "weight": 48,
+    "stockQuantity": 5,
+    "rating": 4.9,
+    "reviewCount": 78,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ترابيزة تليفزيون",
+      "ANT-108",
+      "طقم"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "20",
+    "name": "استاند حامل زهور خشب زان متعدد الاستخدام للحدائق - مقاوم للعوامل الجوية | OS-WD-034",
+    "slug": "wooden-plant-stand-outdoor-os-wd-034",
+    "description": "حامل نباتات وزهور متعدد الطبقات مصنوع من خشب زان طبيعي معالج بدهانات مقاومة لأشعة الشمس والرطوبة والأمطار.",
+    "price": 5159,
+    "originalPrice": 7270,
+    "images": [
+      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=800",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800"
+    ],
+    "category": "أثاث خارجي",
+    "material": "خشب زان طبيعي معالج عازل للمياه",
+    "color": "بني خشبي طبيعي",
+    "dimensions": {
+      "width": 90,
+      "height": 130,
+      "depth": 35
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "rating": 4.8,
+    "reviewCount": 94,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "أثاث خارجي",
+      "OS-WD-034",
+      "استاند زهور"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "21",
+    "name": "سرير بدورين معدني أبيض",
+    "slug": "white-metal-bunk-bed",
+    "description": "سرير بدورين معدني متين مطلي ببوية فرن إلكتروستاتيك مقاومة للصدأ والخدش مع سلم صلب ودرابزين أمان.",
+    "price": 10222,
+    "originalPrice": 13381,
+    "images": [
+      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800",
+      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"
+    ],
+    "category": "سرير مودرن",
+    "material": "حديد صلب معالج ودهان إلكتروستاتيك",
+    "color": "أبيض ناصع",
+    "dimensions": {
+      "width": 100,
+      "height": 175,
+      "depth": 200
+    },
+    "weight": 52,
+    "stockQuantity": 9,
+    "rating": 4.7,
+    "reviewCount": 63,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "سرير مودرن",
+      "سرير بدورين",
+      "معدني"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "22",
+    "name": "كرسي مكتب مستورد - OMD-309",
+    "slug": "imported-office-desk-chair-omd-309",
+    "description": "كرسي مكتب دوار مستورد هيدروليك بمسند رأس شبكي مريح وقاعدة نجمية كروم متينة وعجلات صامتة.",
+    "price": 2706,
+    "originalPrice": 3838,
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+      "https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=800"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك تنفسي وقاعدة كروم هيدروليك",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 120,
+      "depth": 62
+    },
+    "weight": 14,
+    "stockQuantity": 20,
+    "rating": 4.9,
+    "reviewCount": 188,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "OMD-309",
+      "طبي"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "23",
+    "name": "وحدة دريسنج روم عصرية خشب كونتر - DR-101",
+    "slug": "modern-dressing-room-unit-dr101",
+    "description": "وحدة دريسنج روم مفتوحة ومغلقة مع أدراج إكسسوارات زجاجية وإضاءة ليد ذكية مدمجة.",
+    "price": 28400,
+    "originalPrice": 36000,
+    "images": [
+      "https://images.unsplash.com/photo-1558997519-83ea9252def8?w=800",
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
+    ],
+    "category": "دريسنج",
+    "material": "خشب كونتر وزجاج سيكوريت وإضاءة LED",
+    "color": "رمادي غامق مع خشب أرو",
+    "dimensions": {
+      "width": 240,
+      "height": 240,
+      "depth": 60
+    },
+    "weight": 150,
+    "stockQuantity": 4,
+    "rating": 4.9,
+    "reviewCount": 42,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "دريسنج",
+      "غرف ملابس",
+      "مودرن"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "24",
+    "name": "مطبخ مودرن بوليملاك إسباني مقاوم للماء والحرارة",
+    "slug": "modern-polylac-kitchen-spanish",
+    "description": "مطبخ مودرن كامل خامات بوليملاك إسبانية مقاومة للخدش والحرارة بنسبة 100% مع مفصلات بلوم نمساوي هيدروليك سوفت كلوز.",
+    "price": 45000,
+    "originalPrice": 58000,
+    "images": [
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800",
+      "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=800"
+    ],
+    "category": "مطبخ كامل",
+    "material": "بوليملاك إسباني مع مفصلات سوفت كلوز",
+    "color": "أبيض هاي جلوس مع رخام رمادي",
+    "dimensions": {
+      "width": 300,
+      "height": 220,
+      "depth": 65
+    },
+    "weight": 220,
+    "stockQuantity": 3,
+    "rating": 5,
+    "reviewCount": 51,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مطبخ كامل",
+      "بوليملاك",
+      "مودرن"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "25",
+    "name": "بين باج ووتربروف حجم جامبو مريح",
+    "slug": "jumbo-waterproof-bean-bag",
+    "description": "بين باج جامبو محشو بحبيبات فوم عالية الكثافة مع قماش ووتربروف تركي سهل الغسيل ومناسب للحدائق والمنازل.",
+    "price": 1150,
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+      "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800"
+    ],
+    "category": "بين باج",
+    "material": "قماش ووتربروف مع حشوة فوم ميموري",
+    "color": "كحلي / رمادي / أصفر مسطردة",
+    "dimensions": {
+      "width": 85,
+      "height": 85,
+      "depth": 85
+    },
+    "weight": 5,
+    "stockQuantity": 30,
+    "rating": 4.8,
+    "reviewCount": 92,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "بين باج",
+      "استرخاء",
+      "ووتربروف"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  },
+  {
+    "id": "26",
+    "name": "أباجورة وإضاءة ليد أرضية مودرن معدنية دافئة",
+    "slug": "modern-floor-lamp-warm-led",
+    "description": "إضاءة أرضية مودرن بتصميم عصري من المعدن المطلي بالأسود والذهبي مع لمبة ليد دافئة موفرة للطاقة.",
+    "price": 1850,
+    "originalPrice": 2400,
+    "images": [
+      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800",
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800"
+    ],
+    "category": "اضاءة",
+    "material": "معدن مطلي مع زجاج أوبالين وليد",
+    "color": "أسود مات مع نحاسي",
+    "dimensions": {
+      "width": 35,
+      "height": 165,
+      "depth": 35
+    },
+    "weight": 7,
+    "stockQuantity": 16,
+    "rating": 4.9,
+    "reviewCount": 44,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "اضاءة",
+      "مودرن",
+      "ديكور"
+    ],
+    "createdAt": "2026-09-19T18:40:54.110Z",
+    "updatedAt": "2026-09-19T18:40:54.110Z"
+  }
+]
