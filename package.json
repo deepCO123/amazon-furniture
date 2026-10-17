@@ -5,12 +5,26 @@
     "dev": "concurrently --kill-others-on-fail \"npm run backend\" \"npm run frontend\"",
     "frontend": "npm --prefix ecom-furniture-main/ecom-furniture-main run dev",
     "backend": "node backend/server.js",
+    "start:backend": "node backend/server.js",
+    "start:frontend": "npm --prefix ecom-furniture-main/ecom-furniture-main run start",
+    "start:all": "concurrently --kill-others-on-fail \"npm run backend\" \"npm run start\"",
     "seed": "npm --prefix backend run seed",
     "install:all": "npm install && npm --prefix backend install && npm --prefix ecom-furniture-main/ecom-furniture-main install",
     "build": "npm --prefix ecom-furniture-main/ecom-furniture-main run build",
-    "start": "npm --prefix ecom-furniture-main/ecom-furniture-main run start"
+    "start": "npm --prefix ecom-furniture-main/ecom-furniture-main run start",
+    "lint": "npm --prefix ecom-furniture-main/ecom-furniture-main run lint",
+    "test": "npm --prefix backend run test",
+    "tunnel": "cloudflared tunnel --protocol http2 --url http://localhost:3000",
+    "dev:tunnel": "concurrently --kill-others-on-fail \"npm run dev\" \"cloudflared tunnel --protocol http2 --url http://localhost:3000\""
   },
   "devDependencies": {
     "concurrently": "^10.0.5"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "mongoose": "^9.10.4"
   }
 }

@@ -39,7 +39,7 @@ const slides: Slide[] = [
     id: 2,
     title: "أثاث مكتبي ومنزلي يلهم الإبداع والكفاءة",
     subtitle: "مجموعة متميزة من الأثاث المكتبي والحلول العملية بأسعار حصرية... والركنات الأنيقة لمساحة عمل متكاملة..",
-    image: "/hero-office-day.jpg",
+    image: "/hero-office-warm-hd.jpg",
     cta1Text: "تواصل معنا",
     cta1Link: "https://wa.me/201099684784?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%A3%D8%AB%D8%A7%D8%AB%20%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A",
     cta2Text: "صمم الآن",
@@ -49,7 +49,7 @@ const slides: Slide[] = [
     id: 3,
     title: "فخامة التنفيذ لأرقى المساحات",
     subtitle: "تصاميم تنفيذية راقية وتشطيبات خشب زان روماني طبيعي تمنح مكانك هيبة استثنائية وأداء يدوم طويلاً..",
-    image: "/hero-office-night.jpg",
+    image: "/hero-office-cool-hd.jpg",
     cta1Text: "تواصل معنا",
     cta1Link: "https://wa.me/201099684784?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%A3%D8%AB%D8%A7%D8%AB%20%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A",
     cta2Text: "صمم الآن",
@@ -82,22 +82,23 @@ export default function OscarHeroBanner() {
             transition={{ duration: 0.8 }}
             className="absolute inset-0 w-full h-full"
           >
-            {/* Full-width edge-to-edge background photograph */}
+            {/* Full-width edge-to-edge background photograph with 95% HD quality */}
             <Image
               src={slide.image}
               alt={slide.title}
               fill
               priority
+              quality={95}
               className="object-cover object-center w-full h-full"
               sizes="100vw"
             />
 
-            {/* Gradient overlay on the right side for clear typography legibility */}
+            {/* Gradient overlay on the right side for clear typography legibility while keeping the furniture crystal clear */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
                 background:
-                  "linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.65) 35%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 85%)",
+                  "linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.60) 28%, rgba(0,0,0,0.20) 50%, rgba(0,0,0,0) 70%)",
               }}
             />
           </motion.div>

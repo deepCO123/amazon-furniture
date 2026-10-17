@@ -23,6 +23,15 @@ const transporter = nodemailer.createTransport({
  * @param {string} clientName - اسم العميل
  */
 const sendWelcomeEmail = async (toEmail, clientName = 'عميلنا العزيز') => {
+  const isMockOrTest =
+    process.env.NODE_ENV === 'test' ||
+    !process.env.EMAIL_PASS ||
+    process.env.EMAIL_PASS.startsWith('mock_');
+
+  if (isMockOrTest) {
+    return { success: true, messageId: `mock-welcome-${Date.now()}` };
+  }
+
   const mailOptions = {
     from: process.env.EMAIL_FROM || '"Amazon Furniture" <support@amazonfurniture.eg>',
     to: toEmail,
@@ -95,6 +104,15 @@ const sendWelcomeEmail = async (toEmail, clientName = 'عميلنا العزيز
 const sendOrderConfirmationWithInvoice = async (order, pdfBuffer) => {
   const toEmail = order.customerEmail || order.shippingAddress?.email;
   if (!toEmail) return { success: false, message: 'No customer email provided' };
+
+  const isMockOrTest =
+    process.env.NODE_ENV === 'test' ||
+    !process.env.EMAIL_PASS ||
+    process.env.EMAIL_PASS.startsWith('mock_');
+
+  if (isMockOrTest) {
+    return { success: true, messageId: `mock-invoice-${Date.now()}` };
+  }
 
   const customerName = order.customerName || order.shippingAddress?.firstName || 'عميلنا العزيز';
   const orderId = order.id;

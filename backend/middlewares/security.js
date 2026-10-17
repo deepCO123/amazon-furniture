@@ -42,7 +42,12 @@ const corsConfig = cors({
   origin: (origin, callback) => {
     // السماح بالطلبات الداخلية بدون Origin (مثل Server-to-Server أو أدوات الاختبار)
     if (!origin) return callback(null, true);
-    if (origin === allowedOrigin || origin === 'http://localhost:3000' || origin === 'http://127.0.0.1:3000') {
+    if (
+      origin === allowedOrigin ||
+      origin === 'http://localhost:3000' ||
+      origin === 'http://127.0.0.1:3000' ||
+      origin.endsWith('.trycloudflare.com')
+    ) {
       return callback(null, true);
     }
     return callback(new Error(`CORS policy violation: origin ${origin} is strictly not allowed.`));

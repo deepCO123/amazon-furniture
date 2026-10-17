@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { useToastStore } from "@/components/ui/Toast";
 import { formatPrice } from "@/lib/utils";
@@ -58,27 +58,26 @@ const playNotificationChime = () => {
  * يستمع لحدث وصول الطلبات الجديدة (new_order) ويبث إشعاراً صوتياً ومرئياً
  */
 export function useAdminSocket(onNewOrder?: (order: NewOrderEventPayload) => void) {
-  const socketRef = useRef<Socket | null>(null);
+  const [socket, setSocket] = useState<Socket | null>(null);
   const addToast = useToastStore((s) => s.addToast);
 
   useEffect(() => {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
 
     // إنشاء اتصال Socket.io مع إرسال الكوكيز (HttpOnly) للمصادقة في admin_room
-    const socket = io(backendUrl, {
+    const socketClient = io(backendUrl, {
       withCredentials: true,
       transports: ["websocket", "polling"],
       reconnectionAttempts: 5,
       reconnectionDelay: 2000,
     });
 
-    socketRef.current = socket;
-
-    socket.on("connect", () => {
-      console.log("⚡ [Admin Socket] تم الاتصال بخادم الإشعارات بنجاح:", socket.id);
+    socketClient.on("connect", () => {
+      setSocket(socketClient);
+      console.log("⚡ [Admin Socket] تم الاتصال بخادم الإشعارات بنجاح:", socketClient.id);
     });
 
-    socket.on("new_order", (data: NewOrderEventPayload) => {
+    socketClient.on("new_order", (data: NewOrderEventPayload) => {
       console.log("🔔 [Admin Socket] وصل إشعار طلب جديد لحظياً:", data);
 
       // 1. تشغيل التنبيه الصوتي
@@ -98,22 +97,22 @@ export function useAdminSocket(onNewOrder?: (order: NewOrderEventPayload) => voi
       }
     });
 
-    socket.on("disconnect", (reason) => {
+    socketClient.on("disconnect", (reason) => {
       console.log("🔌 [Admin Socket] انقطع الاتصال:", reason);
     });
 
-    socket.on("connect_error", (err) => {
+    socketClient.on("connect_error", (err) => {
       console.warn("⚠️ [Admin Socket] خطأ في الاتصال بالسوكيت:", err.message);
     });
 
     // تنظيف الاتصال عند مغادرة الصفحة
     return () => {
-      socket.disconnect();
-      socketRef.current = null;
+      socketClient.disconnect();
+      setSocket(null);
     };
   }, [addToast, onNewOrder]);
 
   return {
-    socket: socketRef.current,
+    socket,
   };
 }

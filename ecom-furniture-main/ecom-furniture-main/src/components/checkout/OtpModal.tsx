@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShieldCheck, AlertCircle, RefreshCw, X, CheckCircle2, Lock } from "lucide-react";
+import { ShieldCheck, AlertCircle, RefreshCw, X, Lock } from "lucide-react";
 import Button from "@/components/ui/Button";
 
 interface OtpModalProps {
@@ -31,14 +31,14 @@ export default function OtpModal({
 
   // إعادة ضبط المؤقت وتفريغ الحقول عند فتح النافذة
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+    const timer = setTimeout(() => {
       setDigits(["", "", "", "", "", ""]);
       setError(null);
       setTimeLeft(300);
-      setTimeout(() => {
-        inputsRef.current[0]?.focus();
-      }, 100);
-    }
+      inputsRef.current[0]?.focus();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [isOpen]);
 
   // عداد تنازلي مدته 5 دقائق

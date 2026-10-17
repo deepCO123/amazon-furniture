@@ -58,11 +58,21 @@ export default function ProductGrid() {
 
   const filteredProducts = products
     .filter((p) => {
-      if (
-        filters.category.length > 0 &&
-        !filters.category.includes(p.category)
-      )
-        return false;
+      if (filters.category.length > 0) {
+        const matchesCategory = filters.category.some((cat) => {
+          if (!cat) return false;
+          if (p.category === cat) return true;
+          const cLower = cat.toLowerCase();
+          const pLower = (p.category || "").toLowerCase();
+          if (pLower.includes(cLower) || cLower.includes(pLower)) return true;
+          if ((cLower.includes("نوم") || cLower.includes("سرير")) && (pLower.includes("نوم") || p.name.includes("نوم") || p.name.includes("سرير"))) return true;
+          if (cLower.includes("مطبخ") && pLower.includes("مطبخ")) return true;
+          if (cLower.includes("دريسنج") && pLower.includes("دريسنج")) return true;
+          if (cLower.includes("كراسي") && (pLower.includes("كراسي") || pLower.includes("كرسي"))) return true;
+          return false;
+        });
+        if (!matchesCategory) return false;
+      }
       if (
         filters.search &&
         !p.name.toLowerCase().includes(filters.search.toLowerCase()) &&

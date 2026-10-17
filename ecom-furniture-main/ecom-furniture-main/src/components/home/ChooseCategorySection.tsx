@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShoppingBag, MessageCircle, Heart, ChevronLeft, ChevronRight, Eye } from "lucide-react";
@@ -12,65 +12,99 @@ import type { Product } from "@/types";
 import { useToastStore } from "@/components/ui/Toast";
 
 const categoryTabs = [
-  "غرفة نوم كاملة",
-  "ركنة مودرن",
-  "سرير مودرن",
-  "مطبخ كامل",
-  "دريسنج",
+  "غرف النوم",
+  "كراسي ومكاتب",
+  "ركن ومجالس",
+  "المطابخ",
+  "دريسنج روم",
   "ترابيزة تليفزيون",
-  "ستائر",
-  "اضاءة",
-  "بين باج",
+  "أثاث خارجي",
+  "ستائر مكتبية",
   "ليزي بوي",
+  "بين باج",
+  "اضاءة",
 ];
 
 export default function ChooseCategorySection() {
-  const [activeTab, setActiveTab] = useState("غرفة نوم كاملة");
+  const [activeTab, setActiveTab] = useState("غرف النوم");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const products = useProductStore((s) => s.products);
+  const fetchProducts = useProductStore((s) => s.fetchProducts);
   const addItem = useCartStore((s) => s.addItem);
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
   const addToast = useToastStore((s) => s.addToast);
 
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
   // Filter products for active tab
   const filteredProducts = products.filter((p) => {
-    if (activeTab === "غرفة نوم كاملة") {
-      return p.category === "غرفة نوم كاملة" || p.tags.includes("غرفة نوم كاملة");
+    if (activeTab === "غرف النوم") {
+      return (
+        p.category === "غرف النوم" ||
+        p.category === "غرفة نوم كاملة" ||
+        p.name.includes("نوم") ||
+        p.name.includes("سرير")
+      );
     }
-    if (activeTab === "ركنة مودرن") {
-      return p.category === "ركن ومجالس" || p.tags.includes("كنبة") || p.tags.includes("ركن ومجالس");
+    if (activeTab === "كراسي ومكاتب") {
+      return (
+        p.category.includes("كراسي") ||
+        p.category === "مكاتب" ||
+        p.category.includes("مكتب") ||
+        p.name.includes("كرسي") ||
+        p.name.includes("مكتب")
+      );
     }
-    if (activeTab === "سرير مودرن") {
-      return p.category === "سرير مودرن" || p.name.includes("سرير");
+    if (activeTab === "ركن ومجالس") {
+      return (
+        p.category === "ركن ومجالس" ||
+        p.tags?.includes("كنبة") ||
+        p.tags?.includes("ركن ومجالس") ||
+        p.name.includes("ركنة") ||
+        p.name.includes("كنبة")
+      );
     }
-    if (activeTab === "مطبخ كامل") {
-      return p.category === "مطبخ كامل";
+    if (activeTab === "المطابخ") {
+      return p.category === "المطابخ" || p.category === "مطبخ كامل" || p.name.includes("مطبخ");
     }
-    if (activeTab === "دريسنج") {
-      return p.category === "دريسنج";
+    if (activeTab === "دريسنج روم") {
+      return p.category === "دريسنج روم" || p.category === "دريسنج" || p.name.includes("دريسنج");
     }
     if (activeTab === "ترابيزة تليفزيون") {
-      return p.category === "ترابيزة تليفزيون";
+      return (
+        p.category === "ترابيزة تليفزيون" ||
+        p.name.includes("تليفزيون") ||
+        p.name.includes("شاشة")
+      );
     }
-    if (activeTab === "ستائر") {
-      return p.category === "ستائر مكتبية" || p.category === "ستائر";
+    if (activeTab === "أثاث خارجي") {
+      return p.category === "أثاث خارجي" || p.tags?.includes("أثاث خارجي");
+    }
+    if (activeTab === "ستائر مكتبية") {
+      return (
+        p.category === "ستائر مكتبية" ||
+        p.category === "ستائر" ||
+        p.name.includes("ستائر")
+      );
     }
     if (activeTab === "اضاءة") {
-      return p.category === "اضاءة";
+      return p.category === "اضاءة" || p.name.includes("اضاءة") || p.name.includes("اباجورة");
     }
     if (activeTab === "بين باج") {
-      return p.category === "بين باج";
+      return p.category === "بين باج" || p.name.includes("بين باج");
     }
     if (activeTab === "ليزي بوي") {
-      return p.category === "ليزي بوي";
+      return p.category === "ليزي بوي" || p.name.includes("ليزي بوي");
     }
     return p.category.toLowerCase().includes(activeTab.toLowerCase());
   });
 
   // Fallback if tab has few items
   const displayProducts =
-    filteredProducts.length > 0 ? filteredProducts : products.slice(0, 5);
+    filteredProducts.length > 0 ? filteredProducts : products.slice(0, 8);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {

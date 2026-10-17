@@ -8,6 +8,7 @@ const router = express.Router();
 
 const { verifyToken, checkRole } = require('../middlewares/auth');
 const jsonCache = require('../services/jsonCache');
+const { Return, Product } = require('../models');
 
 // 1. جلب كافة طلبات الاسترجاع (للأدمن فقط)
 router.get('/', verifyToken, checkRole('admin'), async (req, res) => {
@@ -20,7 +21,7 @@ router.get('/', verifyToken, checkRole('admin'), async (req, res) => {
   }
 });
 
-// 2. إنشاء طلب استرجاع جديد (عام)
+// 2. إنشاء طلب استرجاع جديد (عام) مع إطلاق خطاف الأتمتة
 router.post('/', async (req, res) => {
   try {
     const body = req.body;
@@ -37,7 +38,7 @@ router.post('/', async (req, res) => {
       customerName,
       customerPhone: customerPhone || '',
       productName,
-      productId,
+      productId: String(productId || ''),
       price: Number(price) || 0,
       reason: reason || 'other',
       reasonDetails: reasonDetails || '',
@@ -48,6 +49,26 @@ router.post('/', async (req, res) => {
 
     returns.unshift(newReturn);
     await jsonCache.write('returns.json', returns);
+
+    // تحديث عداد returnCount للمنتج في الكاش المحلي فورياً
+    if (productId) {
+      const products = await jsonCache.read('products.json', []);
+      const pIdx = products.findIndex((p) => String(p.id) === String(productId));
+      if (pIdx !== -1) {
+        products[pIdx].returnCount = (Number(products[pIdx].returnCount) || 0) + 1;
+        await jsonCache.write('products.json', products);
+      }
+    }
+
+    // تفعيل خطاف الحفظ التلقائي في Mongoose (Post-save hook)
+    if (jsonCache.isMongoConnected()) {
+      try {
+        const returnDoc = new Return(newReturn);
+        await returnDoc.save(); // يطلق post('save') لتحديث Product.returnCount و totalSold
+      } catch (dbErr) {
+        console.warn('[Return Route] Mongoose save hook notice:', dbErr.message);
+      }
+    }
 
     res.status(201).json({ success: true, returnRequest: newReturn });
   } catch (err) {
@@ -69,6 +90,22 @@ router.patch('/', verifyToken, checkRole('admin'), async (req, res) => {
     items[idx].status = status;
     if (conditionAssessment) items[idx].conditionAssessment = conditionAssessment;
     if (refundAmount !== undefined) items[idx].refundAmount = Number(refundAmount);
+
+    // استعادة المخزون تلقائياً عند إعادة المنتج للمخزن بحالة سليمة
+    const isRestockableStatus = status === 'outlet_restocked' || status === 'item_received';
+    const isUndamaged = conditionAssessment !== 'damaged';
+    const shouldRestock = isRestockableStatus && isUndamaged && !items[idx].restocked;
+
+    if (shouldRestock && items[idx].productId) {
+      const products = await jsonCache.read('products.json', []);
+      const pIdx = products.findIndex((p) => String(p.id) === String(items[idx].productId));
+      if (pIdx !== -1) {
+        products[pIdx].stockQuantity = (Number(products[pIdx].stockQuantity) || 0) + 1;
+        products[pIdx].inStock = products[pIdx].stockQuantity > 0;
+        await jsonCache.write('products.json', products);
+        items[idx].restocked = true;
+      }
+    }
 
     await jsonCache.write('returns.json', items);
     res.json({ success: true, returnRequest: items[idx] });

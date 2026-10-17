@@ -13,22 +13,53 @@ import {
   MessageCircle,
   Wrench,
   Truck,
+  Tag,
+  X,
 } from "lucide-react";
+import { useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { useLanguageStore } from "@/store/languageStore";
 import { formatPrice } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import { FREE_SHIPPING_THRESHOLD } from "@/data/shippingRates";
+import { validateCoupon, type Coupon } from "@/data/coupons";
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotal, clearCart } = useCartStore();
   const { language } = useLanguageStore();
   const isEn = language === "en";
 
+  const [couponCodeInput, setCouponCodeInput] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
+  const [couponDiscount, setCouponDiscount] = useState<number>(0);
+  const [couponFeedback, setCouponFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
+
   const total = getTotal();
-  const shipping = total > 500 ? 0 : 49.99;
-  const grandTotal = total + (shipping === 0 ? 0 : shipping);
+  const isFreeShipping = total >= FREE_SHIPPING_THRESHOLD;
+  const grandTotal = Math.max(0, total - couponDiscount);
+
+  const handleApplyCoupon = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!couponCodeInput.trim()) return;
+
+    const result = validateCoupon(couponCodeInput, total);
+    if (result.valid && result.coupon) {
+      setAppliedCoupon(result.coupon);
+      setCouponDiscount(result.discountAmount);
+      setCouponFeedback({ type: "success", message: result.message });
+    } else {
+      setCouponFeedback({ type: "error", message: result.message });
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponDiscount(0);
+    setCouponCodeInput("");
+    setCouponFeedback(null);
+  };
 
   // Quick WhatsApp link for entire cart
   const generateQuickCartWhatsapp = () => {
@@ -196,11 +227,82 @@ export default function CartPage() {
                 {isEn ? "Order Summary" : "ملخص الطلب"}
               </h2>
 
+              {/* Free Shipping Alert in Cart */}
+              <div className="mb-4 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                {isFreeShipping ? (
+                  <span className="text-emerald-700 font-bold flex items-center gap-1.5">
+                    <Truck size={14} className="text-emerald-600" />
+                    <span>مؤهل للشحن المجاني لجميع المحافظات! ✓</span>
+                  </span>
+                ) : (
+                  <span className="text-muted block text-[11px]">
+                    أضف منتجات بـ <strong className="text-accent-dark">{formatPrice(FREE_SHIPPING_THRESHOLD - total)}</strong> للحصول على <strong>شحن مجاني بالكامل!</strong>
+                  </span>
+                )}
+              </div>
+
+              {/* Coupon Input Box */}
+              <div className="mb-4">
+                {appliedCoupon ? (
+                  <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs text-emerald-800">
+                    <div className="flex items-center gap-1.5 font-bold">
+                      <Tag size={13} className="text-emerald-600" />
+                      <span>{appliedCoupon.code} (-{formatPrice(couponDiscount)})</span>
+                    </div>
+                    <button
+                      onClick={handleRemoveCoupon}
+                      className="p-1 text-emerald-600 hover:text-emerald-900 rounded cursor-pointer"
+                      title="إلغاء الكوبون"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleApplyCoupon} className="space-y-1.5">
+                    <label className="block text-xs font-bold text-primary flex items-center gap-1">
+                      <Tag size={12} className="text-accent" />
+                      <span>كوبون الخصم:</span>
+                    </label>
+                    <div className="flex gap-1.5">
+                      <input
+                        type="text"
+                        placeholder="WELCOME10"
+                        value={couponCodeInput}
+                        onChange={(e) => setCouponCodeInput(e.target.value.toUpperCase())}
+                        className="flex-1 px-3 py-1.5 text-xs rounded-lg border border-surface-dark uppercase focus:ring-1 focus:ring-accent outline-none"
+                      />
+                      <button
+                        type="submit"
+                        className="px-3 py-1.5 bg-accent hover:bg-accent-dark text-white rounded-lg text-xs font-bold transition-colors cursor-pointer"
+                      >
+                        تطبيق
+                      </button>
+                    </div>
+                    {couponFeedback && (
+                      <p
+                        className={`text-[11px] font-semibold ${
+                          couponFeedback.type === "success" ? "text-emerald-600" : "text-rose-600"
+                        }`}
+                      >
+                        {couponFeedback.message}
+                      </p>
+                    )}
+                  </form>
+                )}
+              </div>
+
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between text-muted">
                   <span>{isEn ? "Products Subtotal" : "المجموع الفرعي للمنتجات"}</span>
                   <span className="font-semibold text-primary">{formatPrice(total)}</span>
                 </div>
+
+                {couponDiscount > 0 && (
+                  <div className="flex justify-between text-emerald-600 text-xs font-bold">
+                    <span>خصم الكوبون</span>
+                    <span>-{formatPrice(couponDiscount)}</span>
+                  </div>
+                )}
 
                 {/* Assembly - 100% Free */}
                 <div className="flex items-center justify-between text-xs bg-emerald-50/80 border border-emerald-100 px-3 py-2 rounded-lg">
@@ -220,21 +322,21 @@ export default function CartPage() {
                     {isEn ? "Shipping & Delivery" : "مصاريف الشحن"}
                   </span>
                   <span className="font-semibold text-amber-800 bg-white px-2 py-0.5 rounded shadow-xs text-[11px]">
-                    {isEn ? "Calculated by Address" : "يُحدد حسب العنوان"}
+                    {isFreeShipping ? "شحن مجاني ✓" : "يُحدد بصفحة الدفع"}
                   </span>
                 </div>
 
                 <div className="border-t border-surface-dark pt-3 flex justify-between items-center">
                   <div>
                     <span className="font-bold text-base text-primary block">
-                      {isEn ? "Products Total" : "إجمالي المنتجات"}
+                      {isEn ? "Estimated Total" : "إجمالي المشتريات"}
                     </span>
                     <span className="text-[11px] text-muted block">
-                      {isEn ? "(Shipping confirmed via WhatsApp)" : "(تُضاف مصاريف الشحن عند الاتفاق)"}
+                      {isEn ? "(Shipping calculated at checkout)" : "(الشحن يُحسب بدقة في الخطوة التالية)"}
                     </span>
                   </div>
-                  <span className="font-extrabold text-2xl text-primary">
-                    {formatPrice(total)}
+                  <span className="font-extrabold text-2xl text-accent-dark">
+                    {formatPrice(grandTotal)}
                   </span>
                 </div>
               </div>

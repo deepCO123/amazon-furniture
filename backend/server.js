@@ -39,9 +39,12 @@ const quotationRoutes = require('./routes/quotationRoutes');
 const returnRoutes = require('./routes/returnRoutes');
 const emailRoutes = require('./routes/emailRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
 const otpRoutes = require('./routes/otpRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const feedRoutes = require('./routes/feedRoutes');
+const importRoutes = require('./routes/importRoutes');
 
 const { verifyToken, checkRole } = require('./middlewares/auth');
 
@@ -52,7 +55,18 @@ const PORT = process.env.PORT || 5000;
 // ─── إعداد Socket.io مع ضبط CORS والتأمين ─────────────────────
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: (origin, callback) => {
+      if (
+        !origin ||
+        origin === (process.env.CLIENT_URL || 'http://localhost:3000') ||
+        origin === 'http://localhost:3000' ||
+        origin === 'http://127.0.0.1:3000' ||
+        origin.endsWith('.trycloudflare.com')
+      ) {
+        return callback(null, true);
+      }
+      return callback(new Error('CORS violation'));
+    },
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -109,9 +123,9 @@ app.use(compression({
 app.use(helmetConfig);
 app.use(corsConfig);
 
-// ─── 2. تحليل الـ Body مع حد أقصى (10kb) ───────────────────
-app.use(express.json({ limit: '10kb' }));
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+// ─── 2. تحليل الـ Body مع حد أقصى مرن (50mb) ─────────────────
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // ─── 3. تحليل الكوكيز ──────────────────────────────────────
 app.use(cookieParser());
@@ -128,6 +142,7 @@ app.use('/api', apiLimiter);
 
 // ─── 7. تركيب الراوترات المتخصصة ────────────────────────────
 app.use('/api/auth', authRoutes);
+app.use('/api/products/import', importRoutes); // must be before generic productRoutes
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/customers', customerRoutes);
@@ -137,9 +152,11 @@ app.use('/api/returns', returnRoutes);
 app.use('/api/emails', emailRoutes);
 app.use('/api/email', emailRoutes); // Alias for backward compatibility
 app.use('/api/admin', adminRoutes);
+app.use('/api/admin/analytics', analyticsRoutes);
 app.use('/api/otp', otpRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/feed', feedRoutes);
 
 // استدعاء خدمة النسخ الاحتياطي التلقائي
 const { scheduleBackups, performBackup } = require('./scripts/backup');
@@ -169,10 +186,16 @@ app.get('/health', (req, res) => {
 
 // ─── 10. معالج الأخطاء المركزي ──────────────────────────────
 app.use((err, req, res, next) => {
-  console.error('[Unhandled Error]', err.stack);
-  res.status(500).json({
+  console.error('[Unhandled Error]', err.stack || err.message);
+  if (err.type === 'entity.too.large') {
+    return res.status(413).json({
+      success: false,
+      message: 'حجم البيانات أو الصور المرفوعة كبير جداً، يرجى تقليل حجم الملفات.',
+    });
+  }
+  res.status(err.status || 500).json({
     success: false,
-    message: 'حدث خطأ غير متوقع في الخادم، تم تسجيل الحادثة لدواعي الأمان.',
+    message: err.message || 'حدث خطأ غير متوقع في الخادم، تم تسجيل الحادثة لدواعي الأمان.',
   });
 });
 
@@ -182,7 +205,12 @@ if (require.main === module) {
     try {
       await connectDB();
     } catch (err) {
-      console.warn(`⚠️ MongoDB connection warning: ${err.message}. Server running with RAM fallback.`);
+      console.error(`❌ MongoDB connection failed: ${err.message}`);
+      if (process.env.NODE_ENV === 'production') {
+        console.error('🚫 Production startup aborted because MongoDB is required as the system of record.');
+        process.exit(1);
+      }
+      console.warn('⚠️ Development mode continues with RAM fallback only. This is not safe for production data writes.');
     }
 
     // تشغيل جدولة النسخ الاحتياطي اليومي الساعة 3:00 ص

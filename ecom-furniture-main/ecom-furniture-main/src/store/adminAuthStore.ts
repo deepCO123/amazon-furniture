@@ -16,7 +16,7 @@ interface AdminAuthState {
   loading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
   logout: () => Promise<void>;
-  checkSession: () => Promise<void>;
+  checkSession: () => Promise<boolean>;
 }
 
 export const useAdminAuthStore = create<AdminAuthState>()(
@@ -35,6 +35,8 @@ export const useAdminAuthStore = create<AdminAuthState>()(
           const res = await apiClient.adminLogin(requestEmail, password);
 
           if (res.success && res.user) {
+            // NOTE: Token is stored in HttpOnly cookie by the backend (secure)
+            // We do NOT store it in localStorage to prevent XSS token theft
             set({
               isAuthenticated: true,
               loading: false,
@@ -47,45 +49,12 @@ export const useAdminAuthStore = create<AdminAuthState>()(
             return { success: true };
           }
 
-          // Fallback verification for demo/local admin credentials
-          if (
-            (normalized === "admin@amazonfurniture.eg" || normalized === "admin") &&
-            (password === "Admin@Pass2026!" || password === "admin")
-          ) {
-            set({
-              isAuthenticated: true,
-              loading: false,
-              user: {
-                name: "محمد إسماعيل (المدير العام)",
-                role: "المدير العام / مسؤول المتجر",
-                email: "admin@amazonfurniture.eg",
-              },
-            });
-            return { success: true };
-          }
-
           set({ loading: false });
           return {
             success: false,
             message: res.message || "بيانات اعتماد الأدمن غير صحيحة.",
           };
         } catch {
-          if (
-            (normalized === "admin@amazonfurniture.eg" || normalized === "admin") &&
-            (password === "Admin@Pass2026!" || password === "admin")
-          ) {
-            set({
-              isAuthenticated: true,
-              loading: false,
-              user: {
-                name: "محمد إسماعيل (المدير العام)",
-                role: "المدير العام / مسؤول المتجر",
-                email: "admin@amazonfurniture.eg",
-              },
-            });
-            return { success: true };
-          }
-
           set({ loading: false });
           return {
             success: false,
@@ -110,17 +79,22 @@ export const useAdminAuthStore = create<AdminAuthState>()(
             set({
               isAuthenticated: true,
               user: {
-                name: "Mohamed Esmaeil (محمد إسماعيل)",
+                name: res.user.name || "محمد إسماعيل (المدير العام)",
                 role: "المدير العام / مسؤول المتجر",
                 email: res.user.email,
               },
             });
-          } else {
-            set({ isAuthenticated: false, user: null });
+            return true;
           }
         } catch {
-          // Network error — keep existing state
+          // Session check failed
         }
+
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("amazon_token");
+        }
+        set({ isAuthenticated: false, user: null });
+        return false;
       },
     }),
     {

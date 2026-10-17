@@ -7,7 +7,7 @@
 const otpStore = new Map();
 
 // تنظيف دوري للرموز المنتهية كل 5 دقائق لمنع استهلاك الذاكرة
-setInterval(() => {
+const cleanupTimer = setInterval(() => {
   const now = Date.now();
   for (const [phone, data] of otpStore.entries()) {
     if (now > data.expiresAt) {
@@ -15,6 +15,7 @@ setInterval(() => {
     }
   }
 }, 5 * 60 * 1000);
+if (cleanupTimer.unref) cleanupTimer.unref();
 
 /**
  * تنظيف وتوحيد صيغة رقم الهاتف (Egyptian & International formatting)
@@ -54,20 +55,21 @@ const generateAndSendOTP = async (req, res) => {
       createdAt: Date.now(),
     });
 
-    // محاكاة إرسال الرسالة عبر بوابة SMS / WhatsApp Gateway
-    console.log(`=======================================================`);
-    console.log(`📱 [SMS/WhatsApp Gateway] إرسال رمز تحقق جديد`);
-    console.log(`📞 الهاتف المستلم: ${normalizedPhone}`);
-    console.log(`🔑 رمز التحقق (OTP): ${otp}`);
-    console.log(`⏰ الصلاحية: ${expiresInMinutes} دقائق (تنتهي في ${new Date(expiresAt).toLocaleTimeString('ar-EG')})`);
-    console.log(`=======================================================`);
+    // في بيئة الإنتاج: يجب إرسال الـ OTP عبر SMS Gateway حقيقي (مثل Vonage أو Twilio)
+    // في بيئة التطوير فقط: يُطبع للمطورين
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`=======================================================`);
+      console.log(`📱 [DEV ONLY] OTP for ${normalizedPhone}: ${otp}`);
+      console.log(`⏰ Expires at: ${new Date(expiresAt).toLocaleTimeString()}`);
+      console.log(`=======================================================`);
+    }
 
     return res.status(200).json({
       success: true,
       message: 'تم إرسال رمز التحقق بنجاح إلى هاتفك المحمول.',
       phone: normalizedPhone,
       expiresInSeconds: expiresInMinutes * 60,
-      // في بيئة التطوير يُرسل الرمز للتسهيل على المطورين
+      // في بيئة التطوير يُرسل الرمز للتسهيل على المطورين — محظور تماماً في Prod
       ...(process.env.NODE_ENV !== 'production' && { debugOtp: otp }),
     });
   } catch (error) {

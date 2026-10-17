@@ -102,6 +102,24 @@ async function seedDatabase() {
       customerEmailMap.set(c.email.toLowerCase(), c._id);
     });
 
+    // 3.1 التأكد من وجود حساب الأدمن في MongoDB
+    const adminEmail = (process.env.ADMIN_EMAIL || 'admin@amazonfurniture.eg').toLowerCase();
+    const hasAdmin = insertedCustomers.some((c) => c.email.toLowerCase() === adminEmail && c.role === 'admin');
+    if (!hasAdmin) {
+      const adminDoc = await Customer.create({
+        id: 'admin_01',
+        name: 'محمد إسماعيل (المدير العام)',
+        email: adminEmail,
+        role: 'admin',
+        provider: 'email',
+        passwordHash: '$2a$10$ffXck6x.FV/wNXMF/bS74OlZic1JK1GC7q4QdFb9TErZGzPf9Ty.W', // Admin@Pass2026!
+        ordersCount: 0,
+        totalSpent: 0,
+      });
+      customerEmailMap.set(adminEmail, adminDoc._id);
+      console.log(`👑 تم إنشاء حساب الأدمن (${adminEmail}) بنجاح.`);
+    }
+
     // 4. ترحيل المنتجات
     console.log('🛋️ جاري إدخال كتالوج المنتجات...');
     const insertedProducts = await Product.insertMany(rawProducts);

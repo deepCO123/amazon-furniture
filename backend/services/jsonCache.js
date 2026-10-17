@@ -76,6 +76,16 @@ class MongoDataCache {
     return mongoose.connection.readyState === 1;
   }
 
+  isProductionMode() {
+    return process.env.NODE_ENV === 'production';
+  }
+
+  getProductionGuardError(operation, filename) {
+    return new Error(
+      `MongoDB is required in production for ${operation} on ${filename}. Local JSON fallback is disabled to prevent stale data from becoming the system of record.`
+    );
+  }
+
   cleanDocument(doc) {
     if (!doc) return doc;
     const clean = { ...doc };
@@ -125,7 +135,13 @@ class MongoDataCache {
       }
     }
 
-    // 3. القراءة من ملف الـ JSON المحلي
+    if (this.isProductionMode() && !this.isMongoConnected()) {
+      const err = this.getProductionGuardError('read', filename);
+      console.error(`[MongoCache Security] ${err.message}`);
+      throw err;
+    }
+
+    // 3. القراءة من ملف الـ JSON المحلي فقط في بيئات التطوير
     const filePath = this.getFilePath(filename);
     try {
       const raw = await fs.readFile(filePath, 'utf-8');
@@ -153,21 +169,47 @@ class MongoDataCache {
     const filePath = this.getFilePath(filename);
     const Model = modelMap[key];
 
+    if (this.isProductionMode() && !this.isMongoConnected()) {
+      const err = this.getProductionGuardError('write', filename);
+      console.error(`[MongoCache Security] ${err.message}`);
+      throw err;
+    }
+
     // تحديث الكاش في الذاكرة فوراً
     this.cache.set(key, data);
     this.stats.writes++;
 
-    // 1. حفظ في MongoDB إن كان متصلاً
+    // 1. حفظ في MongoDB إن كان متصلاً بنظام bulkWrite الآمن (Zero Data-Loss Window)
     if (this.isMongoConnected() && Model && Array.isArray(data)) {
       try {
-        await Model.deleteMany({});
-        await Model.insertMany(data, { ordered: false });
+        if (data.length > 0) {
+          const ops = data.map((doc) => {
+            const docId = doc.id || (doc._id ? doc._id.toString() : null);
+            const filter = docId ? { id: docId } : { _id: doc._id };
+            return {
+              updateOne: {
+                filter,
+                update: { $set: doc },
+                upsert: true,
+              },
+            };
+          });
+          await Model.bulkWrite(ops, { ordered: false });
+
+          // مزامنة الحذف: إزالة المستندات التي حُذفت فعلياً دون مسح الكل دفعة واحدة
+          const currentIds = data.map((d) => d.id).filter(Boolean);
+          if (currentIds.length > 0) {
+            await Model.deleteMany({ id: { $nin: currentIds } });
+          }
+        } else {
+          await Model.deleteMany({});
+        }
       } catch (dbErr) {
-        console.warn(`[MongoCache Warning] MongoDB write warning for ${key}:`, dbErr.message);
+        console.warn(`[MongoCache Warning] MongoDB bulk sync warning for ${key}:`, dbErr.message);
       }
     }
 
-    // 2. حفظ نسخة احتياطية على القرص (Write-Through)
+    // 2. حفظ نسخة احتياطية على القرص (Write-Through) فقط في بيئات التطوير
     try {
       const jsonString = JSON.stringify(data, null, 2);
       await fs.writeFile(filePath, jsonString, 'utf-8');

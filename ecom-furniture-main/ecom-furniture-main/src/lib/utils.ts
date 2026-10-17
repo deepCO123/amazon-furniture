@@ -7,17 +7,28 @@ export function cn(...inputs: ClassValue[]) {
 
 import { useLanguageStore, LANGUAGES, type Language } from "@/store/languageStore";
 
-export function formatPrice(price: number, overrideLang?: Language): string {
+export function formatPrice(price: number | undefined | null, overrideLang?: Language): string {
+  if (price === undefined || price === null || isNaN(Number(price))) {
+    return "0 ج.م";
+  }
+  const numPrice = Number(price);
+
   let currentLang: Language = overrideLang || "ar";
   if (!overrideLang && typeof window !== "undefined") {
-    try {
-      currentLang = useLanguageStore.getState().language || "ar";
-    } catch {
+    // Inside admin panel, always format in exact Egyptian Pounds (EGP)
+    if (window.location.pathname.startsWith("/admin")) {
       currentLang = "ar";
+    } else {
+      try {
+        currentLang = useLanguageStore.getState().language || "ar";
+      } catch {
+        currentLang = "ar";
+      }
     }
   }
+
   const info = LANGUAGES[currentLang] || LANGUAGES.ar;
-  const converted = Math.round(price * info.rate);
+  const converted = Math.round(numPrice * (info.rate || 1.0));
 
   if (info.code === "en") {
     return new Intl.NumberFormat("en-US", {
@@ -27,8 +38,8 @@ export function formatPrice(price: number, overrideLang?: Language): string {
     }).format(converted);
   }
 
-  // Format with Arabic locale and currency symbol
-  const formattedNumber = new Intl.NumberFormat("ar-EG").format(converted);
+  // Format with clean comma-separated numerals for maximum clarity
+  const formattedNumber = new Intl.NumberFormat("en-US").format(converted);
   return `${formattedNumber} ${info.currencySymbol}`;
 }
 

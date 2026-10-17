@@ -19,7 +19,6 @@ import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useAuthStore } from "@/store/authStore";
 import { useProductStore } from "@/store/productStore";
-import { useToastStore } from "@/components/ui/Toast";
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { formatPrice, cn } from "@/lib/utils";
@@ -29,7 +28,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const products = useProductStore((s) => s.products);
-  const addToast = useToastStore((s) => s.addToast);
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("كل الأقسام");
@@ -68,13 +66,14 @@ export default function Navbar() {
   // Secondary dark bar navigation links (Centered Features Bar)
   const secondaryNavLinks: NavLinkItem[] = [
     { href: "/products?tag=sale", label: "عروض أمازون", hasBadge: true, badge: "New", highlight: true },
-    { href: "/products?category=غرفة نوم كاملة", label: "غرف النوم" },
-    { href: "/products?category=مطبخ كامل", label: "المطابخ" },
+    { href: "/products?category=غرف النوم", label: "غرف النوم" },
+    { href: "/products?category=المطابخ", label: "المطابخ" },
     { href: "/products?category=كراسي مكتب", label: "الكراسي والمكاتب" },
     { href: "/products?category=ركن ومجالس", label: "ركن ومجالس" },
     { href: "/products?category=أثاث خارجي", label: "أثاث خارجي" },
-    { href: "/products?category=دريسنج", label: "دريسنج رووم" },
+    { href: "/products?category=دريسنج روم", label: "دريسنج رووم" },
     { href: "/products?category=اضاءة", label: "ديكور وإكسسوار" },
+    { href: "/track", label: "تتبع طلبك والضمان", hasBadge: true, badge: "تتبع" },
     { href: "/products", label: "جميع الأثاث" },
   ];
 

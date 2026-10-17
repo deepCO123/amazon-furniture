@@ -1,1 +1,610 @@
-[]
+[
+  {
+    "id": "AF-909571",
+    "customerName": "????? ???",
+    "customerEmail": "test@example.com",
+    "customerPhone": "01030734594",
+    "items": [
+      {
+        "product": {
+          "id": "1",
+          "name": "كرسي مكتب شبك طبي هيدروليك إرجونوميك",
+          "price": 3850,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 1,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "subtotal": 3850,
+    "discount": 0,
+    "couponCode": null,
+    "shippingCost": 0,
+    "total": 3850,
+    "status": "processing",
+    "date": "2026-10-17T17:34:23.395Z",
+    "shippingAddress": {
+      "city": "Cairo",
+      "phone": "01030734594"
+    },
+    "notes": "",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {}
+  },
+  {
+    "id": "AF-INTEG-566670",
+    "customerName": "عميل اختبار التكامل",
+    "customerEmail": "integration@amazonfurniture.eg",
+    "customerPhone": "01091084863",
+    "items": [
+      {
+        "product": {
+          "id": "prod_1790013537451",
+          "name": "كرسي مكتب طبي شبك مريح (Ergonomic Medical Chair) بمسند رأس وقاعدة هيدروليك نيكل كروم",
+          "price": 7500,
+          "images": [
+            "/uploads/1790013534731-photo_2026_09_21_20_12_41.jpg"
+          ],
+          "category": "كراسي طبية",
+          "slug": "-ergonomic-medical-chair--7455"
+        },
+        "quantity": 2,
+        "color": "أسود × أزرق (ظهر شبك أسود وقاعدة قماش زرقاء)",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 14500,
+    "status": "processing",
+    "date": "2026-09-22T12:49:08.460Z",
+    "shippingAddress": {
+      "firstName": "عميل اختبار التكامل",
+      "lastName": "",
+      "email": "",
+      "phone": "01091084863",
+      "address": "شارع التسعين - التجمع الخامس",
+      "city": "القاهرة",
+      "notes": ""
+    },
+    "notes": "",
+    "paymentMethod": "instapay",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "IPN-TEST-9921",
+      "walletPhone": "01091084863",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.284Z",
+    "updatedAt": "2026-10-03T11:47:21.284Z"
+  },
+  {
+    "id": "AF-INTEG-391671",
+    "customerName": "عميل اختبار التكامل",
+    "customerEmail": "integration@amazonfurniture.eg",
+    "customerPhone": "01091084863",
+    "items": [
+      {
+        "product": {
+          "id": "prod_1790013537451",
+          "name": "كرسي مكتب طبي شبك مريح (Ergonomic Medical Chair) بمسند رأس وقاعدة هيدروليك نيكل كروم",
+          "price": 7500,
+          "images": [
+            "/uploads/1790013534731-photo_2026_09_21_20_12_41.jpg"
+          ],
+          "category": "كراسي طبية",
+          "slug": "-ergonomic-medical-chair--7455"
+        },
+        "quantity": 2,
+        "color": "أسود × أزرق (ظهر شبك أسود وقاعدة قماش زرقاء)",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 14500,
+    "status": "processing",
+    "date": "2026-09-22T12:48:29.425Z",
+    "shippingAddress": {
+      "firstName": "عميل اختبار التكامل",
+      "lastName": "",
+      "email": "",
+      "phone": "01091084863",
+      "address": "شارع التسعين - التجمع الخامس",
+      "city": "القاهرة",
+      "notes": ""
+    },
+    "notes": "",
+    "paymentMethod": "instapay",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "IPN-TEST-9921",
+      "walletPhone": "01091084863",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.285Z",
+    "updatedAt": "2026-10-03T11:47:21.285Z"
+  },
+  {
+    "id": "AF-INTEG-275066",
+    "customerName": "عميل اختبار التكامل",
+    "customerEmail": "integration@amazonfurniture.eg",
+    "customerPhone": "01091084863",
+    "items": [
+      {
+        "product": {
+          "id": "prod_1790013537451",
+          "name": "كرسي مكتب طبي شبك مريح (Ergonomic Medical Chair) بمسند رأس وقاعدة هيدروليك نيكل كروم",
+          "price": 7500,
+          "images": [
+            "/uploads/1790013534731-photo_2026_09_21_20_12_41.jpg"
+          ],
+          "category": "كراسي طبية",
+          "slug": "-ergonomic-medical-chair--7455"
+        },
+        "quantity": 2,
+        "color": "أسود × أزرق (ظهر شبك أسود وقاعدة قماش زرقاء)",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 14500,
+    "status": "processing",
+    "date": "2026-09-22T12:47:55.111Z",
+    "shippingAddress": {
+      "firstName": "عميل اختبار التكامل",
+      "lastName": "",
+      "email": "",
+      "phone": "01091084863",
+      "address": "شارع التسعين - التجمع الخامس",
+      "city": "القاهرة",
+      "notes": ""
+    },
+    "notes": "",
+    "paymentMethod": "instapay",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "IPN-TEST-9921",
+      "walletPhone": "01091084863",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.286Z",
+    "updatedAt": "2026-10-03T11:47:21.286Z"
+  },
+  {
+    "id": "AF-TEST-COUPON",
+    "customerName": "مروة كمال",
+    "customerEmail": "marwa@test.com",
+    "customerPhone": "01091084863",
+    "items": [
+      {
+        "product": {
+          "id": "p1",
+          "name": "غرفة نوم ماستر مودرن",
+          "price": 30000,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 1,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 27150,
+    "status": "processing",
+    "date": "2026-09-22T12:34:17.502Z",
+    "shippingAddress": {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "phone": "",
+      "address": "مدينة نصر",
+      "city": "القاهرة",
+      "notes": ""
+    },
+    "notes": "",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "",
+      "walletPhone": "",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.286Z",
+    "updatedAt": "2026-10-03T11:47:21.286Z"
+  },
+  {
+    "id": "AF-TEST-PAY-02",
+    "customerName": "سارة إبراهيم",
+    "customerEmail": "sara@test.com",
+    "customerPhone": "01091084863",
+    "items": [
+      {
+        "product": {
+          "id": "prod_test_02",
+          "name": "ركنة مودرن حرف L كابتونيه",
+          "price": 32000,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 1,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 32000,
+    "status": "processing",
+    "date": "2026-09-22T11:20:50.035Z",
+    "shippingAddress": {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "phone": "",
+      "address": "",
+      "city": "",
+      "notes": ""
+    },
+    "notes": "",
+    "paymentMethod": "instapay",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "INSTA-773311",
+      "walletPhone": "",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.286Z",
+    "updatedAt": "2026-10-03T11:47:21.286Z"
+  },
+  {
+    "id": "AF-TEST-PAY-01",
+    "customerName": "أحمد محمود",
+    "customerEmail": "ahmed@test.com",
+    "customerPhone": "01091084863",
+    "items": [
+      {
+        "product": {
+          "id": "prod_test_01",
+          "name": "صالون كلاسيك فاخر",
+          "price": 24500,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 1,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 24500,
+    "status": "processing",
+    "date": "2026-09-22T11:19:48.525Z",
+    "shippingAddress": {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "phone": "",
+      "address": "",
+      "city": "",
+      "notes": ""
+    },
+    "notes": "",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "",
+      "walletPhone": "",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.286Z",
+    "updatedAt": "2026-10-03T11:47:21.286Z"
+  },
+  {
+    "id": "ORD-2026-101",
+    "customerName": "محمود السيد عبد الله",
+    "customerEmail": "mahmoud.sayed@gmail.com",
+    "customerPhone": "01011223344",
+    "items": [
+      {
+        "product": {
+          "id": "1",
+          "name": "كرسي مكتب شبك طبي هيدروليك إرجونوميك",
+          "price": 3850,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 10,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      },
+      {
+        "product": {
+          "id": "AF-2",
+          "name": "كرسي جيمينج احترافي برو",
+          "price": 5400,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 5,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 30000,
+    "status": "delivered",
+    "date": "2026-09-01T10:00:00.000Z",
+    "notes": "",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "",
+      "walletPhone": "",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "shippingAddress": {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "phone": "",
+      "address": "",
+      "city": "",
+      "notes": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.286Z",
+    "updatedAt": "2026-10-03T11:47:21.286Z"
+  },
+  {
+    "id": "ORD-2026-102",
+    "customerName": "نادية إبراهيم حسن",
+    "customerEmail": "nadia.ibrahim@yahoo.com",
+    "customerPhone": "01122334455",
+    "items": [
+      {
+        "product": {
+          "id": "AF-3",
+          "name": "مكتب مديرين خشب ميلامين",
+          "price": 8900,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 4,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      },
+      {
+        "product": {
+          "id": "1",
+          "name": "كرسي مكتب شبك طبي هيدروليك إرجونوميك",
+          "price": 3850,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 6,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 58500,
+    "status": "delivered",
+    "date": "2026-09-05T12:30:00.000Z",
+    "notes": "",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "",
+      "walletPhone": "",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "shippingAddress": {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "phone": "",
+      "address": "",
+      "city": "",
+      "notes": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.287Z",
+    "updatedAt": "2026-10-03T11:47:21.287Z"
+  },
+  {
+    "id": "ORD-2026-103",
+    "customerName": "طارق عبد العزيز",
+    "customerEmail": "tarek.aziz@hotmail.com",
+    "customerPhone": "01233445566",
+    "items": [
+      {
+        "product": {
+          "id": "AF-prod_1789845837392",
+          "name": "ترابيزة قهوة ومكتبة عصرية",
+          "price": 2500,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 12,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      },
+      {
+        "product": {
+          "id": "prod_1790013537451",
+          "name": "كرسي مكتب طبي شبك مريح",
+          "price": 7500,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 8,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 42000,
+    "status": "delivered",
+    "date": "2026-09-08T14:15:00.000Z",
+    "notes": "",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "",
+      "walletPhone": "",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "shippingAddress": {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "phone": "",
+      "address": "",
+      "city": "",
+      "notes": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.287Z",
+    "updatedAt": "2026-10-03T11:47:21.287Z"
+  },
+  {
+    "id": "ORD-2026-104",
+    "customerName": "سارة مصطفى كمال",
+    "customerEmail": "sara.kamal@gmail.com",
+    "customerPhone": "01544556677",
+    "items": [
+      {
+        "product": {
+          "id": "prod_kitchen_island_01",
+          "name": "مطبخ أكريليك مودرن مع جزيرة وسطية",
+          "price": 78000,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 2,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      },
+      {
+        "product": {
+          "id": "prod_garden_swing_02",
+          "name": "أرجوحة حديقة خارجية",
+          "price": 16000,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 4,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 96000,
+    "status": "delivered",
+    "date": "2026-09-10T16:45:00.000Z",
+    "notes": "",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "",
+      "walletPhone": "",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "shippingAddress": {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "phone": "",
+      "address": "",
+      "city": "",
+      "notes": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.287Z",
+    "updatedAt": "2026-10-03T11:47:21.287Z"
+  },
+  {
+    "id": "ORD-2026-105",
+    "customerName": "عمر خالد الشريف",
+    "customerEmail": "omar.sharif@outlook.com",
+    "customerPhone": "01066778899",
+    "items": [
+      {
+        "product": {
+          "id": "AF-1",
+          "name": "كرسي مكتب شبك طبي هيدروليك إرجونوميك",
+          "price": 3850,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 15,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      },
+      {
+        "product": {
+          "id": "AF-prod_1789668044779",
+          "name": "كرسي المدير",
+          "price": 4500,
+          "images": [],
+          "category": "",
+          "slug": ""
+        },
+        "quantity": 5,
+        "color": "",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "total": 45000,
+    "status": "delivered",
+    "date": "2026-09-12T11:20:00.000Z",
+    "notes": "",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {
+      "transactionRef": "",
+      "walletPhone": "",
+      "fawryCode": "",
+      "paidAt": ""
+    },
+    "shippingAddress": {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "phone": "",
+      "address": "",
+      "city": "",
+      "notes": ""
+    },
+    "createdAt": "2026-10-03T11:47:21.287Z",
+    "updatedAt": "2026-10-03T11:47:21.287Z"
+  }
+]

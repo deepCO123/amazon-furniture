@@ -9,6 +9,7 @@
     "seed": "node scripts/seed.js",
     "db:clean": "node scripts/reset_clean_store.js",
     "db:sample": "node scripts/restore_sample_data.js",
+    "test": "jest --runInBand --detectOpenHandles --forceExit",
     "test:e2e": "node scripts/audit_e2e.js",
     "test:system": "node scripts/verify_system.js"
   },
@@ -41,6 +42,13 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "pdfkit": "^0.15.0",
-    "socket.io": "^4.8.3"
+    "socket.io": "^4.8.3",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "mongodb-memory-server": "^11.3.0",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.3.0"
   }
 }

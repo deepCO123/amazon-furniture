@@ -28,8 +28,11 @@ router.post('/', verifyToken, checkRole('admin'), async (req, res) => {
       return res.status(400).json({ error: 'Name, price, and category are required' });
     }
     const products = await jsonCache.read('products.json', []);
+    const productCode = data.code ? String(data.code).trim().toUpperCase() : (data.sku ? String(data.sku).trim().toUpperCase() : undefined);
     const newProduct = {
       id: data.id || `prod_${Date.now()}`,
+      code: productCode,
+      sku: productCode,
       name: data.name,
       slug: data.slug || `${data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now().toString().slice(-4)}`,
       description: data.description || '',
@@ -47,6 +50,7 @@ router.post('/', verifyToken, checkRole('admin'), async (req, res) => {
       inStock: data.inStock !== false,
       featured: Boolean(data.featured),
       tags: Array.isArray(data.tags) ? data.tags : [data.category.toLowerCase()],
+      specs: data.specs || undefined,
     };
     products.unshift(newProduct);
     await jsonCache.write('products.json', products);
@@ -65,11 +69,22 @@ router.put('/', verifyToken, checkRole('admin'), async (req, res) => {
       return res.status(400).json({ error: 'Product ID is required' });
     }
     const products = await jsonCache.read('products.json', []);
-    const index = products.findIndex((p) => p.id === data.id);
+    const index = products.findIndex((p) => String(p.id) === String(data.id));
     if (index === -1) {
       return res.status(404).json({ error: 'Product not found' });
     }
     const updated = { ...products[index], ...data };
+    if (data.price !== undefined) {
+      updated.price = Number(data.price);
+    }
+    if (data.originalPrice !== undefined) {
+      updated.originalPrice = data.originalPrice ? Number(data.originalPrice) : undefined;
+    }
+    if (data.code !== undefined || data.sku !== undefined) {
+      const codeVal = data.code ? String(data.code).trim().toUpperCase() : (data.sku ? String(data.sku).trim().toUpperCase() : undefined);
+      updated.code = codeVal;
+      updated.sku = codeVal;
+    }
     products[index] = updated;
     await jsonCache.write('products.json', products);
     res.json(updated);
@@ -87,7 +102,7 @@ router.delete('/', verifyToken, checkRole('admin'), async (req, res) => {
       return res.status(400).json({ error: 'Product ID is required' });
     }
     const products = await jsonCache.read('products.json', []);
-    const filtered = products.filter((p) => p.id !== id);
+    const filtered = products.filter((p) => String(p.id) !== String(id));
     if (filtered.length === products.length) {
       return res.status(404).json({ error: 'Product not found' });
     }

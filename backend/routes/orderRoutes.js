@@ -26,20 +26,135 @@ router.get('/', verifyToken, checkRole('admin'), async (req, res) => {
   }
 });
 
+// ─── 1.5 تتبع الطلب للعميل العام (بدون تسجيل دخول) ──────────
+router.post('/track', async (req, res) => {
+  try {
+    const { orderId, phone } = req.body;
+    if (!orderId || !phone) {
+      return res.status(400).json({ error: 'يرجى إدخال رقم الطلب ورقم الهاتف المسجل' });
+    }
+
+    const cleanInputId = String(orderId).trim().toUpperCase().replace('#', '');
+    const cleanInputPhone = String(phone).replace(/[^0-9]/g, '');
+
+    const orders = await jsonCache.read('orders.json', []);
+    const order = orders.find((o) => {
+      const oId = String(o.id || '').toUpperCase().replace('#', '');
+      return oId === cleanInputId || oId.endsWith(cleanInputId) || cleanInputId.endsWith(oId);
+    });
+
+    if (!order) {
+      return res.status(404).json({
+        error: 'لم يتم العثور على طلب بهذا الرقم، يرجى التأكد من كتابة الرقم بشكل صحيح (مثال: AF-123456)',
+      });
+    }
+
+    // التحقق من تطابق الهاتف (آخر 6 أرقام كافية لمنع أخطاء كود الدولة)
+    const rawPhone = order.customerPhone || order.shippingAddress?.phone || '';
+    const cleanOrderPhone = String(rawPhone).replace(/[^0-9]/g, '');
+
+    const phoneMatches =
+      cleanOrderPhone.endsWith(cleanInputPhone.slice(-6)) ||
+      cleanInputPhone.endsWith(cleanOrderPhone.slice(-6)) ||
+      cleanOrderPhone === cleanInputPhone;
+
+    if (!phoneMatches) {
+      return res.status(403).json({
+        error: 'رقم الهاتف المدخل لا يتطابق مع رقم هاتف المستلم المسجل في هذا الطلب',
+      });
+    }
+
+    // جلب أي طلبات إرجاع سابقة لهذا الطلب
+    const returns = await jsonCache.read('returns.json', []);
+    const orderReturns = returns.filter(
+      (r) => String(r.orderId).toUpperCase() === String(order.id).toUpperCase()
+    );
+
+    res.json({
+      success: true,
+      order,
+      returns: orderReturns,
+    });
+  } catch (err) {
+    console.error('POST /api/orders/track error:', err.message);
+    res.status(500).json({ error: 'حدث خطأ أثناء البحث عن الطلب' });
+  }
+});
+
 // ─── 2. إنشاء طلب جديد مع MongoDB Transactions وحماية المخزون ─
+// ─── ACTIVE_COUPONS (Backend Source of Truth — Never trust Frontend coupon values) ──
+const ACTIVE_COUPONS = [
+  { code: 'WELCOME10', discountType: 'percentage', discountValue: 10, minOrderTotal: 3000, maxDiscount: 2500 },
+  { code: 'VIP2026', discountType: 'percentage', discountValue: 15, minOrderTotal: 25000, maxDiscount: 6000 },
+  { code: 'AMAZON500', discountType: 'fixed', discountValue: 500, minOrderTotal: 3500 },
+];
+
+function validateCouponServer(code, subtotal) {
+  const norm = (code || '').trim().toUpperCase();
+  const c = ACTIVE_COUPONS.find((cp) => cp.code === norm);
+  if (!c) return { valid: false, discount: 0 };
+  if (subtotal < c.minOrderTotal) return { valid: false, discount: 0 };
+  let discount = 0;
+  if (c.discountType === 'percentage') {
+    discount = (subtotal * c.discountValue) / 100;
+    if (c.maxDiscount && discount > c.maxDiscount) discount = c.maxDiscount;
+  } else {
+    discount = c.discountValue;
+  }
+  return { valid: true, discount: Math.round(discount) };
+}
+
 router.post('/', async (req, res) => {
   const body = req.body;
-  const { items, total, shippingAddress, notes, customerName, customerEmail, customerPhone } = body;
+  const { items, shippingAddress, notes, customerName, customerEmail, customerPhone } = body;
 
   if (!items || !items.length) {
     return res.status(400).json({ error: 'Order must contain at least one item' });
   }
 
+  // ─── ⚠️  CRITICAL: SERVER-SIDE PRICE RECALCULATION ─────────────────────────
+  // Never trust the total coming from the frontend — always recalculate from DB
+  let serverSubtotal = 0;
+  const allProducts = await jsonCache.read('products.json', []);
+
+  for (const item of items) {
+    const prodId = item.product?.id || item.productId;
+    const dbProduct = allProducts.find((p) => String(p.id) === String(prodId));
+    if (!dbProduct) {
+      return res.status(400).json({ error: `المنتج "${item.product?.name || prodId}" غير موجود في قاعدة البيانات` });
+    }
+    const qty = Math.max(1, Math.floor(Number(item.quantity) || 1));
+    serverSubtotal += dbProduct.price * qty;
+
+    // Rebuild item with authoritative price from DB
+    item.product = {
+      ...item.product,
+      price: dbProduct.price,
+      name: dbProduct.name,
+    };
+  }
+
+  // ─── Server-side coupon validation ──────────────────────────────────────────
+  const couponCode = body.couponCode || null;
+  let couponDiscount = 0;
+  if (couponCode) {
+    const couponResult = validateCouponServer(couponCode, serverSubtotal);
+    couponDiscount = couponResult.valid ? couponResult.discount : 0;
+  }
+
+  // ─── Server-side shipping cost calculation ───────────────────────────────────
+  // Accept shippingCost from frontend only if it's a non-negative number; default to 0
+  const clientShippingCost = Number(body.shippingCost) || 0;
+  const serverShippingCost = clientShippingCost >= 0 ? clientShippingCost : 0;
+
+  // ─── Final authoritative total ───────────────────────────────────────────────
+  const serverTotal = Math.max(0, serverSubtotal - couponDiscount + serverShippingCost);
+
   const orderId = body.id || `AF-${Math.floor(100000 + Math.random() * 900000)}`;
   const targetEmail = (customerEmail || shippingAddress?.email || '').toLowerCase().trim();
   const userId = body.userId;
 
-  // تجهيز كائن الطلب الموحد
+  // تجهيز كائن الطلب الموحد بالأسعار المحسوبة من الـ Backend
   const newOrder = {
     id: orderId,
     customerName: customerName || shippingAddress?.firstName || 'عميل كريم',
@@ -59,11 +174,18 @@ router.post('/', async (req, res) => {
       curtainType: it.curtainType || '',
       selectedDimensions: it.selectedDimensions || null,
     })),
-    total: Number(total) || 0,
+    subtotal: serverSubtotal,
+    discount: couponDiscount,
+    couponCode: couponCode || null,
+    shippingCost: serverShippingCost,
+    total: serverTotal, // ← always server-calculated, never from frontend
     status: 'processing',
     date: new Date().toISOString(),
     shippingAddress: shippingAddress || {},
     notes: notes || '',
+    paymentMethod: body.paymentMethod || 'cod',
+    paymentStatus: body.paymentStatus || (body.paymentMethod === 'cod' ? 'pending' : 'verified'),
+    paymentDetails: body.paymentDetails || {},
   };
 
   let customerObjectId = undefined;

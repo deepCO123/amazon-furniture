@@ -18,18 +18,13 @@ export default function SaveQuarterCostSection() {
   const addToast = useToastStore((s) => s.addToast);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Exact products from Oscar Screenshots 3 & 4
-  const targetIds = ["18", "19", "20", "21", "22"];
-  const exactProducts = targetIds
-    .map((id) => products.find((p) => p.id === id))
-    .filter(Boolean) as Product[];
+  const saleProducts = products
+    .filter((p) => p.originalPrice && p.originalPrice > p.price)
+    .slice(0, 8);
 
-  const saleProducts =
-    exactProducts.length >= 4
-      ? exactProducts
-      : products.filter((p) => p.originalPrice && p.originalPrice > p.price).slice(0, 5);
+  const displaySaleProducts = saleProducts.length > 0 ? saleProducts : products.slice(0, 6);
 
-  if (saleProducts.length === 0) {
+  if (displaySaleProducts.length === 0) {
     return null;
   }
 
@@ -94,7 +89,7 @@ export default function SaveQuarterCostSection() {
             ref={scrollRef}
             className="flex items-stretch gap-4 sm:gap-5 overflow-x-auto scrollbar-none py-1 scroll-smooth"
           >
-            {saleProducts.map((product) => {
+            {displaySaleProducts.map((product) => {
               const discountPercent = product.originalPrice
                 ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
                 : 26;

@@ -73,6 +73,6 @@ export const useCartStore = create<CartStore>()(
       getItemCount: () =>
         get().items.reduce((count, item) => count + item.quantity, 0),
     }),
-    { name: "woodcraft-cart" }
+    { name: "amazon-furniture-cart" }
   )
 );

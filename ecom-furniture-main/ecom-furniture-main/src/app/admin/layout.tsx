@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
-  ExternalLink,
-  LogOut,
   ShieldCheck,
   Store,
 } from "lucide-react";
@@ -21,15 +18,15 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
-  const { isAuthenticated, logout } = useAdminAuthStore();
+  const { isAuthenticated, checkSession } = useAdminAuthStore();
   const { fetchProducts } = useProductStore();
   const { theme } = useThemeStore();
   const mounted = useHydrated();
 
   useEffect(() => {
     fetchProducts();
-  }, [fetchProducts]);
+    checkSession();
+  }, [fetchProducts, checkSession]);
 
   // Sync html class on mount
   useEffect(() => {
@@ -39,12 +36,6 @@ export default function AdminLayout({
       document.documentElement.setAttribute("data-theme", theme);
     }
   }, [theme, mounted]);
-
-  // Handle logout
-  const handleLogout = () => {
-    logout();
-    router.push("/admin/login");
-  };
 
   if (!mounted) {
     return (

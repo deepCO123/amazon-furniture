@@ -185,10 +185,22 @@ const adminLogin = async (req, res) => {
     }
 
     const normalizedEmail = email.toLowerCase().trim();
-    const admin = adminsDB.find((u) => u.email === normalizedEmail && u.role === 'admin');
+    let admin = null;
+
+    if (jsonCache.isMongoConnected()) {
+      try {
+        admin = await Customer.findOne({ email: normalizedEmail, role: 'admin' });
+      } catch (err) {
+        console.warn('Admin mongo lookup notice:', err.message);
+      }
+    }
+
+    if (!admin) {
+      admin = adminsDB.find((u) => u.email === normalizedEmail && u.role === 'admin');
+    }
 
     // حماية من هجمات التوقيت (Timing Attack Protection)
-    if (!admin) {
+    if (!admin || !admin.passwordHash) {
       await bcrypt.compare(password, '$2a$12$e8p4iT95fC2.d3X1s/N5v.8iL9K8qNq2tQfXv1pE8Q7G9uEuV9uM6');
       return res.status(401).json({ success: false, message: 'بيانات اعتماد الأدمن غير صحيحة.' });
     }
@@ -198,10 +210,11 @@ const adminLogin = async (req, res) => {
       return res.status(401).json({ success: false, message: 'بيانات اعتماد الأدمن غير صحيحة.' });
     }
 
-    attachTokenCookie(res, admin);
+    const token = attachTokenCookie(res, admin);
 
     return res.status(200).json({
       success: true,
+      token,
       message: 'مرحباً بعودتك للوحة التحكم الإدارية.',
       user: {
         id: admin.id,

@@ -54,6 +54,24 @@ const orderSchema = new mongoose.Schema(
     date: { type: String, default: () => new Date().toISOString() },
     shippingAddress: { type: shippingAddressSchema, default: () => ({}) },
     notes: { type: String, default: '' },
+    paymentMethod: {
+      type: String,
+      enum: ['cod', 'instapay', 'wallet', 'card', 'fawry'],
+      default: 'cod',
+      index: true,
+    },
+    paymentStatus: {
+      type: String,
+      enum: ['pending', 'paid', 'verified', 'failed'],
+      default: 'pending',
+      index: true,
+    },
+    paymentDetails: {
+      transactionRef: { type: String, default: '' },
+      walletPhone: { type: String, default: '' },
+      fawryCode: { type: String, default: '' },
+      paidAt: { type: String, default: '' },
+    },
   },
   {
     timestamps: true,

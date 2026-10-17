@@ -20,7 +20,6 @@ import {
 import { useLanguageStore } from "@/store/languageStore";
 import { useHydrated } from "@/hooks/useHydrated";
 import { useProductStore } from "@/store/productStore";
-import { getProductBySlug as getFallbackProduct } from "@/data/products";
 import { getReviewsByProduct } from "@/data/reviews";
 import { formatPrice, getDiscount, getProductUrl } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
@@ -41,7 +40,7 @@ export default function ProductDetailPage({
 }) {
   const { slug } = use(params);
   const storeProduct = useProductStore((s) => s.getProductBySlug(slug));
-  const product = storeProduct || getFallbackProduct(slug);
+  const product = storeProduct;
   const allProducts = useProductStore((s) => s.products);
   const related = product
     ? allProducts

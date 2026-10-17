@@ -25,7 +25,7 @@ export const LANGUAGES: Record<Language, LanguageInfo> = {
     dir: "rtl",
     currency: "EGP",
     currencySymbol: "ج.م",
-    rate: 50.0,
+    rate: 1.0, // Base currency is Egyptian Pound (1 EGP = 1 EGP)
   },
   sa: {
     code: "sa",
@@ -35,7 +35,7 @@ export const LANGUAGES: Record<Language, LanguageInfo> = {
     dir: "rtl",
     currency: "SAR",
     currencySymbol: "ر.س",
-    rate: 3.75,
+    rate: 0.075, // 1 EGP ~ 0.075 SAR (1 SAR ~ 13.33 EGP)
   },
   en: {
     code: "en",
@@ -45,7 +45,7 @@ export const LANGUAGES: Record<Language, LanguageInfo> = {
     dir: "ltr",
     currency: "USD",
     currencySymbol: "$",
-    rate: 1.0,
+    rate: 0.02, // 1 EGP ~ 0.02 USD (1 USD ~ 50 EGP)
   },
 };
 

@@ -1,6 +1,10 @@
+import path from "path";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.resolve(__dirname, "../../"),
+  },
   // Allow Cloudflare tunnels and local development
   allowedDevOrigins: [
     "*.trycloudflare.com",
@@ -41,6 +45,7 @@ const nextConfig: NextConfig = {
       },
     ],
     deviceSizes: [480, 768, 1024, 1280, 1536],
+    qualities: [75, 95],
    
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",

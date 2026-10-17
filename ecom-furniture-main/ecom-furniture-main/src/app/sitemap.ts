@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { products } from "@/data/products";
 import { categories } from "@/data/categories";
 
 const siteUrl = "https://woodcraft.vercel.app";
@@ -21,12 +20,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const productPages = products.map((product) => ({
-    url: `${siteUrl}/products/${product.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }));
-
-  return [...staticPages, ...categoryPages, ...productPages];
+  return [...staticPages, ...categoryPages];
 }

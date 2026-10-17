@@ -16,6 +16,8 @@ export interface FurnitureSpecs {
 export interface Product {
   id: string;
   name: string;
+  code?: string; // كود المنتج التعريفي الفريد مثل GL-123
+  sku?: string; // رمز التخزين التعريفي SKU
   slug: string;
   description: string;
   price: number;
@@ -90,6 +92,14 @@ export interface Order {
   notes?: string;
   leadTimeDays?: number;
   requiresAssembly?: boolean;
+  paymentMethod?: "cod" | "instapay" | "wallet" | "card" | "fawry";
+  paymentStatus?: "pending" | "verified" | "paid" | "failed";
+  paymentDetails?: {
+    transactionRef?: string;
+    walletPhone?: string;
+    fawryCode?: string;
+    paidAt?: string;
+  };
 }
 
 export interface ReturnRequest {

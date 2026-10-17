@@ -9,6 +9,8 @@ const productSchema = new mongoose.Schema(
   {
     id: { type: String, required: true, unique: true, index: true },
     name: { type: String, required: true, trim: true },
+    code: { type: String, trim: true, index: true }, // مثل GL-123
+    sku: { type: String, trim: true },
     slug: { type: String, required: true, unique: true, index: true },
     description: { type: String, default: '' },
     price: { type: Number, required: true, min: 0 },
@@ -24,6 +26,8 @@ const productSchema = new mongoose.Schema(
     },
     weight: { type: Number, default: 20 },
     stockQuantity: { type: Number, default: 10, min: 0 },
+    returnCount: { type: Number, default: 0, min: 0 },
+    totalSold: { type: Number, default: 0, min: 0 },
     rating: { type: Number, default: 5.0, min: 1, max: 5 },
     reviewCount: { type: Number, default: 1, min: 0 },
     inStock: { type: Boolean, default: true },

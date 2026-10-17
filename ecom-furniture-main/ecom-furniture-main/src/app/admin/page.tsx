@@ -25,7 +25,7 @@ import {
   Phone,
   Layers,
   Clock,
-  ShieldCheck,
+  ShieldAlert,
   X,
   RotateCcw,
   FileText,
@@ -40,7 +40,7 @@ import {
   CreditCard,
   Activity,
   LogOut,
-  SlidersHorizontal,
+  FileSpreadsheet,
 } from "lucide-react";
 import { useAdminAuthStore } from "@/store/adminAuthStore";
 import { useProductStore } from "@/store/productStore";
@@ -63,6 +63,9 @@ const CustomerModal = dynamic(() => import("@/components/admin/CustomerModal"), 
   ssr: false,
 });
 const QuotationModal = dynamic(() => import("@/components/admin/QuotationModal"), {
+  ssr: false,
+});
+const ImportProducts = dynamic(() => import("@/components/admin/ImportProducts"), {
   ssr: false,
 });
 
@@ -104,13 +107,10 @@ export default function AdminDashboardPage() {
   const thCls = isDark
     ? "bg-[#161B26] text-slate-400 border-[#1F2433]"
     : "bg-slate-100 text-slate-700 border-slate-200";
-  const trHoverCls = isDark
-    ? "border-[#1A1F2C] hover:bg-[#161B26]/60"
-    : "border-slate-100 hover:bg-slate-50";
 
   const addToast = useToastStore((s) => s.addToast);
   const router = useRouter();
-  const { logout } = useAdminAuthStore();
+  const { logout, checkSession } = useAdminAuthStore();
 
   const handleLogout = () => {
     logout();
@@ -161,6 +161,7 @@ export default function AdminDashboardPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [importModalOpen, setImportModalOpen] = useState(false);
 
   const [notification, setNotification] = useState<string | null>(null);
 
@@ -279,14 +280,17 @@ export default function AdminDashboardPage() {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchProducts();
-    loadCustomers();
-    loadOrders();
-    loadReturns();
-    loadQuotations();
-    loadConsultations();
-    loadEmails();
+    const timer = setTimeout(() => {
+      fetchProducts();
+      loadCustomers();
+      loadOrders();
+      loadReturns();
+      loadQuotations();
+      loadConsultations();
+      loadEmails();
+    }, 0);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Filtered Products
@@ -311,6 +315,11 @@ export default function AdminDashboardPage() {
       return matchesSearch && matchesCategory && matchesStock;
     });
   }, [products, searchQuery, selectedCategory, stockFilter]);
+
+  // Critical Low Stock Products Memo
+  const lowStockProducts = useMemo(() => {
+    return products.filter((p) => (p.stockQuantity ?? 10) <= 3);
+  }, [products]);
 
   // Filtered Customers
   const filteredCustomers = useMemo(() => {
@@ -447,8 +456,26 @@ export default function AdminDashboardPage() {
       showNotification(`تم حذف المنتج "${productToDelete.name}" من المتجر.`);
       setDeleteConfirmOpen(false);
       setProductToDelete(null);
-    } catch {
-      alert("حدث خطأ أثناء محاولة حذف المنتج.");
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : "حدث خطأ أثناء محاولة حذف المنتج.";
+      if (errMsg.includes("401") || errMsg.includes("مصرح")) {
+        try {
+          const sessionRestored = await checkSession();
+          if (sessionRestored) {
+            await deleteProduct(productToDelete.id);
+            showNotification(`تم حذف المنتج "${productToDelete.name}" من المتجر.`);
+            setDeleteConfirmOpen(false);
+            setProductToDelete(null);
+            return;
+          }
+        } catch {
+          // Retry failed
+        }
+        alert("انتهت صلاحية الجلسة الإدارية أو غير مصرح لك. يرجى تسجيل الدخول مجدداً كمسؤول.");
+        router.push("/admin/login");
+      } else {
+        alert(`تعذر حذف المنتج: ${errMsg}`);
+      }
     } finally {
       setDeleting(false);
     }
@@ -544,6 +571,26 @@ export default function AdminDashboardPage() {
                 </button>
               );
             })}
+
+            {/* AI Returns Intelligence Quick Access */}
+            <div className="pt-2">
+              <Link
+                href="/admin/returns-intelligence"
+                className={`w-full text-right px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between transition-all cursor-pointer ${
+                  isDark
+                    ? "bg-gradient-to-r from-amber-500/15 via-red-500/10 to-transparent text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 shadow-md shadow-amber-950/20"
+                    : "bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 shadow-xs"
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <ShieldAlert size={17} className="text-amber-400 shrink-0" />
+                  <span className="font-black">ذكاء المرتجعات &amp; المخزون</span>
+                </div>
+                <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                  AI Pro
+                </span>
+              </Link>
+            </div>
           </nav>
         </div>
 
@@ -771,6 +818,83 @@ export default function AdminDashboardPage() {
       {/* ======================================================== */}
       {activeTab === "products" && (
         <div className="space-y-6">
+          {/* Low Stock Warning Banner */}
+          {lowStockProducts.length > 0 && (
+            <div className={`p-4 sm:p-5 rounded-2xl border-2 transition-all ${
+              isDark 
+                ? "bg-rose-950/40 border-rose-500/40 text-rose-100" 
+                : "bg-rose-50 border-rose-300 text-rose-950 shadow-sm"
+            }`}>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 border border-rose-500/40">
+                    <AlertTriangle size={20} className="animate-pulse" />
+                  </div>
+                  <div>
+                    <h3 className="font-extrabold text-sm sm:text-base text-rose-600 dark:text-rose-400">
+                      تنبيه المخزون الحرج: يوجد ({lowStockProducts.length}) منتجات أوشكت على النفاد!
+                    </h3>
+                    <p className={`text-xs ${isDark ? "text-rose-300/80" : "text-rose-800/80"}`}>
+                      المخزون المتبقي أقل من أو يساوي 3 قطع. يمكنك إرسال أمر تشغيل فوري للورشة لتجهيز دفعة تصنيع جديدة.
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href={`https://wa.me/201091084863?text=${encodeURIComponent(
+                    `أمر تشغيل عاجل للورشة:\nيوجد ${lowStockProducts.length} منتجات أوشك مخزونها على النفاد:\n` +
+                    lowStockProducts.map((p, i) => `${i+1}. ${p.name} (المتبقي: ${p.stockQuantity ?? 0} قطع)`).join("\n") +
+                    `\n\nيرجى تجهيز وتصنيع دفعة خامات جديدة بالمصنع فوراً.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-black flex items-center justify-center gap-1.5 shadow-md shrink-0 transition-colors"
+                >
+                  <MessageCircle size={15} />
+                  <span>إرسال أمر تشغيل لكافة القطع بالواتساب</span>
+                </a>
+              </div>
+
+              {/* Horizontal Scrollable list of critical items */}
+              <div className="flex gap-3 overflow-x-auto pb-1 no-scrollbar">
+                {lowStockProducts.map((p) => {
+                  const qty = p.stockQuantity ?? 0;
+                  return (
+                    <div
+                      key={p.id}
+                      className={`p-2.5 rounded-xl border flex items-center gap-3 shrink-0 min-w-[240px] ${
+                        isDark ? "bg-[#161B26] border-rose-500/30" : "bg-white border-rose-200 shadow-xs"
+                      }`}
+                    >
+                      <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                        <Image src={p.images?.[0] || "/placeholder.jpg"} alt={p.name} fill className="object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-xs font-bold truncate ${textTitle}`}>{p.name}</p>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mt-0.5 ${
+                          qty === 0 ? "bg-red-500 text-white" : "bg-amber-500/20 text-amber-500 border border-amber-500/30"
+                        }`}>
+                          {qty === 0 ? "نفد المخزون ❌" : `متبقي ${qty} فقط ⚠️`}
+                        </span>
+                      </div>
+                      <a
+                        href={`https://wa.me/201091084863?text=${encodeURIComponent(
+                          `أمر تشغيل ورشة عاجل: نفاد مخزون قطعة "${p.name}" (المتبقي بالمخزن: ${qty} فقط). يرجى بدء تصنيع دفعة جديدة فوراً.`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors"
+                        title="أمر تشغيل للقطعة"
+                      >
+                        <MessageCircle size={14} />
+                      </a>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Stats Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div className={`p-4 sm:p-5 rounded-2xl border shadow-sm transition-colors ${subcardCls}`}>
@@ -858,6 +982,21 @@ export default function AdminDashboardPage() {
                 <option value="LOW_STOCK" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>أوشك على النفاد (1-3)</option>
                 <option value="OUT_OF_STOCK" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>نفد المخزون (0)</option>
               </select>
+
+              {/* Bulk Import Button */}
+              <button
+                id="bulk-import-btn"
+                onClick={() => setImportModalOpen(true)}
+                className={`flex items-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-bold whitespace-nowrap transition-colors cursor-pointer ${
+                  isDark
+                    ? "bg-[#0E1119] border-[#282E3E] text-emerald-400 hover:bg-[#111B14] hover:border-emerald-500/50 hover:text-emerald-300"
+                    : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 hover:border-emerald-300"
+                }`}
+                title="استيراد منتجات من Excel أو CSV"
+              >
+                <FileSpreadsheet size={15} />
+                <span className="hidden sm:inline">استيراد Excel</span>
+              </button>
             </div>
           </div>
 
@@ -1374,6 +1513,7 @@ export default function AdminDashboardPage() {
                     <th className="px-6 py-3.5 text-start">العميل</th>
                     <th className="px-6 py-3.5 text-start">القطع المطلوبة</th>
                     <th className="px-6 py-3.5 text-start">المبلغ الإجمالي</th>
+                    <th className="px-6 py-3.5 text-center">بوابة وطريقة الدفع</th>
                     <th className="px-6 py-3.5 text-center">حالة الطلب</th>
                     <th className="px-6 py-3.5 text-center">التواصل</th>
                   </tr>
@@ -1381,7 +1521,7 @@ export default function AdminDashboardPage() {
                 <tbody className="divide-y divide-slate-100">
                   {filteredOrders.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="text-center py-12 text-slate-400">
+                      <td colSpan={7} className="text-center py-12 text-slate-400">
                         <ShoppingBag size={36} className="mx-auto mb-2 opacity-40" />
                         <p className="font-semibold text-slate-600">لا توجد طلبات مسجلة حالياً</p>
                       </td>
@@ -1460,6 +1600,68 @@ export default function AdminDashboardPage() {
                             <span className="text-[11px] text-emerald-600 font-medium block">
                               شامل التركيب مجاناً ✓
                             </span>
+                          </td>
+
+                          {/* Payment Method & Details */}
+                          <td className="px-6 py-4 text-center">
+                            <div className="space-y-1 inline-block text-start">
+                              {/* Method Badge */}
+                              {order.paymentMethod === "instapay" ? (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                  <span>⚡ إنستاباي</span>
+                                </span>
+                              ) : order.paymentMethod === "wallet" ? (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-red-50 text-red-700 border border-red-200">
+                                  <span>📱 محفظة كاش</span>
+                                </span>
+                              ) : order.paymentMethod === "card" ? (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                                  <span>💳 فيزا / Paymob</span>
+                                </span>
+                              ) : order.paymentMethod === "fawry" ? (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                                  <span>🔢 فوري باي</span>
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                  <span>💵 عند الاستلام</span>
+                                </span>
+                              )}
+
+                              {/* Details Tag */}
+                              {order.paymentDetails?.transactionRef && (
+                                <span className="block text-[10px] text-slate-500 font-mono">
+                                  مرجع: {order.paymentDetails.transactionRef}
+                                </span>
+                              )}
+                              {order.paymentDetails?.walletPhone && (
+                                <span className="block text-[10px] text-slate-500 font-mono" dir="ltr">
+                                  📞 {order.paymentDetails.walletPhone}
+                                </span>
+                              )}
+                              {order.paymentDetails?.fawryCode && (
+                                <span className="block text-[10px] text-amber-700 font-mono font-bold">
+                                  كود: {order.paymentDetails.fawryCode}
+                                </span>
+                              )}
+
+                              {/* Payment Status */}
+                              <div className="pt-0.5">
+                                {order.paymentStatus === "paid" ? (
+                                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                                    مدفوع ✓
+                                  </span>
+                                ) : order.paymentStatus === "verified" ? (
+                                  <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">
+                                    تم التحقق ✓
+                                  </span>
+                                ) : (
+                                  <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
+                                    معلق / عند الاستلام
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           </td>
 
                           {/* Status */}
@@ -2546,6 +2748,18 @@ export default function AdminDashboardPage() {
         onClose={() => setSelectedQuotation(null)}
         quotation={selectedQuotation}
       />
+
+      {/* Bulk Import Modal */}
+      {importModalOpen && (
+        <ImportProducts
+          isDark={isDark}
+          onClose={() => setImportModalOpen(false)}
+          onImportComplete={() => {
+            fetchProducts();
+            showNotification("تم استيراد المنتجات بنجاح وتم تحديث المتجر!");
+          }}
+        />
+      )}
     </div>
   );
 }

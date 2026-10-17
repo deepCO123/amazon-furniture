@@ -36,6 +36,16 @@ class ApiClient {
     this.baseUrl = baseUrl;
   }
 
+  public getAuthHeader(): Record<string, string> {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("amazon_token");
+      if (token) {
+        return { Authorization: `Bearer ${token}` };
+      }
+    }
+    return {};
+  }
+
   private async request<T = unknown>(
     endpoint: string,
     options: RequestInit = {}
@@ -47,6 +57,7 @@ class ApiClient {
       credentials: "include", // Required for HttpOnly JWT cookies
       headers: {
         "Content-Type": "application/json",
+        ...this.getAuthHeader(),
         ...options.headers,
       },
     };
@@ -158,12 +169,15 @@ class ApiClient {
     const res = await fetch(`${this.baseUrl}/api/products`, {
       method: "POST",
       credentials: "include",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...this.getAuthHeader(),
+      },
       body: JSON.stringify(productData),
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({ error: "Failed to create product" }));
-      throw new Error(err.error || err.message || "Failed to create product");
+      throw new Error(err.error || err.message || `Failed to create product (${res.status})`);
     }
     return res.json();
   }
@@ -172,12 +186,15 @@ class ApiClient {
     const res = await fetch(`${this.baseUrl}/api/products`, {
       method: "PUT",
       credentials: "include",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...this.getAuthHeader(),
+      },
       body: JSON.stringify({ id, ...updates }),
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({ error: "Failed to update product" }));
-      throw new Error(err.error || err.message || "Failed to update product");
+      throw new Error(err.error || err.message || `Failed to update product (${res.status})`);
     }
     return res.json();
   }
@@ -186,10 +203,13 @@ class ApiClient {
     const res = await fetch(`${this.baseUrl}/api/products?id=${encodeURIComponent(id)}`, {
       method: "DELETE",
       credentials: "include",
+      headers: {
+        ...this.getAuthHeader(),
+      },
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({ error: "Failed to delete product" }));
-      throw new Error(err.error || err.message || "Failed to delete product");
+      throw new Error(err.error || err.message || `Failed to delete product (${res.status})`);
     }
     return true;
   }
@@ -384,6 +404,107 @@ class ApiClient {
       method: "POST",
       body: JSON.stringify(payload),
     });
+  }
+
+  // ─── Analytics & Intelligence ──────────────────────────
+
+  async getReturnsIntelligence() {
+    try {
+      const res = await fetch(`${this.baseUrl}/api/admin/analytics/returns-intelligence`, {
+        cache: "no-store",
+        credentials: "include",
+        headers: {
+          ...this.getAuthHeader(),
+        },
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to fetch returns intelligence (${res.status})`);
+      }
+      return await res.json();
+    } catch (err) {
+      console.error("[API Client] getReturnsIntelligence error:", err);
+      throw err;
+    }
+  }
+
+  // ─── Bulk Import ──────────────────────────────────────
+
+  /**
+   * Trigger browser download of the XLSX import template.
+   * Uses a temporary anchor element so the response is saved as a file.
+   */
+  downloadImportTemplate() {
+    if (typeof window === "undefined") return;
+    const link = document.createElement("a");
+    link.href = "/api/products/import/template";
+    link.download = "amazon-furniture-import-template.xlsx";
+    // Include auth header manually by building the URL with a bearer token if needed
+    link.click();
+    link.remove();
+  }
+
+  /**
+   * Upload an Excel/CSV file for bulk product import.
+   * @param file      The xlsx/csv File object selected by the user
+   * @param dryRun    If true, validate only without saving
+   */
+  async importProducts(
+    file: File,
+    dryRun = false
+  ): Promise<{
+    success: boolean;
+    dryRun: boolean;
+    total: number;
+    valid: number;
+    invalid: number;
+    created?: number;
+    updated?: number;
+    errors: string[];
+    preview?: Record<string, unknown>[];
+    error?: string;
+  }> {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("dryRun", String(dryRun));
+
+    try {
+      const res = await fetch("/api/products/import", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          ...this.getAuthHeader(),
+          // Don't set Content-Type — browser sets it with boundary for multipart
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        return {
+          success: false,
+          dryRun,
+          total: 0,
+          valid: 0,
+          invalid: 0,
+          errors: [],
+          error: data.error || data.message || `HTTP ${res.status}`,
+        };
+      }
+
+      return data;
+    } catch (err) {
+      console.error("[API Client] importProducts error:", err);
+      return {
+        success: false,
+        dryRun,
+        total: 0,
+        valid: 0,
+        invalid: 0,
+        errors: [],
+        error: "حدث خطأ في الاتصال بالخادم",
+      };
+    }
   }
 
   // ─── Cache Stats ──────────────────────────────────────

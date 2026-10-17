@@ -14,7 +14,7 @@ export default function ThemeToggle({
   variant = "header",
   className = "",
 }: ThemeToggleProps) {
-  const { theme, toggleTheme, setTheme } = useThemeStore();
+  const { theme, toggleTheme } = useThemeStore();
   const mounted = useHydrated();
 
   // Keep document element class in sync

@@ -10,6 +10,7 @@ import DirectionSync from "@/components/layout/DirectionSync";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import Analytics from "@/components/analytics/Analytics";
+import ProductInitializer from "@/components/layout/ProductInitializer";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -18,7 +19,8 @@ const cairo = Cairo({
   display: "swap",
 });
 
-const siteUrl = "https://woodcraft.vercel.app";
+// TODO: Update this to your actual production domain before going live
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://amazonfurniture.eg";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -107,14 +109,9 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/logo-icon.png" />
         <link rel="canonical" href={siteUrl} />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
       </head>
       <body className="min-h-full flex flex-col bg-surface font-sans overflow-x-hidden w-full pb-16 md:pb-0">
+        <ProductInitializer />
         <DirectionSync />
         <Analytics />
         <ScrollProgress />
