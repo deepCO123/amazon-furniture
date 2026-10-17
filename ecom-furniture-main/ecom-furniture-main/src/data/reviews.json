@@ -202,5 +202,17 @@
     "photos": [],
     "status": "pending",
     "createdAt": "2026-10-17T17:33:15.786Z"
+  },
+  {
+    "id": "rev_1792259551038_407",
+    "productId": "prod_1",
+    "userName": "منى إبراهيم",
+    "userAvatar": "",
+    "rating": 5,
+    "comment": "خامة الخشب ممتازة جداً والتوصيل كان في الموعد!",
+    "verifiedPurchase": false,
+    "photos": [],
+    "status": "pending",
+    "createdAt": "2026-10-17T17:52:31.038Z"
   }
 ]

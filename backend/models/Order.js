@@ -71,6 +71,7 @@ const orderSchema = new mongoose.Schema(
       walletPhone: { type: String, default: '' },
       fawryCode: { type: String, default: '' },
       paidAt: { type: String, default: '' },
+      receiptImage: { type: String, default: '' },
     },
   },
   {

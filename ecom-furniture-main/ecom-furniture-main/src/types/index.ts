@@ -99,6 +99,7 @@ export interface Order {
     walletPhone?: string;
     fawryCode?: string;
     paidAt?: string;
+    receiptImage?: string;
   };
 }
 

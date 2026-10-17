@@ -8,22 +8,21 @@ const express = require('express');
 const router = express.Router();
 const { upload } = require('../middlewares/upload');
 const { verifyToken, checkRole } = require('../middlewares/auth');
+const { apiLimiter } = require('../middlewares/security');
 
-// حماية جميع مسارات الرفع للأدمن فقط
-router.use(verifyToken, checkRole('admin'));
-
-// معالج مرن يتقبل حقل 'file' أو 'image'
+// معالج مرن يتقبل حقل 'file' أو 'image' أو 'receipt'
 const singleUploadMiddleware = (req, res, next) => {
   upload.fields([
     { name: 'file', maxCount: 1 },
     { name: 'image', maxCount: 1 },
+    { name: 'receipt', maxCount: 1 },
   ])(req, res, (err) => {
     if (err) {
       console.error('[Upload Error]', err.message);
       return res.status(400).json({ success: false, error: err.message });
     }
     // وضع الملف الملتقط في req.file لتسهيل المعالجة
-    req.file = req.files?.file?.[0] || req.files?.image?.[0] || null;
+    req.file = req.files?.file?.[0] || req.files?.image?.[0] || req.files?.receipt?.[0] || null;
     next();
   });
 };
@@ -46,6 +45,15 @@ const handleSingleUploadResponse = (req, res) => {
     filename: req.file.filename,
   });
 };
+
+/**
+ * @route   POST /api/upload/receipt
+ * @desc    رفع صورة إيصال التحويل (متاحة للعميل في الـ Checkout دون الحاجة لحساب أدمن)
+ */
+router.post('/receipt', apiLimiter, singleUploadMiddleware, handleSingleUploadResponse);
+
+// حماية باقي مسارات الرفع الإدارية للأدمن فقط
+router.use(verifyToken, checkRole('admin'));
 
 /**
  * @route   POST /api/upload

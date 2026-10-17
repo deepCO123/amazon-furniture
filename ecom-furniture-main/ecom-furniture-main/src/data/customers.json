@@ -1,5 +1,72 @@
 [
   {
+    "id": "cust_1792259557585",
+    "email": "prod_test_1792259557148@example.com",
+    "name": "Customer Test",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T17:52:37.585Z",
+    "passwordHash": "$2a$12$Oxh6GVfgmRryQvmHePYgw.bzZoGC6gQifi2bUN78iIYgUAdRejiRS"
+  },
+  {
+    "id": "cust_1792259556146",
+    "email": "xss_test_1792259555621@example.com",
+    "name": "scriptalert(\"XSS\")/scriptمحمد علي",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T17:52:36.146Z",
+    "passwordHash": "$2a$12$jdO8Ufu1bKfKXLeKAIUjvewDAZDKrWnk2/KorwOe5FRA/E7VP6bYi"
+  },
+  {
+    "id": "cust_1792259553886",
+    "email": "fail_test_1792259553469@example.com",
+    "name": "عميل كريم",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T17:52:33.886Z",
+    "passwordHash": "$2a$12$CqYhidOsgA7Bsat/H1TGxu6kJHo4azx7.2jbzUWWIe8FYk8ISgNYW"
+  },
+  {
+    "id": "cust_1792259552969",
+    "email": "login_test_1792259552476@example.com",
+    "name": "أحمد علي",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T17:52:32.969Z",
+    "passwordHash": "$2a$12$wWZfbE7g2slv70NrW/mNeOCGZroO2RYaGay3cGTfbc2bewV8rKRBO"
+  },
+  {
+    "id": "cust_1792259552453",
+    "email": "test_customer_1792259551904@example.com",
+    "name": "عميل اختباري",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T17:52:32.453Z",
+    "passwordHash": "$2a$12$pylpCdb.LjV6SDEGYOp.MuZMM7QIcoWSl3xpdhT7EBBk32xGNEaKa"
+  },
+  {
+    "id": "cust_1792259550548",
+    "name": "عميل المنصورة",
+    "email": "crm_test_1792259550533@test.com",
+    "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=%D8%B9%D9%85%D9%8A%D9%84%20%D8%A7%D9%84%D9%85%D9%86%D8%B5%D9%88%D8%B1%D8%A9&backgroundColor=c5a880",
+    "phone": "01055554444",
+    "city": "المنصورة",
+    "createdAt": "2026-10-17T17:52:30.548Z",
+    "provider": "google",
+    "ordersCount": 0,
+    "totalSpent": 0
+  },
+  {
     "id": "cust_1792258407047",
     "email": "xss_test_1792258406513@example.com",
     "name": "scriptalert(\"XSS\")/scriptمحمد علي",

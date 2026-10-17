@@ -162,6 +162,7 @@ export default function AdminDashboardPage() {
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [importModalOpen, setImportModalOpen] = useState(false);
+  const [viewingReceiptOrder, setViewingReceiptOrder] = useState<Order | null>(null);
 
   const [notification, setNotification] = useState<string | null>(null);
 
@@ -1645,6 +1646,19 @@ export default function AdminDashboardPage() {
                                 </span>
                               )}
 
+                              {/* Receipt Proof Inspection Button */}
+                              {order.paymentDetails?.receiptImage && (
+                                <button
+                                  type="button"
+                                  onClick={() => setViewingReceiptOrder(order)}
+                                  className="inline-flex items-center gap-1.5 px-2 py-0.5 mt-1 rounded text-[11px] font-bold bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-300 transition-all cursor-pointer shadow-2xs"
+                                  title="فحص ومراجعة سكرين شوت التحويل"
+                                >
+                                  <Eye size={12} />
+                                  <span>📸 فحص إيصال التحويل</span>
+                                </button>
+                              )}
+
                               {/* Payment Status */}
                               <div className="pt-0.5">
                                 {order.paymentStatus === "paid" ? (
@@ -2759,6 +2773,131 @@ export default function AdminDashboardPage() {
             showNotification("تم استيراد المنتجات بنجاح وتم تحديث المتجر!");
           }}
         />
+      )}
+
+      {/* Payment Receipt Inspection Modal */}
+      {viewingReceiptOrder && viewingReceiptOrder.paymentDetails?.receiptImage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs">
+          <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in duration-150">
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50/80">
+              <div className="flex items-center gap-2">
+                <span className="p-2 rounded-xl bg-amber-100 text-amber-800">
+                  <CreditCard size={18} />
+                </span>
+                <div>
+                  <h3 className="font-bold text-slate-900 text-base">
+                    إيصال التحويل البنكي / المحفظة
+                  </h3>
+                  <span className="text-xs text-slate-500 font-mono">
+                    طلب #{viewingReceiptOrder.id} • {viewingReceiptOrder.customerName}
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setViewingReceiptOrder(null)}
+                className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 rounded-xl transition-colors cursor-pointer"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Content: Details & Full Image */}
+            <div className="p-5 overflow-y-auto space-y-4">
+              <div className="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+                <div>
+                  <span className="text-slate-500 block text-[11px]">طريقة الدفع:</span>
+                  <strong className="text-slate-900 font-bold">
+                    {viewingReceiptOrder.paymentMethod === "instapay"
+                      ? "إنستاباي (InstaPay)"
+                      : viewingReceiptOrder.paymentMethod === "wallet"
+                      ? "فودافون كاش / محفظة"
+                      : viewingReceiptOrder.paymentMethod}
+                  </strong>
+                </div>
+                <div>
+                  <span className="text-slate-500 block text-[11px]">إجمالي الفاتورة:</span>
+                  <strong className="text-amber-700 font-extrabold text-sm">
+                    {formatPrice(viewingReceiptOrder.total)}
+                  </strong>
+                </div>
+                {viewingReceiptOrder.paymentDetails.transactionRef && (
+                  <div className="col-span-2 pt-1 border-t border-slate-200">
+                    <span className="text-slate-500 text-[11px]">المرجع / اسم المحول: </span>
+                    <strong className="text-slate-900 font-mono">
+                      {viewingReceiptOrder.paymentDetails.transactionRef}
+                    </strong>
+                  </div>
+                )}
+                {viewingReceiptOrder.paymentDetails.walletPhone && (
+                  <div className="col-span-2 pt-1 border-t border-slate-200">
+                    <span className="text-slate-500 text-[11px]">رقم المحفظة المحول منها: </span>
+                    <strong className="text-slate-900 font-mono" dir="ltr">
+                      {viewingReceiptOrder.paymentDetails.walletPhone}
+                    </strong>
+                  </div>
+                )}
+              </div>
+
+              {/* Receipt Image Display */}
+              <div className="rounded-xl overflow-hidden border border-slate-200 bg-slate-100 relative max-h-[50vh] flex items-center justify-center p-1">
+                <img
+                  src={viewingReceiptOrder.paymentDetails.receiptImage}
+                  alt={`Receipt for order ${viewingReceiptOrder.id}`}
+                  className="w-full max-h-[50vh] object-contain rounded-lg"
+                />
+              </div>
+
+              <div className="flex items-center justify-between text-xs pt-1">
+                <a
+                  href={viewingReceiptOrder.paymentDetails.receiptImage}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-accent font-bold hover:underline"
+                >
+                  <ExternalLink size={14} />
+                  <span>فتح الصورة بحجمها الكامل في نافذة جديدة</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Footer with Actions */}
+            <div className="flex items-center justify-between px-5 py-3.5 bg-slate-50 border-t border-slate-100 gap-3">
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    const res = await apiClient.updateOrderStatus(viewingReceiptOrder.id, "confirmed");
+                    if (res.success) {
+                      setOrders((prev) =>
+                        prev.map((o) =>
+                          o.id === viewingReceiptOrder.id ? { ...o, status: "confirmed", paymentStatus: "paid" } : o
+                        )
+                      );
+                      addToast("تم اعتماد الدفع وتأكيد الطلب بنجاح ✓", "success");
+                      setViewingReceiptOrder(null);
+                    }
+                  } catch {
+                    addToast("حدث خطأ أثناء اعتماد الطلب", "error");
+                  }
+                }}
+                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+              >
+                <CheckCircle2 size={15} />
+                <span>اعتماد الدفع وتأكيد الطلب</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setViewingReceiptOrder(null)}
+                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs transition-colors cursor-pointer"
+              >
+                إغلاق
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

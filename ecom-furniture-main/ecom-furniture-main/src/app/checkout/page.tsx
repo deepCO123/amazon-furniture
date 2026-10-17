@@ -28,6 +28,9 @@ import {
   Zap,
   Tag,
   X,
+  UploadCloud,
+  Trash2,
+  Eye,
 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
@@ -86,6 +89,11 @@ export default function CheckoutPage() {
   const [cardCvv, setCardCvv] = useState("");
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [fawryCode] = useState(() => `FAW-${Math.floor(10000000 + Math.random() * 90000000)}`);
+  
+  // Payment Receipt Upload State (for InstaPay and Vodafone Cash)
+  const [receiptImage, setReceiptImage] = useState<string>("");
+  const [uploadingReceipt, setUploadingReceipt] = useState(false);
+  const [receiptError, setReceiptError] = useState<string | null>(null);
   const [confirmedPaymentInfo, setConfirmedPaymentInfo] = useState<{
     method: PaymentMethod;
     details: Order["paymentDetails"];
@@ -160,6 +168,46 @@ export default function CheckoutPage() {
     setCurrentStep(2);
   };
 
+  const handleReceiptUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setReceiptError(isEn ? "Please upload an image file (PNG, JPG, WebP)" : "يرجى اختيار ملف صورة صالح (PNG, JPG, WebP)");
+      return;
+    }
+
+    if (file.size > 15 * 1024 * 1024) {
+      setReceiptError(isEn ? "File size must be less than 15MB" : "حجم الصورة يجب ألا يتعدى 15 ميجابايت");
+      return;
+    }
+
+    setUploadingReceipt(true);
+    setReceiptError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("receipt", file);
+
+      const res = await fetch("/api/upload/receipt", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.url) {
+        setReceiptImage(data.url);
+      } else {
+        setReceiptError(data.error || (isEn ? "Failed to upload receipt" : "تعذر رفع صورة الإيصال"));
+      }
+    } catch (err) {
+      console.error("Receipt upload error:", err);
+      setReceiptError(isEn ? "Error uploading image" : "حدث خطأ أثناء رفع الصورة");
+    } finally {
+      setUploadingReceipt(false);
+    }
+  };
+
 
 
   const getPaymentMethodLabel = (method: PaymentMethod) => {
@@ -213,6 +261,9 @@ export default function CheckoutPage() {
     const paymentDetailsPayload: NonNullable<Order["paymentDetails"]> = {};
     if (paymentMethod === "instapay" && transactionRef) paymentDetailsPayload.transactionRef = transactionRef;
     if (paymentMethod === "wallet" && senderPhone) paymentDetailsPayload.walletPhone = senderPhone;
+    if ((paymentMethod === "instapay" || paymentMethod === "wallet") && receiptImage) {
+      paymentDetailsPayload.receiptImage = receiptImage;
+    }
     if (paymentMethod === "fawry") paymentDetailsPayload.fawryCode = fawryCode;
     if (paymentMethod === "card") paymentDetailsPayload.paidAt = new Date().toISOString();
 
@@ -227,9 +278,17 @@ export default function CheckoutPage() {
     if (paymentMethod === "instapay") {
       paymentMetaText += `⚡ *تحويل إنستاباي* إلى: amazonfurniture@instapay\n`;
       if (transactionRef) paymentMetaText += `🔖 *المرجع/الاسم:* ${transactionRef}\n`;
+      if (receiptImage) {
+        const fullReceiptUrl = receiptImage.startsWith("http") ? receiptImage : `${origin}${receiptImage}`;
+        paymentMetaText += `📸 *صورة إيصال التحويل:* ${fullReceiptUrl}\n`;
+      }
     } else if (paymentMethod === "wallet") {
       paymentMetaText += `📱 *تحويل كاش* إلى: 01091084863\n`;
       if (senderPhone) paymentMetaText += `📞 *المحفظة المحول منها:* ${senderPhone}\n`;
+      if (receiptImage) {
+        const fullReceiptUrl = receiptImage.startsWith("http") ? receiptImage : `${origin}${receiptImage}`;
+        paymentMetaText += `📸 *صورة إيصال التحويل:* ${fullReceiptUrl}\n`;
+      }
     } else if (paymentMethod === "card") {
       paymentMetaText += `🔒 *الدفع بالفيزا:* تم الدفع بنجاح عبر بوابة Paymob مشفرة\n`;
     } else if (paymentMethod === "fawry") {
@@ -516,6 +575,23 @@ ${itemsListText}
                       <span className="font-mono font-bold">{confirmedPaymentInfo.details.transactionRef}</span>
                     </div>
                   )}
+                  {confirmedPaymentInfo.details?.receiptImage && (
+                    <div className="flex items-center justify-between pt-2 border-t border-indigo-100">
+                      <span className="text-muted flex items-center gap-1 font-semibold text-emerald-700">
+                        <CheckCheck size={13} className="text-emerald-600" />
+                        إيصال الدفع المرفق:
+                      </span>
+                      <a
+                        href={confirmedPaymentInfo.details.receiptImage}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-indigo-600 underline font-bold hover:text-indigo-800 flex items-center gap-1"
+                      >
+                        <Eye size={12} />
+                        معاينة الصورة
+                      </a>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -532,6 +608,23 @@ ${itemsListText}
                     <div className="flex items-center justify-between pt-1 border-t border-red-100">
                       <span className="text-muted">المحفظة المحول منها:</span>
                       <span className="font-mono font-bold" dir="ltr">{confirmedPaymentInfo.details.walletPhone}</span>
+                    </div>
+                  )}
+                  {confirmedPaymentInfo.details?.receiptImage && (
+                    <div className="flex items-center justify-between pt-2 border-t border-red-100">
+                      <span className="text-muted flex items-center gap-1 font-semibold text-emerald-700">
+                        <CheckCheck size={13} className="text-emerald-600" />
+                        إيصال الدفع المرفق:
+                      </span>
+                      <a
+                        href={confirmedPaymentInfo.details.receiptImage}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-red-600 underline font-bold hover:text-red-800 flex items-center gap-1"
+                      >
+                        <Eye size={12} />
+                        معاينة الصورة
+                      </a>
                     </div>
                   )}
                 </div>
@@ -919,6 +1012,86 @@ ${itemsListText}
                               value={transactionRef}
                               onChange={(e) => setTransactionRef(e.target.value)}
                             />
+
+                            {/* InstaPay Receipt Upload Box */}
+                            <div className="mt-3 pt-3 border-t border-dashed border-indigo-200">
+                              <label className="block text-xs font-bold text-slate-800 mb-1.5 flex items-center justify-between">
+                                <span className="flex items-center gap-1.5">
+                                  <UploadCloud size={14} className="text-indigo-600" />
+                                  <span>{isEn ? "Upload Transfer Receipt / Screenshot" : "إرفاق صورة إيصال التحويل / سكرين شوت (مستحسن)"}</span>
+                                </span>
+                                {receiptImage && (
+                                  <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                    <CheckCheck size={12} />
+                                    <span>تم إرفاق الإيصال</span>
+                                  </span>
+                                )}
+                              </label>
+
+                              {receiptImage ? (
+                                <div className="rounded-xl border border-emerald-300 bg-emerald-50/50 p-2.5 flex items-center justify-between gap-3">
+                                  <div className="flex items-center gap-2.5 min-w-0">
+                                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-white border border-emerald-200 shrink-0">
+                                      <img
+                                        src={receiptImage}
+                                        alt="Receipt Proof"
+                                        className="w-full h-full object-cover"
+                                      />
+                                    </div>
+                                    <div className="min-w-0">
+                                      <p className="text-xs font-bold text-slate-900 truncate">
+                                        {isEn ? "Receipt attached successfully" : "تم إرفاق إيصال التحويل بنجاح ✓"}
+                                      </p>
+                                      <p className="text-[10px] text-slate-500">
+                                        {isEn ? "Admin will review and confirm instantly" : "سيظهر للإدارة لفحص ومطابقة التحويل"}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => setReceiptImage("")}
+                                    className="p-1.5 text-rose-600 hover:bg-rose-100/70 rounded-lg transition-colors shrink-0 cursor-pointer"
+                                    title={isEn ? "Remove receipt" : "حذف وتغيير الإيصال"}
+                                  >
+                                    <Trash2 size={16} />
+                                  </button>
+                                </div>
+                              ) : (
+                                <label className="block cursor-pointer">
+                                  <div className="border border-dashed border-indigo-300 hover:border-indigo-500 hover:bg-indigo-50/40 rounded-xl p-2.5 text-center transition-all bg-white">
+                                    <input
+                                      type="file"
+                                      accept="image/*"
+                                      className="hidden"
+                                      disabled={uploadingReceipt}
+                                      onChange={handleReceiptUpload}
+                                    />
+                                    {uploadingReceipt ? (
+                                      <div className="flex items-center justify-center gap-2 py-1 text-xs text-indigo-600 font-bold">
+                                        <span className="w-3.5 h-3.5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                                        <span>{isEn ? "Uploading screenshot..." : "جاري رفع صورة الإيصال..."}</span>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center justify-center gap-2 py-1 text-xs text-slate-600">
+                                        <UploadCloud size={16} className="text-indigo-600 shrink-0" />
+                                        <span className="font-semibold text-slate-800">
+                                          {isEn ? "Click to attach transfer screenshot" : "اضغط هنا لاختيار أو تصوير إيصال إنستاباي"}
+                                        </span>
+                                        <span className="text-[10px] text-slate-400">
+                                          (JPG, PNG)
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                </label>
+                              )}
+
+                              {receiptError && (
+                                <p className="text-[11px] text-rose-600 font-semibold mt-1">
+                                  {receiptError}
+                                </p>
+                              )}
+                            </div>
                           </motion.div>
                         )}
                       </label>
@@ -993,6 +1166,86 @@ ${itemsListText}
                               value={senderPhone}
                               onChange={(e) => setSenderPhone(e.target.value)}
                             />
+
+                            {/* Wallet Receipt Upload Box */}
+                            <div className="mt-3 pt-3 border-t border-dashed border-red-200">
+                              <label className="block text-xs font-bold text-slate-800 mb-1.5 flex items-center justify-between">
+                                <span className="flex items-center gap-1.5">
+                                  <UploadCloud size={14} className="text-red-600" />
+                                  <span>{isEn ? "Upload Transfer Receipt / Screenshot" : "إرفاق رسالة أو سكرين شوت التحويل (مستحسن)"}</span>
+                                </span>
+                                {receiptImage && (
+                                  <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                    <CheckCheck size={12} />
+                                    <span>تم إرفاق الإيصال</span>
+                                  </span>
+                                )}
+                              </label>
+
+                              {receiptImage ? (
+                                <div className="rounded-xl border border-emerald-300 bg-emerald-50/50 p-2.5 flex items-center justify-between gap-3">
+                                  <div className="flex items-center gap-2.5 min-w-0">
+                                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-white border border-emerald-200 shrink-0">
+                                      <img
+                                        src={receiptImage}
+                                        alt="Receipt Proof"
+                                        className="w-full h-full object-cover"
+                                      />
+                                    </div>
+                                    <div className="min-w-0">
+                                      <p className="text-xs font-bold text-slate-900 truncate">
+                                        {isEn ? "Receipt attached successfully" : "تم إرفاق إيصال التحويل بنجاح ✓"}
+                                      </p>
+                                      <p className="text-[10px] text-slate-500">
+                                        {isEn ? "Admin will review and confirm instantly" : "سيظهر للإدارة لفحص ومطابقة التحويل"}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => setReceiptImage("")}
+                                    className="p-1.5 text-rose-600 hover:bg-rose-100/70 rounded-lg transition-colors shrink-0 cursor-pointer"
+                                    title={isEn ? "Remove receipt" : "حذف وتغيير الإيصال"}
+                                  >
+                                    <Trash2 size={16} />
+                                  </button>
+                                </div>
+                              ) : (
+                                <label className="block cursor-pointer">
+                                  <div className="border border-dashed border-red-300 hover:border-red-500 hover:bg-red-50/40 rounded-xl p-2.5 text-center transition-all bg-white">
+                                    <input
+                                      type="file"
+                                      accept="image/*"
+                                      className="hidden"
+                                      disabled={uploadingReceipt}
+                                      onChange={handleReceiptUpload}
+                                    />
+                                    {uploadingReceipt ? (
+                                      <div className="flex items-center justify-center gap-2 py-1 text-xs text-red-600 font-bold">
+                                        <span className="w-3.5 h-3.5 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+                                        <span>{isEn ? "Uploading screenshot..." : "جاري رفع صورة الإيصال..."}</span>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center justify-center gap-2 py-1 text-xs text-slate-600">
+                                        <UploadCloud size={16} className="text-red-600 shrink-0" />
+                                        <span className="font-semibold text-slate-800">
+                                          {isEn ? "Click to attach transfer screenshot" : "اضغط هنا لاختيار أو تصوير إيصال كاش"}
+                                        </span>
+                                        <span className="text-[10px] text-slate-400">
+                                          (JPG, PNG)
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                </label>
+                              )}
+
+                              {receiptError && (
+                                <p className="text-[11px] text-rose-600 font-semibold mt-1">
+                                  {receiptError}
+                                </p>
+                              )}
+                            </div>
                           </motion.div>
                         )}
                       </label>
