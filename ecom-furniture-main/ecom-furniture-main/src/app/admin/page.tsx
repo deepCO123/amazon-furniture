@@ -41,11 +41,12 @@ import {
   Activity,
   LogOut,
   FileSpreadsheet,
+  Ruler,
 } from "lucide-react";
 import { useAdminAuthStore } from "@/store/adminAuthStore";
 import { useProductStore } from "@/store/productStore";
 import { useThemeStore } from "@/store/themeStore";
-import type { Product, User, Order, EmailLog, ReturnRequest, Quotation, ConsultationBooking } from "@/types";
+import type { Product, User, Order, EmailLog, ReturnRequest, Quotation, ConsultationBooking, CustomOrder } from "@/types";
 import { categories } from "@/data/categories";
 import { formatPrice } from "@/lib/utils";
 import { apiClient } from "@/lib/apiClient";
@@ -69,7 +70,7 @@ const ImportProducts = dynamic(() => import("@/components/admin/ImportProducts")
   ssr: false,
 });
 
-type AdminTab = "products" | "customers" | "orders" | "returns" | "quotations" | "consultations" | "analytics" | "emails";
+type AdminTab = "products" | "customers" | "orders" | "returns" | "quotations" | "consultations" | "analytics" | "emails" | "custom_orders";
 
 export default function AdminDashboardPage() {
   const {
@@ -154,6 +155,14 @@ export default function AdminDashboardPage() {
   const [consultations, setConsultations] = useState<ConsultationBooking[]>([]);
   const [consultationsLoading, setConsultationsLoading] = useState(false);
   const [consultationSearch, setConsultationSearch] = useState("");
+
+  // Custom Orders Tab State
+  const [customOrders, setCustomOrders] = useState<CustomOrder[]>([]);
+  const [customOrdersLoading, setCustomOrdersLoading] = useState(false);
+  const [customOrderSearch, setCustomOrderSearch] = useState("");
+  const [viewingCustomOrder, setViewingCustomOrder] = useState<CustomOrder | null>(null);
+  const [editingPriceOrder, setEditingPriceOrder] = useState<CustomOrder | null>(null);
+  const [newQuotePrice, setNewQuotePrice] = useState<string>("");
 
   // Modals state
   const [modalOpen, setModalOpen] = useState(false);
@@ -268,6 +277,61 @@ export default function AdminDashboardPage() {
     }
   };
 
+  // Custom Orders Handlers
+  const loadCustomOrders = async () => {
+    setCustomOrdersLoading(true);
+    try {
+      const data = await apiClient.getCustomOrders();
+      setCustomOrders(data);
+    } catch (e) {
+      console.error("Failed to load custom orders", e);
+    } finally {
+      setCustomOrdersLoading(false);
+    }
+  };
+
+  const handleUpdateCustomOrderStatus = async (id: string, status: CustomOrder["status"]) => {
+    try {
+      const res = await apiClient.updateCustomOrder(id, { status });
+      if (res.success) {
+        setCustomOrders((prev) =>
+          prev.map((c) => (c.id === id ? { ...c, status } : c))
+        );
+        addToast("تم تحديث حالة طلب التفصيل بنجاح", "success");
+      }
+    } catch {
+      addToast("تعذر تحديث الحالة", "error");
+    }
+  };
+
+  const handleUpdateCustomOrderPrice = async (id: string, price: number) => {
+    try {
+      const res = await apiClient.updateCustomOrder(id, { quotePrice: price });
+      if (res.success) {
+        setCustomOrders((prev) =>
+          prev.map((c) => (c.id === id ? { ...c, quotePrice: price } : c))
+        );
+        addToast("تم تسجيل وحفظ عرض السعر بنجاح", "success");
+        setEditingPriceOrder(null);
+      }
+    } catch {
+      addToast("تعذر حفظ السعر", "error");
+    }
+  };
+
+  const handleDeleteCustomOrder = async (id: string) => {
+    if (!confirm("هل أنت متأكد من رغبتك في حذف طلب التفصيل هذا؟")) return;
+    try {
+      const res = await apiClient.deleteCustomOrder(id);
+      if (res.success) {
+        setCustomOrders((prev) => prev.filter((c) => c.id !== id));
+        addToast("تم حذف الطلب بنجاح", "success");
+      }
+    } catch {
+      addToast("تعذر حذف الطلب", "error");
+    }
+  };
+
   // Refresh all data
   const refreshAll = () => {
     fetchProducts();
@@ -277,6 +341,7 @@ export default function AdminDashboardPage() {
     loadQuotations();
     loadConsultations();
     loadEmails();
+    loadCustomOrders();
     showNotification("تم تحديث ومزامنة جميع البيانات بنجاح!");
   };
 
@@ -289,6 +354,7 @@ export default function AdminDashboardPage() {
       loadQuotations();
       loadConsultations();
       loadEmails();
+      loadCustomOrders();
     }, 0);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -527,6 +593,7 @@ export default function AdminDashboardPage() {
             {[
               { id: "products", label: "المنتجات والمخزون", icon: Package, count: products.length },
               { id: "orders", label: "الطلبات والتصنيع", icon: ShoppingBag, count: orders.length },
+              { id: "custom_orders", label: "طلبات التفصيل والمقاسات", icon: Ruler, count: customOrders.length },
               { id: "customers", label: "العملاء (CRM)", icon: Users, count: customers.length },
               { id: "consultations", label: "الاستشارات واللوكيشن", icon: Calendar, count: consultations.length },
               { id: "quotations", label: "عروض الأسعار B2B", icon: FileText, count: quotations.length },
@@ -646,6 +713,7 @@ export default function AdminDashboardPage() {
               <h1 className={`text-lg sm:text-xl font-black ${textTitle}`}>
                 {activeTab === "products" && "إدارة المنتجات والمخزون"}
                 {activeTab === "orders" && "الطلبات والتصنيع الفوري"}
+                {activeTab === "custom_orders" && "طلبات تفصيل وتصنيع الأثاث بالمقاسات والمواصفات"}
                 {activeTab === "customers" && "سجل العملاء وإدارة العلاقات CRM"}
                 {activeTab === "consultations" && "حجز الاستشارات المجانية واللوكيشن"}
                 {activeTab === "quotations" && "عروض الأسعار B2B وتجهيز المقرات"}
@@ -799,6 +867,7 @@ export default function AdminDashboardPage() {
               <h2 className={`text-base sm:text-lg font-black ${textTitle}`}>
                 {activeTab === "products" && "حملاتي الإعلانية • إدارة المنتجات والمخزون"}
                 {activeTab === "orders" && "حملاتي الإعلانية • سجل الطلبات والمبيعات"}
+                {activeTab === "custom_orders" && "طلبات التفصيل والتصنيع بالمقاسات الخاصة"}
                 {activeTab === "customers" && "قاعدة بيانات العملاء المسجلين CRM"}
                 {activeTab === "consultations" && "جدول مواعيد المعاينات والاستشارات"}
                 {activeTab === "quotations" && "طلبات مقايسة وتجهيز مقرات الشركات B2B"}
@@ -2637,6 +2706,325 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
+      {/* ======================================================== */}
+      {/* TAB: CUSTOM ORDERS (تفصيل ومقاسات خاصة) */}
+      {/* ======================================================== */}
+      {activeTab === "custom_orders" && (
+        <div className="space-y-6">
+          {/* Top Metrics Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className={`p-5 rounded-2xl border transition-all ${subcardCls}`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>إجمالي طلبات التفصيل</span>
+              <div className={`text-3xl font-black mt-1 ${textTitle}`}>{customOrders.length}</div>
+              <span className="text-[11px] text-slate-400 mt-1 block">بمقاسات وخامات مخصصة</span>
+            </div>
+
+            <div className={`p-5 rounded-2xl border transition-all ${subcardCls}`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>طلبات جديدة بانتظار الرد</span>
+              <div className="text-3xl font-black text-amber-500 mt-1">
+                {customOrders.filter((c) => c.status === "new" || c.status === "under_review").length}
+              </div>
+              <span className="text-[11px] text-amber-600 font-medium mt-1 block">تتطلب تسعير ومراجعة</span>
+            </div>
+
+            <div className={`p-5 rounded-2xl border transition-all ${subcardCls}`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>مكاتب وركنات مودرن</span>
+              <div className="text-3xl font-black text-cyan-500 mt-1">
+                {customOrders.filter((c) => c.furnitureType?.includes("مكتب") || c.furnitureType?.includes("ركنة")).length}
+              </div>
+              <span className="text-[11px] text-cyan-600 font-medium mt-1 block">الأكثر طلباً للتفصيل</span>
+            </div>
+
+            <div className={`p-5 rounded-2xl border transition-all ${subcardCls}`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>تم الاتفاق أو بالورشة</span>
+              <div className="text-3xl font-black text-emerald-500 mt-1">
+                {customOrders.filter((c) => c.status === "agreed" || c.status === "in_production" || c.status === "completed").length}
+              </div>
+              <span className="text-[11px] text-emerald-600 font-medium mt-1 block">مشاريع تصنيع معتمدة</span>
+            </div>
+          </div>
+
+          {/* Search & Actions Bar */}
+          <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 ${panelCls}`}>
+            <div className="relative w-full sm:w-96">
+              <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+              <input
+                type="text"
+                placeholder="ابحث بالاسم، الهاتف، نوع القطعة، المدينة..."
+                value={customOrderSearch}
+                onChange={(e) => setCustomOrderSearch(e.target.value)}
+                className={`w-full pl-4 pr-10 py-2 rounded-xl border text-xs sm:text-sm outline-none ${inputCls}`}
+              />
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={loadCustomOrders}
+                disabled={customOrdersLoading}
+                className={`px-3.5 py-2 rounded-xl border text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer ${chipCls}`}
+              >
+                <RefreshCw size={13} className={customOrdersLoading ? "animate-spin text-accent" : ""} />
+                <span>تحديث الطلبات</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Table */}
+          <div className={`rounded-2xl border overflow-hidden shadow-xs ${panelCls}`}>
+            <div className="overflow-x-auto">
+              <table className="w-full text-right border-collapse text-xs">
+                <thead>
+                  <tr className={`border-b text-xs font-bold ${thCls}`}>
+                    <th className="px-5 py-4">العميل والتواصل</th>
+                    <th className="px-5 py-4">نوع القطعة</th>
+                    <th className="px-5 py-4">المقاسات والمساحة</th>
+                    <th className="px-5 py-4 text-center">صورة التصميم</th>
+                    <th className="px-5 py-4">الخامة واللون والملاحظات</th>
+                    <th className="px-5 py-4 text-center">عرض السعر</th>
+                    <th className="px-5 py-4 text-center">الحالة</th>
+                    <th className="px-5 py-4 text-center">الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody className={`divide-y ${borderSep}`}>
+                  {customOrdersLoading ? (
+                    <tr>
+                      <td colSpan={8} className="text-center py-12 text-slate-400">
+                        <RefreshCw size={24} className="mx-auto mb-2 animate-spin text-accent" />
+                        <p className="font-semibold">جاري تحميل طلبات التفصيل...</p>
+                      </td>
+                    </tr>
+                  ) : customOrders.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} className="text-center py-12 text-slate-400">
+                        <Ruler size={36} className="mx-auto mb-2 opacity-40" />
+                        <p className="font-semibold">لا توجد طلبات تفصيل مسجلة بعد</p>
+                      </td>
+                    </tr>
+                  ) : (
+                    customOrders
+                      .filter((c) => {
+                        const q = customOrderSearch.toLowerCase();
+                        return (
+                          c.customerName?.toLowerCase().includes(q) ||
+                          c.customerPhone?.includes(q) ||
+                          c.furnitureType?.toLowerCase().includes(q) ||
+                          c.city?.toLowerCase().includes(q)
+                        );
+                      })
+                      .map((order) => {
+                        const fullImg = order.referenceImage;
+                        const whatsappMsg = `مرحباً أستاذ ${order.customerName}، بخصوص طلبك لتفصيل (${order.furnitureType}) رقم #${order.id} عبر Amazon Furniture، قمنا بدراسة المقاسات والخامات ونود إفادتك بالتفاصيل والتكلفة.`;
+                        const whatsappUrl = `https://wa.me/2${order.customerPhone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(whatsappMsg)}`;
+
+                        return (
+                          <tr key={order.id} className="hover:bg-slate-500/5 transition-colors">
+                            {/* Customer */}
+                            <td className="px-5 py-4">
+                              <span className={`font-bold text-sm block ${textTitle}`}>
+                                {order.customerName}
+                              </span>
+                              <span className="text-xs text-slate-400 font-mono" dir="ltr">
+                                📞 {order.customerPhone}
+                              </span>
+                              {order.city && (
+                                <span className="block text-[11px] text-slate-500 mt-0.5">
+                                  📍 {order.city}
+                                </span>
+                              )}
+                              <span className="text-[10px] text-slate-400 block mt-1">
+                                كود: #{order.id}
+                              </span>
+                            </td>
+
+                            {/* Furniture Type */}
+                            <td className="px-5 py-4">
+                              <span className="font-extrabold text-xs text-accent-dark bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-lg inline-block">
+                                {order.furnitureType}
+                              </span>
+                            </td>
+
+                            {/* Dimensions */}
+                            <td className="px-5 py-4">
+                              <div className="space-y-0.5 font-mono text-[11px]">
+                                {order.dimensions?.length && (
+                                  <div>
+                                    <span className="text-slate-400">طول: </span>
+                                    <strong className={textTitle}>{order.dimensions.length}</strong>
+                                  </div>
+                                )}
+                                {order.dimensions?.width && (
+                                  <div>
+                                    <span className="text-slate-400">عرض/عمق: </span>
+                                    <strong className={textTitle}>{order.dimensions.width}</strong>
+                                  </div>
+                                )}
+                                {order.dimensions?.height && (
+                                  <div>
+                                    <span className="text-slate-400">ارتفاع: </span>
+                                    <strong className={textTitle}>{order.dimensions.height}</strong>
+                                  </div>
+                                )}
+                                {order.dimensions?.shape && (
+                                  <span className="inline-block text-[10px] text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">
+                                    {order.dimensions.shape === "straight" ? "مستقيم" : order.dimensions.shape === "l_shape" ? "حرف L" : order.dimensions.shape}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+
+                            {/* Reference Image */}
+                            <td className="px-5 py-4 text-center">
+                              {fullImg ? (
+                                <div className="inline-flex flex-col items-center gap-1">
+                                  <div
+                                    onClick={() => setViewingCustomOrder(order)}
+                                    className="w-12 h-12 rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-slate-100 cursor-pointer hover:opacity-80 transition-opacity"
+                                  >
+                                    <img
+                                      src={fullImg}
+                                      alt="Design Ref"
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => setViewingCustomOrder(order)}
+                                    className="text-[10px] text-accent font-bold hover:underline cursor-pointer"
+                                  >
+                                    معاينة وتكبير
+                                  </button>
+                                </div>
+                              ) : (
+                                <span className="text-[11px] text-slate-400">لا توجد صورة</span>
+                              )}
+                            </td>
+
+                            {/* Materials & Notes */}
+                            <td className="px-5 py-4 max-w-xs">
+                              {order.preferredMaterial && (
+                                <div className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">
+                                  🪵 {order.preferredMaterial}
+                                </div>
+                              )}
+                              {order.preferredColor && (
+                                <div className="text-[11px] text-slate-600 dark:text-slate-400">
+                                  🎨 {order.preferredColor}
+                                </div>
+                              )}
+                              {order.notes && (
+                                <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
+                                  📝 {order.notes}
+                                </p>
+                              )}
+                            </td>
+
+                            {/* Quote Price */}
+                            <td className="px-5 py-4 text-center">
+                              {editingPriceOrder?.id === order.id ? (
+                                <div className="flex items-center gap-1 justify-center">
+                                  <input
+                                    type="number"
+                                    value={newQuotePrice}
+                                    onChange={(e) => setNewQuotePrice(e.target.value)}
+                                    placeholder="السعر بالجنيه"
+                                    className="w-24 px-2 py-1 text-xs border rounded-lg outline-none bg-white dark:bg-slate-900"
+                                  />
+                                  <button
+                                    onClick={() => handleUpdateCustomOrderPrice(order.id, Number(newQuotePrice))}
+                                    className="px-2 py-1 rounded bg-emerald-600 text-white font-bold text-xs"
+                                  >
+                                    حفظ
+                                  </button>
+                                  <button
+                                    onClick={() => setEditingPriceOrder(null)}
+                                    className="px-1.5 py-1 text-xs text-slate-400"
+                                  >
+                                    إلغاء
+                                  </button>
+                                </div>
+                              ) : (
+                                <div>
+                                  <span className="font-extrabold text-sm text-amber-600 block">
+                                    {order.quotePrice ? formatPrice(order.quotePrice) : "لم يُحدد بعد"}
+                                  </span>
+                                  <button
+                                    onClick={() => {
+                                      setEditingPriceOrder(order);
+                                      setNewQuotePrice(String(order.quotePrice || ""));
+                                    }}
+                                    className="text-[10px] text-slate-400 hover:text-accent underline cursor-pointer mt-0.5"
+                                  >
+                                    {order.quotePrice ? "تعديل السعر" : "+ تحديد سعر"}
+                                  </button>
+                                </div>
+                              )}
+                            </td>
+
+                            {/* Status */}
+                            <td className="px-5 py-4 text-center">
+                              <select
+                                value={order.status}
+                                onChange={(e) =>
+                                  handleUpdateCustomOrderStatus(
+                                    order.id,
+                                    e.target.value as CustomOrder["status"]
+                                  )
+                                }
+                                className="px-2.5 py-1 rounded-xl border text-[11px] font-bold bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 outline-none cursor-pointer"
+                              >
+                                <option value="new">🆕 جديد</option>
+                                <option value="under_review">🔍 قيد المراجعة</option>
+                                <option value="quoted">💰 تم إرسال السعر</option>
+                                <option value="agreed">🤝 تم الاتفاق</option>
+                                <option value="in_production">⚙️ في الورشة</option>
+                                <option value="completed">✅ تم التسليم</option>
+                                <option value="cancelled">❌ ملغي</option>
+                              </select>
+                            </td>
+
+                            {/* Actions */}
+                            <td className="px-5 py-4 text-center">
+                              <div className="flex items-center justify-center gap-1.5">
+                                <button
+                                  type="button"
+                                  onClick={() => setViewingCustomOrder(order)}
+                                  className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
+                                  title="معاينة كافة التفاصيل والصورة"
+                                >
+                                  <Eye size={15} />
+                                </button>
+
+                                <a
+                                  href={whatsappUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="p-1.5 rounded-lg bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#25D366] transition-colors"
+                                  title="مراسلة العميل بالواتساب فوراً"
+                                >
+                                  <MessageCircle size={15} />
+                                </a>
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteCustomOrder(order.id)}
+                                  className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-500/15 transition-colors cursor-pointer"
+                                  title="حذف الطلب"
+                                >
+                                  <Trash2 size={15} />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
         </div>
       </main>
 
@@ -2773,6 +3161,137 @@ export default function AdminDashboardPage() {
             showNotification("تم استيراد المنتجات بنجاح وتم تحديث المتجر!");
           }}
         />
+      )}
+
+      {/* Custom Order Full Inspection Modal */}
+      {viewingCustomOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs">
+          <div className="relative w-full max-w-xl bg-white dark:bg-[#12151D] text-slate-800 dark:text-slate-100 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in duration-150">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-500 shrink-0">
+                  <Ruler size={20} />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-base">
+                    تفاصيل طلب التفصيل والمقاسات #{viewingCustomOrder.id}
+                  </h3>
+                  <span className="text-xs text-slate-400">
+                    {viewingCustomOrder.customerName} • {viewingCustomOrder.furnitureType}
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setViewingCustomOrder(null)}
+                className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-xl transition-colors cursor-pointer"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 overflow-y-auto space-y-5">
+              {/* Reference Image */}
+              {viewingCustomOrder.referenceImage ? (
+                <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 relative max-h-[40vh] flex items-center justify-center p-2">
+                  <img
+                    src={viewingCustomOrder.referenceImage}
+                    alt="Custom design"
+                    className="max-h-[38vh] w-auto object-contain rounded-xl"
+                  />
+                  <a
+                    href={viewingCustomOrder.referenceImage}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="absolute bottom-3 end-3 px-3 py-1.5 rounded-xl bg-black/75 hover:bg-black text-white text-xs font-bold flex items-center gap-1.5 backdrop-blur-xs transition-colors"
+                  >
+                    <ExternalLink size={13} />
+                    <span>عرض بالحجم الكامل</span>
+                  </a>
+                </div>
+              ) : (
+                <div className="p-6 text-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl text-slate-400 text-xs">
+                  لا توجد صورة مرفوعة لهذا الطلب
+                </div>
+              )}
+
+              {/* Grid Details */}
+              <div className="grid grid-cols-2 gap-3 text-xs bg-slate-50 dark:bg-slate-900/40 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+                <div>
+                  <span className="text-slate-400 block text-[11px]">نوع القطعة:</span>
+                  <strong className="text-sm font-bold">{viewingCustomOrder.furnitureType}</strong>
+                </div>
+                <div>
+                  <span className="text-slate-400 block text-[11px]">المدينة / المحافظة:</span>
+                  <strong className="text-sm font-bold">{viewingCustomOrder.city || "غير محدد"}</strong>
+                </div>
+                <div>
+                  <span className="text-slate-400 block text-[11px]">المقاسات المسجلة:</span>
+                  <strong className="text-xs font-mono">
+                    {viewingCustomOrder.dimensions?.length ? `طول: ${viewingCustomOrder.dimensions.length}` : ""}{" "}
+                    {viewingCustomOrder.dimensions?.width ? `• عرض: ${viewingCustomOrder.dimensions.width}` : ""}{" "}
+                    {viewingCustomOrder.dimensions?.height ? `• ارتفاع: ${viewingCustomOrder.dimensions.height}` : ""}
+                  </strong>
+                </div>
+                <div>
+                  <span className="text-slate-400 block text-[11px]">الشكل المطلوب:</span>
+                  <strong className="text-xs">
+                    {viewingCustomOrder.dimensions?.shape === "straight"
+                      ? "مستقيم (I-Shape)"
+                      : viewingCustomOrder.dimensions?.shape === "l_shape"
+                      ? "زاوية حرف L"
+                      : viewingCustomOrder.dimensions?.shape || "قياسي"}
+                  </strong>
+                </div>
+                {viewingCustomOrder.preferredMaterial && (
+                  <div className="col-span-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+                    <span className="text-slate-400 block text-[11px]">الخامة المفضلة:</span>
+                    <strong className="text-xs font-semibold">{viewingCustomOrder.preferredMaterial}</strong>
+                  </div>
+                )}
+                {viewingCustomOrder.preferredColor && (
+                  <div className="col-span-2 pt-1">
+                    <span className="text-slate-400 block text-[11px]">اللون المطلوب:</span>
+                    <strong className="text-xs font-semibold">{viewingCustomOrder.preferredColor}</strong>
+                  </div>
+                )}
+                {viewingCustomOrder.notes && (
+                  <div className="col-span-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+                    <span className="text-slate-400 block text-[11px]">ملاحظات ومواصفات إضافية:</span>
+                    <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-300 mt-0.5">
+                      {viewingCustomOrder.notes}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between px-6 py-4 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-800 gap-3">
+              <a
+                href={`https://wa.me/2${viewingCustomOrder.customerPhone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
+                  `مرحباً أستاذ ${viewingCustomOrder.customerName}، بخصوص طلبك لتفصيل (${viewingCustomOrder.furnitureType}) كود #${viewingCustomOrder.id}، قمنا بحساب التكلفة والمقاسات ومستعدون لبدء التنفيذ.`
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                className="px-4 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-colors"
+              >
+                <MessageCircle size={16} />
+                <span>الرد على العميل بالواتساب</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => setViewingCustomOrder(null)}
+                className="px-4 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 text-xs font-bold transition-colors cursor-pointer"
+              >
+                إغلاق
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Payment Receipt Inspection Modal */}

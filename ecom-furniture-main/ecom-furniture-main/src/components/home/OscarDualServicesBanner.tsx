@@ -66,11 +66,11 @@ export default function OscarDualServicesBanner() {
                 </p>
 
                 <Link
-                  href="/#consultation"
+                  href="/custom-order"
                   className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-900 font-black text-sm px-8 py-3 rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
                 >
                   <Ruler size={16} className="text-amber-600" />
-                  <span>قبل التنفيذ</span>
+                  <span>تفصيل بمقاسك الخاص 📐</span>
                 </Link>
               </div>
             </div>

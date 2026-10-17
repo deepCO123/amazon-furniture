@@ -65,7 +65,8 @@ export default function Navbar() {
 
   // Secondary dark bar navigation links (Centered Features Bar)
   const secondaryNavLinks: NavLinkItem[] = [
-    { href: "/products?tag=sale", label: "عروض أمازون", hasBadge: true, badge: "New", highlight: true },
+    { href: "/custom-order", label: "تفصيل حسب مقاسك 📐", hasBadge: true, badge: "تفصيل", highlight: true },
+    { href: "/products?tag=sale", label: "عروض أمازون", hasBadge: true, badge: "New" },
     { href: "/products?category=غرف النوم", label: "غرف النوم" },
     { href: "/products?category=المطابخ", label: "المطابخ" },
     { href: "/products?category=كراسي مكتب", label: "الكراسي والمكاتب" },

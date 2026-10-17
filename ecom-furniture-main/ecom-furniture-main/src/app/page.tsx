@@ -3,6 +3,7 @@ import OscarHeroBanner from "@/components/home/OscarHeroBanner";
 import ChooseCategorySection from "@/components/home/ChooseCategorySection";
 import SaveQuarterCostSection from "@/components/home/SaveQuarterCostSection";
 import OscarDualServicesBanner from "@/components/home/OscarDualServicesBanner";
+import CustomFurniturePromoSection from "@/components/home/CustomFurniturePromoSection";
 import SeatingStyleSection from "@/components/home/SeatingStyleSection";
 import OscarSummerPromoBanner from "@/components/home/OscarSummerPromoBanner";
 import FreeConsultationSection from "@/components/home/FreeConsultationSection";
@@ -31,6 +32,9 @@ export default function HomePage() {
 
       {/* Oscar-style Dual Service Banners: 3D Design Free & Corporate B2B */}
       <OscarDualServicesBanner />
+
+      {/* Custom Dimensions & Manufacturing Request Showcase */}
+      <CustomFurniturePromoSection />
 
       {/* "جلسات على ذوقك" 3-Card Visual Section */}
       <SeatingStyleSection />

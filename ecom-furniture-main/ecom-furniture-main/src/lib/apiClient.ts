@@ -16,6 +16,7 @@ import type {
   Quotation,
   ReturnRequest,
   EmailLog,
+  CustomOrder,
 } from "@/types";
 
 const BACKEND_URL = "";
@@ -505,6 +506,38 @@ class ApiClient {
         error: "حدث خطأ في الاتصال بالخادم",
       };
     }
+  }
+
+  // ─── Custom Orders (تفصيل ومقاسات خاصة) ────────────
+
+  async getCustomOrders(): Promise<CustomOrder[]> {
+    const res = await this.request<CustomOrder[]>("/api/custom-orders");
+    if (Array.isArray(res)) return res as unknown as CustomOrder[];
+    if (res.data && Array.isArray(res.data)) return res.data as CustomOrder[];
+    return [];
+  }
+
+  async createCustomOrder(data: Partial<CustomOrder>): Promise<{ success: boolean; customOrder?: CustomOrder; message?: string }> {
+    return this.request<{ customOrder: CustomOrder }>("/api/custom-orders", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }) as unknown as Promise<{ success: boolean; customOrder?: CustomOrder; message?: string }>;
+  }
+
+  async updateCustomOrder(
+    id: string,
+    updates: { status?: string; quotePrice?: number; adminNotes?: string }
+  ): Promise<{ success: boolean; customOrder?: CustomOrder; message?: string }> {
+    return this.request<{ customOrder: CustomOrder }>(`/api/custom-orders/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(updates),
+    }) as unknown as Promise<{ success: boolean; customOrder?: CustomOrder; message?: string }>;
+  }
+
+  async deleteCustomOrder(id: string) {
+    return this.request(`/api/custom-orders/${id}`, {
+      method: "DELETE",
+    });
   }
 
   // ─── Cache Stats ──────────────────────────────────────

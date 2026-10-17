@@ -11,6 +11,7 @@ const Return = require('./Return');
 const Consultation = require('./Consultation');
 const Email = require('./Email');
 const Review = require('./Review');
+const CustomOrder = require('./CustomOrder');
 
 module.exports = {
   Product,
@@ -21,4 +22,5 @@ module.exports = {
   Consultation,
   Email,
   Review,
+  CustomOrder,
 };

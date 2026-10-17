@@ -1,0 +1,25 @@
+[
+  {
+    "id": "CST-492165",
+    "customerName": "أحمد علي",
+    "customerPhone": "01012345678",
+    "customerEmail": "",
+    "city": "",
+    "address": "",
+    "furnitureType": "office_desk",
+    "dimensions": {
+      "length": 180,
+      "width": 80,
+      "height": 75,
+      "shape": ""
+    },
+    "preferredMaterial": "",
+    "preferredColor": "بني جوزي",
+    "notes": "مكتب مدير بحرف L",
+    "referenceImage": "",
+    "status": "new",
+    "quotePrice": 0,
+    "adminNotes": "",
+    "createdAt": "2026-10-17T18:31:03.707Z"
+  }
+]

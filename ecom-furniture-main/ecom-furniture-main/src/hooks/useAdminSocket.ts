@@ -97,6 +97,15 @@ export function useAdminSocket(onNewOrder?: (order: NewOrderEventPayload) => voi
       }
     });
 
+    socketClient.on("new_custom_order", (data: { id: string; customerName: string; furnitureType: string }) => {
+      console.log("📐 [Admin Socket] وصل طلب تفصيل مخصص جديد:", data);
+      playNotificationChime();
+      addToast(
+        `📐 طلب تفصيل جديد #${data.id} من ${data.customerName || "عميل"} (${data.furnitureType})!`,
+        "success"
+      );
+    });
+
     socketClient.on("disconnect", (reason) => {
       console.log("🔌 [Admin Socket] انقطع الاتصال:", reason);
     });

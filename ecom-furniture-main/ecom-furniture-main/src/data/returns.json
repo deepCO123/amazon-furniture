@@ -1,5 +1,20 @@
 [
   {
+    "id": "RET-6889",
+    "orderId": "AF-100200",
+    "customerName": "طارق كامل",
+    "customerPhone": "01077778888",
+    "productName": "ترابيزة جانبية مودرن",
+    "productId": "prod_side_table",
+    "price": 2500,
+    "reason": "color_mismatch",
+    "reasonDetails": "اللون أغمق قليلاً من الصورة",
+    "images": [],
+    "status": "inspection_approved",
+    "createdAt": "2026-10-17T18:19:41.322Z",
+    "refundAmount": 2500
+  },
+  {
     "id": "RET-1405",
     "orderId": "AF-100200",
     "customerName": "طارق كامل",

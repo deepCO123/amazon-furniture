@@ -199,3 +199,27 @@ export interface FilterState {
   search: string;
   sort: SortOption;
 }
+
+export interface CustomOrder {
+  id: string;
+  customerName: string;
+  customerPhone: string;
+  customerEmail?: string;
+  city?: string;
+  address?: string;
+  furnitureType: string;
+  dimensions?: {
+    length?: string;
+    width?: string;
+    height?: string;
+    shape?: string;
+  };
+  preferredMaterial?: string;
+  preferredColor?: string;
+  notes?: string;
+  referenceImage?: string;
+  status: "new" | "under_review" | "quoted" | "agreed" | "in_production" | "completed" | "cancelled";
+  quotePrice?: number;
+  adminNotes?: string;
+  createdAt: string;
+}
