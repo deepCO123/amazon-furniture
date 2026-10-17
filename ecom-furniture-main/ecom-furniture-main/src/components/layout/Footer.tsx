@@ -37,8 +37,9 @@ const footerLinks = {
   support: [
     { label: "التركيب: مجاناً 100%", href: "/contact" },
     { label: "معاينة المنصورة مجاناً", href: "/#consultation" },
-    { label: "ميتنج فيديو أونلاين", href: "/#consultation" },
-    { label: "الضمان والاستبدال", href: "/contact" },
+    { label: "الاسترجاع وعقد الضمان 10 سنوات", href: "/return-policy" },
+    { label: "الشروط والأحكام", href: "/terms" },
+    { label: "سياسة الخصوصية", href: "/privacy" },
   ],
 };
 

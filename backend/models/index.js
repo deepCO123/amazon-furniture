@@ -12,6 +12,7 @@ const Consultation = require('./Consultation');
 const Email = require('./Email');
 const Review = require('./Review');
 const CustomOrder = require('./CustomOrder');
+const Coupon = require('./Coupon');
 
 module.exports = {
   Product,
@@ -23,4 +24,5 @@ module.exports = {
   Email,
   Review,
   CustomOrder,
+  Coupon,
 };

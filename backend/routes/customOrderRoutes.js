@@ -21,7 +21,98 @@ router.get('/', verifyToken, checkRole('admin'), async (req, res) => {
   }
 });
 
-// ─── 2. إنشاء طلب تفصيل جديد (عام متاح لجميع العملاء) ───────────
+// ─── 1.5 جلب طلبات تفصيل العميل الموثق فقط (My Custom Orders) ───
+router.get('/my-orders', verifyToken, async (req, res) => {
+  try {
+    const userEmail = (req.user?.email || '').toLowerCase().trim();
+    if (!userEmail) {
+      return res.status(401).json({ error: 'جلسة العميل غير صالحة' });
+    }
+
+    const list = await jsonCache.read('custom_orders.json', []);
+    const myOrders = list
+      .filter((o) => (o.customerEmail && o.customerEmail.toLowerCase().trim() === userEmail))
+      .map((o) => ({
+        id: o.id,
+        furnitureType: o.furnitureType,
+        dimensions: o.dimensions,
+        preferredMaterial: o.preferredMaterial,
+        preferredColor: o.preferredColor,
+        referenceImage: o.referenceImage,
+        notes: o.notes,
+        status: o.status,
+        quotePrice: o.quotePrice || 0,
+        createdAt: o.createdAt,
+      }));
+
+    res.json({ success: true, customOrders: myOrders });
+  } catch (err) {
+    console.error('GET /api/custom-orders/my-orders error:', err.message);
+    res.status(500).json({ error: 'فشل في جلب طلبات التفصيل الخاصة بك' });
+  }
+});
+
+// ─── 1.6 قبول أو رفض عرض السعر من قبل العميل الموثق ──────────────
+router.patch('/:id/respond', verifyToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { decision } = req.body; // 'approved' | 'rejected'
+    const userEmail = (req.user?.email || '').toLowerCase().trim();
+
+    if (!['approved', 'rejected'].includes(decision)) {
+      return res.status(400).json({ error: 'القرار يجب أن يكون إما قبول (approved) أو رفض (rejected).' });
+    }
+
+    const list = await jsonCache.read('custom_orders.json', []);
+    const idx = list.findIndex((o) => o.id === id);
+
+    if (idx === -1) {
+      return res.status(404).json({ error: 'طلب التفصيل غير موجود' });
+    }
+
+    // التحقق من ملكية العميل للطلب
+    if (list[idx].customerEmail && list[idx].customerEmail.toLowerCase().trim() !== userEmail && req.user?.role !== 'admin') {
+      return res.status(403).json({ error: 'غير مصرح لك بتعديل هذا الطلب' });
+    }
+
+    const newStatus = decision === 'approved' ? 'in_production' : 'cancelled';
+    list[idx].status = newStatus;
+    list[idx].customerDecision = decision;
+    list[idx].customerDecisionDate = new Date().toISOString();
+
+    await jsonCache.write('custom_orders.json', list);
+
+    if (jsonCache.isMongoConnected()) {
+      try {
+        await CustomOrder.findOneAndUpdate(
+          { id },
+          { status: newStatus, customerDecision: decision, customerDecisionDate: new Date() }
+        );
+      } catch (dbErr) {
+        console.warn('CustomOrder Mongo update notice:', dbErr.message);
+      }
+    }
+
+    // إشعار الإدارة بالسوكيت
+    const io = req.app.get('io');
+    if (io) {
+      io.to('admin_room').emit('custom_order_decision', {
+        id,
+        decision,
+        customerName: list[idx].customerName,
+      });
+    }
+
+    res.json({
+      success: true,
+      message: decision === 'approved' ? 'تم قبول عرض السعر بنجاح، وسيبدأ التصنيع بالمصنع!' : 'تم رفض عرض السعر.',
+      customOrder: list[idx],
+    });
+  } catch (err) {
+    console.error('PATCH /api/custom-orders/:id/respond error:', err);
+    res.status(500).json({ error: 'حدث خطأ أثناء تسجيل قرارك' });
+  }
+});
 router.post('/', async (req, res) => {
   try {
     const body = req.body;

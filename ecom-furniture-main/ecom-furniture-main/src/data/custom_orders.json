@@ -1,5 +1,53 @@
 [
   {
+    "id": "CST-231037",
+    "customerName": "عميل التفصيل",
+    "customerPhone": "01011112222",
+    "customerEmail": "remediation_client@test.com",
+    "city": "",
+    "address": "",
+    "furnitureType": "ركنة مودرن حرف L",
+    "dimensions": {
+      "length": 300,
+      "width": 200,
+      "height": 85,
+      "shape": ""
+    },
+    "preferredMaterial": "",
+    "preferredColor": "",
+    "notes": "",
+    "referenceImage": "",
+    "status": "in_production",
+    "quotePrice": 18500,
+    "adminNotes": "",
+    "createdAt": "2026-10-17T19:11:36.440Z",
+    "customerDecision": "approved",
+    "customerDecisionDate": "2026-10-17T19:11:36.526Z"
+  },
+  {
+    "id": "CST-680614",
+    "customerName": "Khaled Elsayed",
+    "customerPhone": "+201030734594",
+    "customerEmail": "khaledeldeep900@gmail.com",
+    "city": "القاهرة والجيزة",
+    "address": "",
+    "furnitureType": "مكتب عمل / مديرين",
+    "dimensions": {
+      "length": "180",
+      "width": "160",
+      "height": "37",
+      "shape": "straight"
+    },
+    "preferredMaterial": "MDF إسباني عالي الكثافة معالج",
+    "preferredColor": "122",
+    "notes": "",
+    "referenceImage": "/uploads/1792262719696-OIP__6_.webp",
+    "status": "new",
+    "quotePrice": 50000,
+    "adminNotes": "",
+    "createdAt": "2026-10-17T18:45:41.286Z"
+  },
+  {
     "id": "CST-492165",
     "customerName": "أحمد علي",
     "customerPhone": "01012345678",

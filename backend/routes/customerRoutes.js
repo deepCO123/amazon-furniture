@@ -10,6 +10,136 @@ const { verifyToken, checkRole } = require('../middlewares/auth');
 const { Customer } = require('../models');
 const jsonCache = require('../services/jsonCache');
 const { sendWelcomeEmail } = require('../services/emailService');
+const bcrypt = require('bcryptjs');
+
+// ─── 0.1 جلب بيانات الملف الشخصي للعميل الموثق (Customer Profile) ──
+router.get('/me', verifyToken, async (req, res) => {
+  try {
+    const userEmail = (req.user?.email || '').toLowerCase().trim();
+    const userId = req.user?.id;
+
+    const customers = await jsonCache.read('customers.json', []);
+    const customer = customers.find(
+      (c) => (userEmail && c.email.toLowerCase() === userEmail) || (userId && c.id === userId)
+    );
+
+    if (!customer) {
+      return res.status(404).json({ error: 'لم يتم العثور على ملف العميل' });
+    }
+
+    // عدم إرجاع الـ passwordHash
+    const safeCustomer = { ...customer };
+    delete safeCustomer.passwordHash;
+
+    res.json({ success: true, customer: safeCustomer });
+  } catch (err) {
+    console.error('GET /api/customers/me error:', err);
+    res.status(500).json({ error: 'فشل في استرجاع الملف الشخصي' });
+  }
+});
+
+// ─── 0.2 تحديث بيانات الملف الشخصي والعناوين المحفوظة ───────────────
+router.patch('/me', verifyToken, async (req, res) => {
+  try {
+    const userEmail = (req.user?.email || '').toLowerCase().trim();
+    const userId = req.user?.id;
+    const { name, phone, city, address, savedAddresses } = req.body;
+
+    const customers = await jsonCache.read('customers.json', []);
+    const idx = customers.findIndex(
+      (c) => (userEmail && c.email.toLowerCase() === userEmail) || (userId && c.id === userId)
+    );
+
+    if (idx === -1) {
+      return res.status(404).json({ error: 'العميل غير موجود' });
+    }
+
+    if (name) customers[idx].name = String(name).trim();
+    if (phone) customers[idx].phone = String(phone).trim();
+    if (city) customers[idx].city = String(city).trim();
+    if (address !== undefined) customers[idx].address = String(address).trim();
+    if (Array.isArray(savedAddresses)) customers[idx].savedAddresses = savedAddresses;
+
+    await jsonCache.write('customers.json', customers);
+
+    if (jsonCache.isMongoConnected()) {
+      try {
+        await Customer.findOneAndUpdate(
+          { $or: [{ email: userEmail }, { id: userId }] },
+          {
+            ...(name && { name: String(name).trim() }),
+            ...(phone && { phone: String(phone).trim() }),
+            ...(city && { city: String(city).trim() }),
+            ...(address !== undefined && { address: String(address).trim() }),
+            ...(Array.isArray(savedAddresses) && { savedAddresses }),
+          }
+        );
+      } catch (dbErr) {
+        console.warn('Customer Mongo update notice:', dbErr.message);
+      }
+    }
+
+    const safeCustomer = { ...customers[idx] };
+    delete safeCustomer.passwordHash;
+
+    res.json({ success: true, message: 'تم تحديث الملف الشخصي بنجاح', customer: safeCustomer });
+  } catch (err) {
+    console.error('PATCH /api/customers/me error:', err);
+    res.status(500).json({ error: 'فشل في تحديث بيانات العميل' });
+  }
+});
+
+// ─── 0.3 تغيير كلمة المرور بأمان ──────────────────────────────────
+router.post('/change-password', verifyToken, async (req, res) => {
+  try {
+    const userEmail = (req.user?.email || '').toLowerCase().trim();
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'يرجى إدخال كلمة المرور الحالية وكلمة المرور الجديدة' });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ error: 'كلمة المرور الجديدة يجب أن تكون 6 أحرف على الأقل' });
+    }
+
+    const customers = await jsonCache.read('customers.json', []);
+    const idx = customers.findIndex((c) => c.email.toLowerCase() === userEmail);
+
+    if (idx === -1) {
+      return res.status(404).json({ error: 'حساب العميل غير موجود' });
+    }
+
+    // إذا كان الحساب Google فقط وليس لديه كلمة مرور
+    if (!customers[idx].passwordHash) {
+      return res.status(400).json({ error: 'هذا الحساب مرتبط بجوجل ولا يملك كلمة مرور.' });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, customers[idx].passwordHash);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'كلمة المرور الحالية غير صحيحة' });
+    }
+
+    const salt = await bcrypt.genSalt(12);
+    const newHash = await bcrypt.hash(newPassword, salt);
+
+    customers[idx].passwordHash = newHash;
+    await jsonCache.write('customers.json', customers);
+
+    if (jsonCache.isMongoConnected()) {
+      try {
+        await Customer.findOneAndUpdate({ email: userEmail }, { passwordHash: newHash });
+      } catch (dbErr) {
+        console.warn('Customer password update Mongo notice:', dbErr.message);
+      }
+    }
+
+    res.json({ success: true, message: 'تم تغيير كلمة المرور بنجاح' });
+  } catch (err) {
+    console.error('POST /api/customers/change-password error:', err);
+    res.status(500).json({ error: 'حدث خطأ أثناء تغيير كلمة المرور' });
+  }
+});
 
 // 1. جلب كافة العملاء مع إحصائياتهم (للأدمن فقط)
 router.get('/', verifyToken, checkRole('admin'), async (req, res) => {

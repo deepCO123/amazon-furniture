@@ -218,7 +218,7 @@ export interface CustomOrder {
   preferredColor?: string;
   notes?: string;
   referenceImage?: string;
-  status: "new" | "under_review" | "quoted" | "agreed" | "in_production" | "completed" | "cancelled";
+  status: "new" | "under_review" | "quoted" | "priced" | "agreed" | "in_production" | "ready" | "completed" | "cancelled";
   quotePrice?: number;
   adminNotes?: string;
   createdAt: string;

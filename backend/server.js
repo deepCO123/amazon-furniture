@@ -46,6 +46,8 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const feedRoutes = require('./routes/feedRoutes');
 const importRoutes = require('./routes/importRoutes');
 const customOrderRoutes = require('./routes/customOrderRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
+const { router: couponRoutes } = require('./routes/couponRoutes');
 
 const { verifyToken, checkRole } = require('./middlewares/auth');
 
@@ -159,6 +161,8 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/feed', feedRoutes);
 app.use('/api/custom-orders', customOrderRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/coupons', couponRoutes);
 
 // استدعاء خدمة النسخ الاحتياطي التلقائي
 const { scheduleBackups, performBackup } = require('./scripts/backup');

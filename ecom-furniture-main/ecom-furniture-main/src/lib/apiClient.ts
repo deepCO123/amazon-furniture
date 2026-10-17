@@ -540,6 +540,82 @@ class ApiClient {
     });
   }
 
+  // ─── Customer Profile & My Orders ──────────────────────
+  async getMyOrders(): Promise<Order[]> {
+    const res = await this.request<{ orders: Order[] }>("/api/orders/my-orders");
+    if (res.orders && Array.isArray(res.orders)) return res.orders;
+    if (Array.isArray(res)) return res as unknown as Order[];
+    return [];
+  }
+
+  async getMyCustomOrders(): Promise<CustomOrder[]> {
+    const res = await this.request<{ customOrders: CustomOrder[] }>("/api/custom-orders/my-orders");
+    if (res.customOrders && Array.isArray(res.customOrders)) return res.customOrders;
+    return [];
+  }
+
+  async respondToCustomOrder(id: string, decision: "approved" | "rejected") {
+    return this.request<{ customOrder: CustomOrder }>(`/api/custom-orders/${id}/respond`, {
+      method: "PATCH",
+      body: JSON.stringify({ decision }),
+    });
+  }
+
+  async getCustomerProfile() {
+    return this.request<{ customer: User & { savedAddresses?: unknown[] } }>("/api/customers/me");
+  }
+
+  async updateCustomerProfile(data: Partial<User & { savedAddresses?: unknown[] }>) {
+    return this.request<{ customer: User }>("/api/customers/me", {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async changePassword(currentPassword: string, newPassword: string) {
+    return this.request("/api/customers/change-password", {
+      method: "POST",
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+  }
+
+  // ─── Coupons Endpoints ─────────────────────────────────
+  async validateCouponServer(code: string, subtotal: number, email?: string) {
+    return this.request<{
+      valid: boolean;
+      discount: number;
+      coupon?: { code: string; discountType: string; discountValue: number; descriptionAr?: string };
+      message: string;
+    }>("/api/coupons/validate", {
+      method: "POST",
+      body: JSON.stringify({ code, subtotal, email }),
+    });
+  }
+
+  async getCoupons() {
+    return this.request<{ coupons: unknown[] }>("/api/coupons");
+  }
+
+  async createCoupon(couponData: unknown) {
+    return this.request("/api/coupons", {
+      method: "POST",
+      body: JSON.stringify(couponData),
+    });
+  }
+
+  async updateCoupon(id: string, updates: unknown) {
+    return this.request(`/api/coupons/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(updates),
+    });
+  }
+
+  async deleteCoupon(id: string) {
+    return this.request(`/api/coupons/${id}`, {
+      method: "DELETE",
+    });
+  }
+
   // ─── Cache Stats ──────────────────────────────────────
 
   async getCacheStats() {

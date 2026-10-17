@@ -272,11 +272,16 @@ export default function Navbar() {
             <div className="flex items-center gap-3 sm:gap-5">
               {/* User Account */}
               <Link
-                href="/auth/login"
-                className="p-1 text-gray-800 hover:text-black transition-colors"
-                title={user ? user.name : "تسجيل الدخول / حسابي"}
+                href={user ? "/profile" : "/auth/login"}
+                className="p-1 text-gray-800 hover:text-black transition-colors flex items-center gap-1"
+                title={user ? `حسابي (${user.name})` : "تسجيل الدخول / حسابي"}
               >
                 <User size={24} strokeWidth={1.8} />
+                {user && (
+                  <span className="hidden xl:inline text-[11px] font-bold text-stone-800 max-w-[90px] truncate">
+                    {user.name.split(" ")[0]}
+                  </span>
+                )}
               </Link>
 
               {/* Wishlist */}

@@ -1,5 +1,86 @@
 [
   {
+    "id": "cust_1792264301987",
+    "email": "fail_test_1792264301536@example.com",
+    "name": "عميل كريم",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T19:11:41.987Z",
+    "passwordHash": "$2a$12$FgJAN7WxNBlxR8.gZcWP6.iXlFU5kJ2o2mja7oPlLumNgVlgyZUvi"
+  },
+  {
+    "id": "cust_1792264301039",
+    "email": "login_test_1792264300590@example.com",
+    "name": "أحمد علي",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T19:11:41.039Z",
+    "passwordHash": "$2a$12$rGN/bvKIKmvdOKRs/43aoOio.M1y.i6ijRrfGjCqZN5Z9YULk9PGS"
+  },
+  {
+    "id": "cust_1792264300574",
+    "email": "test_customer_1792264300034@example.com",
+    "name": "عميل اختباري",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T19:11:40.574Z",
+    "passwordHash": "$2a$12$bftvtGq4f7ndfgJ8Glx.EeSCd7X5MIxEAjbl1LgAZjyEoQIKD2tAO"
+  },
+  {
+    "id": "cust_1792264294203",
+    "email": "remediation_client@test.com",
+    "name": "عميل الفحص المحدث",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T19:11:34.203Z",
+    "passwordHash": "$2a$12$DLWd4XyiA3en60.fB71DPOIy5Fwu1WlM5F2Tu6.cyECO0jA99mwh.",
+    "phone": "01099887766",
+    "city": "المنصورة",
+    "address": "شارع قناة السويس، برج الأمل"
+  },
+  {
+    "id": "cust_1792264292734",
+    "email": "xss_test_1792264292302@example.com",
+    "name": "scriptalert(\"XSS\")/scriptمحمد علي",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T19:11:32.734Z",
+    "passwordHash": "$2a$12$LVA.3FZdu03Qhb3MbVqkwebovYMwaMEqcmQSR.QjWATQMjmnyYFT6"
+  },
+  {
+    "id": "cust_1792264290798",
+    "email": "prod_test_1792264290370@example.com",
+    "name": "Customer Test",
+    "role": "customer",
+    "provider": "email",
+    "ordersCount": 0,
+    "totalSpent": 0,
+    "createdAt": "2026-10-17T19:11:30.798Z",
+    "passwordHash": "$2a$12$8rcG4.e.6a0mWFNYVM8WmeuWSB9vz21SWTDaQ/MSFPZ6.VcKnKZba"
+  },
+  {
+    "id": "cust_1792264288614",
+    "name": "عميل المنصورة",
+    "email": "crm_test_1792264288600@test.com",
+    "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=%D8%B9%D9%85%D9%8A%D9%84%20%D8%A7%D9%84%D9%85%D9%86%D8%B5%D9%88%D8%B1%D8%A9&backgroundColor=c5a880",
+    "phone": "01055554444",
+    "city": "المنصورة",
+    "createdAt": "2026-10-17T19:11:28.614Z",
+    "provider": "google",
+    "ordersCount": 0,
+    "totalSpent": 0
+  },
+  {
     "id": "cust_1792261192316",
     "email": "xss_test_1792261191865@example.com",
     "name": "scriptalert(\"XSS\")/scriptمحمد علي",

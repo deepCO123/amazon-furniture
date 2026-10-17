@@ -10,10 +10,11 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 const { verifyToken, checkRole } = require('../middlewares/auth');
-const { Customer, Order, Product } = require('../models');
+const { Customer, Order, Product, Coupon } = require('../models');
 const jsonCache = require('../services/jsonCache');
 const { generateInvoiceBuffer } = require('../services/invoiceService');
 const { sendOrderConfirmationWithInvoice } = require('../services/emailService');
+const { validateCouponLogic } = require('./couponRoutes');
 
 // ─── 1. جلب كافة الطلبات (للأدمن فقط) ───────────────────────
 router.get('/', verifyToken, checkRole('admin'), async (req, res) => {
@@ -23,6 +24,31 @@ router.get('/', verifyToken, checkRole('admin'), async (req, res) => {
   } catch (err) {
     console.error('GET /api/orders error:', err.message);
     res.status(500).json({ error: 'Failed to read orders' });
+  }
+});
+
+// ─── 1.2 جلب طلبات العميل الموثق فقط (My Orders) ───────────
+router.get('/my-orders', verifyToken, async (req, res) => {
+  try {
+    const userEmail = (req.user?.email || '').toLowerCase().trim();
+    const userId = req.user?.id;
+
+    if (!userEmail && !userId) {
+      return res.status(401).json({ error: 'جلسة المستخدم غير صالحة' });
+    }
+
+    const allOrders = await jsonCache.read('orders.json', []);
+    const userOrders = allOrders.filter((o) => {
+      const matchEmail = (o.customerEmail && o.customerEmail.toLowerCase().trim() === userEmail) ||
+        (o.shippingAddress?.email && o.shippingAddress.email.toLowerCase().trim() === userEmail);
+      const matchId = userId && o.userId === userId;
+      return matchEmail || matchId;
+    });
+
+    res.json({ success: true, orders: userOrders });
+  } catch (err) {
+    console.error('GET /api/orders/my-orders error:', err.message);
+    res.status(500).json({ error: 'فشل في استرجاع طلبات المستخدم' });
   }
 });
 
@@ -82,28 +108,6 @@ router.post('/track', async (req, res) => {
 });
 
 // ─── 2. إنشاء طلب جديد مع MongoDB Transactions وحماية المخزون ─
-// ─── ACTIVE_COUPONS (Backend Source of Truth — Never trust Frontend coupon values) ──
-const ACTIVE_COUPONS = [
-  { code: 'WELCOME10', discountType: 'percentage', discountValue: 10, minOrderTotal: 3000, maxDiscount: 2500 },
-  { code: 'VIP2026', discountType: 'percentage', discountValue: 15, minOrderTotal: 25000, maxDiscount: 6000 },
-  { code: 'AMAZON500', discountType: 'fixed', discountValue: 500, minOrderTotal: 3500 },
-];
-
-function validateCouponServer(code, subtotal) {
-  const norm = (code || '').trim().toUpperCase();
-  const c = ACTIVE_COUPONS.find((cp) => cp.code === norm);
-  if (!c) return { valid: false, discount: 0 };
-  if (subtotal < c.minOrderTotal) return { valid: false, discount: 0 };
-  let discount = 0;
-  if (c.discountType === 'percentage') {
-    discount = (subtotal * c.discountValue) / 100;
-    if (c.maxDiscount && discount > c.maxDiscount) discount = c.maxDiscount;
-  } else {
-    discount = c.discountValue;
-  }
-  return { valid: true, discount: Math.round(discount) };
-}
-
 router.post('/', async (req, res) => {
   const body = req.body;
   const { items, shippingAddress, notes, customerName, customerEmail, customerPhone } = body;
@@ -134,11 +138,12 @@ router.post('/', async (req, res) => {
     };
   }
 
-  // ─── Server-side coupon validation ──────────────────────────────────────────
+  // ─── Dynamic Server-side coupon validation ──────────────────────────────────
   const couponCode = body.couponCode || null;
+  const targetEmail = (customerEmail || shippingAddress?.email || '').toLowerCase().trim();
   let couponDiscount = 0;
   if (couponCode) {
-    const couponResult = validateCouponServer(couponCode, serverSubtotal);
+    const couponResult = await validateCouponLogic(couponCode, serverSubtotal, targetEmail);
     couponDiscount = couponResult.valid ? couponResult.discount : 0;
   }
 
@@ -151,7 +156,6 @@ router.post('/', async (req, res) => {
   const serverTotal = Math.max(0, serverSubtotal - couponDiscount + serverShippingCost);
 
   const orderId = body.id || `AF-${Math.floor(100000 + Math.random() * 900000)}`;
-  const targetEmail = (customerEmail || shippingAddress?.email || '').toLowerCase().trim();
   const userId = body.userId;
 
   // تجهيز كائن الطلب الموحد بالأسعار المحسوبة من الـ Backend
@@ -235,7 +239,7 @@ router.post('/', async (req, res) => {
           customerObjectId = custDoc._id;
           await Customer.findByIdAndUpdate(
             custDoc._id,
-            { $inc: { ordersCount: 1, totalSpent: Number(total) || 0 } },
+            { $inc: { ordersCount: 1, totalSpent: Number(serverTotal) || 0 } },
             { session }
           );
         }
@@ -321,8 +325,38 @@ router.post('/', async (req, res) => {
     );
     if (custIdx !== -1) {
       customers[custIdx].ordersCount = (customers[custIdx].ordersCount || 0) + 1;
-      customers[custIdx].totalSpent = (customers[custIdx].totalSpent || 0) + (Number(total) || 0);
+      customers[custIdx].totalSpent = (customers[custIdx].totalSpent || 0) + (Number(serverTotal) || 0);
       await jsonCache.write('customers.json', customers);
+    }
+
+    // تسجيل وتحديث عداد استخدام الكوبون
+    if (couponCode && couponDiscount > 0) {
+      const normCp = couponCode.trim().toUpperCase();
+      const coupons = await jsonCache.read('coupons.json', []);
+      const cpIdx = coupons.findIndex((c) => c.code === normCp);
+      if (cpIdx !== -1) {
+        coupons[cpIdx].usedCount = (coupons[cpIdx].usedCount || 0) + 1;
+        if (!Array.isArray(coupons[cpIdx].usedBy)) coupons[cpIdx].usedBy = [];
+        coupons[cpIdx].usedBy.push({
+          email: targetEmail,
+          orderId,
+          usedAt: new Date().toISOString(),
+        });
+        await jsonCache.write('coupons.json', coupons);
+      }
+      if (jsonCache.isMongoConnected()) {
+        try {
+          await Coupon.findOneAndUpdate(
+            { code: normCp },
+            {
+              $inc: { usedCount: 1 },
+              $push: { usedBy: { email: targetEmail, orderId, usedAt: new Date() } },
+            }
+          );
+        } catch (cpDbErr) {
+          console.warn('[Coupon Mongo update notice]', cpDbErr.message);
+        }
+      }
     }
   } catch (cacheErr) {
     console.warn('RAM Cache sync notice:', cacheErr.message);

@@ -24,22 +24,31 @@ router.post('/logout', authController.logout);
 router.get('/me', verifyToken, authController.getMe);
 
 // ─── Google OAuth 2.0 ─────────────────────────────────────
+const isGoogleConfigured = () => Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
+
 // بدء عملية تسجيل الدخول عبر Google
-router.get(
-  '/google',
+router.get('/google', (req, res, next) => {
+  if (!isGoogleConfigured()) {
+    return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:3000'}/auth/login?error=google_not_configured`);
+  }
   passport.authenticate('google', {
     scope: ['profile', 'email'],
     session: false,
-  })
-);
+  })(req, res, next);
+});
 
 // استقبال الرد من Google بعد موافقة المستخدم
 router.get(
   '/google/callback',
-  passport.authenticate('google', {
-    session: false,
-    failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:3000'}/auth/login?error=google_failed`,
-  }),
+  (req, res, next) => {
+    if (!isGoogleConfigured()) {
+      return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:3000'}/auth/login?error=google_not_configured`);
+    }
+    passport.authenticate('google', {
+      session: false,
+      failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:3000'}/auth/login?error=google_failed`,
+    })(req, res, next);
+  },
   authController.googleCallback
 );
 
