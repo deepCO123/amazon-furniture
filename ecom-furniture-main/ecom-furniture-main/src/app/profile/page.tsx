@@ -36,14 +36,14 @@ export default function ProfilePage() {
   const addToast = useToastStore((s) => s.addToast);
 
   const [activeTab, setActiveTab] = useState<ProfileTab>("orders");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
   const [customOrders, setCustomOrders] = useState<CustomOrder[]>([]);
 
   // Profile Form state
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
+  const [name, setName] = useState(user?.name || "");
+  const [phone, setPhone] = useState((user as unknown as { phone?: string })?.phone || "");
+  const [city, setCity] = useState((user as unknown as { city?: string })?.city || "المنصورة");
   const [address, setAddress] = useState("");
   const [updatingDetails, setUpdatingDetails] = useState(false);
 
@@ -57,14 +57,7 @@ export default function ProfilePage() {
   const [respondingId, setRespondingId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) {
-      setLoading(false);
-      return;
-    }
-
-    setName(user.name || "");
-    setPhone((user as unknown as { phone?: string })?.phone || "");
-    setCity((user as unknown as { city?: string })?.city || "المنصورة");
+    if (!user) return;
 
     const loadProfileData = async () => {
       setLoading(true);

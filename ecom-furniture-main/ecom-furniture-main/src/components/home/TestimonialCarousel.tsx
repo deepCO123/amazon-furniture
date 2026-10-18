@@ -5,27 +5,35 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 import { reviews } from "@/data/reviews";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
 
 export default function TestimonialCarousel() {
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
+  const activeReviews = language === "en" 
+    ? reviews.filter((r) => r.locale === "en") 
+    : reviews.filter((r) => r.locale !== "en");
+
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
 
   const next = useCallback(() => {
     setDirection(1);
-    setCurrent((prev) => (prev + 1) % reviews.length);
-  }, []);
+    setCurrent((prev) => (prev + 1) % activeReviews.length);
+  }, [activeReviews.length]);
 
   const prev = useCallback(() => {
     setDirection(-1);
-    setCurrent((prev) => (prev - 1 + reviews.length) % reviews.length);
-  }, []);
+    setCurrent((prev) => (prev - 1 + activeReviews.length) % activeReviews.length);
+  }, [activeReviews.length]);
 
   useEffect(() => {
     const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
   }, [next]);
 
-  const review = reviews[current];
+  const review = activeReviews[current % activeReviews.length] || activeReviews[0];
 
   const variants = {
     enter: (dir: number) => ({
@@ -44,10 +52,10 @@ export default function TestimonialCarousel() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection className="text-center mb-12">
           <p className="text-accent font-medium tracking-wide uppercase text-sm mb-2">
-            Testimonials
+            {t.testimonialsTag}
           </p>
           <h2 className="text-3xl lg:text-4xl font-bold text-primary">
-            What Our Customers Say
+            {t.testimonialsTitle}
           </h2>
         </AnimatedSection>
 
@@ -66,7 +74,7 @@ export default function TestimonialCarousel() {
               >
                 <Quote size={40} className="mx-auto text-accent/20 mb-4" />
                 <p className="text-lg sm:text-xl text-primary/80 leading-relaxed mb-6 italic">
-                  &ldquo;{review.comment}&rdquo;
+                  &ldquo;{review?.comment}&rdquo;
                 </p>
                 <div className="flex items-center justify-center gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
@@ -74,7 +82,7 @@ export default function TestimonialCarousel() {
                       key={i}
                       size={16}
                       className={
-                        i < review.rating
+                        i < (review?.rating || 5)
                           ? "fill-amber-400 text-amber-400"
                           : "text-surface-dark"
                       }
@@ -84,14 +92,14 @@ export default function TestimonialCarousel() {
                 <div className="flex items-center justify-center gap-3">
                   <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
                     <span className="text-accent-dark font-semibold text-sm">
-                      {review.avatar}
+                      {review?.avatar}
                     </span>
                   </div>
-                  <div className="text-left">
+                  <div className="text-start">
                     <p className="font-medium text-primary text-sm">
-                      {review.author}
+                      {review?.author}
                     </p>
-                    <p className="text-muted text-xs">Verified Buyer</p>
+                    <p className="text-muted text-xs">{t.verifiedBuyer}</p>
                   </div>
                 </div>
               </motion.div>
@@ -108,7 +116,7 @@ export default function TestimonialCarousel() {
             </button>
 
             <div className="flex gap-2">
-              {reviews.map((_, i) => (
+              {activeReviews.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => {

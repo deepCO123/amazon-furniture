@@ -18,29 +18,55 @@ import {
 import { SITE_NAME } from "@/lib/constants";
 import { useLanguageStore } from "@/store/languageStore";
 import { getTranslation } from "@/lib/translations";
-const footerLinks = {
-  shop: [
-    { label: "كراسي مكتب", href: "/products" },
-    { label: "كراسي جيمينج", href: "/products" },
-    { label: "مكاتب مديرين وموظفين", href: "/products" },
-    { label: "كراسي طبية إرجونوميك", href: "/products" },
-    { label: "ركن واستقبال مكاتب", href: "/products" },
-    { label: "ستائر مكتبية", href: "/products" },
-    { label: "استشارة مجانية بالمنصورة 🎁", href: "/#consultation" },
-  ],
-  company: [
-    { label: "عن المعرض والمصنع", href: "/about" },
-    { label: "تواصل معنا", href: "/contact" },
-    { label: "الموقع في المنصورة (Google)", href: "https://maps.app.goo.gl/NP3m16vbWodtcp9c8?g_st=ic" },
-    { label: "احجز استشارة مجانية", href: "/#consultation" },
-  ],
-  support: [
-    { label: "التركيب: مجاناً 100%", href: "/contact" },
-    { label: "معاينة المنصورة مجاناً", href: "/#consultation" },
-    { label: "الاسترجاع وعقد الضمان 10 سنوات", href: "/return-policy" },
-    { label: "الشروط والأحكام", href: "/terms" },
-    { label: "سياسة الخصوصية", href: "/privacy" },
-  ],
+const footerLinksData = {
+  ar: {
+    shop: [
+      { label: "كراسي مكتب", href: "/products" },
+      { label: "كراسي جيمينج", href: "/products" },
+      { label: "مكاتب مديرين وموظفين", href: "/products" },
+      { label: "كراسي طبية إرجونوميك", href: "/products" },
+      { label: "ركن واستقبال مكاتب", href: "/products" },
+      { label: "ستائر مكتبية", href: "/products" },
+      { label: "استشارة مجانية بالمنصورة 🎁", href: "/#consultation" },
+    ],
+    company: [
+      { label: "عن المعرض والمصنع", href: "/about" },
+      { label: "تواصل معنا", href: "/contact" },
+      { label: "الموقع في المنصورة (Google)", href: "https://maps.app.goo.gl/NP3m16vbWodtcp9c8?g_st=ic" },
+      { label: "احجز استشارة مجانية", href: "/#consultation" },
+    ],
+    support: [
+      { label: "التركيب: مجاناً 100%", href: "/contact" },
+      { label: "معاينة المنصورة مجاناً", href: "/#consultation" },
+      { label: "الاسترجاع وعقد الضمان 10 سنوات", href: "/return-policy" },
+      { label: "الشروط والأحكام", href: "/terms" },
+      { label: "سياسة الخصوصية", href: "/privacy" },
+    ],
+  },
+  en: {
+    shop: [
+      { label: "Office Chairs", href: "/products" },
+      { label: "Gaming Chairs", href: "/products" },
+      { label: "Executive Desks", href: "/products" },
+      { label: "Ergonomic Chairs", href: "/products" },
+      { label: "Lounge & Reception", href: "/products" },
+      { label: "Office Blinds", href: "/products" },
+      { label: "Free Consultation 🎁", href: "/#consultation" },
+    ],
+    company: [
+      { label: "About Factory & Showroom", href: "/about" },
+      { label: "Contact Us", href: "/contact" },
+      { label: "Mansoura Location (Google)", href: "https://maps.app.goo.gl/NP3m16vbWodtcp9c8?g_st=ic" },
+      { label: "Book Free Consultation", href: "/#consultation" },
+    ],
+    support: [
+      { label: "Free Installation (100%)", href: "/contact" },
+      { label: "Free On-Site Inspection", href: "/#consultation" },
+      { label: "10-Year Warranty & Returns", href: "/return-policy" },
+      { label: "Terms & Conditions", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
+    ],
+  },
 };
 
 const socials = [
@@ -110,6 +136,7 @@ export default function Footer() {
   if (pathname?.startsWith("/admin")) return null;
 
   const t = getTranslation(language);
+  const currentLinks = language === "en" ? footerLinksData.en : footerLinksData.ar;
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -181,7 +208,7 @@ export default function Footer() {
               >
                 <MapPin size={16} className="shrink-0 text-accent" />
                 <span className="underline underline-offset-4">
-                  المعرض والمصنع: المنصورة، محافظة الدقهلية (خرائط Google Maps)
+                  {t.showroomFactory}
                 </span>
               </a>
 
@@ -238,9 +265,9 @@ export default function Footer() {
 
           {/* Shop Links */}
           <div className="lg:col-span-2 lg:col-start-6">
-            <MobileAccordion title="Shop">
+            <MobileAccordion title={t.shop}>
               <ul className="space-y-2.5">
-                {footerLinks.support.map((link) => (
+                {currentLinks.shop.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
@@ -256,9 +283,9 @@ export default function Footer() {
 
           {/* Company Links */}
           <div className="lg:col-span-2">
-            <MobileAccordion title="Company">
+            <MobileAccordion title={t.company}>
               <ul className="space-y-2.5">
-                {footerLinks.company.map((link) => (
+                {currentLinks.company.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
@@ -274,9 +301,9 @@ export default function Footer() {
 
           {/* Support Links */}
           <div className="lg:col-span-2">
-            <MobileAccordion title="Support">
+            <MobileAccordion title={t.support}>
               <ul className="space-y-2.5">
-                {footerLinks.support.map((link) => (
+                {currentLinks.support.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
@@ -293,9 +320,9 @@ export default function Footer() {
           {/* Social + Trust */}
           <div className="lg:col-span-2">
             <h3 className="font-semibold text-lg mb-4 hidden lg:block">
-              Follow Us
+              {t.followUs}
             </h3>
-            <h3 className="font-semibold text-lg mb-4 lg:hidden">Connect</h3>
+            <h3 className="font-semibold text-lg mb-4 lg:hidden">{t.followUs}</h3>
 
             {/* Social icons */}
             <div className="flex gap-3 mb-8">

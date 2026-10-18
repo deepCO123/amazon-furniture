@@ -109,6 +109,13 @@ router.post('/track', async (req, res) => {
 
 // ─── 2. إنشاء طلب جديد مع MongoDB Transactions وحماية المخزون ─
 router.post('/', async (req, res) => {
+  // ─── ⚠️ CRITICAL: PRODUCTION DATABASE GUARD ────────────────────────────────
+  if (jsonCache.isProductionMode() && !jsonCache.isMongoConnected()) {
+    return res.status(503).json({
+      error: 'قاعدة البيانات غير متاحة حالياً. تم تعليق إنشاء الطلبات مؤقتاً لحماية سلامة المخزون والمعاملات المالية.',
+    });
+  }
+
   const body = req.body;
   const { items, shippingAddress, notes, customerName, customerEmail, customerPhone } = body;
 

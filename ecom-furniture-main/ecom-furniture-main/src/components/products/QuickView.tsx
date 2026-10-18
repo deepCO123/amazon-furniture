@@ -107,11 +107,11 @@ export default function QuickView({ product, isOpen, onClose }: QuickViewProps) 
                 </div>
 
                 <div className="flex items-baseline gap-2 mb-4">
-                  <span className="text-2xl font-bold text-primary">
+                  <span className="text-2xl font-bold text-primary" suppressHydrationWarning>
                     {formatPrice(product.price)}
                   </span>
                   {product.originalPrice && (
-                    <span className="text-sm text-muted line-through">
+                    <span className="text-sm text-muted line-through" suppressHydrationWarning>
                       {formatPrice(product.originalPrice)}
                     </span>
                   )}

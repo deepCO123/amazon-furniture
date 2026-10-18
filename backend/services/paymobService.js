@@ -13,6 +13,10 @@ const { generateInvoiceBuffer } = require('./invoiceService');
 const { sendOrderConfirmationWithInvoice } = require('./emailService');
 
 class PaymobService {
+  constructor() {
+    this.processingLocks = new Set();
+  }
+
   isConfigured() {
     return Boolean(
       process.env.PAYMOB_API_KEY &&
@@ -188,73 +192,100 @@ class PaymobService {
    * معالجة السداد الناجح وتحديث الطلب بشكل Idempotent
    */
   async handleSuccessfulPayment(merchantOrderId, transactionDetails, io = null) {
-    const orders = await jsonCache.read('orders.json', []);
-    const idx = orders.findIndex(
-      (o) => String(o.id).toUpperCase() === String(merchantOrderId).toUpperCase()
-    );
-
-    if (idx === -1) {
-      console.warn(`[Paymob Webhook] Order #${merchantOrderId} not found.`);
-      return { success: false, error: 'Order not found' };
+    const normalizedOrderId = String(merchantOrderId).toUpperCase();
+    if (this.processingLocks.has(normalizedOrderId)) {
+      console.log(`[Paymob Webhook] Concurrent processing lock active for order #${merchantOrderId}`);
+      return { success: true, alreadyProcessing: true };
     }
 
-    // 1. Idempotency Check: إذا كان مدفوعاً بالفعل، لا نعيد الإرسال أو التكرار
-    if (orders[idx].paymentStatus === 'paid') {
-      console.log(`[Paymob Webhook] Order #${merchantOrderId} is already marked as PAID.`);
-      return { success: true, alreadyProcessed: true };
-    }
+    this.processingLocks.add(normalizedOrderId);
+    try {
+      const orders = await jsonCache.read('orders.json', []);
+      const idx = orders.findIndex(
+        (o) => String(o.id).toUpperCase() === normalizedOrderId
+      );
 
-    // 2. تحديث حالة الدفع إلى مدفوع رسمياً
-    orders[idx].paymentStatus = 'paid';
-    orders[idx].paymentMethod = 'paymob_card';
-    orders[idx].paymentDetails = {
-      provider: 'paymob',
-      transactionId: transactionDetails.id,
-      pan: transactionDetails.source_data?.pan || '',
-      cardType: transactionDetails.source_data?.sub_type || 'card',
-      paidAt: new Date().toISOString(),
-      amountCents: transactionDetails.amount_cents,
-    };
-
-    await jsonCache.write('orders.json', orders);
-
-    // 3. التحديث في MongoDB إذا كانت متصلة
-    if (jsonCache.isMongoConnected()) {
-      try {
-        await Order.findOneAndUpdate(
-          { id: orders[idx].id },
-          {
-            paymentStatus: 'paid',
-            paymentMethod: 'paymob_card',
-            paymentDetails: orders[idx].paymentDetails,
-          }
-        );
-      } catch (err) {
-        console.warn('[Paymob Mongo Sync Notice]', err.message);
+      if (idx === -1) {
+        console.warn(`[Paymob Webhook] Order #${merchantOrderId} not found.`);
+        return { success: false, error: 'Order not found' };
       }
-    }
 
-    // 4. إرسال الفاتورة الرسمية عبر الإيميل في الخلفية
-    setImmediate(async () => {
-      try {
-        const pdfBuffer = await generateInvoiceBuffer(orders[idx]);
-        await sendOrderConfirmationWithInvoice(orders[idx], pdfBuffer);
-      } catch (emailErr) {
-        console.warn('[Paymob Invoicing Error]', emailErr.message);
+      // 1. Idempotency Check: إذا كان مدفوعاً بالفعل، لا نعيد الإرسال أو التكرار
+      if (orders[idx].paymentStatus === 'paid') {
+        console.log(`[Paymob Webhook] Order #${merchantOrderId} is already marked as PAID.`);
+        return { success: true, alreadyProcessed: true };
       }
-    });
 
-    // 5. إشعار لوحة الإدارة لحظياً بالسوكيت
-    if (io) {
-      io.to('admin_room').emit('payment_verified', {
-        orderId: orders[idx].id,
-        amount: orders[idx].total,
-        provider: 'Paymob',
+      // 2. التحقق من مطابقة العملة والمبلغ المدفوع مع إجمالي الطلب المسجل على السيرفر
+      const expectedCents = Math.round(Number(orders[idx].total) * 100);
+      const paidCents = Number(transactionDetails.amount_cents || 0);
+      const currency = String(transactionDetails.currency || 'EGP').toUpperCase();
+
+      if (currency && currency !== 'EGP') {
+        console.error(`[Paymob Webhook] Invalid currency: ${currency}, expected EGP`);
+        return { success: false, error: 'Invalid currency' };
+      }
+
+      if (paidCents !== expectedCents) {
+        const diffType = paidCents < expectedCents ? 'Underpaid' : 'Overpaid';
+        console.error(`[Paymob Webhook] ${diffType} transaction: received ${paidCents} cents, expected ${expectedCents} cents for order ${merchantOrderId}`);
+        return { success: false, error: `${diffType} transaction amount` };
+      }
+
+      // 3. تحديث حالة الدفع إلى مدفوع رسمياً
+      orders[idx].paymentStatus = 'paid';
+      orders[idx].paymentMethod = 'paymob_card';
+      orders[idx].paymentDetails = {
+        provider: 'paymob',
+        transactionId: transactionDetails.id,
+        pan: transactionDetails.source_data?.pan || '',
+        cardType: transactionDetails.source_data?.sub_type || 'card',
         paidAt: new Date().toISOString(),
-      });
-    }
+        amountCents: transactionDetails.amount_cents,
+      };
 
-    return { success: true, order: orders[idx] };
+      await jsonCache.write('orders.json', orders);
+
+      // 4. التحديث في MongoDB إذا كانت متصلة
+      if (jsonCache.isMongoConnected()) {
+        try {
+          await Order.findOneAndUpdate(
+            { id: orders[idx].id },
+            {
+              paymentStatus: 'paid',
+              paymentMethod: 'paymob_card',
+              paymentDetails: orders[idx].paymentDetails,
+            }
+          );
+        } catch (err) {
+          console.warn('[Paymob Mongo Sync Notice]', err.message);
+        }
+      }
+
+      // 5. إرسال الفاتورة الرسمية عبر الإيميل في الخلفية
+      setImmediate(async () => {
+        try {
+          const pdfBuffer = await generateInvoiceBuffer(orders[idx]);
+          await sendOrderConfirmationWithInvoice(orders[idx], pdfBuffer);
+        } catch (emailErr) {
+          console.warn('[Paymob Invoicing Error]', emailErr.message);
+        }
+      });
+
+      // 6. إشعار لوحة الإدارة لحظياً بالسوكيت
+      if (io) {
+        io.to('admin_room').emit('payment_verified', {
+          orderId: orders[idx].id,
+          amount: orders[idx].total,
+          provider: 'Paymob',
+          paidAt: new Date().toISOString(),
+        });
+      }
+
+      return { success: true, order: orders[idx] };
+    } finally {
+      this.processingLocks.delete(normalizedOrderId);
+    }
   }
 }
 

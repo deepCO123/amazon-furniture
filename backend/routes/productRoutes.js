@@ -9,6 +9,30 @@ const router = express.Router();
 const { verifyToken, checkRole } = require('../middlewares/auth');
 const jsonCache = require('../services/jsonCache');
 
+// 0. إعادة تحميل وتفريغ الكاش من القرص يدوياً ومزامنتها مع قاعدة البيانات
+router.get('/reload-cache', async (req, res) => {
+  try {
+    const fs = require('fs/promises');
+    const path = require('path');
+    const filePath = path.resolve(
+      __dirname,
+      '..',
+      '..',
+      'ecom-furniture-main',
+      'ecom-furniture-main',
+      'src',
+      'data',
+      'products.json'
+    );
+    const raw = await fs.readFile(filePath, 'utf-8');
+    const products = JSON.parse(raw);
+    await jsonCache.write('products.json', products);
+    res.json({ success: true, count: products.length, timestamp: Date.now() });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // 1. قراءة المنتجات بسرعة فائقة مباشرة من الذاكرة دون الوصول للقرص
 router.get('/', async (req, res) => {
   try {

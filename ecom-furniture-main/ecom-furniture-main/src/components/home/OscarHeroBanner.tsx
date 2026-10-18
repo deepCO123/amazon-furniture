@@ -24,50 +24,76 @@ interface Slide {
   cta2Link: string;
 }
 
-const slides: Slide[] = [
-  {
-    id: 1,
-    title: "أقوى عروض وتخفيضات أمازون للأثاث",
-    subtitle: "خصومات كبرى وتصاميم عصرية فاخرة لغرف النوم والركنات والمطابخ مع استشارة هندسية وضمان 10 سنوات..",
-    image: "/oscar-hero.jpg",
-    cta1Text: "تسوق العروض الآن",
-    cta1Link: "/products",
-    cta2Text: "احجز استشارة مجانية",
-    cta2Link: "/#consultation",
-  },
-  {
-    id: 2,
-    title: "أثاث مكتبي ومنزلي يلهم الإبداع والكفاءة",
-    subtitle: "مجموعة متميزة من الأثاث المكتبي والحلول العملية بأسعار حصرية... والركنات الأنيقة لمساحة عمل متكاملة..",
-    image: "/hero-office-warm-hd.jpg",
-    cta1Text: "تواصل معنا",
-    cta1Link: "https://wa.me/201099684784?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%A3%D8%AB%D8%A7%D8%AB%20%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A",
-    cta2Text: "صمم الآن",
-    cta2Link: "/#consultation",
-  },
-  {
-    id: 3,
-    title: "فخامة التنفيذ لأرقى المساحات",
-    subtitle: "تصاميم تنفيذية راقية وتشطيبات خشب زان روماني طبيعي تمنح مكانك هيبة استثنائية وأداء يدوم طويلاً..",
-    image: "/hero-office-cool-hd.jpg",
-    cta1Text: "تواصل معنا",
-    cta1Link: "https://wa.me/201099684784?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%A3%D8%AB%D8%A7%D8%AB%20%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A",
-    cta2Text: "صمم الآن",
-    cta2Link: "/#consultation",
-  },
-];
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
 
 export default function OscarHeroBanner() {
   const [current, setCurrent] = useState(0);
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
+
+  const slides = [
+    {
+      id: 1,
+      title: t.slide1Title,
+      subtitle: t.slide1Subtitle,
+      image: "/oscar-hero.jpg",
+      cta1Text: t.slide1Cta1,
+      cta1Link: "/products",
+      cta2Text: t.slide1Cta2,
+      cta2Link: "/#consultation",
+    },
+    {
+      id: 2,
+      title: t.slide2Title,
+      subtitle: t.slide2Subtitle,
+      image: "/hero-office-warm-hd.jpg",
+      cta1Text: t.slide2Cta1,
+      cta1Link: "https://wa.me/201099684784?text=Hello",
+      cta2Text: t.slide2Cta2,
+      cta2Link: "/#consultation",
+    },
+    {
+      id: 3,
+      title: t.slide3Title,
+      subtitle: t.slide3Subtitle,
+      image: "/hero-office-cool-hd.jpg",
+      cta1Text: t.slide3Cta1,
+      cta1Link: "https://wa.me/201099684784?text=Hello",
+      cta2Text: t.slide3Cta2,
+      cta2Link: "/#consultation",
+    },
+  ];
+
+  const highlights = language === "en"
+    ? [
+        { icon: Truck, title: "Nationwide Safe Delivery", subtitle: "Direct from factory to doorstep" },
+        { icon: Wrench, title: "100% Free Assembly", subtitle: "Professional on-site installation" },
+        { icon: ShieldCheck, title: "10-Year Certified Warranty", subtitle: "Solid beech wood guarantee" },
+        { icon: MessageCircle, title: "Instant WhatsApp Checkout", subtitle: "Instant support & order confirmation" },
+      ]
+    : language === "sa"
+    ? [
+        { icon: Truck, title: "توصيل آمن وسريع", subtitle: "لباب بيتك بكل مدن المملكة" },
+        { icon: Wrench, title: "التركيب مجاناً 100%", subtitle: "فريق فني متخصص للمعاينة والتركيب" },
+        { icon: ShieldCheck, title: "ضمان ذهبي 10 سنوات", subtitle: "خشب زان طبيعي وشاسيه معتمد" },
+        { icon: MessageCircle, title: "طلب ودفع فوري بالواتساب", subtitle: "تأكيد فوري للطلب مع الإدارة" },
+      ]
+    : [
+        { icon: Truck, title: "شحن وتوصيل لكافة المحافظات", subtitle: "من المصنع لحد باب بيتك" },
+        { icon: Wrench, title: "التركيب مجاناً بالكامل", subtitle: "فريق فني متخصص للمعاينة والتركيب" },
+        { icon: ShieldCheck, title: "ضمان حقيقي معتمد 10 سنوات", subtitle: "خشب زان أحمر وشاسيه حديد" },
+        { icon: MessageCircle, title: "شراء ودفع عبر الواتساب", subtitle: "تواصل فوري وتأكيد فوري للطلب" },
+      ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 7000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
-  const slide = slides[current];
+  const slide = slides[current] || slides[0];
 
   return (
     <section className="w-full bg-[#f6f2ec]">
@@ -93,20 +119,22 @@ export default function OscarHeroBanner() {
               sizes="100vw"
             />
 
-            {/* Gradient overlay on the right side for clear typography legibility while keeping the furniture crystal clear */}
+            {/* Gradient overlay for clear typography legibility */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
                 background:
-                  "linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.60) 28%, rgba(0,0,0,0.20) 50%, rgba(0,0,0,0) 70%)",
+                  language === "en"
+                    ? "linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.60) 35%, rgba(0,0,0,0.20) 60%, rgba(0,0,0,0) 80%)"
+                    : "linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.60) 28%, rgba(0,0,0,0.20) 50%, rgba(0,0,0,0) 70%)",
               }}
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* Content Container aligned strictly to the RIGHT (RTL First Focus) */}
+        {/* Content Container */}
         <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex items-center justify-start pb-8 sm:pb-12">
-          <div className="max-w-xl text-right space-y-4 sm:space-y-6">
+          <div className={`max-w-xl space-y-4 sm:space-y-6 ${language === "en" ? "text-left" : "text-right"}`}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={slide.id}
@@ -185,12 +213,7 @@ export default function OscarHeroBanner() {
       <div className="border-b border-amber-200/50 bg-white shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { icon: Truck, title: "شحن وتوصيل لكافة المحافظات", subtitle: "من المصنع لحد باب بيتك" },
-              { icon: Wrench, title: "التركيب مجاناً بالكامل", subtitle: "فريق فني متخصص للمعاينة والتركيب" },
-              { icon: ShieldCheck, title: "ضمان حقيقي معتمد 3 سنوات", subtitle: "خشب زان أحمر وشاسيه حديد" },
-              { icon: MessageCircle, title: "شراء ودفع عبر الواتساب", subtitle: "تواصل فوري وتأكيد فوري للطلب" },
-            ].map((item, i) => (
+            {highlights.map((item, i) => (
               <div
                 key={i}
                 className="bg-[#faf8f5] border border-amber-100/80 rounded-xl p-3.5 sm:p-4 flex items-center gap-3 shadow-2xs hover:shadow-xs transition-shadow"

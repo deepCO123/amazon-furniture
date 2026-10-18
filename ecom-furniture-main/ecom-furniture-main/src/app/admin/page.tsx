@@ -741,6 +741,17 @@ export default function AdminDashboardPage() {
               <span>إضافة منتج +</span>
             </button>
 
+            {/* Bulk Import Products Button */}
+            <button
+              id="topbar-bulk-import-btn"
+              onClick={() => setImportModalOpen(true)}
+              className="py-2 px-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
+              title="رفع كل المنتجات دفعة واحدة من ملف Excel أو CSV"
+            >
+              <FileSpreadsheet size={15} strokeWidth={2.5} />
+              <span>رفع المنتجات دفعة واحدة (Excel / CSV) ⚡</span>
+            </button>
+
             {/* "مدى الحياة (Lifetime)" selector pill matching screenshot */}
             <div className={`flex items-center gap-1.5 border px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${chipCls}`}>
               <Calendar size={13} className="text-cyan-500" />
@@ -1057,15 +1068,15 @@ export default function AdminDashboardPage() {
               <button
                 id="bulk-import-btn"
                 onClick={() => setImportModalOpen(true)}
-                className={`flex items-center gap-1.5 px-3 py-2.5 rounded-xl border text-xs font-bold whitespace-nowrap transition-colors cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-black whitespace-nowrap transition-colors cursor-pointer shadow-xs ${
                   isDark
-                    ? "bg-[#0E1119] border-[#282E3E] text-emerald-400 hover:bg-[#111B14] hover:border-emerald-500/50 hover:text-emerald-300"
-                    : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 hover:border-emerald-300"
+                    ? "bg-emerald-950/60 border-emerald-500/40 text-emerald-300 hover:bg-emerald-900/60 hover:border-emerald-400"
+                    : "bg-emerald-50 border-emerald-300 text-emerald-800 hover:bg-emerald-100"
                 }`}
-                title="استيراد منتجات من Excel أو CSV"
+                title="استيراد كل المنتجات دفعة واحدة من ملف Excel أو CSV"
               >
-                <FileSpreadsheet size={15} />
-                <span className="hidden sm:inline">استيراد Excel</span>
+                <FileSpreadsheet size={16} className="text-emerald-500" />
+                <span>رفع المنتجات دفعة واحدة (Excel)</span>
               </button>
             </div>
           </div>

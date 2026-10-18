@@ -1,6 +1,8 @@
 "use client";
 
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
 
 const brands = [
   "Architectural Digest",
@@ -14,12 +16,15 @@ const brands = [
 ];
 
 export default function BrandsTicker() {
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
+
   return (
     <section className="py-12 bg-white border-y border-surface-dark overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
         <AnimatedSection className="text-center">
           <p className="text-muted text-sm font-medium tracking-wide uppercase">
-            As Featured In
+            {t.tickerTitle}
           </p>
         </AnimatedSection>
       </div>

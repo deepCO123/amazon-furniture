@@ -12,39 +12,69 @@ interface SeatingCard {
   href: string;
 }
 
-const seatingCards: SeatingCard[] = [
-  {
-    title: "ركنة",
-    subtitle: "ركنات مودرن واستقبال جلد وكتان خشب زان أحمر",
-    count: "أكثر من 15 تصميم مميز",
-    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
-    href: "/products?category=ركن ومجالس",
-  },
-  {
-    title: "كنبة",
-    subtitle: "كنب ثلاثي وثنائي راقي لمكاتب المديرين والمنازل",
-    count: "تنجيد سوفت إسفنج كثافة 36",
-    image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800",
-    href: "/products?category=ركن ومجالس",
-  },
-  {
-    title: "ليزي بوي",
-    subtitle: "كراسي استرخاء طبية بميكانيزم هزاز ودوار 360°",
-    count: "راحة مطلقة للظهر والرقبة",
-    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
-    href: "/products?category=ليزي بوي",
-  },
-];
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
 
 export default function SeatingStyleSection() {
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
+
+  const seatingCards = language === "en"
+    ? [
+        {
+          title: "Corner Sofas",
+          subtitle: "Modern luxury L-shaped sectional lounges in solid beech wood",
+          count: "15+ signature models",
+          image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
+          href: "/products?category=ركن ومجالس",
+        },
+        {
+          title: "Executive Couches",
+          subtitle: "Premium 2 & 3-seater sofas for executive offices and modern homes",
+          count: "High density 36-soft foam",
+          image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800",
+          href: "/products?category=ركن ومجالس",
+        },
+        {
+          title: "Recliners (Lazy Boy)",
+          subtitle: "Orthopedic medical recliners with 360° swivel & rocking mechanism",
+          count: "Absolute neck & lumbar support",
+          image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+          href: "/products?category=ليزي بوي",
+        },
+      ]
+    : [
+        {
+          title: "ركنة",
+          subtitle: "ركنات مودرن واستقبال جلد وكتان خشب زان أحمر",
+          count: "أكثر من 15 تصميم مميز",
+          image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
+          href: "/products?category=ركن ومجالس",
+        },
+        {
+          title: "كنبة",
+          subtitle: "كنب ثلاثي وثنائي راقي لمكاتب المديرين والمنازل",
+          count: "تنجيد سوفت إسفنج كثافة 36",
+          image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800",
+          href: "/products?category=ركن ومجالس",
+        },
+        {
+          title: "ليزي بوي",
+          subtitle: "كراسي استرخاء طبية بميكانيزم هزاز ودوار 360°",
+          count: "راحة مطلقة للظهر والرقبة",
+          image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+          href: "/products?category=ليزي بوي",
+        },
+      ];
+
   return (
     <section className="py-14 bg-white border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Header: "جلسات على ذوقك :" (Oscar Style) ───────────────────── */}
-        <div className="text-right mb-8">
+        <div className={`mb-8 ${language === "en" ? "text-left" : "text-right"}`}>
           <div className="inline-block relative">
             <h2 className="text-xl sm:text-2xl font-black text-primary tracking-tight pb-1">
-              جلسات على ذوقك :
+              {t.seatingTitle} :
             </h2>
             <div className="w-24 h-1 bg-amber-500 rounded-full" />
           </div>
@@ -79,7 +109,7 @@ export default function SeatingStyleSection() {
                   {card.subtitle}
                 </p>
                 <div className="mt-2.5 flex items-center justify-center gap-1.5 text-xs font-bold text-amber-700 group-hover:text-black">
-                  <span>تصفح الموديلات</span>
+                  <span>{language === "en" ? "Explore Models" : "تصفح الموديلات"}</span>
                   <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
                 </div>
               </div>

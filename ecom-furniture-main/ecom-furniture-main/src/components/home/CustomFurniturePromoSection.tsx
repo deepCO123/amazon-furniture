@@ -5,33 +5,66 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Ruler, Upload, Palette, Sparkles, CheckCircle2, ArrowLeft, MessageCircle } from "lucide-react";
 
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
+
 export default function CustomFurniturePromoSection() {
-  const steps = [
-    {
-      num: "1",
-      icon: Ruler,
-      title: "حدد مقاسات مكانك",
-      desc: "طول، عرض، وارتفاع المساحة سواء مكتب، ركنة، دريسنج روم أو مطبخ.",
-    },
-    {
-      num: "2",
-      icon: Upload,
-      title: "ارفع صورة التصميم",
-      desc: "صورة لمكتب عاجبك من بنترست أو صورة لغرفتك على الطبيعة.",
-    },
-    {
-      num: "3",
-      icon: Palette,
-      title: "اختر الخامات والألوان",
-      desc: "نوع الخشب (زان / MDF إسباني / كاونتر)، نوع القماش ولون الدهان.",
-    },
-    {
-      num: "4",
-      icon: MessageCircle,
-      title: "نرد عليك بالسعر والتنفيذ",
-      desc: "دراسة فنية وتسعير فوري مع ميعاد التسليم وضمان 10 سنوات.",
-    },
-  ];
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
+
+  const steps = language === "en"
+    ? [
+        {
+          num: "1",
+          icon: Ruler,
+          title: "Specify Dimensions",
+          desc: "Length, width, and height for your room, office, or kitchen space.",
+        },
+        {
+          num: "2",
+          icon: Upload,
+          title: "Upload Inspiration",
+          desc: "Pinterest image, architectural blueprint, or a real room photo.",
+        },
+        {
+          num: "3",
+          icon: Palette,
+          title: "Select Wood & Fabrics",
+          desc: "Solid Romanian beech, oak, Spanish MDF, luxury upholstery & finish.",
+        },
+        {
+          num: "4",
+          icon: MessageCircle,
+          title: "Fast Quote & Timeline",
+          desc: "Engineering review, instant pricing, delivery date & 10-year warranty.",
+        },
+      ]
+    : [
+        {
+          num: "1",
+          icon: Ruler,
+          title: "حدد مقاسات مكانك",
+          desc: "طول، عرض، وارتفاع المساحة سواء مكتب، ركنة، دريسنج روم أو مطبخ.",
+        },
+        {
+          num: "2",
+          icon: Upload,
+          title: "ارفع صورة التصميم",
+          desc: "صورة لمكتب عاجبك من بنترست أو صورة لغرفتك على الطبيعة.",
+        },
+        {
+          num: "3",
+          icon: Palette,
+          title: "اختر الخامات والألوان",
+          desc: "نوع الخشب (زان / MDF إسباني / كاونتر)، نوع القماش ولون الدهان.",
+        },
+        {
+          num: "4",
+          icon: MessageCircle,
+          title: "نرد عليك بالسعر والتنفيذ",
+          desc: "دراسة فنية وتسعير فوري مع ميعاد التسليم وضمان 10 سنوات.",
+        },
+      ];
 
   return (
     <section className="py-12 sm:py-16 bg-gradient-to-b from-amber-50/40 via-white to-amber-50/20 border-y border-amber-100/60 overflow-hidden relative">
@@ -46,21 +79,38 @@ export default function CustomFurniturePromoSection() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left/Main Column: Text & Value proposition */}
-            <div className="lg:col-span-7 space-y-6 text-right" dir="rtl">
+            <div className={`lg:col-span-7 space-y-6 ${language === "en" ? "text-left" : "text-right"}`}>
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs sm:text-sm font-bold backdrop-blur-sm">
                 <Sparkles size={16} className="text-amber-400 animate-spin" style={{ animationDuration: "8s" }} />
-                <span>خدمة التفصيل والتصنيع الخاص من المصنع مباشرة</span>
+                <span>
+                  {language === "en"
+                    ? "Bespoke & Custom Manufacturing Direct from Factory"
+                    : "خدمة التفصيل والتصنيع الخاص من المصنع مباشرة"}
+                </span>
               </div>
 
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
-                معاك ديزاين معين أو مقاسات خاصة لمكتب أو ركنة؟
-                <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-100">
-                  نفصلهولك بالمللي مع ضمان 10 سنين
-                </span>
+                {language === "en" ? (
+                  <>
+                    Have a unique design or specific dimensions in mind?
+                    <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-100">
+                      We craft it to the exact millimeter with 10-year warranty
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    معاك ديزاين معين أو مقاسات خاصة لمكتب أو ركنة؟
+                    <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-100">
+                      نفصلهولك بالمللي مع ضمان 10 سنين
+                    </span>
+                  </>
+                )}
               </h2>
 
               <p className="text-stone-300 text-sm sm:text-base leading-relaxed max-w-2xl">
-                مش لاقي مقاس يناسب غرفتك أو مكتبك في المعارض الجاهزة؟ ارفع لنا صورة التصميم اللي بتحلم بيه وحدد أبعاد مساحتك، ومهندسينا في مصنع <strong>Amazon Furniture</strong> هيدرسوا التصميم وينفذوه بنفس الخامات والألوان مع توصيل وتركيب لحد باب بيتك.
+                {language === "en"
+                  ? "Can't find the perfect size for your living room or office in standard ready-made showrooms? Upload your inspiration photo, specify your measurements, and our interior engineers will study and execute your design with master quality."
+                  : "مش لاقي مقاس يناسب غرفتك أو مكتبك في المعارض الجاهزة؟ ارفع لنا صورة التصميم اللي بتحلم بيه وحدد أبعاد مساحتك، ومهندسينا في مصنع Amazon Furniture هيدرسوا التصميم وينفذوه بنفس الخامات والألوان مع توصيل وتركيب لحد باب بيتك."}
               </p>
 
               {/* Steps row */}
@@ -89,18 +139,22 @@ export default function CustomFurniturePromoSection() {
                   className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black text-sm sm:text-base px-8 py-4 rounded-full shadow-lg shadow-amber-600/30 hover:shadow-amber-600/50 transition-all transform hover:-translate-y-0.5"
                 >
                   <Ruler size={18} />
-                  <span>ابدأ طلب تفصيل الآن (ارفع المقاسات والصورة)</span>
+                  <span>
+                    {language === "en"
+                      ? "Start Custom Order (Upload Photo & Sizes)"
+                      : "ابدأ طلب تفصيل الآن (ارفع المقاسات والصورة)"}
+                  </span>
                   <ArrowLeft size={16} />
                 </Link>
 
                 <a
-                  href="https://wa.me/201091084863?text=مرحباً%20مهندس%20محمد%20إسماعيل،%20عندي%20تصميم%20بمقاسات%20خاصة%20وعايز%20استفسر%20عن%20التفصيل%20والتكلفة"
+                  href="https://wa.me/201091084863?text=Hello%20Mohamed%20Esmaeil"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm px-6 py-4 rounded-full transition-all"
                 >
                   <MessageCircle size={16} className="text-emerald-400" />
-                  <span>تواصل فوري واتساب</span>
+                  <span>{language === "en" ? "Chat on WhatsApp" : "تواصل فوري واتساب"}</span>
                 </a>
               </div>
             </div>

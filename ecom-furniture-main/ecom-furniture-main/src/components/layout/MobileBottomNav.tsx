@@ -7,9 +7,14 @@ import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useHydrated } from "@/hooks/useHydrated";
 
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
+
 export default function MobileBottomNav() {
   const pathname = usePathname();
   const hydrated = useHydrated();
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
   const cartCount = useCartStore((s) => s.getItemCount());
   const wishlistCount = useWishlistStore((s) => s.items.length);
 
@@ -21,33 +26,33 @@ export default function MobileBottomNav() {
   const navItems = [
     {
       href: "/",
-      label: "الرئيسية",
+      label: t.navHome,
       icon: Home,
       isActive: pathname === "/",
     },
     {
       href: "/products",
-      label: "المتجر",
+      label: t.navShop,
       icon: ShoppingBag,
       isActive: pathname === "/products" || pathname?.startsWith("/products/"),
     },
     {
       href: "/#consultation",
-      label: "استشارة مجانية",
+      label: t.navConsult,
       icon: Ruler,
       highlight: true,
       isActive: pathname === "/#consultation",
     },
     {
       href: "/wishlist",
-      label: "المفضلة",
+      label: t.navWishlist,
       icon: Heart,
       badge: hydrated && wishlistCount > 0 ? wishlistCount : null,
       isActive: pathname === "/wishlist",
     },
     {
       href: "/cart",
-      label: "السلة",
+      label: t.navCart,
       icon: ShoppingBag,
       badge: hydrated && cartCount > 0 ? cartCount : null,
       isActive: pathname === "/cart",
@@ -57,7 +62,7 @@ export default function MobileBottomNav() {
   return (
     <nav
       aria-label="التنقل السريع على الهاتف"
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-2 py-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#0E121A]/95 backdrop-blur-lg border-t border-slate-200/80 dark:border-[#1E2536] shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-2 py-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]"
     >
       <div className="flex items-center justify-around">
         {navItems.map((item) => {

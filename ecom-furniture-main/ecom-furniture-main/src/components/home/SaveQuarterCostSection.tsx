@@ -10,8 +10,13 @@ import { useWishlistStore } from "@/store/wishlistStore";
 import { formatPrice, getProductUrl } from "@/lib/utils";
 import type { Product } from "@/types";
 import { useToastStore } from "@/components/ui/Toast";
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
 
 export default function SaveQuarterCostSection() {
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
+
   const products = useProductStore((s) => s.products);
   const addItem = useCartStore((s) => s.addItem);
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
@@ -61,7 +66,7 @@ export default function SaveQuarterCostSection() {
         {/* ── Section Title (Oscar Images 3 & 4) ────────────────────────── */}
         <div className="text-center mb-6">
           <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
-            وفّر ربع التكلفة بخصومات 26 %
+            {t.saveTitle}
           </h2>
         </div>
 
@@ -153,11 +158,11 @@ export default function SaveQuarterCostSection() {
                     <div className="mt-2">
                       {/* Price in Oscar style */}
                       <div className="flex items-baseline gap-1.5 mb-2.5">
-                        <span className="text-xs sm:text-sm font-black text-[#ec0101]">
+                        <span className="text-xs sm:text-sm font-black text-[#ec0101]" suppressHydrationWarning>
                           {formatPrice(product.price)}
                         </span>
                         {product.originalPrice && (
-                          <span className="text-[10px] text-gray-400 line-through">
+                          <span className="text-[10px] text-gray-400 line-through" suppressHydrationWarning>
                             {formatPrice(product.originalPrice)}
                           </span>
                         )}
@@ -168,12 +173,12 @@ export default function SaveQuarterCostSection() {
                         <button
                           onClick={() => {
                             addItem(product);
-                            addToast(`تمت إضافة ${product.name} إلى السلة`, "cart");
+                            addToast(language === "en" ? `Added ${product.name} to cart` : `تمت إضافة ${product.name} إلى السلة`, "cart");
                           }}
                           className="w-full bg-gray-50 hover:bg-[#ff7b1b] text-gray-700 hover:text-white border border-gray-200 hover:border-[#ff7b1b] font-bold text-[11px] py-1.5 px-2 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                         >
                           <ShoppingBag size={12} />
-                          <span>أضف إلى السلة</span>
+                          <span>{t.addToCart}</span>
                         </button>
 
                         <button
@@ -181,7 +186,7 @@ export default function SaveQuarterCostSection() {
                           className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] py-1 px-2 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer"
                         >
                           <MessageCircle size={12} />
-                          <span>طلب فوري ⚡</span>
+                          <span>{t.orderWhatsApp}</span>
                         </button>
                       </div>
                     </div>

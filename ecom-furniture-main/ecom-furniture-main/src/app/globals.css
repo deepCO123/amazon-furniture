@@ -69,12 +69,304 @@
 :root {
   --background: #FAF7F2;
   --foreground: #2C1810;
+  --color-surface: #FAF7F2;
+  --color-surface-dark: #F0EBE3;
+  --color-primary: #2C1810;
+  --color-muted: #6B7280;
+  --color-accent: #C6A46A;
+  --color-accent-light: #DFC79C;
+  --color-accent-dark: #9E7D48;
 }
 
 .dark,
 [data-theme="dark"] {
-  --background: #0B0E14;
-  --foreground: #F8FAFC;
+  --background: #111318;
+  --foreground: #F5F6F8;
+  --color-surface: #111318;
+  --color-surface-dark: #1A1F29;
+  --color-primary: #F5F6F8;
+  --color-secondary: #A7B0C0;
+  --color-muted: #A7B0C0;
+  --color-border: #2A3140;
+  --color-accent: #C6A46A;
+  --color-accent-light: #DFC79C;
+  --color-accent-dark: #9E7D48;
+  --color-input: #191E27;
+  --color-input-border: #303747;
+}
+
+/* ── Refined Charcoal Dark Mode System for Amazon Furniture ── */
+.dark body,
+[data-theme="dark"] body {
+  background-color: #111318 !important;
+  color: #F5F6F8 !important;
+}
+
+/* Header & Navigation in Dark Mode */
+.dark header,
+[data-theme="dark"] header,
+.dark header > div,
+[data-theme="dark"] header > div {
+  background-color: #151922 !important;
+  border-color: #2A3140 !important;
+  color: #F5F6F8 !important;
+}
+
+.dark header .bg-white,
+[data-theme="dark"] header .bg-white {
+  background-color: #151922 !important;
+  border-color: #2A3140 !important;
+}
+
+.dark header input,
+[data-theme="dark"] header input {
+  color: #F5F6F8 !important;
+  background-color: #191E27 !important;
+  border-color: #303747 !important;
+}
+
+.dark header select,
+[data-theme="dark"] header select {
+  color: #F5F6F8 !important;
+  background-color: #191E27 !important;
+}
+
+.dark header select option,
+[data-theme="dark"] header select option {
+  background-color: #191E27 !important;
+  color: #F5F6F8 !important;
+}
+
+/* Cards, Sections & Surfaces (Excluding designated White Product Cards) */
+.dark .bg-white:not(.product-card):not([data-card="product"]):not(.keep-white),
+[data-theme="dark"] .bg-white:not(.product-card):not([data-card="product"]):not(.keep-white) {
+  background-color: #1A1F29 !important;
+  color: #F5F6F8 !important;
+}
+
+.dark .bg-surface,
+[data-theme="dark"] .bg-surface {
+  background-color: #111318 !important;
+}
+
+.dark .bg-surface-dark,
+[data-theme="dark"] .bg-surface-dark {
+  background-color: #1A1F29 !important;
+}
+
+.dark .bg-\[\#f6f2ec\],
+[data-theme="dark"] .bg-\[\#f6f2ec\],
+.dark .bg-\[\#FAF7F2\],
+[data-theme="dark"] .bg-\[\#FAF7F2\],
+.dark .bg-\[\#F0EBE3\],
+[data-theme="dark"] .bg-\[\#F0EBE3\],
+.dark .bg-\[\#FBF9F5\],
+[data-theme="dark"] .bg-\[\#FBF9F5\],
+.dark .bg-gray-50,
+[data-theme="dark"] .bg-gray-50,
+.dark .bg-gray-100:not(.keep-light),
+[data-theme="dark"] .bg-gray-100:not(.keep-light),
+.dark .bg-stone-50,
+[data-theme="dark"] .bg-stone-50,
+.dark .bg-neutral-50,
+[data-theme="dark"] .bg-neutral-50 {
+  background-color: #1A1F29 !important;
+}
+
+/* Borders in Dark Mode */
+.dark .border-gray-100,
+[data-theme="dark"] .border-gray-100,
+.dark .border-gray-200,
+[data-theme="dark"] .border-gray-200,
+.dark .border-gray-300,
+[data-theme="dark"] .border-gray-300,
+.dark .border-slate-200,
+[data-theme="dark"] .border-slate-200,
+.dark .border-neutral-200,
+[data-theme="dark"] .border-neutral-200,
+.dark .border-stone-200,
+[data-theme="dark"] .border-stone-200,
+.dark .border-surface-dark,
+[data-theme="dark"] .border-surface-dark {
+  border-color: #2A3140 !important;
+}
+
+/* Typography in Dark Mode (Outside Product Cards) */
+.dark :not(.product-card):not([data-card="product"]) > .text-gray-900,
+[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-gray-900,
+.dark :not(.product-card):not([data-card="product"]) > .text-gray-800,
+[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-gray-800,
+.dark :not(.product-card):not([data-card="product"]) > .text-gray-700,
+[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-gray-700,
+.dark :not(.product-card):not([data-card="product"]) > .text-primary,
+[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-primary {
+  color: #F5F6F8 !important;
+}
+
+.dark :not(.product-card):not([data-card="product"]) > .text-gray-600,
+[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-gray-600,
+.dark :not(.product-card):not([data-card="product"]) > .text-gray-500,
+[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-gray-500,
+.dark :not(.product-card):not([data-card="product"]) > .text-muted,
+[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-muted {
+  color: #A7B0C0 !important;
+}
+
+/* Inputs, Textareas & Selects in Dark Mode */
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark textarea,
+.dark select,
+[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: #191E27 !important;
+  color: #F5F6F8 !important;
+  border-color: #303747 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder,
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #A7B0C0 !important;
+}
+
+/* Product Cards: explicitly pure white for furniture photography */
+.product-card,
+[data-card="product"] {
+  background-color: #FFFFFF !important;
+  color: #111827 !important;
+}
+
+.dark .product-card,
+[data-theme="dark"] .product-card,
+.dark [data-card="product"],
+[data-theme="dark"] [data-card="product"] {
+  background-color: #FFFFFF !important;
+  color: #111827 !important;
+  border-color: #2A3140 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Inside white product card, keep text and badges naturally dark and readable */
+.dark .product-card h3,
+[data-theme="dark"] .product-card h3,
+.dark .product-card .card-title,
+[data-theme="dark"] .product-card .card-title {
+  color: #111827 !important;
+}
+
+.dark .product-card p,
+[data-theme="dark"] .product-card p,
+.dark .product-card .card-category,
+[data-theme="dark"] .product-card .card-category {
+  color: #6B7280 !important;
+}
+
+.dark .product-card .card-price,
+[data-theme="dark"] .product-card .card-price {
+  color: #111827 !important;
+}
+
+.dark .product-card .card-old-price,
+[data-theme="dark"] .product-card .card-old-price {
+  color: #9CA3AF !important;
+}
+
+/* Custom styled Checkbox for Category Filter */
+.filter-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 0.375rem;
+  border: 1.5px solid #D1D5DB;
+  background-color: transparent;
+  display: inline-grid;
+  place-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  vertical-align: middle;
+}
+
+.dark .filter-checkbox,
+[data-theme="dark"] .filter-checkbox {
+  border-color: #303747;
+  background-color: #191E27;
+}
+
+.filter-checkbox:checked {
+  background-color: #C6A46A !important;
+  border-color: #C6A46A !important;
+}
+
+.filter-checkbox::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transform: scale(0);
+  transform-origin: bottom left;
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em white;
+  background-color: white;
+}
+
+.filter-checkbox:checked::before {
+  transform: scale(1);
+}
+
+/* Soft red sale badge */
+.badge-sale {
+  background-color: #FEE2E2 !important;
+  color: #DC2626 !important;
+  border: 1px solid #FECACA;
+}
+
+.dark .badge-sale,
+[data-theme="dark"] .badge-sale {
+  background-color: rgba(220, 38, 38, 0.18) !important;
+  color: #F87171 !important;
+  border-color: rgba(220, 38, 38, 0.35) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder,
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #64748B !important;
+}
+
+/* Mobile Bottom Navigation in Dark Mode */
+.dark nav[aria-label="التنقل السريع على الهاتف"],
+[data-theme="dark"] nav[aria-label="التنقل السريع على الهاتف"] {
+  background-color: rgba(14, 18, 26, 0.95) !important;
+  border-color: #1E2536 !important;
+}
+
+/* Footer in Dark Mode */
+.dark footer,
+[data-theme="dark"] footer {
+  background-color: #06080C !important;
+  border-color: #151A24 !important;
+}
+
+/* Dropdowns & Popovers in Dark Mode */
+.dark .shadow-2xl,
+.dark .shadow-xl,
+[data-theme="dark"] .shadow-2xl,
+[data-theme="dark"] .shadow-xl {
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Hide Next.js dev overlay indicator element completely */
+nextjs-portal,
+#nextjs-dev-overlay,
+[data-nextjs-dialog-overlay] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
 }
 
 /* ── Light mode theme styles for Admin Dashboard ── */

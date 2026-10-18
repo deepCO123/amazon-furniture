@@ -6,13 +6,19 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Building2, Ruler, MessageCircle, X, CheckCircle } from "lucide-react";
 
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
+
 export default function OscarDualServicesBanner() {
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
+
   const [showB2BModal, setShowB2BModal] = useState(false);
   const [b2bData, setB2bData] = useState({
     companyName: "",
     contactPerson: "",
     phone: "",
-    projectType: "فرش مقر إداري متكامل",
+    projectType: language === "en" ? "Full Executive Office Furnishing" : "فرش مقر إداري متكامل",
     notes: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -43,7 +49,7 @@ export default function OscarDualServicesBanner() {
             {/* Background Image: Designer working on 3D software */}
             <Image
               src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1200"
-              alt="تصميم 3D مجاني - تخيل شقتك قبل الفرش"
+              alt="تصميم 3D مجاني"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -55,14 +61,14 @@ export default function OscarDualServicesBanner() {
             <div className="absolute inset-y-6 right-6 sm:right-10 flex items-center z-10">
               <div className="bg-[#e4ded5]/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 text-center max-w-[290px] sm:max-w-[340px] shadow-2xl border border-white/40">
                 <h3 className="text-3xl sm:text-4xl font-black text-gray-900 leading-tight">
-                  تصميم 3D
+                  {language === "en" ? "Free 3D" : "تصميم 3D"}
                 </h3>
                 <h3 className="text-3xl sm:text-4xl font-black text-gray-900 leading-tight mb-2">
-                  مجــــانـي
+                  {language === "en" ? "Design" : "مجــــانـي"}
                 </h3>
 
                 <p className="text-sm sm:text-base font-bold text-gray-800 mb-6 leading-relaxed">
-                  تخيل شقتك قبل الفرش
+                  {language === "en" ? "Visualize your space before production" : "تخيل شقتك قبل الفرش"}
                 </p>
 
                 <Link
@@ -70,7 +76,7 @@ export default function OscarDualServicesBanner() {
                   className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-900 font-black text-sm px-8 py-3 rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
                 >
                   <Ruler size={16} className="text-amber-600" />
-                  <span>تفصيل بمقاسك الخاص 📐</span>
+                  <span>{t.customOrderLink}</span>
                 </Link>
               </div>
             </div>
@@ -92,17 +98,19 @@ export default function OscarDualServicesBanner() {
               <div className="relative h-full w-full sm:w-[60%] flex flex-col justify-center items-center text-center p-6 sm:p-8 bg-[#f5ede4]/95 backdrop-blur-sm [clip-path:ellipse(120%_100%_at_100%_50%)] sm:[clip-path:ellipse(110%_100%_at_100%_50%)] shadow-2xl">
                 <div className="space-y-3 max-w-[280px]">
                   <h3 className="text-3xl sm:text-4xl font-black text-[#f97316] tracking-tight">
-                    خدمة B2B
+                    {language === "en" ? "B2B Service" : "خدمة B2B"}
                   </h3>
 
                   <div className="flex items-center justify-center gap-2 text-gray-800 font-extrabold text-lg sm:text-xl">
                     <span className="h-px w-6 bg-gray-400" />
-                    <span>لفرش الشركات</span>
+                    <span>{language === "en" ? "Corporate Furnishing" : "لفرش الشركات"}</span>
                     <span className="h-px w-6 bg-gray-400" />
                   </div>
 
                   <p className="text-xs sm:text-sm text-gray-600 font-semibold leading-relaxed pt-1 pb-2">
-                    تجهيز مقرات، مكاتب إدارية، وقاعات اجتماعات بأعلى خامات الخشب والجلد والهيدروليك بأسعار المصنع.
+                    {language === "en"
+                      ? "Custom factory supply contracts for office suites, hotels, and corporate meeting rooms."
+                      : "تجهيز مقرات، مكاتب إدارية، وقاعات اجتماعات بأعلى خامات الخشب والجلد والهيدروليك بأسعار المصنع."}
                   </p>
 
                   <div>
@@ -111,7 +119,7 @@ export default function OscarDualServicesBanner() {
                       className="inline-flex items-center justify-center gap-2 bg-[#f97316] hover:bg-[#ea580c] text-white font-black text-xs sm:text-sm px-6 py-3 rounded-full shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transition-all transform hover:-translate-y-0.5 cursor-pointer"
                     >
                       <Building2 size={16} />
-                      <span>مساحة عمل تليق بنجاحك</span>
+                      <span>{language === "en" ? "Workspaces Befitting Your Success" : "مساحة عمل تليق بنجاحك"}</span>
                     </button>
                   </div>
                 </div>

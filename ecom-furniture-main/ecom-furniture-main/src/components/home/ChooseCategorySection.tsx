@@ -11,21 +11,27 @@ import { formatPrice, getProductUrl } from "@/lib/utils";
 import type { Product } from "@/types";
 import { useToastStore } from "@/components/ui/Toast";
 
-const categoryTabs = [
-  "غرف النوم",
-  "كراسي ومكاتب",
-  "ركن ومجالس",
-  "المطابخ",
-  "دريسنج روم",
-  "ترابيزة تليفزيون",
-  "أثاث خارجي",
-  "ستائر مكتبية",
-  "ليزي بوي",
-  "بين باج",
-  "اضاءة",
-];
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
 
 export default function ChooseCategorySection() {
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
+
+  const categoryTabs = [
+    { id: "غرف النوم", label: t.tabBedrooms },
+    { id: "كراسي ومكاتب", label: t.tabChairsDesks },
+    { id: "ركن ومجالس", label: t.tabLiving },
+    { id: "المطابخ", label: t.tabKitchens },
+    { id: "دريسنج روم", label: t.tabDressing },
+    { id: "ترابيزة تليفزيون", label: t.tabTv },
+    { id: "أثاث خارجي", label: t.tabOutdoor },
+    { id: "ستائر مكتبية", label: t.tabCurtains },
+    { id: "ليزي بوي", label: t.tabLazyBoy },
+    { id: "بين باج", label: t.tabBeanBag },
+    { id: "اضاءة", label: t.tabLighting },
+  ];
+
   const [activeTab, setActiveTab] = useState("غرف النوم");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -142,12 +148,12 @@ export default function ChooseCategorySection() {
         {/* ── Sub-Category Tabs (Oscar Image 2) ─────────────────────────── */}
         <div className="flex items-center gap-6 sm:gap-8 overflow-x-auto pb-3 mb-8 scrollbar-none justify-start md:justify-center border-b border-gray-100">
           {categoryTabs.map((tab) => {
-            const isActive = activeTab === tab;
+            const isActive = activeTab === tab.id;
             return (
               <button
-                key={tab}
+                key={tab.id}
                 onClick={() => {
-                  setActiveTab(tab);
+                  setActiveTab(tab.id);
                 }}
                 className={`whitespace-nowrap pb-2.5 text-xs sm:text-sm font-bold transition-all relative cursor-pointer ${
                   isActive
@@ -155,7 +161,7 @@ export default function ChooseCategorySection() {
                     : "text-gray-500 hover:text-gray-800"
                 }`}
               >
-                {tab}
+                {tab.label}
               </button>
             );
           })}
@@ -187,8 +193,12 @@ export default function ChooseCategorySection() {
           >
             {displayProducts.length === 0 ? (
               <div className="w-full py-14 text-center text-gray-500 bg-gray-50/70 rounded-2xl border border-dashed border-gray-200">
-                <p className="text-base font-bold text-gray-700 mb-1">لا توجد منتجات مضافة في هذا القسم حالياً</p>
-                <p className="text-xs text-gray-400">يمكن لإدارة المتجر إضافة المنتجات وتحديد أقسامها بسهولة من لوحة التحكم</p>
+                <p className="text-base font-bold text-gray-700 mb-1">
+                  {language === "en" ? "No products in this category currently" : "لا توجد منتجات مضافة في هذا القسم حالياً"}
+                </p>
+                <p className="text-xs text-gray-400">
+                  {language === "en" ? "Browse our other categories or request a custom order." : "يمكن لإدارة المتجر إضافة المنتجات وتحديد أقسامها بسهولة من لوحة التحكم"}
+                </p>
               </div>
             ) : (
               displayProducts.map((product) => {
@@ -274,11 +284,11 @@ export default function ChooseCategorySection() {
                     <div className="pt-2">
                       {/* Price in Oscar style (LE red bold + crossed out) */}
                       <div className="flex items-baseline gap-2 mb-3">
-                        <span className="text-sm sm:text-base font-black text-[#ec0101]">
+                        <span className="text-sm sm:text-base font-black text-[#ec0101]" suppressHydrationWarning>
                           {formatPrice(product.price)}
                         </span>
                         {product.originalPrice && (
-                          <span className="text-xs text-gray-400 line-through">
+                          <span className="text-xs text-gray-400 line-through" suppressHydrationWarning>
                             {formatPrice(product.originalPrice)}
                           </span>
                         )}
@@ -289,12 +299,12 @@ export default function ChooseCategorySection() {
                         <button
                           onClick={() => {
                             addItem(product);
-                            addToast(`تمت إضافة ${product.name} إلى السلة`, "cart");
+                            addToast(language === "en" ? `Added ${product.name} to cart` : `تمت إضافة ${product.name} إلى السلة`, "cart");
                           }}
                           className="w-full bg-white hover:bg-[#ff7b1b] text-gray-800 hover:text-white border border-gray-200 hover:border-[#ff7b1b] font-bold text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
                         >
                           <ShoppingBag size={14} />
-                          <span>أضف إلى السلة</span>
+                          <span>{t.addToCart}</span>
                         </button>
 
                         <button
@@ -302,7 +312,7 @@ export default function ChooseCategorySection() {
                           className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer"
                         >
                           <MessageCircle size={14} />
-                          <span>شراء فوري عبر الواتساب</span>
+                          <span>{t.orderWhatsApp}</span>
                         </button>
                       </div>
                     </div>

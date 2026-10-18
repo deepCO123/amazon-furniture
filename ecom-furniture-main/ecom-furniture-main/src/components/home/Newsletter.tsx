@@ -4,10 +4,14 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Check } from "lucide-react";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +22,7 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="py-20 bg-primary relative overflow-hidden">
+    <section className="py-20 bg-primary text-white relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
         <div
           className="absolute inset-0"
@@ -31,11 +35,10 @@ export default function Newsletter() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <AnimatedSection>
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-            Stay in the Loop
+            {t.newsletterTitle}
           </h2>
-          <p className="text-white/60 mb-8 max-w-lg mx-auto">
-            Subscribe to our newsletter for exclusive offers, design tips, and
-            early access to new collections.
+          <p className="text-white/70 mb-8 max-w-lg mx-auto">
+            {t.newsletterSubtitle}
           </p>
 
           {submitted ? (
@@ -45,7 +48,7 @@ export default function Newsletter() {
               className="flex items-center justify-center gap-2 text-accent text-lg font-medium"
             >
               <Check size={20} />
-              Thank you for subscribing!
+              {t.subscribedMsg}
             </motion.div>
           ) : (
             <form
@@ -54,7 +57,7 @@ export default function Newsletter() {
             >
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t.emailPlaceholder}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -62,9 +65,9 @@ export default function Newsletter() {
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-accent text-white rounded-lg font-medium hover:bg-accent-light transition-colors flex items-center justify-center gap-2"
+                className="px-6 py-3 bg-accent text-primary font-bold rounded-lg hover:bg-accent-light transition-colors flex items-center justify-center gap-2"
               >
-                Subscribe
+                {t.subscribe}
                 <Send size={16} />
               </button>
             </form>

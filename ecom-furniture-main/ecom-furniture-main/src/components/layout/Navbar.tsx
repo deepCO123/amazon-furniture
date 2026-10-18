@@ -23,14 +23,19 @@ import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { formatPrice, cn } from "@/lib/utils";
 import { useHydrated } from "@/hooks/useHydrated";
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const products = useProductStore((s) => s.products);
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
+  const isEn = language === "en";
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("كل الأقسام");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [query, setQuery] = useState("");
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
 
@@ -42,17 +47,14 @@ export default function Navbar() {
 
   // Search categories matching store
   const searchCategories = [
-    "كل الأقسام",
-    "غرفة نوم كاملة",
-    "ركن ومجالس",
-    "كراسي مكتب",
-    "مكاتب",
-    "أثاث خارجي",
-    "مطبخ كامل",
-    "دريسنج",
-    "ترابيزة تليفزيون",
-    "ستائر مكتبية",
-    "ليزي بوي",
+    { value: "all", label: t.searchAllCategories },
+    { value: "غرف النوم", label: t.bedroomsLink },
+    { value: "المطابخ", label: t.kitchensLink },
+    { value: "كراسي مكتب", label: t.chairsAndDesksLink },
+    { value: "ركن ومجالس", label: t.livingAndLoungesLink },
+    { value: "أثاث خارجي", label: t.outdoorLink },
+    { value: "دريسنج روم", label: t.dressingRoomLink },
+    { value: "اضاءة", label: t.decorLink },
   ];
 
   interface NavLinkItem {
@@ -65,17 +67,17 @@ export default function Navbar() {
 
   // Secondary dark bar navigation links (Centered Features Bar)
   const secondaryNavLinks: NavLinkItem[] = [
-    { href: "/custom-order", label: "تفصيل حسب مقاسك 📐", hasBadge: true, badge: "تفصيل", highlight: true },
-    { href: "/products?tag=sale", label: "عروض أمازون", hasBadge: true, badge: "New" },
-    { href: "/products?category=غرف النوم", label: "غرف النوم" },
-    { href: "/products?category=المطابخ", label: "المطابخ" },
-    { href: "/products?category=كراسي مكتب", label: "الكراسي والمكاتب" },
-    { href: "/products?category=ركن ومجالس", label: "ركن ومجالس" },
-    { href: "/products?category=أثاث خارجي", label: "أثاث خارجي" },
-    { href: "/products?category=دريسنج روم", label: "دريسنج رووم" },
-    { href: "/products?category=اضاءة", label: "ديكور وإكسسوار" },
-    { href: "/track", label: "تتبع طلبك والضمان", hasBadge: true, badge: "تتبع" },
-    { href: "/products", label: "جميع الأثاث" },
+    { href: "/custom-order", label: t.customOrderLink, hasBadge: true, badge: t.customBadge, highlight: true },
+    { href: "/products?tag=sale", label: t.saleOffersLink, hasBadge: true, badge: t.newBadgeText },
+    { href: "/products?category=غرف النوم", label: t.bedroomsLink },
+    { href: "/products?category=المطابخ", label: t.kitchensLink },
+    { href: "/products?category=كراسي مكتب", label: t.chairsAndDesksLink },
+    { href: "/products?category=ركن ومجالس", label: t.livingAndLoungesLink },
+    { href: "/products?category=أثاث خارجي", label: t.outdoorLink },
+    { href: "/products?category=دريسنج روم", label: t.dressingRoomLink },
+    { href: "/products?category=اضاءة", label: t.decorLink },
+    { href: "/track", label: t.trackOrderLink, hasBadge: true, badge: t.trackBadge },
+    { href: "/products", label: t.allFurnitureLink },
   ];
 
   // Filtered search results
@@ -84,7 +86,7 @@ export default function Navbar() {
       ? products
           .filter((p) => {
             const matchesCat =
-              selectedCategory === "كل الأقسام" ||
+              selectedCategory === "all" ||
               p.category.toLowerCase().includes(selectedCategory.toLowerCase());
             const q = query.toLowerCase();
             const matchesQuery =
@@ -102,7 +104,7 @@ export default function Navbar() {
     if (query.trim()) {
       setShowSearchDropdown(false);
       const catParam =
-        selectedCategory !== "كل الأقسام"
+        selectedCategory !== "all"
           ? `&category=${encodeURIComponent(selectedCategory)}`
           : "";
       router.push(`/products?search=${encodeURIComponent(query.trim())}${catParam}`);
@@ -125,86 +127,97 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 left-0 right-0 z-40 bg-white shadow-sm border-b border-gray-100">
-        {/* ── 1. Top Announcement Bar ─────────────────────────────────── */}
-        <div className="bg-white border-b border-gray-100 text-xs py-2 px-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            {/* Currency, Language & Theme Controls on Left */}
-            <div className="flex items-center gap-3 shrink-0">
+      <header className="sticky top-0 left-0 right-0 z-40 bg-white shadow-xs border-b border-gray-100">
+        {/* ── 1. Top Announcement Bar (Compact & Sleek) ────────────────── */}
+        <div className="bg-neutral-50/80 border-b border-gray-100 text-xs py-1 px-4">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            {/* Currency, Language & Theme Controls */}
+            <div className="flex items-center gap-2.5 shrink-0">
               <LanguageSwitcher />
-              <div className="h-3 w-px bg-gray-200 hidden md:block" />
-              <span className="hidden md:inline-flex items-center gap-1 text-gray-700 font-semibold text-xs">
-                <span>🇪🇬 EGP</span>
+              <div className="h-3 w-px bg-gray-200 dark:bg-gray-700 hidden sm:block" />
+              <span className="hidden sm:inline-flex items-center gap-1 text-gray-600 dark:text-gray-300 font-semibold text-[11px]">
+                <span>{language === "sa" ? "🇸🇦 SAR" : language === "en" ? "🇺🇸 USD" : "🇪🇬 EGP"}</span>
               </span>
-              <div className="h-3 w-px bg-gray-200" />
+              <div className="h-3 w-px bg-gray-200 dark:bg-gray-700" />
               <ThemeToggle variant="minimal" />
+            </div>
+
+            {/* Quick Promo / Factory Trust Line */}
+            <div className="hidden md:flex items-center gap-4 text-[11px] font-semibold text-gray-500 dark:text-gray-400">
+              <span>{isEn ? "Free White-Glove Delivery & 10-Year Warranty" : "توصيل وتركيب مجاني 100% | ضمان 10 سنوات معتمد"}</span>
+              <span className="text-gray-300 dark:text-gray-600">•</span>
+              <a href="tel:+201091084863" className="hover:text-accent transition-colors" dir="ltr">
+                +20 109 1084863
+              </a>
             </div>
           </div>
         </div>
 
-        {/* ── 2. Main Header Row (Oscar Layout) ───────────────────────── */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <div className="flex items-center justify-between gap-4 lg:gap-8">
-            {/* Right: Brand Logo */}
+        {/* ── 2. Main Header Row (Aligned, Balanced Spacing) ───────────── */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5">
+          <div className="flex items-center justify-between gap-3 sm:gap-6 lg:gap-8">
+            {/* Brand Logo */}
             <Link href="/" className="flex items-center shrink-0 group py-0.5">
-              <div className="relative h-10 sm:h-12 w-36 sm:w-44 transition-transform duration-200 group-hover:scale-[1.02]">
+              <div className="relative h-9 sm:h-10 w-32 sm:w-40 transition-transform duration-200 group-hover:scale-[1.02]">
                 <Image
                   src="/amazon-furniture-logo-clean.png"
                   alt={SITE_NAME}
                   fill
-                  sizes="(max-width: 640px) 144px, 176px"
+                  sizes="(max-width: 640px) 128px, 160px"
                   className="object-contain object-right"
                   priority
                 />
               </div>
             </Link>
 
-            {/* Center: Exact Oscar Pill Search Bar */}
-            <div ref={searchRef} className="flex-1 max-w-2xl relative hidden md:block">
+            {/* Center: Flexible Responsive Pill Search Bar */}
+            <div ref={searchRef} className="flex-1 min-w-0 max-w-2xl relative hidden md:block">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex items-center rounded-full border border-gray-300 hover:border-gray-400 focus-within:border-black bg-white p-1 pl-1 pr-3 shadow-xs transition-colors"
+                className="flex items-center rounded-full border border-gray-300 hover:border-gray-400 focus-within:border-black bg-white p-1 pl-1 pr-2.5 shadow-2xs transition-colors"
               >
-                {/* Search Button (Black Pill Button on Left in RTL) */}
+                {/* Search Button */}
                 <button
                   type="submit"
-                  className="bg-black hover:bg-neutral-800 text-white font-bold text-xs sm:text-sm px-6 py-2 rounded-full transition-colors shrink-0 cursor-pointer"
+                  className="bg-black hover:bg-neutral-800 text-white font-bold text-xs sm:text-sm px-5 py-1.5 rounded-full transition-colors shrink-0 cursor-pointer"
                 >
-                  بحث
+                  {t.searchBtn}
                 </button>
 
-                {/* Search Input in Middle */}
+                {/* Search Input */}
                 <input
                   type="text"
-                  placeholder="بحث عن منتجات"
+                  placeholder={t.searchPlaceholderNavbar}
                   value={query}
                   onChange={(e) => {
                     setQuery(e.target.value);
                     setShowSearchDropdown(true);
                   }}
                   onFocus={() => setShowSearchDropdown(true)}
-                  className="flex-1 px-4 py-1 text-sm text-primary placeholder:text-gray-400 outline-none text-right bg-transparent font-medium"
+                  className={`flex-1 min-w-0 px-3 py-1 text-sm text-primary placeholder:text-gray-400 outline-none bg-transparent font-medium ${
+                    language === "en" ? "text-left" : "text-right"
+                  }`}
                 />
 
                 {/* Vertical Divider */}
-                <div className="h-5 w-px bg-gray-200" />
+                <div className="h-4 w-px bg-gray-200 shrink-0" />
 
-                {/* Category Dropdown on Right */}
-                <div className="relative bg-transparent shrink-0">
+                {/* Category Dropdown */}
+                <div className="relative bg-transparent shrink-0 max-w-[130px]">
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="appearance-none bg-transparent text-xs font-bold text-gray-700 py-1.5 ps-2 pe-6 cursor-pointer outline-none"
+                    className="appearance-none bg-transparent text-xs font-bold text-gray-700 py-1 ps-2 pe-5 cursor-pointer outline-none truncate"
                   >
                     {searchCategories.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
+                      <option key={cat.value} value={cat.value}>
+                        {cat.label}
                       </option>
                     ))}
                   </select>
                   <ChevronDown
-                    size={12}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
+                    size={11}
+                    className="absolute left-1.5 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
                   />
                 </div>
               </form>
@@ -220,7 +233,7 @@ export default function Navbar() {
                   >
                     {results.length === 0 ? (
                       <div className="p-6 text-center text-sm text-gray-500">
-                        لا توجد نتائج مطابقة لـ &ldquo;{query}&rdquo;
+                        {t.noSearchResults} &ldquo;{query}&rdquo;
                       </div>
                     ) : (
                       <div className="py-2">
@@ -250,11 +263,11 @@ export default function Navbar() {
                               <p className="text-xs text-gray-500">{product.category}</p>
                             </div>
                             <div className="text-left shrink-0">
-                              <p className="text-sm font-bold text-amber-700">
+                              <p className="text-sm font-bold text-amber-700" suppressHydrationWarning>
                                 {formatPrice(product.price)}
                               </p>
                               {product.originalPrice && (
-                                <p className="text-[11px] text-gray-400 line-through">
+                                <p className="text-[11px] text-gray-400 line-through" suppressHydrationWarning>
                                   {formatPrice(product.originalPrice)}
                                 </p>
                               )}
@@ -274,7 +287,7 @@ export default function Navbar() {
               <Link
                 href={user ? "/profile" : "/auth/login"}
                 className="p-1 text-gray-800 hover:text-black transition-colors flex items-center gap-1"
-                title={user ? `حسابي (${user.name})` : "تسجيل الدخول / حسابي"}
+                title={user ? `${t.myAccount} (${user.name})` : t.login}
               >
                 <User size={24} strokeWidth={1.8} />
                 {user && (
@@ -288,7 +301,7 @@ export default function Navbar() {
               <Link
                 href="/wishlist"
                 className="relative p-1 text-gray-800 hover:text-black transition-colors"
-                title="قائمة الرغبات"
+                title={t.wishlist}
               >
                 <Heart size={24} strokeWidth={1.8} />
                 <span className="absolute -top-1.5 -right-1.5 bg-black text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
@@ -300,7 +313,7 @@ export default function Navbar() {
               <Link
                 href="/cart"
                 className="relative p-1 text-gray-800 hover:text-black transition-colors"
-                title="سلة المشتريات"
+                title={t.cart}
               >
                 <ShoppingBag size={24} strokeWidth={1.8} />
                 <span className="absolute -top-1.5 -right-1.5 bg-black text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
@@ -322,18 +335,20 @@ export default function Navbar() {
           <div className="mt-2.5 md:hidden relative">
             <form onSubmit={handleSearchSubmit} className="flex rounded-full border border-gray-300 p-1 bg-white overflow-hidden shadow-xs">
               <button type="submit" className="bg-black text-white px-4 py-1.5 rounded-full font-bold text-xs">
-                بحث
+                {t.searchBtn}
               </button>
               <input
                 type="text"
-                placeholder="بحث عن منتجات (ركنة، سرير، مكتب...)"
+                placeholder={t.searchPlaceholderNavbar}
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
                   setShowSearchDropdown(true);
                 }}
                 onFocus={() => setShowSearchDropdown(true)}
-                className="flex-1 px-3 py-1.5 text-xs outline-none text-right font-medium"
+                className={`flex-1 px-3 py-1.5 text-xs outline-none font-medium ${
+                  language === "en" ? "text-left" : "text-right"
+                }`}
               />
             </form>
 
@@ -394,21 +409,21 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── 3. Secondary Dark Sub-Navbar (Centered, Pure White, Refined Typography) ──────── */}
-        <nav className="bg-[#181818] text-white border-t border-neutral-800/80 shadow-xs overflow-x-auto no-scrollbar scroll-smooth">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center justify-center min-w-max lg:min-w-0 h-11 sm:h-12">
-            {/* Centered Category Links in the exact middle of the page */}
-            <div className="flex items-center justify-center gap-3.5 sm:gap-5 md:gap-6 lg:gap-7 xl:gap-8 mx-auto">
+        {/* ── 3. Secondary Sub-Navbar (Centered, Refined Typography & Smooth Scroll) ──────── */}
+        <nav className="bg-[#151922] text-white border-t border-[#2A3140] shadow-xs overflow-x-auto no-scrollbar scroll-smooth">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center justify-start lg:justify-center min-w-max lg:min-w-0 h-10">
+            {/* Category Links with responsive gaps */}
+            <div className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-7 mx-auto px-2">
               {secondaryNavLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="group relative py-1 text-xs sm:text-[13.5px] font-bold text-white tracking-wide hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap"
+                  className="group relative py-1 text-xs sm:text-[13px] font-bold text-gray-200 tracking-wide hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap"
                 >
                   <span className="relative">
                     {link.label}
                     {/* Refined subtle underline hover indicator */}
-                    <span className="absolute -bottom-0.5 right-0 left-0 h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-right rounded-full" />
+                    <span className="absolute -bottom-0.5 right-0 left-0 h-[2px] bg-[#C6A46A] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-right rounded-full" />
                   </span>
                   {link.hasBadge && (
                     <span className="bg-[#e60000] text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs">
@@ -419,12 +434,12 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Left Desktop Utility Link: "شوف مساحتك قبل التنفيذ" */}
+            {/* Utility Link */}
             <Link
               href="/#consultation"
               className="hidden 2xl:flex items-center absolute left-6 text-xs font-bold text-amber-300 hover:text-amber-200 transition-colors whitespace-nowrap"
             >
-              شوف مساحتك قبل التنفيذ ✨
+              {isEn ? "Free 3D Mockup ✨" : "شوف مساحتك قبل التنفيذ ✨"}
             </Link>
           </div>
         </nav>

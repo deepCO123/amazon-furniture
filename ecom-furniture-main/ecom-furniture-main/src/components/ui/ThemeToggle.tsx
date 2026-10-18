@@ -76,18 +76,19 @@ export default function ThemeToggle({
       <button
         onClick={toggleTheme}
         type="button"
-        className={`p-2 rounded-xl transition-all cursor-pointer flex items-center justify-center ${
+        id="theme-toggle-btn"
+        className={`w-8 h-8 rounded-lg transition-all cursor-pointer flex items-center justify-center shrink-0 ${
           isDark
-            ? "bg-[#171B24] hover:bg-[#1E2330] text-cyan-400 border border-[#262C3D]"
-            : "bg-slate-100 hover:bg-slate-200 text-amber-600 border border-slate-300 shadow-xs"
+            ? "bg-[#191E27] hover:bg-[#222834] text-amber-400 border border-[#303747]"
+            : "bg-slate-100 hover:bg-slate-200 text-stone-700 border border-slate-300 shadow-xs"
         } ${className}`}
-        title={isDark ? "التبديل للوضع النهاري (Light Mode)" : "التبديل للوضع الليلي (Dark Mode)"}
-        aria-label="تبديل المظهر"
+        title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        aria-label="Toggle Theme"
       >
         {isDark ? (
-          <Sun size={17} className="text-amber-400 hover:rotate-45 transition-transform" />
+          <Sun size={16} className="text-amber-400 hover:rotate-45 transition-transform" />
         ) : (
-          <Moon size={17} className="text-indigo-600 hover:-rotate-12 transition-transform" />
+          <Moon size={16} className="text-stone-700 hover:-rotate-12 transition-transform" />
         )}
       </button>
     );

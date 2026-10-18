@@ -61,7 +61,10 @@ router.post('/paymob/webhook', async (req, res) => {
     }
 
     const obj = payload.obj || payload;
-    const isSuccess = obj.success === true || obj.success === 'true';
+    const isSuccess = (obj.success === true || obj.success === 'true') &&
+                      !(obj.pending === true || obj.pending === 'true') &&
+                      !(obj.is_voided === true || obj.is_voided === 'true') &&
+                      !(obj.is_refunded === true || obj.is_refunded === 'true');
     const merchantOrderId = obj.order?.merchant_order_id;
 
     if (!merchantOrderId) {

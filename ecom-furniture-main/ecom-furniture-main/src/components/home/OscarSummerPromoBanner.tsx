@@ -8,8 +8,13 @@ import { useCartStore } from "@/store/cartStore";
 import { formatPrice, getProductUrl } from "@/lib/utils";
 import type { Product } from "@/types";
 import { useToastStore } from "@/components/ui/Toast";
+import { useLanguageStore } from "@/store/languageStore";
+import { getTranslation } from "@/lib/translations";
 
 export default function OscarSummerPromoBanner() {
+  const { language } = useLanguageStore();
+  const t = getTranslation(language);
+
   const products = useProductStore((s) => s.products);
   const addItem = useCartStore((s) => s.addItem);
   const addToast = useToastStore((s) => s.addToast);
@@ -51,18 +56,20 @@ export default function OscarSummerPromoBanner() {
           <div className="relative z-10 max-w-2xl mx-auto space-y-4 text-white">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold">
               <Sparkles size={14} className="text-amber-400" />
-              <span>جودة وفخامة لا تضاهى</span>
+              <span>{language === "en" ? "Uncompromising Luxury & Craft" : "جودة وفخامة لا تضاهى"}</span>
             </div>
 
             <h2 className="text-3xl sm:text-5xl font-black text-white leading-tight tracking-tight">
-              بصمة مكانك تبدأ من{" "}
+              {language === "en" ? "Your space's mark begins at " : "بصمة مكانك تبدأ من "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500">
                 Amazon Furniture
               </span>
             </h2>
 
             <p className="text-sm sm:text-base text-gray-300 max-w-lg mx-auto font-medium leading-relaxed">
-              من المصنع لحد باب بيتك مباشرة — تصاميم هندسية تناسب أرقى المكاتب والمنازل بأسعار تصنيع حقيقية.
+              {language === "en"
+                ? "Direct from the factory to your door — bespoke designs for executive offices and modern residences at authentic manufacturing rates."
+                : "من المصنع لحد باب بيتك مباشرة — تصاميم هندسية تناسب أرقى المكاتب والمنازل بأسعار تصنيع حقيقية."}
             </p>
 
             <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
@@ -70,14 +77,14 @@ export default function OscarSummerPromoBanner() {
                 href="/products"
                 className="bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-sm px-6 py-3 rounded-xl shadow-lg transition-all"
               >
-                تصفح الكتالوج الشامل
+                {language === "en" ? "Explore Full Catalog" : "تصفح الكتالوج الشامل"}
               </Link>
               <Link
                 href="/#consultation"
                 className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm px-5 py-3 rounded-xl backdrop-blur-sm transition-all flex items-center gap-1.5"
               >
                 <Ruler size={16} className="text-amber-400" />
-                <span>استشارة مجانية بالمنصورة & أونلاين</span>
+                <span>{language === "en" ? "Free Consultation & 3D Site Visit" : "استشارة مجانية بالمنصورة & أونلاين"}</span>
               </Link>
             </div>
           </div>
@@ -88,7 +95,7 @@ export default function OscarSummerPromoBanner() {
           {/* Title Notched on top border */}
           <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-[#faf8f5] px-6 py-1">
             <h3 className="text-xl sm:text-2xl font-black text-primary tracking-tight whitespace-nowrap">
-              اسبق الكل والحق تخفيضات الصيف
+              {language === "en" ? "Beat the Heat with Exclusive Summer Deals" : "اسبق الكل والحق تخفيضات الصيف"}
             </h3>
           </div>
 
@@ -134,11 +141,11 @@ export default function OscarSummerPromoBanner() {
 
                     <div className="mt-2">
                       <div className="flex items-baseline gap-1.5 mb-2">
-                        <span className="text-xs sm:text-sm font-black text-red-600">
+                        <span className="text-xs sm:text-sm font-black text-red-600" suppressHydrationWarning>
                           {formatPrice(product.price)}
                         </span>
                         {product.originalPrice && (
-                          <span className="text-[10px] text-gray-400 line-through">
+                          <span className="text-[10px] text-gray-400 line-through" suppressHydrationWarning>
                             {formatPrice(product.originalPrice)}
                           </span>
                         )}
@@ -147,21 +154,21 @@ export default function OscarSummerPromoBanner() {
                       {/* WhatsApp 1-Click Buy */}
                       <button
                         onClick={(e) => handleQuickWhatsAppBuy(product, e)}
-                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 shadow-sm transition-colors mb-1"
+                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 shadow-sm transition-colors mb-1 cursor-pointer"
                       >
                         <MessageCircle size={13} />
-                        <span>طلب واتساب ⚡</span>
+                        <span>{t.orderWhatsApp}</span>
                       </button>
 
                       <button
                         onClick={() => {
                           addItem(product);
-                          addToast(`تمت إضافة ${product.name} إلى السلة`, "cart");
+                          addToast(language === "en" ? `Added ${product.name} to cart` : `تمت إضافة ${product.name} إلى السلة`, "cart");
                         }}
-                        className="w-full bg-gray-100 hover:bg-amber-400 hover:text-black text-gray-700 font-bold text-[11px] py-1 px-2 rounded-lg flex items-center justify-center gap-1 transition-colors"
+                        className="w-full bg-gray-100 hover:bg-amber-400 hover:text-black text-gray-700 font-bold text-[11px] py-1 px-2 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer"
                       >
                         <ShoppingBag size={12} />
-                        <span>أضف للسلة</span>
+                        <span>{t.addToCart}</span>
                       </button>
                     </div>
                   </div>

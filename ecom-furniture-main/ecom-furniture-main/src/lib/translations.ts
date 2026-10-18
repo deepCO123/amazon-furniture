@@ -20,19 +20,132 @@ export const translations = {
     register: "إنشاء حساب",
     myAccount: "حسابي",
     cartCount: "عنصر",
+    searchAllCategories: "كل الأقسام",
+    searchBtn: "بحث",
+    searchPlaceholderNavbar: "بحث عن منتجات (ركنة، سرير، مكتب...)",
+    noSearchResults: "لا توجد نتائج مطابقة لـ",
+    customOrderLink: "تفصيل حسب مقاسك 📐",
+    saleOffersLink: "عروض أمازون",
+    bedroomsLink: "غرف النوم",
+    kitchensLink: "المطابخ",
+    chairsAndDesksLink: "الكراسي والمكاتب",
+    livingAndLoungesLink: "ركن ومجالس",
+    outdoorLink: "أثاث خارجي",
+    dressingRoomLink: "دريسنج رووم",
+    decorLink: "ديكور وإكسسوار",
+    trackOrderLink: "تتبع طلبك والضمان",
+    allFurnitureLink: "جميع الأثاث",
+    customBadge: "تفصيل",
+    newBadgeText: "جديد",
+    trackBadge: "تتبع",
 
     // Hero
     heroBadge: "تشكيلة 2026 الحصرية والمميزة",
-    heroTitle1: "أثاث فاخر مصنوع بحرفية",
-    heroTitle2: "ليناسب ذوق منزلك الراقي",
-    heroSubtitle: "نجمع بين أصالة الصنعة اليدوية وجودة الخامات الخشبية المتينة لنقدم لك قطعاً فريدة تدوم لأجيال.",
-    shopNow: "تسوق الآن",
+    heroTitle1: "أقوى عروض وتخفيضات أمازون للأثاث",
+    heroTitle2: "ليناسب ذوق منزلك ومكتبك الراقي",
+    heroSubtitle: "خصومات كبرى وتصاميم عصرية فاخرة لغرف النوم والركنات والمطابخ مع استشارة هندسية وضمان 10 سنوات.",
+    shopNow: "تسوق العروض الآن",
     exploreCollection: "اكتشف الكتالوج",
     ratingText: "تقييم 4.9 من أكثر من 2,500 عميل",
     freeShippingBadge: "شحن وتوصيل آمن لباب البيت",
     freeShippingDesc: "معاينة واستلام بكل سهولة",
     handcraftedBadge: "خشب طبيعي 100%",
     handcraftedDesc: "أخشاب زان وبلوط وأرو فاخرة",
+    beechWood100: "خشب زان روماني 100%",
+    freeAssembly: "تركيب مجاني لباب البيت",
+    warranty10Years: "ضمان معتمد 10 سنوات",
+    bookFreeConsultation: "احجز استشارة مجانية",
+
+    // Hero Slides
+    slide1Title: "أقوى عروض وتخفيضات أمازون للأثاث",
+    slide1Subtitle: "خصومات كبرى وتصاميم عصرية فاخرة لغرف النوم والركنات والمطابخ مع استشارة هندسية وضمان 10 سنوات..",
+    slide1Cta1: "تسوق العروض الآن",
+    slide1Cta2: "احجز استشارة مجانية",
+
+    slide2Title: "أثاث مكتبي ومنزلي يلهم الإبداع والكفاءة",
+    slide2Subtitle: "مجموعة متميزة من الأثاث المكتبي والحلول العملية بأسعار حصرية لمساحة عمل متكاملة..",
+    slide2Cta1: "تواصل معنا",
+    slide2Cta2: "صمم الآن",
+
+    slide3Title: "فخامة التنفيذ لأرقى المساحات",
+    slide3Subtitle: "تصاميم تنفيذية راقية وتشطيبات خشب زان روماني طبيعي تمنح مكانك هيبة استثنائية وأداء يدوم طويلاً..",
+    slide3Cta1: "تواصل معنا",
+    slide3Cta2: "صمم الآن",
+
+    // Choose Category
+    chooseCategoryTitle: "اختر من تشكيلاتنا الحصرية",
+    chooseCategorySubtitle: "تصاميم معمارية تناسب كل أركان بيتك ومكتبك بأعلى دقة تصنيع",
+    tabBedrooms: "غرف النوم",
+    tabChairsDesks: "كراسي ومكاتب",
+    tabLiving: "ركن ومجالس",
+    tabKitchens: "المطابخ",
+    tabDressing: "دريسنج روم",
+    tabTv: "ترابيزة تليفزيون",
+    tabOutdoor: "أثاث خارجي",
+    tabCurtains: "ستائر مكتبية",
+    tabLazyBoy: "ليزي بوي",
+    tabBeanBag: "بين باج",
+    tabLighting: "اضاءة",
+    orderWhatsApp: "اطلب واتساب",
+    quickView: "معاينة سريعة",
+    viewAllCategory: "عرض جميع المنتجات",
+
+    // Save 26% Section
+    saveTitle: "وفّر ربع التكلفة بخصومات 26%",
+    saveSubtitle: "عروض حصرية محدودة على أحدث الموديلات لهذا الأسبوع",
+    saveBadge: "خصم 26%",
+
+    // Dual Services Banner
+    service3DTitle: "استشارة تصميم 3D مجانية",
+    service3DDesc: "فريقنا الهندسي يصمم مساحتك بالكامل ثلاثي الأبعاد قبل البدء في التصنيع لترى غرفتك واقعياً.",
+    service3DBtn: "احجز جلستك المجانية",
+    serviceB2BTitle: "توريدات كبرى للشركات والفنادق",
+    serviceB2BDesc: "عقود توريد مباشرة من المصنع بأسعار الجملة وضمان شامل ومطابقة لأعلى المواصفات القياسية.",
+    serviceB2BBtn: "طلب عرض سعر للمشاريع",
+
+    // Custom Furniture Promo
+    customPromoTag: "تفصيل حسب الطلب",
+    customPromoTitle: "صمم أثاثك الخاص بمقاسات مساحتك تماماً",
+    customPromoDesc: "اختر نوع الخشب، لون الأقمشة، والمقاسات بالمليمتر.. ومصنعنا ينفذها لك باحترافية تامة.",
+    customPromoBtn: "ابدأ طلب التفصيل الآن",
+
+    // Seating Style Section
+    seatingTitle: "جلسات على ذوقك",
+    seatingSubtitle: "تناغم مثالي بين الراحة الفائقة والتصميم الهندسي الراقي",
+    modernTitle: "الطراز العصري (Modern)",
+    classicTitle: "الطراز الكلاسيكي الفاخر",
+    minimalTitle: "المينيماليزم الهادئ (Minimalist)",
+
+    // Summer Promo Banner
+    summerTag: "تخفيضات الصيف الكبرى",
+    summerTitle: "بصمة مكانك تبدأ من أمازون للأثاث",
+    summerSubtitle: "اسبق الكل والحق أقوى العروض والتخفيضات الحصرية لهذا الموسم",
+    summerBtn: "تسوق تشكيلة الصيف",
+
+    // Free Consultation Section
+    consultationTag: "استشارة ومعاينة مجانية 100%",
+    consultationTitle: "احجز استشارتك الهندسية الآن",
+    consultationDesc: "نوفر لك مهندس ديكور متخصص لرفع المقاسات وتقديم حلول معمارية عصرية متكاملة مجاناً",
+    formName: "الاسم الكريم",
+    formPhone: "رقم الهاتف / واتساب",
+    formAddress: "المدينة / المحافظة",
+    formType: "نوع الاستشارة",
+    formTypeShowroom: "زيارة للمعرض والمصنع بالمنصورة",
+    formTypeOnline: "استشارة أونلاين عبر مكالمة فيديو",
+    formDate: "الموعد المناسب",
+    formNotes: "ملاحظات أو تفاصيل إضافية",
+    formSubmit: "تأكيد حجز الاستشارة مجاناً",
+
+    // Mobile Bottom Nav
+    navHome: "الرئيسية",
+    navShop: "المتجر",
+    navConsult: "استشارة مجانية",
+    navWishlist: "المفضلة",
+    navCart: "السلة",
+
+    // Theme Toggle
+    darkMode: "الوضع الليلي",
+    lightMode: "الوضع النهاري",
 
     // Why Choose Us
     whyTag: "لماذا تختار Amazon Furniture؟",
@@ -85,8 +198,14 @@ export const translations = {
     subscribedMsg: "شكراً لاشتراكك! تم تسجيل بريدك بنجاح.",
 
     // Footer & Contact
-    footerDesc: "أثاث منزلي فاخر مصنوع يدوياً ليناسب متطلبات الحياة العصرية، بأعلى معايير الجودة والتصاميم الراقية منذ عام 1994.",
+    footerDesc: "أثاث منزلي ومكتبي فاخر مصنوع بحرفية ليناسب متطلبات الحياة العصرية، بأعلى معايير الجودة والتصاميم الراقية وضمان 10 سنوات.",
     quickLinks: "روابط سريعة",
+    company: "عن الشركة",
+    support: "الدعم والخدمات",
+    showroomFactory: "المعرض والمصنع: المنصورة، محافظة الدقهلية (خرائط Google Maps)",
+    verifiedBuyer: "عميل موثق",
+    followOurJourney: "شاهد أعمالنا وتجهيزاتنا",
+    tagUs: "تابع أعمالنا الحصرية وتجهيزات المكاتب على مدار الساعة",
     contactInfo: "بيانات التواصل",
     showroomLocation: "موقع المعرض على الخريطة",
     openInMaps: "فتح في خرائط Google",
@@ -133,6 +252,24 @@ export const translations = {
     register: "تسجيل جديد",
     myAccount: "حسابي",
     cartCount: "منتج",
+    searchAllCategories: "كل الأقسام",
+    searchBtn: "بحث",
+    searchPlaceholderNavbar: "ابحث عن منتجات (مجالس، كنب، مكاتب...)",
+    noSearchResults: "لا توجد نتائج مطابقة لـ",
+    customOrderLink: "تفصيل حسب مقاسك 📐",
+    saleOffersLink: "عروض أمازون",
+    bedroomsLink: "غرف النوم",
+    kitchensLink: "المطابخ",
+    chairsAndDesksLink: "الكراسي والمكاتب",
+    livingAndLoungesLink: "ركن ومجالس",
+    outdoorLink: "أثاث خارجي",
+    dressingRoomLink: "دريسنج رووم",
+    decorLink: "ديكور وإكسسوار",
+    trackOrderLink: "تتبع طلبك والضمان",
+    allFurnitureLink: "جميع الأثاث",
+    customBadge: "تفصيل",
+    newBadgeText: "جديد",
+    trackBadge: "تتبع",
 
     // Hero
     heroBadge: "كولكشن 2026 الحصري بالمملكة",
@@ -146,6 +283,101 @@ export const translations = {
     freeShippingDesc: "توصيل سريع ومريح لكل مدن المملكة",
     handcraftedBadge: "خشب طبيعي 100%",
     handcraftedDesc: "متانة وجودة فائقة تدوم سنين",
+    beechWood100: "خشب زان روماني أصيل 100%",
+    freeAssembly: "توصيل وتركيب مجاني",
+    warranty10Years: "ضمان ذهبي معتمد 10 سنوات",
+    bookFreeConsultation: "احجز استشارتك المجانية",
+
+    // Hero Slides
+    slide1Title: "أقوى عروض وتخفيضات أمازون للأثاث",
+    slide1Subtitle: "خصومات كبرى وتصاميم عصرية فاخرة للمجالس وغرف النوم والمطابخ مع استشارة هندسية وضمان 10 سنوات..",
+    slide1Cta1: "تسوّق العروض الحين",
+    slide1Cta2: "احجز استشارة مجانية",
+
+    slide2Title: "أثاث مكتبي ومنزلي يلهم الإبداع والكفاءة",
+    slide2Subtitle: "مجموعة متميزة من الأثاث المكتبي والحلول العملية بأسعار حصرية لمساحة عمل متكاملة..",
+    slide2Cta1: "تواصل معنا",
+    slide2Cta2: "صمم الحين",
+
+    slide3Title: "فخامة التنفيذ لأرقى المساحات",
+    slide3Subtitle: "تصاميم تنفيذية راقية وتشطيبات خشب زان روماني طبيعي تمنح مكانك هيبة استثنائية وأداء يدوم طويلاً..",
+    slide3Cta1: "تواصل معنا",
+    slide3Cta2: "صمم الحين",
+
+    // Choose Category
+    chooseCategoryTitle: "اختر من تشكيلاتنا الحصرية",
+    chooseCategorySubtitle: "تصاميم فخمة تناسب كل زاوية في مجلسك وبيتك ومكتبك",
+    tabBedrooms: "غرف النوم",
+    tabChairsDesks: "كراسي ومكاتب",
+    tabLiving: "كنب ومجالس",
+    tabKitchens: "المطابخ",
+    tabDressing: "دريسنج روم",
+    tabTv: "طاولات تليفزيون",
+    tabOutdoor: "جلسات خارجية",
+    tabCurtains: "ستائر مكتبية",
+    tabLazyBoy: "ليزي بوي",
+    tabBeanBag: "بين باج",
+    tabLighting: "إضاءة وديكور",
+    orderWhatsApp: "طلب سريع عبر الواتساب",
+    quickView: "معاينة سريعة",
+    viewAllCategory: "عرض كل المنتجات",
+
+    // Save 26% Section
+    saveTitle: "وفّر ربع التكلفة بخصومات 26%",
+    saveSubtitle: "عروض حصرية محدودة على أحدث الموديلات لهذا الأسبوع",
+    saveBadge: "خصم 26%",
+
+    // Dual Services Banner
+    service3DTitle: "استشارة تصميم 3D مجانية",
+    service3DDesc: "فريقنا الهندسي يصمم مساحتك بالكامل ثلاثي الأبعاد قبل التنفيذ لتشوف بيتك على الواقع.",
+    service3DBtn: "احجز جلستك المجانية",
+    serviceB2BTitle: "توريدات كبرى للشركات والفنادق",
+    serviceB2BDesc: "عقود توريد مباشرة من المصنع بأسعار الجملة وضمان شامل للمشاريع الراقية.",
+    serviceB2BBtn: "طلب عرض سعر للمشاريع",
+
+    // Custom Furniture Promo
+    customPromoTag: "تفصيل حسب طلبك",
+    customPromoTitle: "فصّل أثاثك الخاص بمقاسات مساحتك تماماً",
+    customPromoDesc: "اختر نوع الخشب، ولون القماش، والمقاسات بالمليمتر.. ومصنعنا ينفذها لك بدقة وجودة لا تضاهى.",
+    customPromoBtn: "ابدأ طلب التفصيل الحين",
+
+    // Seating Style Section
+    seatingTitle: "جلسات على ذوقك",
+    seatingSubtitle: "تناغم مثالي بين الراحة الفائقة والتصميم الهندسي الراقي",
+    modernTitle: "الطراز العصري (Modern)",
+    classicTitle: "الطراز الكلاسيكي الفاخر",
+    minimalTitle: "المينيماليزم الهادئ (Minimalist)",
+
+    // Summer Promo Banner
+    summerTag: "تخفيضات الصيف الكبرى",
+    summerTitle: "بصمة مكانك تبدأ من أمازون للأثاث",
+    summerSubtitle: "اسبق الكل والحق أقوى العروض والتخفيضات الحصرية لهذا الموسم",
+    summerBtn: "تسوّق تشكيلة الصيف",
+
+    // Free Consultation Section
+    consultationTag: "استشارة ومعاينة مجانية 100%",
+    consultationTitle: "احجز استشارتك الهندسية الحين",
+    consultationDesc: "نوفر لك مهندس ديكور متخصص لرفع المقاسات وتقديم حلول معمارية عصرية متكاملة مجاناً",
+    formName: "الاسم الكريم",
+    formPhone: "رقم الجوال / الواتساب",
+    formAddress: "المدينة / الحي",
+    formType: "نوع الاستشارة",
+    formTypeShowroom: "زيارة المعرض والمصنع بالمنصورة",
+    formTypeOnline: "استشارة أونلاين عبر مكالمة فيديو",
+    formDate: "الموعد المناسب",
+    formNotes: "ملاحظات أو تفاصيل إضافية",
+    formSubmit: "تأكيد حجز الاستشارة مجاناً",
+
+    // Mobile Bottom Nav
+    navHome: "الرئيسية",
+    navShop: "المتجر",
+    navConsult: "استشارة مجانية",
+    navWishlist: "المفضلة",
+    navCart: "السلة",
+
+    // Theme Toggle
+    darkMode: "الوضع الليلي",
+    lightMode: "الوضع النهاري",
 
     // Why Choose Us
     whyTag: "ليه تختار Amazon Furniture؟",
@@ -200,6 +432,12 @@ export const translations = {
     // Footer & Contact
     footerDesc: "أثاث منزلي فاخر مصنوع يدوياً بجودة لا تقارن، يجمع بين الفخامة والراحة لخدمة بيوتكم منذ 1994.",
     quickLinks: "روابط سريعة",
+    company: "عن الشركة",
+    support: "الدعم والخدمات",
+    showroomFactory: "المعرض والمصنع: المنصورة، محافظة الدقهلية (خرائط Google Maps)",
+    verifiedBuyer: "عميل موثق",
+    followOurJourney: "شاهد أعمالنا وتجهيزاتنا",
+    tagUs: "تابع أعمالنا الحصرية وتجهيزات المكاتب على مدار الساعة",
     contactInfo: "تواصل معنا مباشرة",
     showroomLocation: "موقع المعرض على الخريطة",
     openInMaps: "افتح في قوقل ماب",
@@ -246,19 +484,132 @@ export const translations = {
     register: "Register",
     myAccount: "My Account",
     cartCount: "items",
+    searchAllCategories: "All Categories",
+    searchBtn: "Search",
+    searchPlaceholderNavbar: "Search products (sofas, beds, desks...)",
+    noSearchResults: "No matching results for",
+    customOrderLink: "Custom Sizing 📐",
+    saleOffersLink: "Amazon Offers",
+    bedroomsLink: "Bedrooms",
+    kitchensLink: "Kitchens",
+    chairsAndDesksLink: "Chairs & Desks",
+    livingAndLoungesLink: "Living & Lounges",
+    outdoorLink: "Outdoor Furniture",
+    dressingRoomLink: "Dressing Rooms",
+    decorLink: "Decor & Lighting",
+    trackOrderLink: "Track Order & Warranty",
+    allFurnitureLink: "All Furniture",
+    customBadge: "Custom",
+    newBadgeText: "New",
+    trackBadge: "Track",
 
     // Hero
     heroBadge: "Exclusive 2026 Signature Collection",
-    heroTitle1: "Handcrafted Luxury Furniture",
-    heroTitle2: "Crafted for Modern Living",
-    heroSubtitle: "We merge time-honored artisanal woodworking with sustainable premium woods to build enduring pieces for modern homes.",
-    shopNow: "Shop Now",
+    heroTitle1: "Best Amazon Furniture Offers & Deals",
+    heroTitle2: "Crafted for Your Sophisticated Taste",
+    heroSubtitle: "Massive seasonal discounts and modern luxury designs for bedrooms, lounges, and kitchens with engineering consultation and 10-year warranty.",
+    shopNow: "Shop Deals Now",
     exploreCollection: "Explore Catalog",
-    ratingText: "4.9 Rating from 2,500+ Happy Customers",
+    ratingText: "4.9 Rating from 2,500+ Happy Clients",
     freeShippingBadge: "Doorstep White-Glove Delivery",
-    freeShippingDesc: "Safe packaging & professional assembly",
+    freeShippingDesc: "Safe packaging & verified on-site inspection",
     handcraftedBadge: "100% Solid Natural Wood",
-    handcraftedDesc: "Premium Oak, Walnut & Teak timbers",
+    handcraftedDesc: "Premium Romanian Beech, Oak & Walnut",
+    beechWood100: "100% Solid Beech Wood",
+    freeAssembly: "Free White-Glove Assembly",
+    warranty10Years: "10-Year Certified Warranty",
+    bookFreeConsultation: "Book Free Consultation",
+
+    // Hero Slides
+    slide1Title: "Best Amazon Furniture Offers & Deals",
+    slide1Subtitle: "Massive seasonal discounts and modern luxury designs for bedrooms, lounges, and kitchens with engineering consultation and 10-year warranty.",
+    slide1Cta1: "Shop Deals Now",
+    slide1Cta2: "Book Free Consultation",
+
+    slide2Title: "Office & Home Furniture Inspiring Creativity & Productivity",
+    slide2Subtitle: "An elite collection of ergonomic office furniture and practical solutions for an inspiring workspace.",
+    slide2Cta1: "Contact Us",
+    slide2Cta2: "Design Now",
+
+    slide3Title: "Executive Elegance for Prestigious Spaces",
+    slide3Subtitle: "High-end executive designs crafted from natural Romanian beech wood, providing enduring grandeur and lasting performance.",
+    slide3Cta1: "Contact Us",
+    slide3Cta2: "Design Now",
+
+    // Choose Category
+    chooseCategoryTitle: "Explore Our Exclusive Collections",
+    chooseCategorySubtitle: "Architectural designs tailored for every corner of your home and office with master precision",
+    tabBedrooms: "Bedrooms",
+    tabChairsDesks: "Chairs & Desks",
+    tabLiving: "Living & Lounges",
+    tabKitchens: "Kitchens",
+    tabDressing: "Dressing Rooms",
+    tabTv: "TV Units",
+    tabOutdoor: "Outdoor Furniture",
+    tabCurtains: "Office Blinds",
+    tabLazyBoy: "Recliners",
+    tabBeanBag: "Bean Bags",
+    tabLighting: "Lighting & Decor",
+    orderWhatsApp: "Order via WhatsApp",
+    quickView: "Quick View",
+    viewAllCategory: "View All Products",
+
+    // Save 26% Section
+    saveTitle: "Save a Quarter of Your Budget with 26% Off",
+    saveSubtitle: "Exclusive limited-time weekly deals on our newest signature arrivals",
+    saveBadge: "26% OFF",
+
+    // Dual Services Banner
+    service3DTitle: "Free 3D Interior Design Consultation",
+    service3DDesc: "Our interior engineering team creates full 3D mockups of your space before production begins so you can preview every detail.",
+    service3DBtn: "Book Free 3D Session",
+    serviceB2BTitle: "Corporate & B2B Hotel Furnishing",
+    serviceB2BDesc: "Direct factory supply contracts at wholesale rates with full warranty for commercial ventures and corporations.",
+    serviceB2BBtn: "Request Corporate Quotation",
+
+    // Custom Furniture Promo
+    customPromoTag: "Custom Tailoring",
+    customPromoTitle: "Customize Your Furniture to Your Exact Dimensions",
+    customPromoDesc: "Choose wood type, fabric colors, and dimensions down to the millimeter—crafted to perfection in our factory.",
+    customPromoBtn: "Start Custom Order Now",
+
+    // Seating Style Section
+    seatingTitle: "Seating Tailored to Your Taste",
+    seatingSubtitle: "The perfect harmony of ergonomic comfort and timeless luxury",
+    modernTitle: "Modern Style",
+    classicTitle: "Luxury Classic Style",
+    minimalTitle: "Serene Minimalist Style",
+
+    // Summer Promo Banner
+    summerTag: "Mega Summer Sale",
+    summerTitle: "Your Space's Identity Begins with Amazon Furniture",
+    summerSubtitle: "Beat the rush and secure the finest limited-edition pieces this season",
+    summerBtn: "Shop Summer Collection",
+
+    // Free Consultation Section
+    consultationTag: "100% Free Consultation & Site Visit",
+    consultationTitle: "Book Your Free Engineering Consultation Now",
+    consultationDesc: "We provide a dedicated interior specialist to measure your space and offer tailored modern solutions at zero cost.",
+    formName: "Full Name",
+    formPhone: "Phone Number / WhatsApp",
+    formAddress: "City / Governorate",
+    formType: "Consultation Type",
+    formTypeShowroom: "Visit Mansoura Showroom & Factory",
+    formTypeOnline: "Online Video Meeting Consultation",
+    formDate: "Preferred Date",
+    formNotes: "Additional Details or Notes",
+    formSubmit: "Confirm Free Consultation",
+
+    // Mobile Bottom Nav
+    navHome: "Home",
+    navShop: "Shop",
+    navConsult: "Free Consult",
+    navWishlist: "Wishlist",
+    navCart: "Cart",
+
+    // Theme Toggle
+    darkMode: "Dark Mode",
+    lightMode: "Light Mode",
 
     // Why Choose Us
     whyTag: "Why Amazon Furniture?",
@@ -311,8 +662,14 @@ export const translations = {
     subscribedMsg: "Thank you for subscribing! Your email has been registered.",
 
     // Footer & Contact
-    footerDesc: "Handcrafted luxury furniture designed for modern living. Uncompromising quality and timeless beauty since 1994.",
+    footerDesc: "Handcrafted luxury home & office furniture designed for modern living. Uncompromising quality, 10-year warranty, and timeless beauty since 1994.",
     quickLinks: "Quick Links",
+    company: "Company",
+    support: "Support & Services",
+    showroomFactory: "Showroom & Factory: Mansoura, Dakahlia (Google Maps)",
+    verifiedBuyer: "Verified Buyer",
+    followOurJourney: "Follow Our Journey",
+    tagUs: "See our latest architectural installations and custom setups 24/7",
     contactInfo: "Contact Information",
     showroomLocation: "Showroom Location on Map",
     openInMaps: "Open in Google Maps",

@@ -109,6 +109,11 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/logo-icon.png" />
         <link rel="canonical" href={siteUrl} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('amazon-furniture-theme');var theme=t?JSON.parse(t).state.theme:'dark';document.documentElement.classList.add(theme);document.documentElement.setAttribute('data-theme',theme);}catch(e){document.documentElement.classList.add('dark');document.documentElement.setAttribute('data-theme','dark');}})();`,
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-surface font-sans overflow-x-hidden w-full pb-16 md:pb-0">
         <ProductInitializer />

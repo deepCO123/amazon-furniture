@@ -1,5 +1,1579 @@
 [
   {
+    "id": "prod_gl135_high",
+    "name": "كرسي مكتب طبي شبك ظهر عالي بمسند رأس هيدروليك - كود GL-135 High",
+    "code": "GL-135-HIGH",
+    "sku": "GL-135-HIGH",
+    "slug": "gl-135-high-ergonomic-mesh-chair",
+    "description": "كرسي مكتب طبي شبك كود GL-135 High بمسند رأس قابل للتعديل وظهر عالي شبكي يوفر دعم كامل للعمود الفقري والمنطقة القطنية. يتميز بمساند أذرع قابلة للتعديل، وقاعدة كروم 5 فروع مع عجلات انسيابية صامتة، وميكانيزم هيدروليك للتحكم في الارتفاع والميل. مثالي لساعات العمل الطويلة في المكتب.",
+    "price": 4850,
+    "originalPrice": 5200,
+    "images": [
+      "/uploads/gl135-high-blue-front.jpg",
+      "/uploads/gl135-high-blue-angles.jpg",
+      "/uploads/gl135-high-black-side.jpg",
+      "/uploads/gl135-high-black-front.jpg",
+      "/uploads/gl135-high-real-front.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي تنفسي + إسفنج عالي الكثافة + شاسيه كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 65,
+      "height": 125,
+      "depth": 60
+    },
+    "weight": 16,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 3,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-135",
+      "شبك",
+      "هيدروليك"
+    ],
+    "specs": {
+      "نوع الظهر": "شبك طبي تنفسي ظهر عالي",
+      "مسند الرأس": "قابل للتعديل ارتفاع وزاوية",
+      "الشاسيه": "كروم نيكل 5 فروع",
+      "العجلات": "انسيابية صامتة PU",
+      "الميكانيزم": "هيدروليك ارتفاع + ميل",
+      "مساند الأذرع": "قابلة للتعديل"
+    }
+  },
+  {
+    "id": "prod_gl135_medium",
+    "name": "كرسي مكتب طبي شبك ظهر متوسط هيدروليك - كود GL-135 Medium",
+    "code": "GL-135-MEDIUM",
+    "sku": "GL-135-MEDIUM",
+    "slug": "gl-135-medium-mesh-office-chair",
+    "description": "كرسي مكتب طبي شبك كود GL-135 Medium بظهر متوسط شبكي مريح وداعم. يتميز بمساند أذرع ثابتة مريحة ومقعد إسفنجي مبطن عالي الكثافة وقاعدة كروم 5 فروع صلبة. مناسب للمكاتب وقاعات الاجتماعات.",
+    "price": 3450,
+    "originalPrice": 3800,
+    "images": [
+      "/uploads/gl135-medium-grey-front.jpg",
+      "/uploads/gl135-medium-studio1.jpg",
+      "/uploads/gl135-medium-studio2.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي + إسفنج عالي الكثافة + شاسيه كروم",
+    "color": "أسود × رمادي",
+    "dimensions": {
+      "width": 60,
+      "height": 100,
+      "depth": 58
+    },
+    "weight": 13,
+    "stockQuantity": 20,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.8,
+    "reviewCount": 5,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-135",
+      "شبك",
+      "هيدروليك"
+    ],
+    "specs": {
+      "نوع الظهر": "شبك طبي تنفسي ظهر متوسط",
+      "مسند الرأس": "بدون",
+      "الشاسيه": "كروم نيكل 5 فروع",
+      "العجلات": "انسيابية صامتة PU",
+      "الميكانيزم": "هيدروليك ارتفاع",
+      "مساند الأذرع": "ثابتة مريحة"
+    }
+  },
+  {
+    "id": "prod_gl135_waiting",
+    "name": "كرسي انتظار ومؤتمرات شبك طبي شاسيه زلاجة - كود GL-135 Waiting",
+    "code": "GL-135-WAITING",
+    "sku": "GL-135-WAITING",
+    "slug": "gl-135-waiting-cantilever-mesh-chair",
+    "description": "كرسي انتظار ومؤتمرات كود GL-135 Waiting بظهر شبكي طبي تنفسي وقاعدة زلاجة (كانتيليفر) كروم ثابتة وأنيقة. مثالي لقاعات الانتظار والاجتماعات والمكاتب الاستقبالية.",
+    "price": 2950,
+    "originalPrice": 3200,
+    "images": [
+      "/uploads/gl135-waiting-showroom.jpg",
+      "/uploads/gl135-waiting-studio.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي + إسفنج عالي الكثافة + شاسيه كروم زلاجة",
+    "color": "أسود",
+    "dimensions": {
+      "width": 58,
+      "height": 95,
+      "depth": 55
+    },
+    "weight": 11,
+    "stockQuantity": 25,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.9,
+    "reviewCount": 6,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي انتظار",
+      "GL-135",
+      "شبك",
+      "زلاجة"
+    ],
+    "specs": {
+      "نوع الظهر": "شبك طبي تنفسي",
+      "مسند الرأس": "بدون",
+      "الشاسيه": "كروم زلاجة (كانتيليفر) ثابتة",
+      "العجلات": "بدون (ثابت)",
+      "مساند الأذرع": "مبطنة مريحة"
+    }
+  },
+  {
+    "id": "prod_training_chair_01",
+    "name": "كرسي تدريب ومحاضرات شبك طبي بذراع كتابة قابل للطي وحامل أكواب",
+    "code": "GL-135-TR",
+    "sku": "GL-135-TR",
+    "slug": "training-chair-writing-tablet-mesh",
+    "description": "كرسي تدريب ومحاضرات بتصميم أنيق وعملي، مزود بذراع كتابة قابل للطي وحامل أكواب مدمج. ظهر شبكي طبي تنفسي ومقعد إسفنجي مريح وشاسيه كروم 4 أرجل ثابت.",
+    "price": 2750,
+    "originalPrice": 3000,
+    "images": [
+      "/uploads/training-chair-tablet.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي + إسفنج + شاسيه كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 60,
+      "height": 85,
+      "depth": 55
+    },
+    "weight": 9,
+    "stockQuantity": 30,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.7,
+    "reviewCount": 4,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي تدريب",
+      "GL-135",
+      "ذراع كتابة"
+    ],
+    "specs": {
+      "نوع الظهر": "شبك طبي تنفسي",
+      "ذراع الكتابة": "قابل للطي مع حامل أكواب",
+      "الشاسيه": "كروم 4 أرجل ثابت"
+    }
+  },
+  {
+    "id": "prod_designer_chair_bw",
+    "name": "كرسي مودرن ديزاينر جلد أبيض × أسود بقاعدة معدنية",
+    "code": "GL-135-DSN",
+    "sku": "GL-135-DSN",
+    "slug": "designer-modern-chair-black-white",
+    "description": "كرسي مودرن بتصميم إيطالي أنيق، تنجيد جلد PU فاخر بمزيج الأبيض والأسود، مقعد مبطن مريح وظهر ملفوف، قاعدة معدنية 4 أرجل عصرية. مثالي للمكاتب التنفيذية وغرف الاستقبال.",
+    "price": 3200,
+    "originalPrice": 3500,
+    "images": [
+      "/uploads/designer-chair-bw.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU فاخر + إسفنج + قاعدة معدنية",
+    "color": "أبيض × أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 82,
+      "depth": 58
+    },
+    "weight": 10,
+    "stockQuantity": 12,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.9,
+    "reviewCount": 2,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي ديزاينر",
+      "GL-135",
+      "جلد",
+      "مودرن"
+    ],
+    "specs": {
+      "الخامة": "جلد PU إيطالي فاخر",
+      "القاعدة": "معدنية 4 أرجل",
+      "التنجيد": "أبيض × أسود"
+    }
+  },
+  {
+    "id": "prod_gl135_leather_tufted_high",
+    "name": "كرسي مكتب جلد مربعات فاخر ظهر عالي - كود GL-135 Leather High",
+    "code": "GL-135-LTH-HIGH",
+    "sku": "GL-135-LTH-HIGH",
+    "slug": "gl-135-leather-tufted-high-executive",
+    "description": "كرسي مكتب تنفيذي جلد فاخر بتصميم مربعات (Tufted) وظهر عالي. يتميز بجلد PU عالي الجودة مع خياطة دقيقة، مساند أذرع كروم أنيقة، قاعدة 5 فروع كروم متينة. متوفر في مجموعة كاملة (High + Medium + Waiting).",
+    "price": 5850,
+    "originalPrice": 6500,
+    "images": [
+      "/uploads/gl135-leather-tufted-set.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU فاخر مربعات + شاسيه كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 68,
+      "height": 120,
+      "depth": 65
+    },
+    "weight": 20,
+    "stockQuantity": 8,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 3,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي تنفيذية",
+      "GL-135",
+      "جلد",
+      "مربعات"
+    ],
+    "specs": {
+      "الخامة": "جلد PU فاخر Tufted",
+      "الظهر": "عالي مع دعم قطني",
+      "الشاسيه": "كروم 5 فروع",
+      "الميكانيزم": "هيدروليك ارتفاع + ميل"
+    }
+  },
+  {
+    "id": "prod_gl135_leather_plain_high",
+    "name": "كرسي مكتب جلد كلاسيك ظهر عالي تنفيذي - كود GL-135 Classic High",
+    "code": "GL-135-CLS-HIGH",
+    "sku": "GL-135-CLS-HIGH",
+    "slug": "gl-135-classic-leather-high-executive",
+    "description": "كرسي مكتب تنفيذي جلد كلاسيكي فاخر بظهر عالي ومساند أذرع مبطنة جلد. تصميم أنيق يناسب المكاتب الإدارية ورجال الأعمال. قاعدة كروم 5 فروع مع عجلات صامتة.",
+    "price": 5450,
+    "originalPrice": 6000,
+    "images": [
+      "/uploads/gl135-leather-plain-set.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU كلاسيكي + شاسيه كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 66,
+      "height": 118,
+      "depth": 63
+    },
+    "weight": 19,
+    "stockQuantity": 10,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.9,
+    "reviewCount": 5,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي تنفيذية",
+      "GL-135",
+      "جلد",
+      "كلاسيك"
+    ],
+    "specs": {
+      "الخامة": "جلد PU كلاسيكي",
+      "الظهر": "عالي مع دعم قطني",
+      "الشاسيه": "كروم 5 فروع"
+    }
+  },
+  {
+    "id": "prod_gl135_executive_black",
+    "name": "كرسي مدير تنفيذي جلد فاخر ظهر عالي بريميوم - كود GL-135 Executive",
+    "code": "GL-135-EXEC",
+    "sku": "GL-135-EXEC",
+    "slug": "gl-135-executive-premium-leather-chair",
+    "description": "كرسي مدير تنفيذي بريميوم بتصميم حصري، جلد طبيعي فاخر بظهر عالي جداً مع دعم كامل للرأس والعمود الفقري. مساند أذرع عريضة مبطنة، قاعدة نجمة 5 فروع فولاذية مع عجلات سايلنت.",
+    "price": 7950,
+    "originalPrice": 8800,
+    "images": [
+      "/uploads/gl135-executive-black-high.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد طبيعي فاخر + قاعدة فولاذية",
+    "color": "أسود",
+    "dimensions": {
+      "width": 70,
+      "height": 135,
+      "depth": 68
+    },
+    "weight": 24,
+    "stockQuantity": 5,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 2,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي تنفيذية",
+      "GL-135",
+      "جلد طبيعي",
+      "بريميوم"
+    ],
+    "specs": {
+      "الخامة": "جلد طبيعي بريميوم",
+      "الظهر": "عالي جداً مع دعم رأس مدمج",
+      "الشاسيه": "فولاذ كروم 5 فروع",
+      "الميكانيزم": "هيدروليك + ميل + قفل"
+    }
+  },
+  {
+    "id": "prod_gl135_executive_tan",
+    "name": "كرسي مدير تنفيذي جلد بيج ظهر عالي - كود GL-135 Executive Tan",
+    "code": "GL-135-EXEC-TAN",
+    "sku": "GL-135-EXEC-TAN",
+    "slug": "gl-135-executive-tan-leather-chair",
+    "description": "كرسي مدير تنفيذي بلون بيج/كاميل أنيق بظهر عالي وجلد PU فاخر. تصميم عصري مع مساند أذرع رمادية قابلة للتعديل. مناسب للمكاتب التنفيذية ذات الديكور المودرن.",
+    "price": 6500,
+    "originalPrice": 7200,
+    "images": [
+      "/uploads/gl135-executive-tan.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU فاخر + شاسيه ألومنيوم",
+    "color": "بيج / كاميل",
+    "dimensions": {
+      "width": 66,
+      "height": 128,
+      "depth": 64
+    },
+    "weight": 18,
+    "stockQuantity": 6,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 1,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي تنفيذية",
+      "GL-135",
+      "جلد",
+      "بيج"
+    ],
+    "specs": {
+      "الخامة": "جلد PU فاخر",
+      "اللون": "بيج / كاميل",
+      "الظهر": "عالي مع مسند رأس مدمج",
+      "الشاسيه": "ألومنيوم 5 فروع"
+    }
+  },
+  {
+    "id": "prod_gl135_leather_brown",
+    "name": "كرسي مكتب تنفيذي جلد بني ظهر عالي كروم - كود GL-135 Brown",
+    "code": "GL-135-BRN",
+    "sku": "GL-135-BRN",
+    "slug": "gl-135-brown-leather-executive-chair",
+    "description": "كرسي مكتب تنفيذي بجلد PU بني فاخر وظهر عالي مع مساند أذرع كروم. تصميم كلاسيكي أنيق يضيف لمسة فخامة لأي مكتب.",
+    "price": 5250,
+    "originalPrice": 5800,
+    "images": [
+      "/uploads/gl135-leather-brown-high.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU بني + شاسيه كروم",
+    "color": "بني",
+    "dimensions": {
+      "width": 65,
+      "height": 122,
+      "depth": 62
+    },
+    "weight": 18,
+    "stockQuantity": 8,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.8,
+    "reviewCount": 3,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي تنفيذية",
+      "GL-135",
+      "جلد",
+      "بني"
+    ],
+    "specs": {
+      "الخامة": "جلد PU بني فاخر",
+      "الظهر": "عالي",
+      "الشاسيه": "كروم 5 فروع"
+    }
+  },
+  {
+    "id": "prod_gl135_leather_green",
+    "name": "كرسي مكتب تنفيذي جلد أخضر زيتي ظهر عالي - كود GL-135 Green",
+    "code": "GL-135-GRN",
+    "sku": "GL-135-GRN",
+    "slug": "gl-135-green-leather-executive-chair",
+    "description": "كرسي مكتب تنفيذي بجلد PU أخضر زيتي أنيق وظهر عالي. لون مميز يضيف لمسة عصرية وفريدة للمكتب. قاعدة كروم 5 فروع متينة.",
+    "price": 5250,
+    "originalPrice": 5800,
+    "images": [
+      "/uploads/gl135-leather-green-high.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU أخضر + شاسيه كروم",
+    "color": "أخضر زيتي",
+    "dimensions": {
+      "width": 65,
+      "height": 130,
+      "depth": 62
+    },
+    "weight": 17,
+    "stockQuantity": 6,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 2,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي تنفيذية",
+      "GL-135",
+      "جلد",
+      "أخضر"
+    ],
+    "specs": {
+      "الخامة": "جلد PU أخضر زيتي",
+      "الظهر": "عالي سليم",
+      "الشاسيه": "كروم 5 فروع"
+    }
+  },
+  {
+    "id": "prod_gl135_leather_waiting",
+    "name": "كرسي انتظار جلد بني شاسيه زلاجة كروم - كود GL-135 Leather Waiting",
+    "code": "GL-135-LTH-WAIT",
+    "sku": "GL-135-LTH-WAIT",
+    "slug": "gl-135-brown-leather-waiting-cantilever",
+    "description": "كرسي انتظار ومؤتمرات بتصميم أنيق، جلد PU بني فاخر وشاسيه كروم زلاجة ثابت (كانتيليفر). مثالي لقاعات الانتظار والمؤتمرات.",
+    "price": 3650,
+    "originalPrice": 4000,
+    "images": [
+      "/uploads/gl135-leather-brown-waiting.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU بني + شاسيه كروم زلاجة",
+    "color": "بني",
+    "dimensions": {
+      "width": 58,
+      "height": 98,
+      "depth": 55
+    },
+    "weight": 12,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.8,
+    "reviewCount": 4,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي انتظار",
+      "GL-135",
+      "جلد",
+      "زلاجة"
+    ],
+    "specs": {
+      "الخامة": "جلد PU بني",
+      "الشاسيه": "كروم زلاجة كانتيليفر",
+      "مساند الأذرع": "مبطنة جلد"
+    }
+  },
+  {
+    "id": "prod_gl135_mesh_whiteframe",
+    "name": "كرسي مكتب طبي شبك فريم أبيض ظهر عالي بمسند رأس - كود GL-135 White",
+    "code": "GL-135-WHT",
+    "sku": "GL-135-WHT",
+    "slug": "gl-135-white-frame-mesh-chair",
+    "description": "كرسي مكتب طبي شبك بفريم أبيض عصري وظهر عالي مع مسند رأس. تصميم مودرن مع دعم قطني ومساند أذرع قابلة للتعديل. قاعدة 5 فروع سوداء مع عجلات صامتة.",
+    "price": 4250,
+    "originalPrice": 4700,
+    "images": [
+      "/uploads/gl135-mesh-whiteframe-back.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي + فريم بولي أبيض + قاعدة 5 فروع",
+    "color": "أسود × أبيض",
+    "dimensions": {
+      "width": 64,
+      "height": 126,
+      "depth": 60
+    },
+    "weight": 15,
+    "stockQuantity": 10,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.9,
+    "reviewCount": 3,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-135",
+      "شبك",
+      "أبيض"
+    ],
+    "specs": {
+      "الفريم": "بولي أبيض",
+      "الظهر": "شبك طبي ظهر عالي",
+      "مسند الرأس": "شبك قابل للتعديل",
+      "الشاسيه": "5 فروع أسود"
+    }
+  },
+  {
+    "id": "prod_gl135_mesh_color",
+    "name": "كرسي مكتب شبك ألوان متعددة (أبيض/أخضر/أسود) - كود GL-135 Color",
+    "code": "GL-135-CLR",
+    "sku": "GL-135-CLR",
+    "slug": "gl-135-colorful-mesh-office-chair-set",
+    "description": "مجموعة كراسي مكتب شبك طبي متوفرة بألوان متعددة: أبيض، أخضر ليموني، وأسود. تشمل فئات مختلفة: ظهر متوسط مع عجلات، ظهر عالي بمسند رأس، وانتظار زلاجة. مناسبة للمكاتب العصرية.",
+    "price": 2850,
+    "originalPrice": 3200,
+    "images": [
+      "/uploads/gl135-mesh-color-set.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي ملون + شاسيه كروم",
+    "color": "متعدد الألوان",
+    "dimensions": {
+      "width": 60,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 12,
+    "stockQuantity": 20,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.7,
+    "reviewCount": 8,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-135",
+      "شبك",
+      "ألوان"
+    ],
+    "specs": {
+      "الألوان المتاحة": "أبيض / أخضر ليموني / أسود",
+      "الأنواع": "Medium + High + Waiting",
+      "الشاسيه": "كروم 5 فروع / زلاجة"
+    }
+  },
+  {
+    "id": "prod_gl135_sofa_black",
+    "name": "طقم أنتريه جلد أسود مبطن تصميم ماسي - كنبة 3 مقاعد + 2 فوتيه",
+    "code": "GL-135-SOFA-BLK",
+    "sku": "GL-135-SOFA-BLK",
+    "slug": "gl-135-black-diamond-leather-sofa-set",
+    "description": "طقم أنتريه مكتبي فاخر من الجلد الأسود بتصميم ماسي (Diamond Quilted) أنيق. يتكون من كنبة 3 مقاعد + 2 فوتيه فردي. مناسب لمكاتب المديرين وقاعات الاستقبال والانتظار VIP. أرجل كروم أنيقة.",
+    "price": 18500,
+    "originalPrice": 21000,
+    "images": [
+      "/uploads/gl135-sofa-black-diamond.jpg"
+    ],
+    "category": "ركن ومجالس",
+    "material": "جلد PU أسود Diamond + أرجل كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 200,
+      "height": 80,
+      "depth": 75
+    },
+    "weight": 65,
+    "stockQuantity": 3,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 2,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ركن ومجالس",
+      "أنتريه",
+      "GL-135",
+      "جلد",
+      "مكتبي"
+    ],
+    "specs": {
+      "المكونات": "كنبة 3 مقاعد + 2 فوتيه فردي",
+      "الخامة": "جلد PU ماسي",
+      "الأرجل": "كروم",
+      "الطول": "200 سم (الكنبة)"
+    }
+  },
+  {
+    "id": "prod_gl135_sofa_camel",
+    "name": "طقم أنتريه جلد كاميل/برتقالي فاخر - كنبة 3 مقاعد + 2 فوتيه",
+    "code": "GL-135-SOFA-CML",
+    "sku": "GL-135-SOFA-CML",
+    "slug": "gl-135-camel-leather-sofa-set",
+    "description": "طقم أنتريه مكتبي فاخر من الجلد الكاميل/البرتقالي بتصميم عصري أنيق مع خطوط V مميزة. يتكون من كنبة 3 مقاعد + 2 فوتيه فردي. أرجل خشب زان. مثالي للمكاتب التنفيذية الفاخرة.",
+    "price": 19500,
+    "originalPrice": 22000,
+    "images": [
+      "/uploads/gl135-sofa-camel.jpg"
+    ],
+    "category": "ركن ومجالس",
+    "material": "جلد PU كاميل + أرجل خشب زان",
+    "color": "كاميل / برتقالي",
+    "dimensions": {
+      "width": 200,
+      "height": 78,
+      "depth": 75
+    },
+    "weight": 60,
+    "stockQuantity": 3,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 1,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ركن ومجالس",
+      "أنتريه",
+      "GL-135",
+      "جلد",
+      "كاميل"
+    ],
+    "specs": {
+      "المكونات": "كنبة 3 مقاعد + 2 فوتيه فردي",
+      "الخامة": "جلد PU كاميل",
+      "الأرجل": "خشب زان",
+      "الطول": "200 سم (الكنبة)"
+    }
+  },
+  {
+    "id": "prod_gl135_armchair_grey",
+    "name": "فوتيه استقبال جلد رمادي مودرن بوسادة ديكور - كود GL-135",
+    "code": "GL-135-ARM-GRY",
+    "sku": "GL-135-ARM-GRY",
+    "slug": "gl-135-grey-modern-armchair",
+    "description": "فوتيه استقبال مودرن بتصميم إيطالي عصري، جلد PU رمادي فاخر مع وسادة ديكور بحزام جلد. أرجل خشب أسود. مثالي لمناطق الاستقبال والانتظار.",
+    "price": 6500,
+    "originalPrice": 7200,
+    "images": [
+      "/uploads/gl135-armchair-grey.jpg"
+    ],
+    "category": "ركن ومجالس",
+    "material": "جلد PU رمادي + أرجل خشب",
+    "color": "رمادي",
+    "dimensions": {
+      "width": 78,
+      "height": 80,
+      "depth": 72
+    },
+    "weight": 22,
+    "stockQuantity": 6,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.9,
+    "reviewCount": 3,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "ركن ومجالس",
+      "فوتيه",
+      "GL-135",
+      "جلد",
+      "رمادي",
+      "مودرن"
+    ],
+    "specs": {
+      "الخامة": "جلد PU رمادي فاخر",
+      "الأرجل": "خشب أسود",
+      "الوسادة": "مع حزام جلد ديكور"
+    }
+  },
+  {
+    "id": "prod_gl135_modern_upholstered",
+    "name": "كرسي مكتب مبطن شبك ظهر عالي كروم - كود GL-135 Comfort",
+    "code": "GL-135-CMF",
+    "sku": "GL-135-CMF",
+    "slug": "gl-135-comfort-upholstered-mesh-chair",
+    "description": "كرسي مكتب مريح بظهر شبكي عالي ومقعد إسفنجي سميك مبطن. تصميم مريح للجلوس لفترات طويلة مع دعم كامل للظهر.",
+    "price": 3850,
+    "originalPrice": 4200,
+    "images": [
+      "/uploads/gl135-showroom-chair-04.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك + إسفنج عالي الكثافة + كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 108,
+      "depth": 60
+    },
+    "weight": 14,
+    "stockQuantity": 12,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.8,
+    "reviewCount": 6,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "مبطن",
+      "شبك"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_elegant_showroom",
+    "name": "كرسي مكتب شبك طبي ظهر عالي بمسند رأس إسفنجي - كود GL-135 Ergo",
+    "code": "GL-135-ERG",
+    "sku": "GL-135-ERG",
+    "slug": "gl-135-ergonomic-headrest-mesh-chair",
+    "description": "كرسي مكتب طبي إرجونوميك بظهر شبكي عالي ومسند رأس إسفنجي مريح. يدعم الجلوس الصحيح لفترات طويلة مع مساند أذرع رمادية أنيقة.",
+    "price": 4650,
+    "originalPrice": 5100,
+    "images": [
+      "/uploads/gl135-showroom-chair-05.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي + إسفنج + شاسيه كروم",
+    "color": "أسود × رمادي",
+    "dimensions": {
+      "width": 64,
+      "height": 125,
+      "depth": 62
+    },
+    "weight": 16,
+    "stockQuantity": 10,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.9,
+    "reviewCount": 4,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-135",
+      "شبك",
+      "إرجونوميك"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_headrest_showroom",
+    "name": "كرسي مكتب طبي شبك بمسند رأس ظهر عالي أسود - كود GL-135 Pro",
+    "code": "GL-135-PRO",
+    "sku": "GL-135-PRO",
+    "slug": "gl-135-pro-mesh-headrest-chair",
+    "description": "كرسي مكتب طبي احترافي بظهر شبكي عالي ومسند رأس قابل للتعديل. قاعدة نجمة كروم فاخرة مع عجلات سايلنت.",
+    "price": 3950,
+    "originalPrice": 4300,
+    "images": [
+      "/uploads/gl135-showroom-chair-06.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي + إسفنج + كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 63,
+      "height": 120,
+      "depth": 60
+    },
+    "weight": 15,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.8,
+    "reviewCount": 5,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-135",
+      "شبك"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_leather_showroom",
+    "name": "كرسي مكتب جلد تنفيذي ظهر عالي مع مسند قدم - كود GL-135 Royal",
+    "code": "GL-135-RYL",
+    "sku": "GL-135-RYL",
+    "slug": "gl-135-royal-leather-reclining-chair",
+    "description": "كرسي مكتب تنفيذي جلد فاخر بظهر عالي. تصميم ملكي أنيق مع تبطين فاخر ومساند أذرع مريحة.",
+    "price": 5850,
+    "originalPrice": 6400,
+    "images": [
+      "/uploads/gl135-showroom-chair-07.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU فاخر + شاسيه كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 68,
+      "height": 125,
+      "depth": 65
+    },
+    "weight": 20,
+    "stockQuantity": 8,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 3,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي تنفيذية",
+      "GL-135",
+      "جلد"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_extra_1",
+    "name": "كرسي مكتب جلد أسود كلاسيكي مبطن هيدروليك - كود GL-135-C01",
+    "code": "GL-135-C01",
+    "sku": "GL-135-C01",
+    "slug": "gl-135-chair-gl-135-c01",
+    "description": "كرسي مكتب جلد أسود كلاسيكي مبطن هيدروليك. تصميم عصري مريح بخامات عالية الجودة. مناسب للمكاتب والمنازل.",
+    "price": 3450,
+    "originalPrice": 3795,
+    "images": [
+      "/uploads/gl135-studio-07.jpg",
+      "/uploads/gl135-showroom-08.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU + كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.912572564980481,
+    "reviewCount": 6,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "أسود"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_extra_2",
+    "name": "كرسي مكتب شبك أسود ظهر متوسط بمساند أذرع - كود GL-135-C02",
+    "code": "GL-135-C02",
+    "sku": "GL-135-C02",
+    "slug": "gl-135-chair-gl-135-c02",
+    "description": "كرسي مكتب شبك أسود ظهر متوسط بمساند أذرع. تصميم عصري مريح بخامات عالية الجودة. مناسب للمكاتب والمنازل.",
+    "price": 2650,
+    "originalPrice": 2915,
+    "images": [
+      "/uploads/gl135-studio-08.jpg",
+      "/uploads/gl135-showroom-09.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك + إسفنج + كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.741386701304714,
+    "reviewCount": 4,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "أسود"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_extra_3",
+    "name": "كرسي مكتب شبك طبي هيدروليك ظهر متوسط - كود GL-135-C03",
+    "code": "GL-135-C03",
+    "sku": "GL-135-C03",
+    "slug": "gl-135-chair-gl-135-c03",
+    "description": "كرسي مكتب شبك طبي هيدروليك ظهر متوسط. تصميم عصري مريح بخامات عالية الجودة. مناسب للمكاتب والمنازل.",
+    "price": 2450,
+    "originalPrice": 2695,
+    "images": [
+      "/uploads/gl135-studio-09.jpg",
+      "/uploads/gl135-showroom-10.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك + كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.874619708898548,
+    "reviewCount": 5,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "أسود"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_extra_4",
+    "name": "كرسي انتظار شبك بمساند أذرع مبطنة - كود GL-135-C04",
+    "code": "GL-135-C04",
+    "sku": "GL-135-C04",
+    "slug": "gl-135-chair-gl-135-c04",
+    "description": "كرسي انتظار شبك بمساند أذرع مبطنة. تصميم عصري مريح بخامات عالية الجودة. مناسب للمكاتب والمنازل.",
+    "price": 1850,
+    "originalPrice": 2035,
+    "images": [
+      "/uploads/gl135-studio-10.jpg",
+      "/uploads/gl135-showroom-11.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك + كروم زلاجة",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.873006178609972,
+    "reviewCount": 9,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "أسود"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_extra_5",
+    "name": "كرسي مكتب دوار شبك بقاعدة كروم - كود GL-135-C05",
+    "code": "GL-135-C05",
+    "sku": "GL-135-C05",
+    "slug": "gl-135-chair-gl-135-c05",
+    "description": "كرسي مكتب دوار شبك بقاعدة كروم. تصميم عصري مريح بخامات عالية الجودة. مناسب للمكاتب والمنازل.",
+    "price": 2250,
+    "originalPrice": 2475,
+    "images": [
+      "/uploads/gl135-studio-11.jpg",
+      "/uploads/gl135-showroom-12.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك + كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.849256244039221,
+    "reviewCount": 9,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "أسود"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_extra_6",
+    "name": "كرسي مكتب جلد PU أنيق بمسند ظهر مرتفع - كود GL-135-C06",
+    "code": "GL-135-C06",
+    "sku": "GL-135-C06",
+    "slug": "gl-135-chair-gl-135-c06",
+    "description": "كرسي مكتب جلد PU أنيق بمسند ظهر مرتفع. تصميم عصري مريح بخامات عالية الجودة. مناسب للمكاتب والمنازل.",
+    "price": 3250,
+    "originalPrice": 3575,
+    "images": [
+      "/uploads/gl135-studio-12.jpg",
+      "/uploads/gl135-showroom-13.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU + كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.825007960636236,
+    "reviewCount": 6,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "أسود"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_extra_7",
+    "name": "كرسي مكتب شبك إرجونوميك بدعم قطني - كود GL-135-C07",
+    "code": "GL-135-C07",
+    "sku": "GL-135-C07",
+    "slug": "gl-135-chair-gl-135-c07",
+    "description": "كرسي مكتب شبك إرجونوميك بدعم قطني. تصميم عصري مريح بخامات عالية الجودة. مناسب للمكاتب والمنازل.",
+    "price": 2850,
+    "originalPrice": 3135,
+    "images": [
+      "/uploads/gl135-studio-13.jpg",
+      "/uploads/gl135-showroom-14.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي + كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.935983510644217,
+    "reviewCount": 5,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "أسود"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_extra_8",
+    "name": "كرسي مكتب جلد بتصميم رياضي مودرن - كود GL-135-C08",
+    "code": "GL-135-C08",
+    "sku": "GL-135-C08",
+    "slug": "gl-135-chair-gl-135-c08",
+    "description": "كرسي مكتب جلد بتصميم رياضي مودرن. تصميم عصري مريح بخامات عالية الجودة. مناسب للمكاتب والمنازل.",
+    "price": 3650,
+    "originalPrice": 4015,
+    "images": [
+      "/uploads/gl135-studio-14.jpg",
+      "/uploads/gl135-showroom-15.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "جلد PU + كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.990902779358022,
+    "reviewCount": 9,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "أسود"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_extra_9",
+    "name": "كرسي انتظار ومؤتمرات مبطن بشاسيه كروم - كود GL-135-C09",
+    "code": "GL-135-C09",
+    "sku": "GL-135-C09",
+    "slug": "gl-135-chair-gl-135-c09",
+    "description": "كرسي انتظار ومؤتمرات مبطن بشاسيه كروم. تصميم عصري مريح بخامات عالية الجودة. مناسب للمكاتب والمنازل.",
+    "price": 1650,
+    "originalPrice": 1815,
+    "images": [
+      "/uploads/gl135-studio-15.jpg",
+      "/uploads/gl135-showroom-16.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "قماش + كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.748074060558092,
+    "reviewCount": 9,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "أسود"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl135_extra_10",
+    "name": "كرسي مكتب شبك بدون مساند أذرع اقتصادي - كود GL-135-C10",
+    "code": "GL-135-C10",
+    "sku": "GL-135-C10",
+    "slug": "gl-135-chair-gl-135-c10",
+    "description": "كرسي مكتب شبك بدون مساند أذرع اقتصادي. تصميم عصري مريح بخامات عالية الجودة. مناسب للمكاتب والمنازل.",
+    "price": 1450,
+    "originalPrice": 1595,
+    "images": [
+      "/uploads/gl135-studio-16.jpg",
+      "/uploads/gl135-showroom-17.jpg"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك + نايلون",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 105,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 4.830457485325642,
+    "reviewCount": 8,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "GL-135",
+      "أسود"
+    ],
+    "specs": {}
+  },
+  {
+    "id": "prod_gl137_high",
+    "name": "كرسي مكتب طبي شبك هيدروليك بمسند رأس وقاعدة نيكل كروم - كود GL-137 High",
+    "code": "GL-137",
+    "sku": "GL-137",
+    "slug": "gl-137-ergonomic-medical-chair",
+    "description": "كرسي مكتب طبي متطور كود GL-137 مصمم خصيصاً لتوفير الدعم المريح للعمود الفقري خلال فترات العمل الطويلة. يتميز بمسند رأس قابل لضبط الارتفاع والزاوية، وظهر مقسم شبكي مزدوج لتوفير الدعم القطني الفعال لأسفل الظهر، ومساند أذرع مريحة T-Shape، وشاسيه كروم معدني متين مع عجلات انسيابية صامتة ومقعد إسفنجي عالي الكثافة بكسوة زرقاء جذابة.",
+    "price": 7200,
+    "originalPrice": 7800,
+    "images": [
+      "/uploads/gl-137-main.png",
+      "/uploads/gl-137-side.png",
+      "/uploads/gl-137-angle.png",
+      "/uploads/gl-137-poster.png"
+    ],
+    "category": "كراسي مكتب",
+    "material": "بولي بروبيلين عالي المتانة + شبك طبي تنفسي + شاسيه وقاعدة نيكل كروم",
+    "color": "أسود × أزرق",
+    "dimensions": {
+      "width": 66,
+      "height": 125,
+      "depth": 62
+    },
+    "weight": 19,
+    "stockQuantity": 12,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 4,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-137",
+      "عروض"
+    ],
+    "createdAt": "2026-10-18T16:17:51.314Z",
+    "updatedAt": "2026-10-18T16:17:51.320Z"
+  },
+  {
+    "id": "prod_gl139_high",
+    "name": "كرسي مكتب شبك طبي ظهر عالي بمسند رأس وقاعدة كروم - كود GL-139 High",
+    "code": "GL-139-HIGH",
+    "sku": "GL-139-HIGH",
+    "slug": "gl-139-high-back-office-chair",
+    "description": "كرسي مكتب شبكي طبي كود GL-139 High مزود بمسند رأس عريض قابل للتعديل لتخفيف الضغط عن عضلات الرقبة والكتفين، مع ظهر شبكي عالي المرونة يمنحك تهوية مثالية أثناء العمل وقاعدة نيكل كروم خماسية متينة ومكبس هيدروليك عالي الجودة.",
+    "price": 4000,
+    "originalPrice": 4400,
+    "images": [
+      "/uploads/gl-139-high.png",
+      "/uploads/gl-139-poster.png"
+    ],
+    "category": "كراسي مكتب",
+    "material": "ظهر شبك طبي + قاعدة نيكل كروم خماسية + هيدروليك تركي",
+    "color": "أسود",
+    "dimensions": {
+      "width": 64,
+      "height": 122,
+      "depth": 60
+    },
+    "weight": 16,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 3,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-139",
+      "ظهر عالي"
+    ],
+    "createdAt": "2026-10-18T16:17:51.320Z",
+    "updatedAt": "2026-10-18T16:17:51.320Z"
+  },
+  {
+    "id": "prod_gl139_med",
+    "name": "كرسي مكتب شبك طبي ظهر متوسط هيدروليك - كود GL-139 Medium",
+    "code": "GL-139-MEDIUM",
+    "sku": "GL-139-MED",
+    "slug": "gl-139-medium-back-office-chair",
+    "description": "كرسي مكتب كود GL-139 Medium بتصميم عصري بظهر متوسط شبكي خفيف ومريح يوفر مرونة فائقة وتبريداً مستمراً للظهر، مناسب جداً للموظفين والمكاتب وغرف الاجتماعات مع مقعد إسفنجي عالي المرونة.",
+    "price": 3900,
+    "originalPrice": 4250,
+    "images": [
+      "/uploads/gl-139-medium.png",
+      "/uploads/gl-139-poster.png"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شبك طبي عالي المتانة + نجمة كروم + مكبس هيدروليك",
+    "color": "أسود",
+    "dimensions": {
+      "width": 62,
+      "height": 102,
+      "depth": 58
+    },
+    "weight": 14,
+    "stockQuantity": 20,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 2,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-139",
+      "ظهر متوسط"
+    ],
+    "createdAt": "2026-10-18T16:17:51.320Z",
+    "updatedAt": "2026-10-18T16:17:51.320Z"
+  },
+  {
+    "id": "prod_gl139_wait",
+    "name": "كرسي انتظار ومؤتمرات شبك طبي شاسيه زلاجة - كود GL-139 Waiting",
+    "code": "GL-139-WAITING",
+    "sku": "GL-139-WAIT",
+    "slug": "gl-139-waiting-visitor-chair",
+    "description": "كرسي استقبال ومؤتمرات كود GL-139 Waiting بشاسيه زلاجة ثابت وأنيق من النيكل كروم، مع ظهر شبك طبي يدعم الظهر أثناء الانتظار والاجتماعات ومساند أذرع مريحة ومقعد فوم فاخر.",
+    "price": 3400,
+    "originalPrice": 3750,
+    "images": [
+      "/uploads/gl-139-waiting.png",
+      "/uploads/gl-139-poster.png"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شاسيه معدني زلاجة نيكل كروم صلب + شبك ظهر مرن",
+    "color": "أسود",
+    "dimensions": {
+      "width": 60,
+      "height": 98,
+      "depth": 56
+    },
+    "weight": 13,
+    "stockQuantity": 25,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 2,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي انتظار",
+      "GL-139",
+      "زلاجة"
+    ],
+    "createdAt": "2026-10-18T16:17:51.320Z",
+    "updatedAt": "2026-10-18T16:17:51.320Z"
+  },
+  {
+    "id": "prod_gl140_black",
+    "name": "كرسي مكتب شبك طبي ريلاكس بمسند قدم قابل للسحب - كود GL-140 Black",
+    "code": "GL-140-BLK",
+    "sku": "GL-140-BLK",
+    "slug": "gl-140-reclining-office-chair-black",
+    "description": "كرسي ريلاكس مكتبي متعدد الوظائف كود GL-140 Black يجمع بين أناقة كرسي المكتب الطبي وراحة كراسي الاسترخاء. مجهز بمسند قدم مبطن قابل للسحب وإمكانية إمالة الظهر للاسترخاء التام أثناء الاستراحات، مع شاسيه إرجونوميك متين ومسند رأس مريح ونجمة خماسية من النيكل كروم.",
+    "price": 3650,
+    "originalPrice": 4150,
+    "images": [
+      "/uploads/gl-140-black-main.png",
+      "/uploads/gl-140-black-front.png",
+      "/uploads/gl-140-black-back.png",
+      "/uploads/gl-140-black-poster.png"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شاسيه إرجونوميك مقوى + شبك طبي تنفسي + مسند قدم مدمج + قاعدة نيكل كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 68,
+      "height": 126,
+      "depth": 65
+    },
+    "weight": 21,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 5,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "ليزي بوي",
+      "GL-140",
+      "مسند قدم"
+    ],
+    "createdAt": "2026-10-18T16:17:51.320Z",
+    "updatedAt": "2026-10-18T16:17:51.320Z"
+  },
+  {
+    "id": "prod_gl140_grey",
+    "name": "كرسي مكتب شبك طبي ريلاكس بمسند قدم قابل للسحب - كود GL-140 Grey (رمادي)",
+    "code": "GL-140-GRY",
+    "sku": "GL-140-GRY",
+    "slug": "gl-140-reclining-office-chair-grey",
+    "description": "كرسي مكتب ريلاكس فاخر كود GL-140 Grey بتصميم رمادي عصري راقٍ يتماشى مع أرقى الديكورات المكتبية والمنزلية. يتميز بمسند قدم قابل للتمديد والطي، ونظام انحناء للظهر، ومسند رأس مريح، وقاعدة نيكل كروم لامعة ومقاومة للصدأ.",
+    "price": 3950,
+    "originalPrice": 4450,
+    "images": [
+      "/uploads/gl-140-grey-main.png",
+      "/uploads/gl-140-grey-front.png",
+      "/uploads/gl-140-grey-back.png",
+      "/uploads/gl-140-grey-poster.png"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شاسيه إرجونوميك رمادي + شبك وقماش طبي رمادي أنيق + مسند قدم مدمج + قاعدة كروم",
+    "color": "رمادي",
+    "dimensions": {
+      "width": 68,
+      "height": 126,
+      "depth": 65
+    },
+    "weight": 21,
+    "stockQuantity": 10,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 3,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "ليزي بوي",
+      "GL-140",
+      "رمادي",
+      "مسند قدم"
+    ],
+    "createdAt": "2026-10-18T16:17:51.320Z",
+    "updatedAt": "2026-10-18T16:17:51.320Z"
+  },
+  {
+    "id": "prod_gl136_high",
+    "name": "كرسي مكتب شبك طبي فاخر ظهر عالي بمسند رأس - كود GL-136 High",
+    "code": "GL-136-HIGH",
+    "sku": "GL-136-HIGH",
+    "slug": "gl-136-high-back-office-chair",
+    "description": "كرسي مكتب شبكي عالي الجودة كود GL-136 High مصمم للمديرين والمكاتب التنفيذية. يحتوي على مسند رأس مبطن مستطيل قابل للضبط، مع هيكل خلفي داعم ومساند يدين قابلة لتعديل الارتفاع ونجمة نيكل كروم ثقيلة وعجلات انسيابية.",
+    "price": 4650,
+    "originalPrice": 5150,
+    "images": [
+      "/uploads/gl-136-high.png",
+      "/uploads/gl-136-poster.png"
+    ],
+    "category": "كراسي مكتب",
+    "material": "ظهر شبك مقوى + مسند رأس مستطيل قابل للضبط + قاعدة نجمة نيكل كروم",
+    "color": "أسود",
+    "dimensions": {
+      "width": 65,
+      "height": 124,
+      "depth": 61
+    },
+    "weight": 17,
+    "stockQuantity": 18,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 4,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-136",
+      "ظهر عالي"
+    ],
+    "createdAt": "2026-10-18T16:17:51.320Z",
+    "updatedAt": "2026-10-18T16:17:51.320Z"
+  },
+  {
+    "id": "prod_gl136_med",
+    "name": "كرسي مكتب شبك طبي ظهر متوسط هيدروليك - كود GL-136 Medium",
+    "code": "GL-136-MEDIUM",
+    "sku": "GL-136-MED",
+    "slug": "gl-136-medium-back-office-chair",
+    "description": "كرسي مكتب شبك طبي كود GL-136 Medium بظهر متوسط مريح وتصميم قوي وعملي يناسب جميع المكاتب وغرف العمل والاجتماعات، مع مساند أذرع مريحة وهيدروليك ناعم.",
+    "price": 4550,
+    "originalPrice": 4950,
+    "images": [
+      "/uploads/gl-136-medium.png",
+      "/uploads/gl-136-poster.png"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شاسيه متين + شبك طبي + قاعدة نيكل كروم مضلعة",
+    "color": "أسود",
+    "dimensions": {
+      "width": 63,
+      "height": 104,
+      "depth": 59
+    },
+    "weight": 15,
+    "stockQuantity": 16,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 2,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي طبية",
+      "GL-136",
+      "ظهر متوسط"
+    ],
+    "createdAt": "2026-10-18T16:17:51.320Z",
+    "updatedAt": "2026-10-18T16:17:51.320Z"
+  },
+  {
+    "id": "prod_gl136_wait",
+    "name": "كرسي انتظار ومؤتمرات شبك طبي شاسيه زلاجة - كود GL-136 Waiting",
+    "code": "GL-136-WAITING",
+    "sku": "GL-136-WAIT",
+    "slug": "gl-136-waiting-visitor-chair",
+    "description": "كرسي زوار وانتظار شبك كود GL-136 Waiting بقاعدة زلاجة نيكل كروم فاخرة ومساند أذرع مريحة، مصمم خصيصاً لتحمل الاستخدام الشاق في الشركات والمستشفيات والعيادات وقاعات الاجتماعات.",
+    "price": 4050,
+    "originalPrice": 4450,
+    "images": [
+      "/uploads/gl-136-waiting.png",
+      "/uploads/gl-136-poster.png"
+    ],
+    "category": "كراسي مكتب",
+    "material": "شاسيه زلاجة كروم أنبوبي متين + ظهر شبكي مسامي",
+    "color": "أسود",
+    "dimensions": {
+      "width": 61,
+      "height": 99,
+      "depth": 57
+    },
+    "weight": 14,
+    "stockQuantity": 20,
+    "returnCount": 0,
+    "totalSold": 0,
+    "rating": 5,
+    "reviewCount": 3,
+    "inStock": true,
+    "featured": false,
+    "tags": [
+      "كراسي مكتب",
+      "كراسي انتظار",
+      "GL-136",
+      "زلاجة"
+    ],
+    "createdAt": "2026-10-18T16:17:51.320Z",
+    "updatedAt": "2026-10-18T16:17:51.320Z"
+  },
+  {
     "id": "prod_1790013537451",
     "name": "كرسي مكتب طبي شبك مريح (Ergonomic Medical Chair) بمسند رأس وقاعدة هيدروليك نيكل كروم",
     "slug": "-ergonomic-medical-chair--7455",
@@ -17,7 +1591,7 @@
       "depth": 60
     },
     "weight": 20,
-    "stockQuantity": 2,
+    "stockQuantity": 4,
     "returnCount": 3,
     "totalSold": 0,
     "rating": 5,
@@ -28,7 +1602,7 @@
       "كراسي طبية"
     ],
     "createdAt": "2026-10-03T11:47:21.062Z",
-    "updatedAt": "2026-10-03T11:47:21.062Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "prod_1789845837392",
@@ -51,7 +1625,7 @@
       "depth": 80
     },
     "weight": 20,
-    "stockQuantity": 11,
+    "stockQuantity": 10,
     "returnCount": 0,
     "totalSold": 0,
     "rating": 5,
@@ -62,7 +1636,7 @@
       "مكتبات ووحدات تخزين"
     ],
     "createdAt": "2026-10-03T11:47:21.063Z",
-    "updatedAt": "2026-10-03T11:47:21.063Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "prod_1789668044779",
@@ -84,7 +1658,7 @@
       "depth": 80
     },
     "weight": 20,
-    "stockQuantity": 9,
+    "stockQuantity": 8,
     "returnCount": 0,
     "totalSold": 0,
     "rating": 5,
@@ -95,7 +1669,7 @@
       "كراسي مكتب"
     ],
     "createdAt": "2026-09-19T18:40:54.104Z",
-    "updatedAt": "2026-09-19T18:40:54.104Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "1",
@@ -131,7 +1705,7 @@
       "شبك"
     ],
     "createdAt": "2026-09-19T18:40:54.105Z",
-    "updatedAt": "2026-09-19T18:40:54.105Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "2",
@@ -168,7 +1742,7 @@
       "احترافي"
     ],
     "createdAt": "2026-09-19T18:40:54.105Z",
-    "updatedAt": "2026-09-19T18:40:54.105Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "3",
@@ -205,7 +1779,7 @@
       "خشب زان"
     ],
     "createdAt": "2026-09-19T18:40:54.106Z",
-    "updatedAt": "2026-09-19T18:40:54.106Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "4",
@@ -242,7 +1816,7 @@
       "علاج طبيعي"
     ],
     "createdAt": "2026-09-19T18:40:54.106Z",
-    "updatedAt": "2026-09-19T18:40:54.106Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "5",
@@ -279,7 +1853,7 @@
       "خشب زان"
     ],
     "createdAt": "2026-09-19T18:40:54.106Z",
-    "updatedAt": "2026-09-19T18:40:54.106Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "6",
@@ -316,7 +1890,7 @@
       "زيبرا"
     ],
     "createdAt": "2026-09-19T18:40:54.106Z",
-    "updatedAt": "2026-09-19T18:40:54.106Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "7",
@@ -353,7 +1927,7 @@
       "جلد طبيعي"
     ],
     "createdAt": "2026-09-19T18:40:54.106Z",
-    "updatedAt": "2026-09-19T18:40:54.106Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "8",
@@ -389,7 +1963,7 @@
       "ملفات"
     ],
     "createdAt": "2026-09-19T18:40:54.109Z",
-    "updatedAt": "2026-09-19T18:40:54.109Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "9",
@@ -427,7 +2001,7 @@
       "MAD-009"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "10",
@@ -465,7 +2039,7 @@
       "LZ-301"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "11",
@@ -503,7 +2077,7 @@
       "SF-202"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "12",
@@ -527,7 +2101,7 @@
       "depth": 240
     },
     "weight": 140,
-    "stockQuantity": 3,
+    "stockQuantity": 2,
     "returnCount": 0,
     "totalSold": 0,
     "rating": 5,
@@ -540,7 +2114,7 @@
       "خشب زان"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "13",
@@ -578,7 +2152,7 @@
       "مودرن"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "14",
@@ -616,7 +2190,7 @@
       "تايلاندي"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "15",
@@ -653,7 +2227,7 @@
       "مودرن"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "16",
@@ -691,7 +2265,7 @@
       "اسباني"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "17",
@@ -728,7 +2302,7 @@
       "شبابي"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "18",
@@ -765,7 +2339,7 @@
       "خصم 26%"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "19",
@@ -802,7 +2376,7 @@
       "طقم"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "20",
@@ -839,7 +2413,7 @@
       "استاند زهور"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "21",
@@ -876,7 +2450,7 @@
       "معدني"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "22",
@@ -913,7 +2487,7 @@
       "طبي"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "23",
@@ -950,7 +2524,7 @@
       "مودرن"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "24",
@@ -987,7 +2561,7 @@
       "مودرن"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "25",
@@ -1023,7 +2597,7 @@
       "ووتربروف"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "26",
@@ -1060,7 +2634,7 @@
       "ديكور"
     ],
     "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-09-19T18:40:54.110Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "prod_kitchen_island_01",
@@ -1098,7 +2672,7 @@
       "فاخر"
     ],
     "createdAt": "2026-10-03T11:47:21.064Z",
-    "updatedAt": "2026-10-03T11:47:21.064Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "prod_garden_swing_02",
@@ -1136,7 +2710,7 @@
       "وتربروف"
     ],
     "createdAt": "2026-10-03T11:47:21.064Z",
-    "updatedAt": "2026-10-03T11:47:21.064Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
     "id": "prod_dressing_room_03",
@@ -1174,6 +2748,6 @@
       "إضاءة LED"
     ],
     "createdAt": "2026-10-03T11:47:21.064Z",
-    "updatedAt": "2026-10-03T11:47:21.064Z"
+    "updatedAt": "2026-10-17T19:21:12.027Z"
   }
 ]
