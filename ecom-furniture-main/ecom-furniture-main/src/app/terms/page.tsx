@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { FileText, CheckCircle2, Truck, Wrench, Shield, CreditCard } from "lucide-react";
+import { FileText, Truck, Wrench, Shield, CreditCard } from "lucide-react";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 
 export const metadata: Metadata = {

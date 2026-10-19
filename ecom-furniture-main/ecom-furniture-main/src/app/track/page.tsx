@@ -263,7 +263,7 @@ export default function OrderTrackingPage() {
 
                     <a
                       href={`https://wa.me/201091084863?text=${encodeURIComponent(
-                        `مرحباً أستاذ محمد إسماعيل، أستفسر عن طلبي رقم #${trackData.order.id}.`
+                        `مرحباً، أستفسر عن طلبي رقم #${trackData.order.id}.`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

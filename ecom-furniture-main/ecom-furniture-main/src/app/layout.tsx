@@ -111,7 +111,7 @@ export default function RootLayout({
         <link rel="canonical" href={siteUrl} />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('amazon-furniture-theme');var theme=t?JSON.parse(t).state.theme:'dark';document.documentElement.classList.add(theme);document.documentElement.setAttribute('data-theme',theme);}catch(e){document.documentElement.classList.add('dark');document.documentElement.setAttribute('data-theme','dark');}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('amazon-furniture-theme');var theme=t?JSON.parse(t).state.theme:'light';document.documentElement.classList.add(theme);document.documentElement.setAttribute('data-theme',theme);}catch(e){document.documentElement.classList.add('light');document.documentElement.setAttribute('data-theme','light');}})();`,
           }}
         />
       </head>

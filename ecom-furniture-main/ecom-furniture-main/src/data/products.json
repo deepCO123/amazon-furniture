@@ -15,7 +15,7 @@
       "/uploads/gl135-high-black-front.jpg",
       "/uploads/gl135-high-real-front.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي تنفسي + إسفنج عالي الكثافة + شاسيه كروم",
     "color": "أسود",
     "dimensions": {
@@ -61,7 +61,7 @@
       "/uploads/gl135-medium-studio1.jpg",
       "/uploads/gl135-medium-studio2.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي + إسفنج عالي الكثافة + شاسيه كروم",
     "color": "أسود × رمادي",
     "dimensions": {
@@ -106,7 +106,7 @@
       "/uploads/gl135-waiting-showroom.jpg",
       "/uploads/gl135-waiting-studio.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي + إسفنج عالي الكثافة + شاسيه كروم زلاجة",
     "color": "أسود",
     "dimensions": {
@@ -149,7 +149,7 @@
     "images": [
       "/uploads/training-chair-tablet.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي + إسفنج + شاسيه كروم",
     "color": "أسود",
     "dimensions": {
@@ -189,7 +189,7 @@
     "images": [
       "/uploads/designer-chair-bw.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU فاخر + إسفنج + قاعدة معدنية",
     "color": "أبيض × أسود",
     "dimensions": {
@@ -230,7 +230,7 @@
     "images": [
       "/uploads/gl135-leather-tufted-set.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU فاخر مربعات + شاسيه كروم",
     "color": "أسود",
     "dimensions": {
@@ -272,7 +272,7 @@
     "images": [
       "/uploads/gl135-leather-plain-set.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU كلاسيكي + شاسيه كروم",
     "color": "أسود",
     "dimensions": {
@@ -313,7 +313,7 @@
     "images": [
       "/uploads/gl135-executive-black-high.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد طبيعي فاخر + قاعدة فولاذية",
     "color": "أسود",
     "dimensions": {
@@ -355,7 +355,7 @@
     "images": [
       "/uploads/gl135-executive-tan.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU فاخر + شاسيه ألومنيوم",
     "color": "بيج / كاميل",
     "dimensions": {
@@ -397,7 +397,7 @@
     "images": [
       "/uploads/gl135-leather-brown-high.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU بني + شاسيه كروم",
     "color": "بني",
     "dimensions": {
@@ -438,7 +438,7 @@
     "images": [
       "/uploads/gl135-leather-green-high.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU أخضر + شاسيه كروم",
     "color": "أخضر زيتي",
     "dimensions": {
@@ -479,7 +479,7 @@
     "images": [
       "/uploads/gl135-leather-brown-waiting.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU بني + شاسيه كروم زلاجة",
     "color": "بني",
     "dimensions": {
@@ -520,7 +520,7 @@
     "images": [
       "/uploads/gl135-mesh-whiteframe-back.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي + فريم بولي أبيض + قاعدة 5 فروع",
     "color": "أسود × أبيض",
     "dimensions": {
@@ -562,7 +562,7 @@
     "images": [
       "/uploads/gl135-mesh-color-set.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي ملون + شاسيه كروم",
     "color": "متعدد الألوان",
     "dimensions": {
@@ -603,7 +603,7 @@
     "images": [
       "/uploads/gl135-sofa-black-diamond.jpg"
     ],
-    "category": "ركن ومجالس",
+    "category": "مكاتب",
     "material": "جلد PU أسود Diamond + أرجل كروم",
     "color": "أسود",
     "dimensions": {
@@ -645,7 +645,7 @@
     "images": [
       "/uploads/gl135-sofa-camel.jpg"
     ],
-    "category": "ركن ومجالس",
+    "category": "مكاتب",
     "material": "جلد PU كاميل + أرجل خشب زان",
     "color": "كاميل / برتقالي",
     "dimensions": {
@@ -687,7 +687,7 @@
     "images": [
       "/uploads/gl135-armchair-grey.jpg"
     ],
-    "category": "ركن ومجالس",
+    "category": "انتريهات",
     "material": "جلد PU رمادي + أرجل خشب",
     "color": "رمادي",
     "dimensions": {
@@ -729,7 +729,7 @@
     "images": [
       "/uploads/gl135-showroom-chair-04.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي شبك",
     "material": "شبك + إسفنج عالي الكثافة + كروم",
     "color": "أسود",
     "dimensions": {
@@ -765,7 +765,7 @@
     "images": [
       "/uploads/gl135-showroom-chair-05.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي + إسفنج + شاسيه كروم",
     "color": "أسود × رمادي",
     "dimensions": {
@@ -802,7 +802,7 @@
     "images": [
       "/uploads/gl135-showroom-chair-06.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي + إسفنج + كروم",
     "color": "أسود",
     "dimensions": {
@@ -838,7 +838,7 @@
     "images": [
       "/uploads/gl135-showroom-chair-07.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU فاخر + شاسيه كروم",
     "color": "أسود",
     "dimensions": {
@@ -875,7 +875,7 @@
       "/uploads/gl135-studio-07.jpg",
       "/uploads/gl135-showroom-08.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU + كروم",
     "color": "أسود",
     "dimensions": {
@@ -911,7 +911,7 @@
       "/uploads/gl135-studio-08.jpg",
       "/uploads/gl135-showroom-09.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي شبك",
     "material": "شبك + إسفنج + كروم",
     "color": "أسود",
     "dimensions": {
@@ -947,7 +947,7 @@
       "/uploads/gl135-studio-09.jpg",
       "/uploads/gl135-showroom-10.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك + كروم",
     "color": "أسود",
     "dimensions": {
@@ -983,7 +983,7 @@
       "/uploads/gl135-studio-10.jpg",
       "/uploads/gl135-showroom-11.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي شبك",
     "material": "شبك + كروم زلاجة",
     "color": "أسود",
     "dimensions": {
@@ -1019,7 +1019,7 @@
       "/uploads/gl135-studio-11.jpg",
       "/uploads/gl135-showroom-12.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي شبك",
     "material": "شبك + كروم",
     "color": "أسود",
     "dimensions": {
@@ -1055,7 +1055,7 @@
       "/uploads/gl135-studio-12.jpg",
       "/uploads/gl135-showroom-13.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU + كروم",
     "color": "أسود",
     "dimensions": {
@@ -1091,7 +1091,7 @@
       "/uploads/gl135-studio-13.jpg",
       "/uploads/gl135-showroom-14.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي + كروم",
     "color": "أسود",
     "dimensions": {
@@ -1127,7 +1127,7 @@
       "/uploads/gl135-studio-14.jpg",
       "/uploads/gl135-showroom-15.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "جلد PU + كروم",
     "color": "أسود",
     "dimensions": {
@@ -1163,7 +1163,7 @@
       "/uploads/gl135-studio-15.jpg",
       "/uploads/gl135-showroom-16.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي شبك",
     "material": "قماش + كروم",
     "color": "أسود",
     "dimensions": {
@@ -1199,7 +1199,7 @@
       "/uploads/gl135-studio-16.jpg",
       "/uploads/gl135-showroom-17.jpg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي شبك",
     "material": "شبك + نايلون",
     "color": "أسود",
     "dimensions": {
@@ -1237,7 +1237,7 @@
       "/uploads/gl-137-angle.png",
       "/uploads/gl-137-poster.png"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "بولي بروبيلين عالي المتانة + شبك طبي تنفسي + شاسيه وقاعدة نيكل كروم",
     "color": "أسود × أزرق",
     "dimensions": {
@@ -1275,7 +1275,7 @@
       "/uploads/gl-139-high.png",
       "/uploads/gl-139-poster.png"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "ظهر شبك طبي + قاعدة نيكل كروم خماسية + هيدروليك تركي",
     "color": "أسود",
     "dimensions": {
@@ -1313,7 +1313,7 @@
       "/uploads/gl-139-medium.png",
       "/uploads/gl-139-poster.png"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي عالي المتانة + نجمة كروم + مكبس هيدروليك",
     "color": "أسود",
     "dimensions": {
@@ -1351,7 +1351,7 @@
       "/uploads/gl-139-waiting.png",
       "/uploads/gl-139-poster.png"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شاسيه معدني زلاجة نيكل كروم صلب + شبك ظهر مرن",
     "color": "أسود",
     "dimensions": {
@@ -1391,7 +1391,7 @@
       "/uploads/gl-140-black-back.png",
       "/uploads/gl-140-black-poster.png"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شاسيه إرجونوميك مقوى + شبك طبي تنفسي + مسند قدم مدمج + قاعدة نيكل كروم",
     "color": "أسود",
     "dimensions": {
@@ -1432,7 +1432,7 @@
       "/uploads/gl-140-grey-back.png",
       "/uploads/gl-140-grey-poster.png"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شاسيه إرجونوميك رمادي + شبك وقماش طبي رمادي أنيق + مسند قدم مدمج + قاعدة كروم",
     "color": "رمادي",
     "dimensions": {
@@ -1472,7 +1472,7 @@
       "/uploads/gl-136-high.png",
       "/uploads/gl-136-poster.png"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي جلد",
     "material": "ظهر شبك مقوى + مسند رأس مستطيل قابل للضبط + قاعدة نجمة نيكل كروم",
     "color": "أسود",
     "dimensions": {
@@ -1510,7 +1510,7 @@
       "/uploads/gl-136-medium.png",
       "/uploads/gl-136-poster.png"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شاسيه متين + شبك طبي + قاعدة نيكل كروم مضلعة",
     "color": "أسود",
     "dimensions": {
@@ -1548,7 +1548,7 @@
       "/uploads/gl-136-waiting.png",
       "/uploads/gl-136-poster.png"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شاسيه زلاجة كروم أنبوبي متين + ظهر شبكي مسامي",
     "color": "أسود",
     "dimensions": {
@@ -1605,40 +1605,6 @@
     "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
-    "id": "prod_1789845837392",
-    "name": "ترابيزة قهوة ومكتبة عصرية متعددة الاستخدامات خشب زان",
-    "code": "AF-prod_1789845837392",
-    "sku": "AF-prod_1789845837392",
-    "slug": "-7394",
-    "description": "قطعة أثاث فاخرة من تصميم وتنفيذ مصنع ومعرض Amazon Furniture بخامات عالية الجودة.",
-    "price": 2500,
-    "originalPrice": 2700,
-    "images": [
-      "/uploads/OIP_1789845809984.webp"
-    ],
-    "category": "مكتبات ووحدات تخزين",
-    "material": "خشب زان أحمر طبيعي",
-    "color": "طبيعي",
-    "dimensions": {
-      "width": 120,
-      "height": 75,
-      "depth": 80
-    },
-    "weight": 20,
-    "stockQuantity": 10,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 5,
-    "reviewCount": 1,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "مكتبات ووحدات تخزين"
-    ],
-    "createdAt": "2026-10-03T11:47:21.063Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
     "id": "prod_1789668044779",
     "name": "كرسي المدير",
     "code": "AF-prod_1789668044779",
@@ -1649,7 +1615,7 @@
     "images": [
       "/uploads/IMG_6983_1789668016322.jpeg"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "خشب زان أحمر طبيعي",
     "color": "طبيعي",
     "dimensions": {
@@ -1683,7 +1649,7 @@
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
       "https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=800"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك طبي تنفسي وشاسيه فولاذي",
     "color": "أسود كلاسيك",
     "dimensions": {
@@ -1720,7 +1686,7 @@
       "https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=800",
       "https://images.unsplash.com/photo-1616627547584-bf28cee262db?w=800"
     ],
-    "category": "كراسي جيمينج",
+    "category": "كراسي جلد",
     "material": "شاسيه حديد صلب وجلد نابا مقاوم للخدش",
     "color": "أسود مع أحمر",
     "dimensions": {
@@ -1831,7 +1797,7 @@
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
       "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800"
     ],
-    "category": "ركن ومجالس",
+    "category": "مكاتب",
     "material": "خشب زان أحمر طبيعي مع جلد مستورد",
     "color": "كحلي داكن / هافان",
     "dimensions": {
@@ -1905,7 +1871,7 @@
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
       "https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=800"
     ],
-    "category": "كراسي مكتب",
+    "category": "مكاتب",
     "material": "خشب زان مع جلد طبيعي فاخر وشاسيه مقوى",
     "color": "بني جملي / أسود ملكي",
     "dimensions": {
@@ -1930,80 +1896,6 @@
     "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
-    "id": "8",
-    "name": "مكتبة ملفات ومستندات مكتبية خشب ميلامين وزان",
-    "code": "AF-8",
-    "sku": "AF-8",
-    "slug": "office-bookcase-storage-cabinet",
-    "description": "مكتبة تخزين أنيقة للمكاتب والشركات، بأرفف خشبية سميكة تتحمل الأوزان الثقيلة مع أبواب سفلية مغلقة بقفل لحفظ الملفات الحساسة.",
-    "price": 4900,
-    "originalPrice": 5600,
-    "images": [
-      "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=800",
-      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800"
-    ],
-    "category": "مكتبات ووحدات تخزين",
-    "material": "خشب ميلامين إسباني مع قوائم زان",
-    "color": "بيج خشبي مع أبيض",
-    "dimensions": {
-      "width": 120,
-      "height": 200,
-      "depth": 40
-    },
-    "weight": 42,
-    "stockQuantity": 9,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.7,
-    "reviewCount": 54,
-    "inStock": true,
-    "featured": false,
-    "tags": [
-      "مكتبات ووحدات تخزين",
-      "ملفات"
-    ],
-    "createdAt": "2026-09-19T18:40:54.109Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
-    "id": "9",
-    "name": "غرفة نوم كاملة خشب ام دي اف اسباني - MAD-009",
-    "code": "AF-9",
-    "sku": "AF-9",
-    "slug": "modern-bedroom-full-set-mad009",
-    "description": "غرفة نوم ماستر كاملة فاخرة تشمل سرير 160 سم + دولاب جرار 3 ضلفة + 2 كومود + تسريحة مودرن مع مرآة LED، مصنعة من خشب إسباني عالي الكثافة ومقاوم للرطوبة والخدش.",
-    "price": 39100,
-    "originalPrice": 53319,
-    "images": [
-      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800",
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
-    ],
-    "category": "غرف النوم",
-    "material": "خشب ام دي اف اسباني مع قشرة ميلامين",
-    "color": "أبيض مع خشب أرو طبيعي",
-    "dimensions": {
-      "width": 240,
-      "height": 220,
-      "depth": 200
-    },
-    "weight": 180,
-    "stockQuantity": 5,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 5,
-    "reviewCount": 94,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "غرفة نوم كاملة",
-      "خشب اسباني",
-      "مودرن",
-      "MAD-009"
-    ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
     "id": "10",
     "name": "كرسي استرخاء ليزي بوي ميكانيزم هزاز ودوار - LZ-301",
     "code": "AF-10",
@@ -2016,7 +1908,7 @@
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
       "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800"
     ],
-    "category": "ليزي بوي",
+    "category": "كراسي طبية",
     "material": "شاسيه حديد مقوى مع خشب زان وتنجيد كتان",
     "color": "بيج كريمي / رمادي فاتح",
     "dimensions": {
@@ -2054,7 +1946,7 @@
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
       "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800"
     ],
-    "category": "ركن ومجالس",
+    "category": "انتريهات",
     "material": "خشب زان أحمر طبيعي مع قماش كتان تركي",
     "color": "أوف وايت ناعم",
     "dimensions": {
@@ -2092,7 +1984,7 @@
       "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?w=800",
       "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"
     ],
-    "category": "ركن ومجالس",
+    "category": "انتريهات",
     "material": "خشب زان أحمر طبيعي مع قماش كتان معالج",
     "color": "بيج فاتح دافئ",
     "dimensions": {
@@ -2117,157 +2009,6 @@
     "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
-    "id": "13",
-    "name": "غرفة نوم كاملة مودرن فاخرة بتصميم عملي وتشطيب راقي - OSM-607",
-    "code": "AF-13",
-    "sku": "AF-13",
-    "slug": "luxury-modern-bedroom-set-osm-607",
-    "description": "غرفة نوم كاملة راقية بتشطيب متميز تتضمن سرير كابتونيه فاخر ودولاب جرار واسع مع تسريحة كومود ومرآة بإضاءة هادئة.",
-    "price": 55260,
-    "originalPrice": 61500,
-    "images": [
-      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800",
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
-    ],
-    "category": "غرف النوم",
-    "material": "خشب ام دي اف اسباني مع قشرة طبيعية",
-    "color": "أوف وايت / بيج دافئ",
-    "dimensions": {
-      "width": 260,
-      "height": 220,
-      "depth": 200
-    },
-    "weight": 190,
-    "stockQuantity": 4,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 5,
-    "reviewCount": 142,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "غرفة نوم كاملة",
-      "OSM-607",
-      "تخفيض",
-      "مودرن"
-    ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
-    "id": "14",
-    "name": "غرفة نوم مودرن خشب كونتر وفايبر تايلاندي - سرير + دولاب + 2 كومود + تسريحة مع برواز - موديل ABG-004-A",
-    "code": "AF-14",
-    "sku": "AF-14",
-    "slug": "modern-bedroom-thai-wood-abg-004-a",
-    "description": "غرفة نوم فندقية متكاملة مصنعة من خشب كونتر مضغوط وفايبر تايلاندي مستورد عالي الكثافة ومقاوم للرطوبة مع تشطيب فائق الجودة.",
-    "price": 73846,
-    "originalPrice": 123076,
-    "images": [
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800",
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
-    ],
-    "category": "غرف النوم",
-    "material": "خشب كونتر وفايبر تايلاندي",
-    "color": "أخضر زمردي مع خشب طبيعي",
-    "dimensions": {
-      "width": 270,
-      "height": 225,
-      "depth": 200
-    },
-    "weight": 210,
-    "stockQuantity": 3,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.9,
-    "reviewCount": 98,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "غرفة نوم كاملة",
-      "ABG-004-A",
-      "مودرن",
-      "تايلاندي"
-    ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
-    "id": "15",
-    "name": "غرفة نوم كاملة مودرن خشب كونتر - سرير + دولاب + 2 كومود + تسريحة - موديل ABG-002-A",
-    "code": "AF-15",
-    "sku": "AF-15",
-    "slug": "modern-bedroom-counter-wood-abg-002-a",
-    "description": "غرفة نوم كاملة خشب كونتر مكسو ميلامين مقاوم للخدش، تصميم عملي ومساحات تخزين رحبة تناسب الشقق العصرية.",
-    "price": 70769,
-    "originalPrice": 116015,
-    "images": [
-      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800",
-      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"
-    ],
-    "category": "غرف النوم",
-    "material": "خشب كونتر ألماني وميلامين",
-    "color": "خشب هافان طبيعي",
-    "dimensions": {
-      "width": 260,
-      "height": 220,
-      "depth": 200
-    },
-    "weight": 200,
-    "stockQuantity": 5,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.9,
-    "reviewCount": 85,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "غرفة نوم كاملة",
-      "ABG-002-A",
-      "مودرن"
-    ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
-    "id": "16",
-    "name": "غرفة نوم ماستر خشب ام دي اف اسباني - MAD-003",
-    "code": "AF-16",
-    "sku": "AF-16",
-    "slug": "master-bedroom-spanish-mdf-mad-003",
-    "description": "غرفة نوم ماستر بيضاء بتصميم مينيمال راقي مع إضاءات مخفية وأدراج هيدروليك سيلنت.",
-    "price": 25666,
-    "originalPrice": 42777,
-    "images": [
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800",
-      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"
-    ],
-    "category": "غرف النوم",
-    "material": "خشب ام دي اف اسباني 18 مم",
-    "color": "أبيض لؤلؤي",
-    "dimensions": {
-      "width": 240,
-      "height": 210,
-      "depth": 190
-    },
-    "weight": 160,
-    "stockQuantity": 6,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.8,
-    "reviewCount": 67,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "غرفة نوم كاملة",
-      "MAD-003",
-      "ابيض",
-      "اسباني"
-    ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
     "id": "17",
     "name": "غرفة نوم كاملة خشب ام دي اف اسباني - MAD-021",
     "code": "AF-17",
@@ -2280,7 +2021,7 @@
       "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
       "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
     ],
-    "category": "غرف النوم",
+    "category": "مكاتب",
     "material": "خشب ام دي اف اسباني مكسو ميلامين",
     "color": "أبيض مع بلوط طبيعي",
     "dimensions": {
@@ -2379,80 +2120,6 @@
     "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
-    "id": "20",
-    "name": "استاند حامل زهور خشب زان متعدد الاستخدام للحدائق - مقاوم للعوامل الجوية | OS-WD-034",
-    "code": "AF-20",
-    "sku": "AF-20",
-    "slug": "wooden-plant-stand-outdoor-os-wd-034",
-    "description": "حامل نباتات وزهور متعدد الطبقات مصنوع من خشب زان طبيعي معالج بدهانات مقاومة لأشعة الشمس والرطوبة والأمطار.",
-    "price": 5159,
-    "originalPrice": 7270,
-    "images": [
-      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=800",
-      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800"
-    ],
-    "category": "أثاث خارجي",
-    "material": "خشب زان طبيعي معالج عازل للمياه",
-    "color": "بني خشبي طبيعي",
-    "dimensions": {
-      "width": 90,
-      "height": 130,
-      "depth": 35
-    },
-    "weight": 14,
-    "stockQuantity": 15,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.8,
-    "reviewCount": 94,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "أثاث خارجي",
-      "OS-WD-034",
-      "استاند زهور"
-    ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
-    "id": "21",
-    "name": "سرير بدورين معدني أبيض",
-    "code": "AF-21",
-    "sku": "AF-21",
-    "slug": "white-metal-bunk-bed",
-    "description": "سرير بدورين معدني متين مطلي ببوية فرن إلكتروستاتيك مقاومة للصدأ والخدش مع سلم صلب ودرابزين أمان.",
-    "price": 10222,
-    "originalPrice": 13381,
-    "images": [
-      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800",
-      "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800"
-    ],
-    "category": "غرف النوم",
-    "material": "حديد صلب معالج ودهان إلكتروستاتيك",
-    "color": "أبيض ناصع",
-    "dimensions": {
-      "width": 100,
-      "height": 175,
-      "depth": 200
-    },
-    "weight": 52,
-    "stockQuantity": 9,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.7,
-    "reviewCount": 63,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "سرير مودرن",
-      "سرير بدورين",
-      "معدني"
-    ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
     "id": "22",
     "name": "كرسي مكتب مستورد - OMD-309",
     "code": "AF-22",
@@ -2465,7 +2132,7 @@
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
       "https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=800"
     ],
-    "category": "كراسي مكتب",
+    "category": "كراسي طبية",
     "material": "شبك تنفسي وقاعدة كروم هيدروليك",
     "color": "أسود",
     "dimensions": {
@@ -2490,264 +2157,434 @@
     "updatedAt": "2026-10-17T19:21:12.027Z"
   },
   {
-    "id": "23",
-    "name": "وحدة دريسنج روم عصرية خشب كونتر - DR-101",
-    "code": "AF-23",
-    "sku": "AF-23",
-    "slug": "modern-dressing-room-unit-dr101",
-    "description": "وحدة دريسنج روم مفتوحة ومغلقة مع أدراج إكسسوارات زجاجية وإضاءة ليد ذكية مدمجة.",
-    "price": 28400,
-    "originalPrice": 36000,
+    "id": "prod_cc_1",
+    "name": "كوفي كورنر مودرن شيلف مزدوج مع ركن قهوة متكامل",
+    "code": "CC-01",
+    "sku": "CC-01",
+    "slug": "modern-coffee-corner-double-shelf-cc01",
+    "description": "كوفي كورنر مودرن أنيق مصنع من خشب الزان الأحمر والميلامين المعالج ضد الرطوبة مع رفين جداريين للمجات وأدوات القهوة، ووحدة تخزين سفلية بضلف وأدراج سلسة الفتح.",
+    "price": 10118,
+    "originalPrice": 12670,
     "images": [
-      "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800",
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
+      "/coffee-corners/photo-1.png"
     ],
-    "category": "دريسنج روم",
-    "material": "خشب كونتر وزجاج سيكوريت وإضاءة LED",
-    "color": "رمادي غامق مع خشب أرو",
+    "category": "كوفي كورنر",
+    "material": "خشب زان أحمر + ميلامين مستورد",
+    "color": "أبيض / خشبي",
     "dimensions": {
-      "width": 240,
-      "height": 240,
-      "depth": 60
+      "width": 120,
+      "height": 90,
+      "depth": 45
     },
-    "weight": 150,
-    "stockQuantity": 4,
+    "weight": 38,
+    "stockQuantity": 8,
     "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.9,
-    "reviewCount": 42,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "دريسنج",
-      "غرف ملابس",
-      "مودرن"
-    ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
-    "id": "24",
-    "name": "مطبخ مودرن بوليملاك إسباني مقاوم للماء والحرارة",
-    "code": "AF-24",
-    "sku": "AF-24",
-    "slug": "modern-polylac-kitchen-spanish",
-    "description": "مطبخ مودرن كامل خامات بوليملاك إسبانية مقاومة للخدش والحرارة بنسبة 100% مع مفصلات بلوم نمساوي هيدروليك سوفت كلوز.",
-    "price": 45000,
-    "originalPrice": 58000,
-    "images": [
-      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800",
-      "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=800"
-    ],
-    "category": "المطابخ",
-    "material": "بوليملاك إسباني مع مفصلات سوفت كلوز",
-    "color": "أبيض هاي جلوس مع رخام رمادي",
-    "dimensions": {
-      "width": 300,
-      "height": 220,
-      "depth": 65
-    },
-    "weight": 220,
-    "stockQuantity": 3,
-    "returnCount": 0,
-    "totalSold": 0,
+    "totalSold": 5,
     "rating": 5,
-    "reviewCount": 51,
+    "reviewCount": 6,
     "inStock": true,
     "featured": true,
     "tags": [
-      "مطبخ كامل",
-      "بوليملاك",
-      "مودرن"
-    ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
-    "id": "25",
-    "name": "بين باج ووتربروف حجم جامبو مريح",
-    "code": "AF-25",
-    "sku": "AF-25",
-    "slug": "jumbo-waterproof-bean-bag",
-    "description": "بين باج جامبو محشو بحبيبات فوم عالية الكثافة مع قماش ووتربروف تركي سهل الغسيل ومناسب للحدائق والمنازل.",
-    "price": 1150,
-    "images": [
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
-      "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800"
-    ],
-    "category": "بين باج",
-    "material": "قماش ووتربروف مع حشوة فوم ميموري",
-    "color": "كحلي / رمادي / أصفر مسطردة",
-    "dimensions": {
-      "width": 85,
-      "height": 85,
-      "depth": 85
-    },
-    "weight": 5,
-    "stockQuantity": 30,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.8,
-    "reviewCount": 92,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "بين باج",
-      "استرخاء",
-      "ووتربروف"
-    ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
-  },
-  {
-    "id": "26",
-    "name": "أباجورة وإضاءة ليد أرضية مودرن معدنية دافئة",
-    "code": "AF-26",
-    "sku": "AF-26",
-    "slug": "modern-floor-lamp-warm-led",
-    "description": "إضاءة أرضية مودرن بتصميم عصري من المعدن المطلي بالأسود والذهبي مع لمبة ليد دافئة موفرة للطاقة.",
-    "price": 1850,
-    "originalPrice": 2400,
-    "images": [
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800",
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800"
-    ],
-    "category": "اضاءة",
-    "material": "معدن مطلي مع زجاج أوبالين وليد",
-    "color": "أسود مات مع نحاسي",
-    "dimensions": {
-      "width": 35,
-      "height": 165,
-      "depth": 35
-    },
-    "weight": 7,
-    "stockQuantity": 16,
-    "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.9,
-    "reviewCount": 44,
-    "inStock": true,
-    "featured": true,
-    "tags": [
-      "اضاءة",
-      "مودرن",
+      "كوفي كورنر",
+      "قهوة",
+      "أثاث منزلي",
       "ديكور"
     ],
-    "createdAt": "2026-09-19T18:40:54.110Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
+    "specs": {
+      "الخامة": "خشب زان أحمر روماني",
+      "الضمان": "5 سنوات",
+      "التشطيب": "قشرة مقاومة للحرارة والماء"
+    }
   },
   {
-    "id": "prod_kitchen_island_01",
-    "name": "مطبخ أكريليك مودرن مع جزيرة وسطية ورخام كوارتز",
-    "code": "KIT-780",
-    "sku": "KIT-780",
-    "slug": "acrylic-modern-kitchen-island-780",
-    "description": "مطبخ أكريليك عالي الجودة بتصميم فندقي راقي مزود بجزيرة وسطية (Kitchen Island) متكاملة ومفصلات هيدروليك بلوم نمساوية وسحابات سوفت كلوز مقاومة للمياه والحرارة مع إضاءة ليد مدمجة.",
-    "price": 78000,
-    "originalPrice": 89000,
+    "id": "prod_cc_2",
+    "name": "كوفي كورنر نيش خشبي فاخر مع إضاءة ليد داخلية مدمجة",
+    "code": "CC-02",
+    "sku": "CC-02",
+    "slug": "luxury-coffee-corner-niche-led-cc02",
+    "description": "ركن قهوة فاخر متكامل مع إضاءة سبوت ليد مدمجة، ورفوف متعددة لتنظيم الأكواب ومكائن الإسبريسو، مع وحدة تخزين سفلية واسعة.",
+    "price": 18053,
+    "originalPrice": 22620,
     "images": [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800",
-      "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=800"
+      "/coffee-corners/photo-2.png"
     ],
-    "category": "المطابخ",
-    "material": "MDF تركي مع طبقات أكريليك مقاومة للرطوبة والبقع",
-    "color": "رمادي حجري مع خشب جوزي",
+    "category": "كوفي كورنر",
+    "material": "خشب قرو وزان أحمر",
+    "color": "خشبي طبيعي",
     "dimensions": {
-      "width": 350,
-      "height": 230,
-      "depth": 65
+      "width": 140,
+      "height": 210,
+      "depth": 50
     },
-    "weight": 280,
-    "stockQuantity": 3,
+    "weight": 62,
+    "stockQuantity": 5,
     "returnCount": 0,
-    "totalSold": 0,
+    "totalSold": 3,
     "rating": 5,
-    "reviewCount": 38,
+    "reviewCount": 4,
     "inStock": true,
     "featured": true,
     "tags": [
-      "المطابخ",
-      "أكريليك",
-      "جزيرة مطبخ",
-      "فاخر"
+      "كوفي كورنر",
+      "نيش",
+      "إضاءة ليد",
+      "خشب طبيعي"
     ],
-    "createdAt": "2026-10-03T11:47:21.064Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
+    "specs": {
+      "الخامة": "خشب أرو وزان",
+      "الضمان": "10 سنوات معتمد",
+      "الإضاءة": "LED دافئة مدمجة"
+    }
   },
   {
-    "id": "prod_garden_swing_02",
-    "name": "أرجوحة حديقة خارجية خشب زان أحمر مع مظلة قماش وتربروف",
-    "code": "GRD-160",
-    "sku": "GRD-160",
-    "slug": "wooden-garden-swing-waterproof-canopy-160",
-    "description": "أرجوحة حدائق وشاليهات واسعة تتسع لـ 3 أفراد مصنوعة من خشب زان روماني معالج عازل للشمس والأمطار، مزودة بشلتات تنجيد قطنية مكسوة بقماش مقاوم للماء وسلاسل تعليق حديد مجلفن.",
-    "price": 16000,
-    "originalPrice": 19500,
+    "id": "prod_cc_3",
+    "name": "كوفي كورنر خشب زان وأرو لايت بتصميم اسكندنافي بسيط",
+    "code": "CC-03",
+    "sku": "CC-03",
+    "slug": "minimalist-scandinavian-coffee-corner-cc03",
+    "description": "تصميم اسكندنافي راقي ومينيمال لركن القهوة، يتميز بخطوط نظيفة وخشب طبيعي هادئ مع رفين علويين ودولاب سفلي للتخزين.",
+    "price": 8623,
+    "originalPrice": 10798,
     "images": [
-      "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800",
-      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800"
+      "/coffee-corners/photo-3.png"
     ],
-    "category": "أثاث خارجي",
-    "material": "خشب زان أحمر طبيعي مع حديد مجلفن ضد الصدأ",
-    "color": "بني قرفي مع قماش بيج",
+    "category": "كوفي كورنر",
+    "material": "خشب سويدي وأرو لايت",
+    "color": "بيج خشبي",
     "dimensions": {
-      "width": 190,
-      "height": 185,
-      "depth": 120
+      "width": 90,
+      "height": 85,
+      "depth": 40
     },
-    "weight": 65,
-    "stockQuantity": 6,
+    "weight": 28,
+    "stockQuantity": 12,
     "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.9,
-    "reviewCount": 42,
+    "totalSold": 7,
+    "rating": 5,
+    "reviewCount": 8,
     "inStock": true,
     "featured": true,
     "tags": [
-      "أثاث خارجي",
-      "حديقة",
-      "أرجوحة",
-      "وتربروف"
+      "كوفي كورنر",
+      "مينيمال",
+      "اسكندنافي"
     ],
-    "createdAt": "2026-10-03T11:47:21.064Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
+    "specs": {
+      "الخامة": "خشب سويدي طبيعي",
+      "الضمان": "5 سنوات",
+      "الملحقات": "مسامير تثبيت جدارية مخفية"
+    }
   },
   {
-    "id": "prod_dressing_room_03",
-    "name": "دريسنج روم مودرن بنظام إضاءة LED مدمجة وأرفف مقسمة",
-    "code": "DRS-350",
-    "sku": "DRS-350",
-    "slug": "modern-dressing-room-led-shelves-350",
-    "description": "وحدة دريسنج روم متكاملة تشمل شماعات ملابس هيدروليك، أدراج تنظيم إكسسوارات وساعات مبطنة بالمخمل، وأرفف أحذية وحقائب مع حساسات إضاءة LED ذكية تعمل بالحركة.",
-    "price": 35000,
-    "originalPrice": 42000,
+    "id": "prod_cc_4",
+    "name": "كوفي كورنر فاخر 4 أدراج مع رفوف علوية خشب سويدي",
+    "code": "CC-04",
+    "sku": "CC-04",
+    "slug": "deluxe-coffee-bar-4-drawers-cc04",
+    "description": "كوفي بار أنيق وعصري بأربعة أدراج أمامية واسعة مع سطح خشب صلب مقاوم للماء والحرارة مع رفين معلقين بإطارات متينة.",
+    "price": 9658,
+    "originalPrice": 12094,
     "images": [
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800",
-      "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800"
+      "/coffee-corners/photo-4.png"
     ],
-    "category": "دريسنج روم",
-    "material": "خشب كونتر جودوود مع قشرة ميلامين ألمانية مقاومة للخدش",
-    "color": "رمادي سموكي أنيق",
+    "category": "كوفي كورنر",
+    "material": "خشب زان + سطح معالج",
+    "color": "أبيض وبني",
     "dimensions": {
-      "width": 280,
-      "height": 240,
-      "depth": 60
+      "width": 110,
+      "height": 90,
+      "depth": 45
     },
-    "weight": 190,
+    "weight": 35,
+    "stockQuantity": 10,
+    "returnCount": 0,
+    "totalSold": 6,
+    "rating": 5,
+    "reviewCount": 5,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كوفي كورنر",
+      "كوفي بار",
+      "أدراج"
+    ],
+    "specs": {
+      "الخامة": "خشب زان أحمر وميلامين",
+      "الضمان": "5 سنوات",
+      "السحاب": "مجاري أدراج سوفت كلوز"
+    }
+  },
+  {
+    "id": "prod_lazy_boy_1",
+    "name": "كرسي ليزي بوي ريكلاينر استرخاء هزاز ودوار فاخر",
+    "code": "LZ-01",
+    "sku": "LZ-01",
+    "slug": "lazy-boy-rocker-recliner-armchair",
+    "description": "كرسي استرخاء ليزي بوي ميكانيزم أمريكي هزاز ودوار 360 درجة مع فرد كامل لمسند القدمين والظهر لتوفير أقصى درجات الراحة والاسترخاء.",
+    "price": 9850,
+    "originalPrice": 11500,
+    "images": [
+      "/categories/lazy-boy.png"
+    ],
+    "category": "ليزي بوي",
+    "material": "قماش قطيفة فاخر معالج + شاسيه حديد صلب",
+    "color": "رمادي",
+    "dimensions": {
+      "width": 95,
+      "height": 105,
+      "depth": 95
+    },
+    "weight": 42,
+    "stockQuantity": 7,
+    "returnCount": 0,
+    "totalSold": 11,
+    "rating": 5,
+    "reviewCount": 9,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ليزي بوي",
+      "ريكلاينر",
+      "كرسي استرخاء"
+    ],
+    "specs": {
+      "الميكانيزم": "أمريكي ثقيل هزاز ودوار",
+      "الإسفنج": "سوفت كثافة 36 سوبر لوكس",
+      "الضمان": "5 سنوات"
+    }
+  },
+  {
+    "id": "prod_corner_sofa_1",
+    "name": "ركنة مودرن حرف U فندقية قماش بوكليه مريح",
+    "code": "RK-01",
+    "sku": "RK-01",
+    "slug": "modern-u-shaped-corner-sofa-boucle",
+    "description": "ركنة مودرن فسيحة بتصميم حرف U مريحة للغاية ومبطنة بإسفنج عالي الكثافة مع قماش بوكليه فاخر معالج ضد الاتساخ وسهل التنظيف.",
+    "price": 24500,
+    "originalPrice": 28000,
+    "images": [
+      "/categories/corner-sofa.png"
+    ],
+    "category": "ركن",
+    "material": "خشب زان أحمر روماني + قماش بوكليه",
+    "color": "بيج فاتح",
+    "dimensions": {
+      "width": 340,
+      "height": 85,
+      "depth": 220
+    },
+    "weight": 95,
     "stockQuantity": 4,
     "returnCount": 0,
-    "totalSold": 0,
-    "rating": 4.9,
-    "reviewCount": 29,
+    "totalSold": 8,
+    "rating": 5,
+    "reviewCount": 12,
     "inStock": true,
     "featured": true,
     "tags": [
-      "دريسنج روم",
-      "غرف النوم",
-      "خزائن",
-      "إضاءة LED"
+      "ركن",
+      "انتريهات",
+      "كنب حرف U"
     ],
-    "createdAt": "2026-10-03T11:47:21.064Z",
-    "updatedAt": "2026-10-17T19:21:12.027Z"
+    "specs": {
+      "الخشب": "زان أحمر مجفف 100%",
+      "التنجيد": "إسفنج كثافة 36 مع سوفت فايبر",
+      "الضمان": "10 سنوات"
+    }
+  },
+  {
+    "id": "prod_bed_1",
+    "name": "سرير كابوتنيه مودرن خشب زان أحمر تنجيد سوفت",
+    "code": "BD-01",
+    "sku": "BD-01",
+    "slug": "modern-tufted-king-bed-red-beech",
+    "description": "سرير مودرن مبطن بالكامل بظهر كابوتنيه هندسي فاخر مع قاعدة خشب زان متينة تدعم جميع أنواع المراتب مع ثبات فائق وأناقة تدوم.",
+    "price": 13800,
+    "originalPrice": 16000,
+    "images": [
+      "/categories/beds.png"
+    ],
+    "category": "سراير",
+    "material": "خشب زان أحمر + قماش كتان معالج",
+    "color": "بيج رملي",
+    "dimensions": {
+      "width": 180,
+      "height": 120,
+      "depth": 200
+    },
+    "weight": 68,
+    "stockQuantity": 6,
+    "returnCount": 0,
+    "totalSold": 14,
+    "rating": 5,
+    "reviewCount": 10,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "سراير",
+      "غرف نوم",
+      "كابوتنيه"
+    ],
+    "specs": {
+      "الشاسيه الداخلي": "خشب زان أحمر صلب",
+      "الملل": "خشب موسكي سويدي متين",
+      "الضمان": "10 سنوات"
+    }
+  },
+  {
+    "id": "prod_wardrobe_1",
+    "name": "دولاب ملابس مودرن 3 ضلف مع أدراج خشب ميلامين تركي",
+    "code": "WD-01",
+    "sku": "WD-01",
+    "slug": "modern-3-door-wardrobe-drawers",
+    "description": "دولاب ملابس عصري بتصميم متناسق يجمع بين الأبيض والخشبي مع 3 ضلف تخزين وشماعات وأدراج سفلية للملابس والإكسسوارات.",
+    "price": 12900,
+    "originalPrice": 14800,
+    "images": [
+      "/categories/wardrobe.png"
+    ],
+    "category": "دولاب",
+    "material": "خشب ميلامين تركي مستورد + زان",
+    "color": "أبيض وخشبي",
+    "dimensions": {
+      "width": 160,
+      "height": 210,
+      "depth": 60
+    },
+    "weight": 85,
+    "stockQuantity": 5,
+    "returnCount": 0,
+    "totalSold": 9,
+    "rating": 5,
+    "reviewCount": 7,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "دولاب",
+      "تخزين ملابس",
+      "أثاث مودرن"
+    ],
+    "specs": {
+      "المفصلات": "سوفت كلوز هيدروليك",
+      "المقابض": "ألومنيوم أسود مط",
+      "الضمان": "5 سنوات"
+    }
+  },
+  {
+    "id": "prod_shoe_rack_1",
+    "name": "جزامة خشبية مودرن درفتين قلاب ووحدة تخزين إضافية",
+    "code": "SH-01",
+    "sku": "SH-01",
+    "slug": "modern-wooden-shoe-cabinet-double-door",
+    "description": "جزامة أنيقة وعملية لتنظيم الأحذية بتصميم موفر للمساحة، تتسع لأكثر من 20 زوج أحذية مع درج علوي للمفاتيح والمتعلقات.",
+    "price": 3950,
+    "originalPrice": 4600,
+    "images": [
+      "/categories/shoe-rack.png"
+    ],
+    "category": "جزامات",
+    "material": "خشب إم دي إف ميلامين مستورد",
+    "color": "خشبي طبيعي",
+    "dimensions": {
+      "width": 90,
+      "height": 100,
+      "depth": 35
+    },
+    "weight": 26,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 22,
+    "rating": 5,
+    "reviewCount": 14,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "جزامات",
+      "تنظيم أحذية",
+      "مدخل المنزل"
+    ],
+    "specs": {
+      "السعة": "20 إلى 24 زوج",
+      "التهوية": "فتحات تهوية خلفية",
+      "الضمان": "3 سنوات"
+    }
+  },
+  {
+    "id": "prod_vanity_1",
+    "name": "تسريحة مودرن مع مرآة كريستال وأدراج تنظيم مستحضرات",
+    "code": "VN-01",
+    "sku": "VN-01",
+    "slug": "modern-vanity-dressing-table-mirror",
+    "description": "تسريحة فاخرة بتصميم ناعم ومريح مع مرآة كريستال نقية و6 أدراج واسعة لتخزين أدوات التجميل والإكسسوارات.",
+    "price": 7800,
+    "originalPrice": 9200,
+    "images": [
+      "/categories/vanity.png"
+    ],
+    "category": "تسريحه",
+    "material": "خشب إم دي إف تركي + أرجل زان",
+    "color": "أبيض سماوي ناعم",
+    "dimensions": {
+      "width": 120,
+      "height": 140,
+      "depth": 45
+    },
+    "weight": 40,
+    "stockQuantity": 8,
+    "returnCount": 0,
+    "totalSold": 12,
+    "rating": 5,
+    "reviewCount": 8,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "تسريحه",
+      "ميك اب",
+      "أثاث منزلي"
+    ],
+    "specs": {
+      "المرآة": "كريستال بلجيكي 5 ملم",
+      "الأدراج": "سحابات صامتة",
+      "الضمان": "5 سنوات"
+    }
+  },
+  {
+    "id": "prod_coffee_table_1",
+    "name": "ترابيزة قهوة مودرن خشب زان وشاسيه حديد أسود مفرغ",
+    "code": "CT-01",
+    "sku": "CT-01",
+    "slug": "modern-coffee-table-red-beech-black-frame",
+    "description": "ترابيزة قهوة مركزية بتصميم هندسي فخم يدمج دفء خشب الزان الطبيعي مع صلابة الشاسيه المعدني الإلكتروستاتيك.",
+    "price": 3600,
+    "originalPrice": 4200,
+    "images": [
+      "/categories/coffee-table.png"
+    ],
+    "category": "ترابيزات",
+    "material": "خشب زان + شاسيه حديد معالج",
+    "color": "خشبي وأسود",
+    "dimensions": {
+      "width": 90,
+      "height": 45,
+      "depth": 90
+    },
+    "weight": 22,
+    "stockQuantity": 14,
+    "returnCount": 0,
+    "totalSold": 18,
+    "rating": 5,
+    "reviewCount": 11,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "ترابيزات",
+      "ترابيزة قهوة",
+      "صالون"
+    ],
+    "specs": {
+      "الخشب": "زان أحمر طبيعي سمك 4 سم",
+      "الدهان": "دوكو بوليريثان مقاوم للبقع",
+      "الضمان": "5 سنوات"
+    }
   }
 ]

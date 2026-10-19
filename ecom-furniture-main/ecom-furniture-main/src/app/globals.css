@@ -50,32 +50,73 @@
 }
 
 @theme inline {
-  --color-primary: #2C1810;
-  --color-primary-light: #5C4033;
-  --color-primary-dark: #1A0E08;
-  --color-accent: #C4A77D;
-  --color-accent-light: #D4BFA0;
-  --color-accent-dark: #A08B68;
-  --color-surface: #FAF7F2;
-  --color-surface-dark: #F0EBE3;
-  --color-muted: #6B7280;
-  --color-success: #059669;
-  --color-danger: #DC2626;
+  --color-primary: #6B4F3A;
+  --color-primary-light: #83644D;
+  --color-primary-dark: #573E2D;
+  --color-accent: #C58B45;
+  --color-accent-light: #D9A466;
+  --color-accent-dark: #A57132;
+  --color-surface: #F8F5F0;
+  --color-surface-dark: #E8D8C3;
+  --color-muted: #74685E;
+  --color-success: #16A34A;
+  --color-danger: #B93832;
   --color-warning: #D97706;
   --font-sans: var(--font-cairo), 'Cairo', system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
 :root {
-  --background: #FAF7F2;
-  --foreground: #2C1810;
-  --color-surface: #FAF7F2;
-  --color-surface-dark: #F0EBE3;
-  --color-primary: #2C1810;
-  --color-muted: #6B7280;
-  --color-accent: #C6A46A;
-  --color-accent-light: #DFC79C;
-  --color-accent-dark: #9E7D48;
+  /* ── 1. Storefront Design System Tokens ── */
+  --background: #F8F5F0;
+  --foreground: #292321;
+  --color-surface: #F8F5F0;
+  --color-surface-dark: #E8D8C3;
+  --color-primary: #6B4F3A;
+  --color-muted: #74685E;
+  --color-accent: #C58B45;
+  --color-accent-light: #D9A466;
+  --color-accent-dark: #A57132;
+  --color-border: #E8E0D5;
+  --color-danger: #B93832;
+
+  --sf-bg: #F8F5F0;
+  --sf-card: #FFFFFF;
+  --sf-beige-light: #E8D8C3;
+  --sf-brown-primary: #6B4F3A;
+  --sf-gold: #C58B45;
+  --sf-text: #292321;
+  --sf-text-secondary: #74685E;
+  --sf-border: #E8E0D5;
+  --sf-discount-red: #B93832;
+}
+
+/* ── 2. Admin Dashboard Isolated Design System Tokens ── */
+.admin-dashboard,
+[data-admin="true"] {
+  --admin-bg: #F1F5F9;
+  --admin-card: #FFFFFF;
+  --admin-primary: #334155;
+  --admin-btn: #2563EB;
+  --admin-btn-hover: #1D4ED8;
+  --admin-text: #0F172A;
+  --admin-text-secondary: #64748B;
+  --admin-border: #E2E8F0;
+  --admin-success: #16A34A;
+  --admin-warning: #D97706;
+  --admin-danger: #DC2626;
+
+  /* Scoped semantic tokens when inside admin */
+  --color-primary: #334155 !important;
+  --color-accent: #2563EB !important;
+  --color-surface: #F1F5F9 !important;
+  --color-surface-dark: #E2E8F0 !important;
+  --color-muted: #64748B !important;
+  --color-border: #E2E8F0 !important;
+  --background: #F1F5F9 !important;
+  --foreground: #0F172A !important;
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
 }
 
 .dark,

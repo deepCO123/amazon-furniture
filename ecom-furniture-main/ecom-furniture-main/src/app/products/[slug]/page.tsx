@@ -3,35 +3,28 @@
 import { use, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   Star,
   ShoppingBag,
   Heart,
-  Truck,
-  Shield,
-  Minus,
-  Plus,
   ChevronLeft,
   ChevronRight,
-  MessageCircle,
-  Wrench,
+  HelpCircle,
+  CheckCircle2,
+  RotateCcw,
+  Ruler,
 } from "lucide-react";
 import { useLanguageStore } from "@/store/languageStore";
 import { useHydrated } from "@/hooks/useHydrated";
 import { useProductStore } from "@/store/productStore";
 import { getReviewsByProduct } from "@/data/reviews";
-import { formatPrice, getDiscount, getProductUrl } from "@/lib/utils";
+import { formatPrice, getProductUrl } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useToastStore } from "@/components/ui/Toast";
-import Breadcrumb from "@/components/layout/Breadcrumb";
-import Badge from "@/components/ui/Badge";
-import Button from "@/components/ui/Button";
-import AnimatedSection from "@/components/ui/AnimatedSection";
 import ImageZoom from "@/components/ui/ImageZoom";
 import ProductCard from "@/components/products/ProductCard";
-import { animate } from "animejs";
+import { useRouter } from "next/navigation";
 
 export default function ProductDetailPage({
   params,
@@ -39,6 +32,7 @@ export default function ProductDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = use(params);
+  const router = useRouter();
   const storeProduct = useProductStore((s) => s.getProductBySlug(slug));
   const product = storeProduct;
   const allProducts = useProductStore((s) => s.products);
@@ -60,34 +54,39 @@ export default function ProductDetailPage({
     (product?.curtainTypes && product.curtainTypes.length > 0)
   );
 
-  const availableCurtainTypes = product?.curtainTypes && product.curtainTypes.length > 0
-    ? product.curtainTypes
-    : [
-        "ستائر رول بلاك أوت (Roll-up Blackout)",
-        "ستائر زيبرا ثنائية الطبقات (Zebra Blinds)",
-        "ستائر شرائح معدنية ألومنيوم (Venetian)",
-        "ستائر شرائح رأسية فورتيكال (Vertical)",
-        "ستائر مكتبية ذكية كهربائية (Smart Motorized)",
-      ];
+  const availableCurtainTypes =
+    product?.curtainTypes && product.curtainTypes.length > 0
+      ? product.curtainTypes
+      : [
+          "ستائر رول بلاك أوت (Roll-up Blackout)",
+          "ستائر زيبرا ثنائية الطبقات (Zebra Blinds)",
+          "ستائر شرائح معدنية ألومنيوم (Venetian)",
+          "ستائر شرائح رأسية فورتيكال (Vertical)",
+          "ستائر مكتبية ذكية كهربائية (Smart Motorized)",
+        ];
 
   const [selectedCurtainType, setSelectedCurtainType] = useState(availableCurtainTypes[0]);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState<"description" | "specs" | "reviews">("description");
-  const [reviewLocaleFilter, setReviewLocaleFilter] = useState<"all" | "ar" | "sa" | "en">("all");
+  const [showTechnicalSketch, setShowTechnicalSketch] = useState(false);
   const [added, setAdded] = useState(false);
   const addToast = useToastStore((s) => s.addToast);
   const hydrated = useHydrated();
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-primary mb-4">
-            Product Not Found
+      <div className="min-h-screen flex items-center justify-center bg-[#F8F5F0]">
+        <div className="text-center p-8 bg-white rounded-2xl shadow-xl max-w-md">
+          <h1 className="text-2xl font-black text-[#6B4F3A] mb-3">
+            {isEn ? "Product Not Found" : "عفواً، المنتج غير موجود"}
           </h1>
-          <Link href="/products" className="text-accent hover:text-accent-dark">
-            Back to Shop
+          <p className="text-sm text-gray-500 mb-6">
+            {isEn ? "This item may have been removed or updated." : "ربما تم تعديل كود المنتج أو نقله."}
+          </p>
+          <Link
+            href="/products"
+            className="inline-block bg-[#6B4F3A] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-[#573E2D] transition-colors"
+          >
+            {isEn ? "Back to Shop" : "العودة إلى المعرض"}
           </Link>
         </div>
       </div>
@@ -97,584 +96,471 @@ export default function ProductDetailPage({
   const wishlisted = hydrated ? isInWishlist(product.id) : false;
 
   const handleAddToCart = () => {
-    addItem(product, quantity, product.color, isCurtain ? selectedCurtainType : undefined);
+    addItem(product, 1, product.color, isCurtain ? selectedCurtainType : undefined);
     setAdded(true);
     addToast(
       isCurtain
         ? `تمت إضافة الستارة (${selectedCurtainType}) إلى السلة`
-        : `${product.name} أضيف إلى السلة`,
+        : `تمت إضافة ${product.name} إلى السلة بنجاح ✓`,
       "cart"
     );
-
-    // Anime.js cart animation
-    animate(".cart-pulse", {
-      scale: [1, 1.2, 1],
-      duration: 400,
-      ease: "outQuad",
-    });
-
     setTimeout(() => setAdded(false), 2000);
   };
 
-  return (
-    <div className="min-h-screen bg-surface">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Breadcrumb
-          items={[
-            { label: isEn ? "Home" : "الرئيسية", href: "/" },
-            { label: isEn ? "Shop" : "المتجر", href: "/products" },
-            { label: product.category },
-            { label: product.name },
-          ]}
-        />
+  const handleDirectBuy = () => {
+    addItem(product, 1, product.color, isCurtain ? selectedCurtainType : undefined);
+    addToast(`تم تحويلك إلى السلة لإتمام الطلب فوراً`, "cart");
+    router.push("/cart");
+  };
 
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Images */}
-          <AnimatedSection>
-            <div className="relative aspect-square rounded-2xl overflow-hidden bg-white mb-4">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={selectedImage}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative w-full h-full"
+  const handleAskQuestion = () => {
+    const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
+    const rawImg = product.images?.[0] || "";
+    const fullImgUrl = rawImg ? (rawImg.startsWith("http") ? rawImg : `${origin}${rawImg.startsWith("/") ? "" : "/"}${rawImg}`) : "";
+    const text = `مرحباً، لدي استفسار بخصوص هذا المنتج من متجر Amazon Furniture:
+*المنتج:* ${product.name}
+*كود المنتج:* ${product.code || "SZ-101"}
+*السعر:* ${formatPrice(product.price)}
+${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط المنتج:* ${getProductUrl(product.slug)}`;
+    window.open(`https://wa.me/201091084863?text=${encodeURIComponent(text)}`, "_blank");
+  };
+
+  const savingsAmount = product.originalPrice && product.originalPrice > product.price
+    ? product.originalPrice - product.price
+    : 0;
+
+  const dimensionsText = product.dimensions
+    ? `${product.dimensions.width}×${product.dimensions.depth} سم`
+    : "80×40 سم";
+
+  const heightText = product.dimensions?.height
+    ? `${product.dimensions.height} سم`
+    : product.category.includes("كرسي")
+    ? "قابل للتعديل هيدروليك (105-125 سم)"
+    : "75 سم";
+
+  return (
+    <div className="min-h-screen bg-[#F8F5F0] pb-24">
+      {/* ── 1. Top Breadcrumb Navigation (SofaZone Reference) ─────────── */}
+      <div className="bg-white border-b border-gray-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 font-medium">
+            <Link href="/" className="hover:text-[#C58B45] transition-colors">
+              الرئيسية
+            </Link>
+            <span>/</span>
+            <Link
+              href={`/products?category=${encodeURIComponent(product.category)}`}
+              className="hover:text-[#C58B45] transition-colors"
+            >
+              {product.category}
+            </Link>
+            <span>/</span>
+            <span className="text-gray-900 font-bold line-clamp-1">{product.name}</span>
+          </nav>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          
+          {/* ── 2. Left Column (in RTL): Product Information & Specs ───── */}
+          <div className="lg:col-span-5 order-2 lg:order-1 space-y-4">
+            
+            {/* Red Pill Discount Badge (Image 1 Style) */}
+            {savingsAmount > 0 && (
+              <div className="inline-block">
+                <span className="bg-[#B93832] text-white text-xs sm:text-sm font-black px-3.5 py-1 rounded-full shadow-xs">
+                  وفر {savingsAmount.toLocaleString("ar-EG")} جنيه
+                </span>
+              </div>
+            )}
+
+            {/* Product Title */}
+            <h1 className="text-2xl sm:text-3xl lg:text-3xl font-black text-[#6B4F3A] leading-tight tracking-tight">
+              {product.name}
+            </h1>
+
+            {/* Rating Stars & Product Code */}
+            <div className="flex items-center justify-between gap-4 text-xs text-gray-500 pt-1">
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-gray-700">({reviews.length})</span>
+                <div className="flex items-center text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      size={14}
+                      className={i < Math.floor(product.rating || 5) ? "fill-amber-400 text-amber-400" : "text-gray-300"}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Product Code Watermark */}
+              <div className="font-mono text-xs font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
+                رمز المنتج: {product.code || `SZ-${product.id.slice(-4).toUpperCase()}`}
+              </div>
+            </div>
+
+            {/* Price Row (SofaZone Red Price) */}
+            <div className="flex items-baseline gap-3 pt-1 pb-2">
+              <span className="text-2xl sm:text-3xl font-black text-[#B93832]" suppressHydrationWarning>
+                {formatPrice(product.price)}
+              </span>
+              {product.originalPrice && product.originalPrice > product.price && (
+                <span className="text-sm sm:text-base text-gray-400 line-through font-bold" suppressHydrationWarning>
+                  {formatPrice(product.originalPrice)}
+                </span>
+              )}
+            </div>
+
+            {/* Guarantees Strip (Image 1 Style) */}
+            <div className="space-y-1.5 py-2 border-y border-gray-200/90 text-xs font-bold text-gray-800">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                <span>ضمان معتمد لمدة 10 سنوات على الهيكل والخامات</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <RotateCcw size={16} className="text-[#C58B45] shrink-0" />
+                <span>التبديل والإرجاع مجاناً خلال 14 يوماً وفق شروط الضمان</span>
+              </div>
+            </div>
+
+            {/* Curtain Type Selector (for blinds and curtains) */}
+            {isCurtain && (
+              <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200/80 my-3">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-black text-[#6B4F3A]">
+                    نوع الستارة المطلوب:
+                  </label>
+                  <span className="text-[11px] text-[#C58B45] font-bold">
+                    {selectedCurtainType}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                  {availableCurtainTypes.map((type) => (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => setSelectedCurtainType(type)}
+                      className={`p-2 rounded-lg border text-xs font-bold text-start transition-all ${
+                        selectedCurtainType === type
+                          ? "bg-[#6B4F3A] text-white border-[#6B4F3A] shadow-xs"
+                          : "bg-white text-gray-700 border-gray-200 hover:border-[#C58B45]"
+                      }`}
+                    >
+                      {type}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── 3. SofaZone Specifications Table (Image 1 & 2 Style) ──── */}
+            <div className="border border-gray-200 rounded-xl overflow-hidden shadow-xs bg-white text-xs">
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
+                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">المقاس</div>
+                <div className="p-2.5 text-gray-900 text-center font-medium font-mono">{dimensionsText}</div>
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
+                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">الإرتفاع</div>
+                <div className="p-2.5 text-gray-900 text-center font-medium">{heightText}</div>
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
+                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">نوع الخشب / الخامة</div>
+                <div className="p-2.5 text-gray-900 text-center font-medium">{product.material || "خشب زان أحمر / شبك طبي معالج"}</div>
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
+                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">كثافة الخشب / الإسفنج</div>
+                <div className="p-2.5 text-gray-900 text-center font-medium">
+                  {product.category === "مكاتب" || product.category === "ترابيزة تليفزيون"
+                    ? "MDF إسباني عالي الكثافة 16.5 مم"
+                    : "إسفنج كثافة 36 سوبر سوفت"}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
+                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">الميكانيزم / الشاسيه</div>
+                <div className="p-2.5 text-gray-900 text-center font-medium">
+                  {product.category.includes("كرسي")
+                    ? "ميكانيزم تركي هيدروليك أصلي متعدد الأوضاع"
+                    : "شاسيه حديد صلب معالج إلكتروستاتيك"}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
+                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">الضمان</div>
+                <div className="p-2.5 text-emerald-700 text-center font-black">10 سنوات ضمان معتمد</div>
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200">
+                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">ميعاد الاستلام</div>
+                <div className="p-2.5 text-gray-900 text-center font-bold text-[#D97706]">استلام فوري (أو خلال 3-5 أيام)</div>
+              </div>
+            </div>
+
+            {/* Quick Actions (Ask Question & In Stock Indicator) */}
+            <div className="flex items-center justify-between pt-1">
+              <button
+                type="button"
+                onClick={handleAskQuestion}
+                className="flex items-center gap-1.5 text-xs font-black text-gray-700 hover:text-[#C58B45] transition-colors cursor-pointer"
+              >
+                <HelpCircle size={15} className="text-[#C58B45]" />
+                <span>اطرح سؤالاً عن هذا المنتج 💬</span>
+              </button>
+
+              <div className="flex items-center gap-1.5 text-xs font-black text-emerald-700">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>متوفر بالمصنع</span>
+              </div>
+            </div>
+
+            {/* Main Action Buttons (Desktop & Top View) */}
+            <div className="flex items-center gap-3 pt-3">
+              <button
+                onClick={handleDirectBuy}
+                className="flex-1 py-3 px-6 rounded-xl bg-[#C58B45] hover:bg-[#b07837] text-white font-black text-sm shadow-md transition-all hover:scale-[1.02] cursor-pointer"
+              >
+                شراء الآن
+              </button>
+              <button
+                onClick={handleAddToCart}
+                className="flex-1 py-3 px-6 rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] text-white font-black text-sm shadow-md transition-all hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2"
+              >
+                <ShoppingBag size={18} />
+                <span>{added ? "تمت الإضافة للسلة! ✓" : "أضف إلى السلة"}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* ── 4. Right Column (in RTL): Image Gallery & Dimension Sketch ─ */}
+          <div className="lg:col-span-7 order-1 lg:order-2 flex flex-col md:flex-row gap-4 items-start">
+            
+            {/* Vertical Thumbnail Strip (Image 1 Style) */}
+            <div className="order-2 md:order-1 flex md:flex-col gap-2.5 overflow-x-auto md:overflow-y-auto shrink-0 w-full md:w-20">
+              {product.images.map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setSelectedImage(i);
+                    setShowTechnicalSketch(false);
+                  }}
+                  className={`relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 transition-all shrink-0 bg-white shadow-xs cursor-pointer ${
+                    selectedImage === i && !showTechnicalSketch
+                      ? "border-[#C58B45] ring-2 ring-[#C58B45]/20 scale-105"
+                      : "border-gray-200 opacity-70 hover:opacity-100"
+                  }`}
                 >
+                  <Image
+                    src={img}
+                    alt={`${product.name} thumbnail ${i + 1}`}
+                    fill
+                    unoptimized={Boolean(img.startsWith("/uploads/") || img.startsWith("http"))}
+                    className="object-contain p-1"
+                  />
+                </button>
+              ))}
+
+              {/* Technical Sketch Thumbnail (Image 2 Style) */}
+              <button
+                onClick={() => setShowTechnicalSketch(true)}
+                className={`relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 transition-all shrink-0 bg-gray-50 flex flex-col items-center justify-center shadow-xs cursor-pointer ${
+                  showTechnicalSketch
+                    ? "border-[#C58B45] ring-2 ring-[#C58B45]/20 scale-105 bg-amber-50"
+                    : "border-gray-200 opacity-70 hover:opacity-100"
+                }`}
+                title="مخطط المقاسات والأبعاد"
+              >
+                <Ruler size={20} className="text-[#6B4F3A] mb-1" />
+                <span className="text-[10px] font-black text-gray-700">الأبعاد CM</span>
+              </button>
+            </div>
+
+            {/* Main Stage Image / Technical Diagram */}
+            <div className="order-1 md:order-2 flex-1 w-full bg-white rounded-3xl border border-gray-200/80 p-4 sm:p-8 relative shadow-lg overflow-hidden min-h-[380px] sm:min-h-[480px] flex items-center justify-center">
+              
+              {/* Wishlist Button */}
+              <button
+                onClick={() => {
+                  if (wishlisted) {
+                    removeWishlist(product.id);
+                    addToast(isEn ? "Removed from wishlist" : "تم الحذف من المفضلة", "wishlist");
+                  } else {
+                    addWishlist(product);
+                    addToast(isEn ? "Added to wishlist" : "تمت الإضافة للمفضلة ❤️", "wishlist");
+                  }
+                }}
+                className="absolute top-4 start-4 z-20 w-10 h-10 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center hover:scale-110 transition-all cursor-pointer"
+                title="إضافة للمفضلة"
+              >
+                <Heart size={18} className={wishlisted ? "fill-red-500 text-red-500" : "text-gray-400"} />
+              </button>
+
+              {/* Technical Sketch View (Image 2 Style with CM dimensions) */}
+              {showTechnicalSketch ? (
+                <div className="w-full h-full flex flex-col items-center justify-center py-6 text-center animate-fadeIn relative">
+                  <div className="relative w-64 h-72 border-2 border-dashed border-gray-400 rounded-xl flex flex-col items-center justify-center p-4 bg-gray-50/80">
+                    {/* Width dimension marker */}
+                    <div className="absolute -top-6 inset-x-0 flex items-center justify-center text-xs font-mono font-black text-[#6B4F3A]">
+                      ◀─── {product.dimensions?.width || 80} CM ───▶
+                    </div>
+                    {/* Height dimension marker */}
+                    <div className="absolute -right-10 inset-y-0 flex items-center justify-center -rotate-90 text-xs font-mono font-black text-[#6B4F3A] whitespace-nowrap">
+                      ◀─── {product.dimensions?.height || 110} CM ───▶
+                    </div>
+                    {/* Depth dimension marker */}
+                    <div className="absolute -left-10 inset-y-0 flex items-center justify-center rotate-90 text-xs font-mono font-black text-gray-500 whitespace-nowrap">
+                      العمق: {product.dimensions?.depth || 40} CM
+                    </div>
+
+                    <Image
+                      src={product.images[0] || "/placeholder.jpg"}
+                      alt={product.name}
+                      fill
+                      className="object-contain opacity-35 p-6"
+                    />
+
+                    <div className="relative z-10 bg-white/90 backdrop-blur-xs p-3 rounded-xl border border-gray-200 text-xs shadow-sm">
+                      <p className="font-black text-[#6B4F3A] mb-1">المخطط الهندسي للمقاسات</p>
+                      <p className="font-mono text-gray-600">
+                        {product.dimensions?.width || 80}W × {product.dimensions?.depth || 40}D × {product.dimensions?.height || 110}H CM
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Main Product Image with Zoom */
+                <div className="relative aspect-square w-full max-w-[420px] mx-auto">
                   <ImageZoom
                     src={product.images[selectedImage]}
                     alt={product.name}
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
-                </motion.div>
-              </AnimatePresence>
-
-              {product.originalPrice && (
-                <div className="absolute top-4 left-4">
-                  <Badge variant="danger" size="md">
-                    -{getDiscount(product.originalPrice, product.price)}% OFF
-                  </Badge>
                 </div>
               )}
 
-              {/* Nav arrows */}
-              {product.images.length > 1 && (
+              {/* Prev / Next Navigation Arrows */}
+              {product.images.length > 1 && !showTechnicalSketch && (
                 <>
                   <button
                     onClick={() =>
                       setSelectedImage(
-                        (selectedImage - 1 + product.images.length) %
-                          product.images.length
+                        (selectedImage - 1 + product.images.length) % product.images.length
                       )
                     }
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-md transition-all"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-gray-800 flex items-center justify-center shadow-md transition-all cursor-pointer z-10"
+                    aria-label="Previous image"
                   >
-                    <ChevronLeft size={18} />
+                    <ChevronLeft size={20} />
                   </button>
                   <button
                     onClick={() =>
-                      setSelectedImage(
-                        (selectedImage + 1) % product.images.length
-                      )
+                      setSelectedImage((selectedImage + 1) % product.images.length)
                     }
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-md transition-all"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-gray-800 flex items-center justify-center shadow-md transition-all cursor-pointer z-10"
+                    aria-label="Next image"
                   >
-                    <ChevronRight size={18} />
+                    <ChevronRight size={20} />
                   </button>
                 </>
               )}
             </div>
-
-            {/* Thumbnail selector */}
-            {product.images.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto pb-2">
-                {product.images.map((img, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setSelectedImage(i)}
-                    className={`relative w-20 h-20 rounded-lg overflow-hidden shrink-0 border-2 transition-all ${
-                      selectedImage === i
-                        ? "border-accent ring-2 ring-accent/20"
-                        : "border-transparent opacity-70 hover:opacity-100"
-                    }`}
-                  >
-                    <Image
-                      src={img}
-                      alt={`${product.name} thumbnail ${i + 1}`}
-                      fill
-                      unoptimized={Boolean(img.startsWith("/uploads/") || img.startsWith("http"))}
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
-          </AnimatedSection>
-
-          {/* Details */}
-          <AnimatedSection delay={0.2}>
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Badge variant="accent" size="sm">
-                  {product.category}
-                </Badge>
-                {product.originalPrice && (
-                  <Badge variant="danger" size="sm">
-                    {isEn ? "Save" : "وفر"}{" "}
-                    {formatPrice(product.originalPrice - product.price)}
-                  </Badge>
-                )}
-              </div>
-
-              <h1 className="text-3xl font-extrabold text-primary mb-3">
-                {product.name}
-              </h1>
-
-              {/* Rating */}
-              <div className="flex items-center gap-2 mb-4">
-                <div className="flex items-center gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      size={16}
-                      className={
-                        i < Math.floor(product.rating)
-                          ? "fill-amber-400 text-amber-400"
-                          : "text-surface-dark"
-                      }
-                    />
-                  ))}
-                </div>
-                <span className="text-sm font-medium text-primary">
-                  {product.rating}
-                </span>
-                <span className="text-sm text-muted">
-                  ({reviews.length} {isEn ? "reviews" : "تقييم"})
-                </span>
-              </div>
-
-              {/* Price */}
-              <div className="flex items-baseline gap-3 mb-6">
-                <span className="text-3xl font-extrabold text-primary">
-                  {formatPrice(product.price)}
-                </span>
-                {product.originalPrice && (
-                  <span className="text-lg text-muted line-through">
-                    {formatPrice(product.originalPrice)}
-                  </span>
-                )}
-              </div>
-
-              <p className="text-primary/70 leading-relaxed mb-6">
-                {product.description}
-              </p>
-
-              {/* Curtain Type Selector (for blinds and curtains) */}
-              {isCurtain && (
-                <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20">
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-sm font-bold text-primary">
-                      {isEn ? "Select Curtain / Blind Type:" : "حدد نوع الستارة المطلوب:"}
-                    </label>
-                    <span className="text-[11px] text-[#8B6E45] font-semibold">
-                      {selectedCurtainType}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {availableCurtainTypes.map((type) => (
-                      <button
-                        key={type}
-                        type="button"
-                        onClick={() => setSelectedCurtainType(type)}
-                        className={`p-3 rounded-xl border text-xs font-bold text-start transition-all ${
-                          selectedCurtainType === type
-                            ? "bg-slate-900 text-white border-slate-900 shadow-sm ring-2 ring-[#C5A880]"
-                            : "bg-white text-slate-700 border-slate-200 hover:border-[#C5A880]"
-                        }`}
-                      >
-                        {type}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Add to Cart & Actions */}
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex items-center border border-surface-dark rounded-lg">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-3 hover:bg-surface transition-colors"
-                  >
-                    <Minus size={16} />
-                  </button>
-                  <span className="w-12 text-center font-bold">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="p-3 hover:bg-surface transition-colors"
-                  >
-                    <Plus size={16} />
-                  </button>
-                </div>
-                <Button
-                  size="lg"
-                  onClick={handleAddToCart}
-                  className="flex-1 cart-pulse font-bold"
-                >
-                  <ShoppingBag size={18} className="me-2" />
-                  {isEn
-                    ? added
-                      ? "Added to Cart!"
-                      : "Add to Cart"
-                    : added
-                    ? "تمت الإضافة للسلة! ✓"
-                    : "أضف إلى السلة"}
-                </Button>
-                <button
-                  onClick={() => {
-                    if (wishlisted) {
-                      removeWishlist(product.id);
-                      addToast(isEn ? "Removed from wishlist" : "تم الحذف من قائمة الرغبات", "wishlist");
-                    } else {
-                      addWishlist(product);
-                      addToast(isEn ? "Added to wishlist" : "تمت الإضافة لقائمة الرغبات", "wishlist");
-                    }
-                  }}
-                  className={`p-3.5 rounded-lg border-2 transition-all ${
-                    wishlisted
-                      ? "border-danger bg-red-50 text-danger"
-                      : "border-surface-dark hover:border-muted"
-                  }`}
-                >
-                  <Heart
-                    size={20}
-                    className={wishlisted ? "fill-current" : ""}
-                  />
-                </button>
-              </div>
-
-              {/* Direct WhatsApp Order Button */}
-              {(() => {
-                const origin = typeof window !== "undefined" ? window.location.origin : "http://192.168.1.7:3000";
-                const rawImg = product.images?.[0] || "";
-                const fullImgUrl = rawImg ? (rawImg.startsWith("http") ? rawImg : `${origin}${rawImg.startsWith("/") ? "" : "/"}${rawImg}`) : "";
-                const waText = `مرحباً أستاذ محمد، أود طلب قطعة الأثاث: *${product.name}* (الكمية: ${quantity}${
-                  product.color ? `، اللون: ${product.color}` : ""
-                }) بسعر ${formatPrice(product.price * quantity)}.\n${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط المنتج:* ${getProductUrl(product.slug)}`;
-
-                return (
-                  <a
-                    href={`https://wa.me/201091084863?text=${encodeURIComponent(waText)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm shadow-sm transition-all"
-                  >
-                    <MessageCircle size={18} />
-                    <span>طلب مباشر وتأكيد عبر واتساب</span>
-                  </a>
-                );
-              })()}
-
-              {/* Features */}
-              <div className="grid grid-cols-3 gap-3 pt-6 border-t border-surface-dark">
-                {[
-                  {
-                    icon: Wrench,
-                    title: isEn ? "Free Assembly" : "التركيب مجاناً",
-                    desc: isEn ? "100% Free Setup" : "معاينة وتركيب احترافي ✓",
-                    highlight: true,
-                  },
-                  {
-                    icon: Truck,
-                    title: isEn ? "Fast Delivery" : "شحن وتوصيل",
-                    desc: isEn ? "Doorstep delivery" : "لكافة المدن والمحافظات",
-                    highlight: false,
-                  },
-                  {
-                    icon: Shield,
-                    title: isEn ? "Full Warranty" : "ضمان شامل",
-                    desc: isEn ? "Premium guarantee" : "على الأخشاب والمتانة",
-                    highlight: false,
-                  },
-                ].map((feature) => (
-                  <div
-                    key={feature.title}
-                    className={`text-center p-2.5 rounded-xl border ${
-                      feature.highlight
-                        ? "bg-emerald-50/70 border-emerald-100"
-                        : "bg-surface/50 border-surface-dark"
-                    }`}
-                  >
-                    <feature.icon
-                      size={20}
-                      className={`mx-auto mb-1 ${
-                        feature.highlight ? "text-emerald-600" : "text-accent"
-                      }`}
-                    />
-                    <p
-                      className={`text-xs font-bold ${
-                        feature.highlight ? "text-emerald-900" : "text-primary"
-                      }`}
-                    >
-                      {feature.title}
-                    </p>
-                    <p className="text-[10px] text-muted mt-0.5">{feature.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </AnimatedSection>
+          </div>
         </div>
 
-        {/* Tabs */}
-        <AnimatedSection className="mt-16">
-          <div className="border-b border-surface-dark">
-            <div className="flex gap-6 sm:gap-8 overflow-x-auto">
-              {[
-                { id: "description", label: isEn ? "Description" : "الوصف والتفاصيل" },
-                { id: "specs", label: isEn ? "Specifications" : "المواصفات والأبعاد" },
-                {
-                  id: "reviews",
-                  label: isEn
-                    ? `Reviews (${reviews.length})`
-                    : `تقييمات العملاء (${reviews.length})`,
-                },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id as "description" | "specs" | "reviews")}
-                  className={`pb-3 text-sm font-bold capitalize transition-colors border-b-2 whitespace-nowrap ${
-                    activeTab === tab.id
-                      ? "border-accent text-accent"
-                      : "border-transparent text-muted hover:text-primary"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+        {/* ── 5. Product Description & Factory Guarantees ───────────────── */}
+        <div className="mt-12 bg-white rounded-3xl p-6 sm:p-10 border border-gray-200/80 shadow-xs">
+          <h3 className="text-xl font-black text-[#6B4F3A] mb-4">
+            تفاصيل ومميزات القطعة
+          </h3>
+          <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-4xl mb-6">
+            {product.description}
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-gray-100">
+            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/70">
+              <h4 className="font-black text-[#6B4F3A] text-sm mb-1">خشب زان أحمر ومواد مطابقة للمواصفات</h4>
+              <p className="text-xs text-gray-500">تم اختيار الخامات والميكانيزمات المقاومة للإجهاد لتدوم أطول فترة ممكنة.</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/70">
+              <h4 className="font-black text-[#6B4F3A] text-sm mb-1">شحن وتركيب مجاني</h4>
+              <p className="text-xs text-gray-500">فريق فني متخصص يقوم بالمعاينة والتركيب الفوري لضمان أعلى مستوى من الرضا.</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/70">
+              <h4 className="font-black text-[#6B4F3A] text-sm mb-1">خدمة ما بعد البيع وضمان حقيقي</h4>
+              <p className="text-xs text-gray-500">فريق الدعم الفني متاح دائماً عبر الواتساب والمصنع لمتابعة أي استفسار.</p>
             </div>
           </div>
+        </div>
 
-          <div className="py-8">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                {activeTab === "description" && (
-                  <p className="text-primary/80 leading-relaxed max-w-3xl text-base">
-                    {product.description}
-                  </p>
-                )}
-
-                {activeTab === "specs" && (
-                  <div className="max-w-3xl space-y-3">
-                    {[
-                      {
-                        label: isEn ? "Wood / Material" : "نوع الخشب والخامة",
-                        value: product.material,
-                      },
-                      {
-                        label: isEn ? "Color" : "اللون",
-                        value: product.color,
-                      },
-                      {
-                        label: isEn ? "Dimensions" : "الأبعاد والمقاسات",
-                        value: `${product.dimensions.width} عرض × ${product.dimensions.height} ارتفاع × ${product.dimensions.depth} عمق (سم)`,
-                      },
-                      {
-                        label: isEn ? "Weight" : "الوزن التقريبي",
-                        value: `${product.weight} كجم`,
-                      },
-                      {
-                        label: isEn ? "Availability" : "حالة التوفر",
-                        value: product.inStock
-                          ? isEn
-                            ? "In Stock & Ready"
-                            : "متوفر ومتاح للتسليم الفوري"
-                          : isEn
-                          ? "Out of Stock"
-                          : "غير متوفر حالياً",
-                      },
-                    ].map((spec) => (
-                      <div
-                        key={spec.label}
-                        className="flex py-3 border-b border-surface-dark justify-between sm:justify-start"
-                      >
-                        <span className="w-48 text-sm font-semibold text-primary">
-                          {spec.label}
-                        </span>
-                        <span className="text-sm text-primary/80 font-medium">
-                          {spec.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {activeTab === "reviews" && (
-                  <div className="space-y-6 max-w-3xl">
-                    {/* Dialect Filter Tabs */}
-                    <div className="flex items-center gap-2 p-1.5 bg-surface rounded-xl flex-wrap">
-                      <button
-                        type="button"
-                        onClick={() => setReviewLocaleFilter("all")}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                          reviewLocaleFilter === "all"
-                            ? "bg-white text-primary shadow-xs"
-                            : "text-muted hover:text-primary"
-                        }`}
-                      >
-                        {isEn ? "All Reviews" : "جميع الآراء"} ({reviews.length})
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setReviewLocaleFilter("ar")}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-                          reviewLocaleFilter === "ar"
-                            ? "bg-white text-primary shadow-xs"
-                            : "text-muted hover:text-primary"
-                        }`}
-                      >
-                        <span>🇪🇬 عربي (مصر)</span>
-                        <span className="text-[10px] bg-slate-100 px-1.5 py-0.2 rounded-full">
-                          {reviews.filter((r) => r.locale === "ar").length}
-                        </span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setReviewLocaleFilter("sa")}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-                          reviewLocaleFilter === "sa"
-                            ? "bg-white text-primary shadow-xs"
-                            : "text-muted hover:text-primary"
-                        }`}
-                      >
-                        <span>🇸🇦 سعودي (المملكة)</span>
-                        <span className="text-[10px] bg-emerald-50 text-emerald-700 px-1.5 py-0.2 rounded-full">
-                          {reviews.filter((r) => r.locale === "sa").length}
-                        </span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setReviewLocaleFilter("en")}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-                          reviewLocaleFilter === "en"
-                            ? "bg-white text-primary shadow-xs"
-                            : "text-muted hover:text-primary"
-                        }`}
-                      >
-                        <span>🇬🇧 English</span>
-                        <span className="text-[10px] bg-blue-50 text-blue-700 px-1.5 py-0.2 rounded-full">
-                          {reviews.filter((r) => r.locale === "en").length}
-                        </span>
-                      </button>
-                    </div>
-
-                    {reviews.length === 0 ? (
-                      <p className="text-muted">
-                        {isEn
-                          ? "No reviews yet for this product."
-                          : "لا توجد تقييمات سابقة لهذا المنتج بعد."}
-                      </p>
-                    ) : (
-                      (reviewLocaleFilter === "all"
-                        ? reviews
-                        : reviews.filter((r) => r.locale === reviewLocaleFilter)
-                      ).map((review) => (
-                        <div
-                          key={review.id}
-                          className="bg-white rounded-xl p-5 border border-surface-dark shadow-xs"
-                        >
-                          <div className="flex items-start justify-between gap-3 mb-3">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-accent/15 text-accent-dark font-bold rounded-full flex items-center justify-center text-sm">
-                                {review.avatar}
-                              </div>
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <p className="font-bold text-primary text-sm">
-                                    {review.author}
-                                  </p>
-                                  {review.locale === "sa" && (
-                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                      🇸🇦 عميل من السعودية
-                                    </span>
-                                  )}
-                                  {review.locale === "ar" && (
-                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
-                                      🇪🇬 عميل موثق
-                                    </span>
-                                  )}
-                                  {review.locale === "en" && (
-                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                                      🇬🇧 Verified Client
-                                    </span>
-                                  )}
-                                </div>
-                                {review.location && (
-                                  <p className="text-[11px] text-muted mt-0.5">
-                                    📍 {review.location}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-
-                            <div className="text-end shrink-0">
-                              <div className="flex items-center gap-0.5 justify-end mb-1">
-                                {[...Array(5)].map((_, j) => (
-                                  <Star
-                                    key={j}
-                                    size={12}
-                                    className={
-                                      j < review.rating
-                                        ? "fill-amber-400 text-amber-400"
-                                        : "text-surface-dark"
-                                    }
-                                  />
-                                ))}
-                              </div>
-                              <span className="text-[11px] text-muted">
-                                {new Date(review.date).toLocaleDateString("ar-EG", {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                })}
-                              </span>
-                            </div>
-                          </div>
-                          <p className="text-primary/85 text-sm leading-relaxed bg-surface/40 p-3 rounded-xl">
-                            &ldquo;{review.comment}&rdquo;
-                          </p>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </AnimatedSection>
-
-        {/* Related Products */}
+        {/* ── 6. Related Products (Strictly from same category) ─────────── */}
         {related.length > 0 && (
-          <AnimatedSection className="mt-16">
-            <h2 className="text-2xl font-bold text-primary mb-8">
-              {isEn ? "You May Also Like" : "منتجات وتصميمات قد تعجبك"}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mt-14">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl sm:text-2xl font-black text-[#6B4F3A]">
+                منتجات أخرى من قسم {product.category}
+              </h3>
+              <Link
+                href={`/products?category=${encodeURIComponent(product.category)}`}
+                className="text-xs sm:text-sm font-bold text-[#D97706] hover:underline"
+              >
+                عرض كل قسم {product.category} ←
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {related.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
-          </AnimatedSection>
+          </div>
         )}
+      </div>
+
+      {/* ── 7. SofaZone Sticky Bottom Action Bar (Image 1 & 2 Style) ─────── */}
+      <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl py-3 px-4 sm:px-8 z-40 transition-all">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          
+          {/* Action Buttons on Left (in RTL) */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleDirectBuy}
+              className="bg-[#C58B45] hover:bg-[#b07837] text-white font-black text-xs sm:text-sm px-6 sm:px-8 py-2.5 rounded-xl shadow-md transition-all hover:scale-105 cursor-pointer"
+            >
+              شراء الآن
+            </button>
+            <button
+              onClick={handleAddToCart}
+              className="bg-[#6B4F3A] hover:bg-[#573E2D] text-white font-black text-xs sm:text-sm px-5 sm:px-7 py-2.5 rounded-xl shadow-md transition-all hover:scale-105 cursor-pointer flex items-center gap-2"
+            >
+              <ShoppingBag size={16} />
+              <span>{added ? "تمت الإضافة! ✓" : "أضف إلى السلة"}</span>
+            </button>
+          </div>
+
+          {/* Mini Product Preview on Right (in RTL) */}
+          <div className="hidden sm:flex items-center gap-3">
+            <div className="text-end">
+              <h4 className="text-xs sm:text-sm font-black text-gray-900 line-clamp-1 max-w-[280px]">
+                {product.name}
+              </h4>
+              <div className="flex items-center gap-2 justify-end">
+                <span className="text-sm font-black text-[#B93832]">
+                  {formatPrice(product.price)}
+                </span>
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <span className="text-xs text-gray-400 line-through font-bold">
+                    {formatPrice(product.originalPrice)}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="relative w-12 h-12 rounded-xl bg-gray-50 overflow-hidden border border-gray-200 shrink-0">
+              <Image
+                src={product.images[0] || "/placeholder.jpg"}
+                alt={product.name}
+                fill
+                className="object-contain p-1"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

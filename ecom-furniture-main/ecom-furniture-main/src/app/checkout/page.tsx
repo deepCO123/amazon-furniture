@@ -322,7 +322,7 @@ ${itemsListText}
 🚚 *مصاريف الشحن:* ${shippingText}${couponText}
 💰 *إجمالي الفاتورة النهائي:* ${formatPrice(grandTotal)}
 ━━━━━━━━━━━━━━━━━━━━
-مرحباً أستاذ محمد إسماعيل، تم تقديم هذا الطلب عبر المتجر وأود تأكيده وجدولة ميعاد الاستلام.`;
+مرحباً، تم تقديم هذا الطلب عبر المتجر وأود تأكيده وجدولة ميعاد الاستلام.`;
 
     const encoded = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/201091084863?text=${encoded}`;

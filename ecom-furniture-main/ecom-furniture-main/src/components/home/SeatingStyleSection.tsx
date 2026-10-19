@@ -19,51 +19,51 @@ export default function SeatingStyleSection() {
   const { language } = useLanguageStore();
   const t = getTranslation(language);
 
-  const seatingCards = language === "en"
+  const seatingCards: SeatingCard[] = language === "en"
     ? [
         {
-          title: "Corner Sofas",
-          subtitle: "Modern luxury L-shaped sectional lounges in solid beech wood",
+          title: "Living Sets & Couches",
+          subtitle: "Modern luxury sectional lounges and executive living room sets",
           count: "15+ signature models",
           image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
-          href: "/products?category=ركن ومجالس",
+          href: "/products?category=انتريهات",
         },
         {
-          title: "Executive Couches",
-          subtitle: "Premium 2 & 3-seater sofas for executive offices and modern homes",
+          title: "Executive Reception Sofas",
+          subtitle: "Premium 2 & 3-seater sofas for executive offices and modern spaces",
           count: "High density 36-soft foam",
           image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800",
-          href: "/products?category=ركن ومجالس",
+          href: "/products?category=انتريهات",
         },
         {
-          title: "Recliners (Lazy Boy)",
-          subtitle: "Orthopedic medical recliners with 360° swivel & rocking mechanism",
+          title: "Ergonomic Medical Chairs",
+          subtitle: "Orthopedic medical chairs with 360° swivel & lumbar mechanism",
           count: "Absolute neck & lumbar support",
           image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
-          href: "/products?category=ليزي بوي",
+          href: "/products?category=كراسي طبية",
         },
       ]
     : [
         {
-          title: "ركنة",
-          subtitle: "ركنات مودرن واستقبال جلد وكتان خشب زان أحمر",
+          title: "انتريهات وصالونات",
+          subtitle: "انتريهات مودرن واستقبال راقية خشب زان أحمر وتنجيد فاخر",
           count: "أكثر من 15 تصميم مميز",
           image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800",
-          href: "/products?category=ركن ومجالس",
+          href: "/products?category=انتريهات",
         },
         {
-          title: "كنبة",
-          subtitle: "كنب ثلاثي وثنائي راقي لمكاتب المديرين والمنازل",
+          title: "كنب استقبال مكاتب",
+          subtitle: "كنب ثلاثي وثنائي راقي لمكاتب المديرين والمنازل العصرية",
           count: "تنجيد سوفت إسفنج كثافة 36",
           image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800",
-          href: "/products?category=ركن ومجالس",
+          href: "/products?category=انتريهات",
         },
         {
-          title: "ليزي بوي",
-          subtitle: "كراسي استرخاء طبية بميكانيزم هزاز ودوار 360°",
+          title: "كراسي طبية مريحة",
+          subtitle: "كراسي مكتبية وطبية بميكانيزم هيدروليك ودعم كامل للظهر",
           count: "راحة مطلقة للظهر والرقبة",
           image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
-          href: "/products?category=ليزي بوي",
+          href: "/products?category=كراسي طبية",
         },
       ];
 

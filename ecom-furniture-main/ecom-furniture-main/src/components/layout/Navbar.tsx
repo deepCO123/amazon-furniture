@@ -12,6 +12,7 @@ import {
   Heart,
   ChevronDown,
   Ruler,
+  Sparkles,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { SITE_NAME } from "@/lib/constants";
@@ -32,7 +33,6 @@ export default function Navbar() {
   const products = useProductStore((s) => s.products);
   const { language } = useLanguageStore();
   const t = getTranslation(language);
-  const isEn = language === "en";
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -48,13 +48,13 @@ export default function Navbar() {
   // Search categories matching store
   const searchCategories = [
     { value: "all", label: t.searchAllCategories },
-    { value: "غرف النوم", label: t.bedroomsLink },
-    { value: "المطابخ", label: t.kitchensLink },
-    { value: "كراسي مكتب", label: t.chairsAndDesksLink },
-    { value: "ركن ومجالس", label: t.livingAndLoungesLink },
-    { value: "أثاث خارجي", label: t.outdoorLink },
-    { value: "دريسنج روم", label: t.dressingRoomLink },
-    { value: "اضاءة", label: t.decorLink },
+    { value: "كراسي شبك", label: t.meshChairsLink },
+    { value: "كراسي طبية", label: t.medicalChairsLink },
+    { value: "ترابيزة تليفزيون", label: t.tvTablesLink },
+    { value: "ستائر مكتبية", label: t.officeCurtainsLink },
+    { value: "مكاتب", label: t.desksLink },
+    { value: "انتريهات", label: t.livingSetsLink },
+    { value: "كراسي جلد", label: t.leatherChairsLink },
   ];
 
   interface NavLinkItem {
@@ -69,15 +69,13 @@ export default function Navbar() {
   const secondaryNavLinks: NavLinkItem[] = [
     { href: "/custom-order", label: t.customOrderLink, hasBadge: true, badge: t.customBadge, highlight: true },
     { href: "/products?tag=sale", label: t.saleOffersLink, hasBadge: true, badge: t.newBadgeText },
-    { href: "/products?category=غرف النوم", label: t.bedroomsLink },
-    { href: "/products?category=المطابخ", label: t.kitchensLink },
-    { href: "/products?category=كراسي مكتب", label: t.chairsAndDesksLink },
-    { href: "/products?category=ركن ومجالس", label: t.livingAndLoungesLink },
-    { href: "/products?category=أثاث خارجي", label: t.outdoorLink },
-    { href: "/products?category=دريسنج روم", label: t.dressingRoomLink },
-    { href: "/products?category=اضاءة", label: t.decorLink },
-    { href: "/track", label: t.trackOrderLink, hasBadge: true, badge: t.trackBadge },
-    { href: "/products", label: t.allFurnitureLink },
+    { href: "/products?category=كراسي شبك", label: t.meshChairsLink },
+    { href: "/products?category=كراسي طبية", label: t.medicalChairsLink },
+    { href: "/products?category=ترابيزة تليفزيون", label: t.tvTablesLink },
+    { href: "/products?category=ستائر مكتبية", label: t.officeCurtainsLink },
+    { href: "/products?category=مكاتب", label: t.desksLink },
+    { href: "/products?category=انتريهات", label: t.livingSetsLink },
+    { href: "/products?category=كراسي جلد", label: t.leatherChairsLink },
   ];
 
   // Filtered search results
@@ -127,28 +125,30 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 left-0 right-0 z-40 bg-white shadow-xs border-b border-gray-100">
-        {/* ── 1. Top Announcement Bar (Compact & Sleek) ────────────────── */}
-        <div className="bg-neutral-50/80 border-b border-gray-100 text-xs py-1 px-4">
+      <header className="sticky top-0 left-0 right-0 z-40 bg-white shadow-xs border-b border-[#E8E0D5]">
+        {/* ── 1. Primary Brown Sub-Bar (#6B4F3A with #C58B45 Gold Hover) ─────────────── */}
+        <div className="bg-[#6B4F3A] text-white text-xs py-1.5 px-4 border-b border-[#83644D]">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            {/* Currency, Language & Theme Controls */}
-            <div className="flex items-center gap-2.5 shrink-0">
+            {/* Social Media Icons (Left) */}
+            <div className="flex items-center gap-3 text-white/90">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#C58B45] transition-colors" title="Facebook">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#C58B45] transition-colors" title="Instagram">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#C58B45] transition-colors" title="YouTube">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><polygon points="10 15 15 12 10 9 10 15" fill="currentColor"/></svg>
+              </a>
+              <span className="text-white/30 hidden sm:inline">|</span>
               <LanguageSwitcher />
-              <div className="h-3 w-px bg-gray-200 dark:bg-gray-700 hidden sm:block" />
-              <span className="hidden sm:inline-flex items-center gap-1 text-gray-600 dark:text-gray-300 font-semibold text-[11px]">
-                <span>{language === "sa" ? "🇸🇦 SAR" : language === "en" ? "🇺🇸 USD" : "🇪🇬 EGP"}</span>
-              </span>
-              <div className="h-3 w-px bg-gray-200 dark:bg-gray-700" />
               <ThemeToggle variant="minimal" />
             </div>
 
-            {/* Quick Promo / Factory Trust Line */}
-            <div className="hidden md:flex items-center gap-4 text-[11px] font-semibold text-gray-500 dark:text-gray-400">
-              <span>{isEn ? "Free White-Glove Delivery & 10-Year Warranty" : "توصيل وتركيب مجاني 100% | ضمان 10 سنوات معتمد"}</span>
-              <span className="text-gray-300 dark:text-gray-600">•</span>
-              <a href="tel:+201091084863" className="hover:text-accent transition-colors" dir="ltr">
-                +20 109 1084863
-              </a>
+            {/* Quick Links (Right) */}
+            <div className="flex items-center gap-4 sm:gap-6 text-[11px] sm:text-xs font-bold text-white/90">
+              <Link href="/about" className="hover:text-[#C58B45] transition-colors">من نحن</Link>
+              <Link href="/contact" className="hover:text-[#C58B45] transition-colors">تواصل معنا</Link>
             </div>
           </div>
         </div>
@@ -156,15 +156,15 @@ export default function Navbar() {
         {/* ── 2. Main Header Row (Aligned, Balanced Spacing) ───────────── */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5">
           <div className="flex items-center justify-between gap-3 sm:gap-6 lg:gap-8">
-            {/* Brand Logo */}
+            {/* Brand Logo with New User Logo */}
             <Link href="/" className="flex items-center shrink-0 group py-0.5">
-              <div className="relative h-9 sm:h-10 w-32 sm:w-40 transition-transform duration-200 group-hover:scale-[1.02]">
+              <div className="relative h-10 sm:h-12 w-28 sm:w-36 rounded-xl overflow-hidden transition-transform duration-200 group-hover:scale-[1.03] shadow-xs border border-[#E8E0D5]">
                 <Image
-                  src="/amazon-furniture-logo-clean.png"
+                  src="/amazon-new-logo.jpg"
                   alt={SITE_NAME}
                   fill
-                  sizes="(max-width: 640px) 128px, 160px"
-                  className="object-contain object-right"
+                  sizes="(max-width: 640px) 112px, 144px"
+                  className="object-cover object-center"
                   priority
                 />
               </div>
@@ -174,12 +174,12 @@ export default function Navbar() {
             <div ref={searchRef} className="flex-1 min-w-0 max-w-2xl relative hidden md:block">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex items-center rounded-full border border-gray-300 hover:border-gray-400 focus-within:border-black bg-white p-1 pl-1 pr-2.5 shadow-2xs transition-colors"
+                className="flex items-center rounded-full border border-[#E8E0D5] hover:border-[#C58B45] focus-within:border-[#C58B45] bg-white p-1 pl-1 pr-2.5 shadow-2xs transition-colors"
               >
                 {/* Search Button */}
                 <button
                   type="submit"
-                  className="bg-black hover:bg-neutral-800 text-white font-bold text-xs sm:text-sm px-5 py-1.5 rounded-full transition-colors shrink-0 cursor-pointer"
+                  className="bg-[#C58B45] hover:bg-[#B07836] text-white font-bold text-xs sm:text-sm px-5 py-1.5 rounded-full transition-colors shrink-0 cursor-pointer shadow-xs"
                 >
                   {t.searchBtn}
                 </button>
@@ -409,38 +409,39 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── 3. Secondary Sub-Navbar (Centered, Refined Typography & Smooth Scroll) ──────── */}
-        <nav className="bg-[#151922] text-white border-t border-[#2A3140] shadow-xs overflow-x-auto no-scrollbar scroll-smooth">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center justify-start lg:justify-center min-w-max lg:min-w-0 h-10">
-            {/* Category Links with responsive gaps */}
-            <div className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-7 mx-auto px-2">
+        {/* ── 3. SofaZone Category Navigation Row (White with Golden Header & Carets) ──────── */}
+        <nav className="bg-white text-[#292321] border-t border-b border-[#E8E0D5] shadow-2xs overflow-x-auto no-scrollbar scroll-smooth">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-11 gap-4 sm:gap-6 min-w-max">
+            {/* Right: "تسوق حسب التصنيف" */}
+            <Link
+              href="/products"
+              className="flex items-center gap-1.5 text-[#C58B45] hover:text-[#B07836] font-black text-xs sm:text-sm whitespace-nowrap transition-colors shrink-0"
+            >
+              <Sparkles size={14} className="text-[#C58B45]" />
+              <span>تسوق حسب التصنيف</span>
+              <ChevronDown size={13} />
+            </Link>
+
+            <div className="h-4 w-px bg-[#E8E0D5] shrink-0" />
+
+            {/* Center: Category Links with Carets */}
+            <div className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
               {secondaryNavLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="group relative py-1 text-xs sm:text-[13px] font-bold text-gray-200 tracking-wide hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap"
+                  className="group relative py-1 text-xs sm:text-[13px] font-black text-[#292321] tracking-wide hover:text-[#C58B45] transition-all flex items-center gap-1 whitespace-nowrap shrink-0"
                 >
-                  <span className="relative">
-                    {link.label}
-                    {/* Refined subtle underline hover indicator */}
-                    <span className="absolute -bottom-0.5 right-0 left-0 h-[2px] bg-[#C6A46A] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-right rounded-full" />
-                  </span>
+                  <span>{link.label}</span>
+                  <ChevronDown size={11} className="text-[#74685E] group-hover:text-[#C58B45] transition-colors" />
                   {link.hasBadge && (
-                    <span className="bg-[#e60000] text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs">
+                    <span className="bg-[#B93832] text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs">
                       {link.badge}
                     </span>
                   )}
                 </Link>
               ))}
             </div>
-
-            {/* Utility Link */}
-            <Link
-              href="/#consultation"
-              className="hidden 2xl:flex items-center absolute left-6 text-xs font-bold text-amber-300 hover:text-amber-200 transition-colors whitespace-nowrap"
-            >
-              {isEn ? "Free 3D Mockup ✨" : "شوف مساحتك قبل التنفيذ ✨"}
-            </Link>
           </div>
         </nav>
 
@@ -563,7 +564,7 @@ export default function Navbar() {
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white font-bold text-xs py-2.5 rounded-xl shadow-xs"
                   >
-                    <span>واتساب أ. محمد إسماعيل (+20 109 1084863)</span>
+                    <span>واتساب خدمة العملاء (+20 109 1084863)</span>
                   </a>
                 </div>
 

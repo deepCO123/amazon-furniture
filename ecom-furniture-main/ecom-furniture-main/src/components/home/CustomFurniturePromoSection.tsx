@@ -2,15 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { Ruler, Upload, Palette, Sparkles, CheckCircle2, ArrowLeft, MessageCircle } from "lucide-react";
 
 import { useLanguageStore } from "@/store/languageStore";
-import { getTranslation } from "@/lib/translations";
 
 export default function CustomFurniturePromoSection() {
   const { language } = useLanguageStore();
-  const t = getTranslation(language);
 
   const steps = language === "en"
     ? [

@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import Link from "next/link";
-import { ChevronRight, Home } from "lucide-react";
+import { Home } from "lucide-react";
 import ProductGrid from "@/components/products/ProductGrid";
 import { useLanguageStore } from "@/store/languageStore";
 

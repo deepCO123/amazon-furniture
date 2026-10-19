@@ -30,20 +30,20 @@ export default function WhatsAppButton() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="relative flex items-center gap-3 bg-[#25D366] hover:bg-[#20bd5a] text-white p-3.5 sm:px-4 sm:py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-105"
-        title={t.whatsappHelp}
+        className="relative flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white w-13 h-13 sm:w-14 sm:h-14 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110 cursor-pointer"
+        title="تواصل عبر واتساب"
+        aria-label="WhatsApp Contact"
       >
-        {/* Pulsing ring */}
-        <span className="absolute -inset-1 rounded-full bg-[#25D366]/40 animate-ping pointer-events-none" />
+        {/* Pulsing subtle ring */}
+        <span className="absolute -inset-1 rounded-full bg-[#25D366]/30 animate-ping pointer-events-none" />
 
         {/* WhatsApp Icon */}
-        <MessageCircle size={24} className="shrink-0 relative z-10" />
+        <MessageCircle size={26} className="relative z-10" />
 
-        {/* Tooltip text for desktop */}
-        <div className="hidden sm:flex flex-col text-start relative z-10 leading-tight">
-          <span className="text-[11px] font-medium opacity-90">{t.whatsappHelp}</span>
-          <span className="text-xs font-bold tracking-wide">واتساب مباشر</span>
-        </div>
+        {/* Clean subtle hover tooltip */}
+        <span className="absolute start-full ms-3 px-2.5 py-1 bg-[#292321] text-white text-xs font-bold rounded-lg shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap hidden sm:inline-block">
+          تواصل عبر واتساب
+        </span>
       </a>
     </motion.aside>
   );

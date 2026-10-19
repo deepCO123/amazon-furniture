@@ -3,7 +3,6 @@
 import { useState, lazy, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Heart, ShoppingBag, Star, Eye, MessageCircle } from "lucide-react";
 import type { Product } from "@/types";
 import { formatPrice, getDiscount, getProductUrl } from "@/lib/utils";
@@ -52,13 +51,13 @@ export default function ProductCard({
         : `${origin}${rawImg.startsWith("/") ? "" : "/"}${rawImg}`
       : "";
     const text = isEn
-      ? `Hello Mr. Mohamed Esmaeil, I would like to order this item from Amazon Furniture:
+      ? `Hello, I would like to order this item from Amazon Furniture:
 *Product:* ${product.name}
 *Price:* ${formatPrice(product.price)}
 ${fullImgUrl ? `*Image:* ${fullImgUrl}\n` : ""}*Link:* ${getProductUrl(product.slug)}
 
 Please confirm order details and free delivery.`
-      : `مرحباً أستاذ محمد إسماعيل، أود شراء هذا المنتج من متجر Amazon Furniture:
+      : `مرحباً، أود شراء هذا المنتج من متجر Amazon Furniture:
 *المنتج:* ${product.name}
 *السعر:* ${formatPrice(product.price)}
 ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط المنتج:* ${getProductUrl(product.slug)}
@@ -107,14 +106,14 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
     return (
       <div
         data-card="product"
-        className="product-card group bg-white rounded-2xl border border-gray-100 dark:border-gray-200 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+        className="product-card group bg-white rounded-2xl border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
       >
         <Link
           href={`/products/${product.slug}`}
           className="flex flex-col sm:flex-row items-stretch"
         >
           {/* Image Container */}
-          <div className="relative w-full sm:w-60 md:w-72 shrink-0 aspect-[4/3] sm:aspect-square bg-[#F8F9FA] overflow-hidden flex items-center justify-center p-3">
+          <div className="relative w-full sm:w-60 md:w-72 shrink-0 aspect-[4/3] sm:aspect-square bg-[#F8F5F0] overflow-hidden flex items-center justify-center p-3">
             <Image
               src={product.images[0] || "/placeholder.jpg"}
               alt={product.name}
@@ -129,7 +128,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
 
             {/* Sale Badge */}
             {discountPercent > 0 && (
-              <span className="badge-sale absolute top-3 start-3 text-xs font-black px-2.5 py-0.5 rounded-full shadow-2xs">
+              <span className="badge-sale absolute top-3 start-3 text-xs font-black px-2.5 py-0.5 rounded-full shadow-2xs bg-[#B93832] text-white">
                 -{discountPercent}%
               </span>
             )}
@@ -145,8 +144,8 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
                 size={18}
                 className={
                   wishlisted
-                    ? "fill-red-500 text-red-500"
-                    : "text-gray-400 hover:text-red-500"
+                    ? "fill-[#B93832] text-[#B93832]"
+                    : "text-gray-400 hover:text-[#B93832]"
                 }
               />
             </button>
@@ -155,40 +154,40 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
           {/* Details & Action Column */}
           <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between min-w-0">
             <div>
-              <p className="card-category text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 line-clamp-1">
+              <p className="card-category text-xs font-bold text-[#74685E] uppercase tracking-wider mb-1 line-clamp-1">
                 {product.category}
               </p>
-              <h3 className="card-title text-base sm:text-lg lg:text-xl font-bold text-gray-900 group-hover:text-[#C6A46A] transition-colors line-clamp-1 mb-2">
+              <h3 className="card-title text-base sm:text-lg lg:text-xl font-bold text-[#292321] group-hover:text-[#C58B45] transition-colors line-clamp-1 mb-2">
                 {product.name}
               </h3>
-              <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 mb-3 leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#74685E] line-clamp-2 mb-3 leading-relaxed">
                 {product.description}
               </p>
 
               {/* Rating */}
               <div className="flex items-center gap-1.5 mb-4">
-                <Star size={14} className="fill-amber-400 text-amber-400" />
-                <span className="text-xs font-bold text-gray-800">
+                <Star size={14} className="fill-[#C58B45] text-[#C58B45]" />
+                <span className="text-xs font-bold text-[#292321]">
                   {product.rating?.toFixed(1) || "4.8"}
                 </span>
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-[#74685E]">
                   ({product.reviewCount || 12})
                 </span>
               </div>
             </div>
 
             {/* Price & Actions */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-gray-100">
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#E8E0D5]">
               <div className="flex items-baseline gap-2">
                 <span
-                  className="card-price text-xl sm:text-2xl font-black text-gray-950"
+                  className="card-price text-xl sm:text-2xl font-black text-[#B93832]"
                   suppressHydrationWarning
                 >
                   {formatPrice(product.price)}
                 </span>
                 {product.originalPrice && (
                   <span
-                    className="card-old-price text-sm text-gray-400 line-through"
+                    className="card-old-price text-sm text-[#74685E] line-through font-bold"
                     suppressHydrationWarning
                   >
                     {formatPrice(product.originalPrice)}
@@ -208,7 +207,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
 
                 <button
                   onClick={handleAddToCart}
-                  className="h-10 px-4 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
+                  className="h-10 px-4 rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
                   title={isEn ? "Add to Cart" : "إضافة للسلة"}
                 >
                   <ShoppingBag size={16} />
@@ -228,11 +227,11 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
   return (
     <div
       data-card="product"
-      className="product-card group bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 border border-gray-100 dark:border-gray-200 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative flex flex-col justify-between h-full"
+      className="product-card group bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative flex flex-col justify-between h-full"
     >
       <div>
         {/* Image Container with Subtle Background */}
-        <div className="relative aspect-[4/3] sm:aspect-square bg-[#F8F9FA] rounded-xl sm:rounded-2xl overflow-hidden flex items-center justify-center p-3 mb-3.5">
+        <div className="relative aspect-[4/3] sm:aspect-square bg-[#F8F5F0] rounded-xl sm:rounded-2xl overflow-hidden flex items-center justify-center p-3 mb-3.5">
           <Image
             src={product.images[0] || "/placeholder.jpg"}
             alt={product.name}
@@ -245,26 +244,37 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
 
-          {/* Sale Discount Badge (Soft Red) */}
-          {discountPercent > 0 && (
-            <span className="badge-sale absolute top-2.5 start-2.5 text-[11px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-2xs">
+          {/* Red Pill Discount Badge */}
+          {product.originalPrice && product.originalPrice > product.price ? (
+            <span className="absolute top-2.5 end-2.5 z-10 bg-[#B93832] text-white text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-md">
+              وفر {(product.originalPrice - product.price).toLocaleString("ar-EG")} جنيه
+            </span>
+          ) : discountPercent > 0 ? (
+            <span className="absolute top-2.5 end-2.5 z-10 bg-[#B93832] text-white text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-md">
               -{discountPercent}%
+            </span>
+          ) : null}
+
+          {/* Product Code Watermark */}
+          {product.code && (
+            <span className="absolute bottom-2 start-2 z-10 text-[10px] font-mono font-bold text-[#74685E] bg-white/80 backdrop-blur-xs px-1.5 py-0.5 rounded">
+              Code: {product.code}
             </span>
           )}
 
-          {/* Floating Round Wishlist Heart (Reference Design Match) */}
+          {/* Floating Round Wishlist Heart */}
           <button
             onClick={handleToggleWishlist}
-            className="absolute top-2.5 end-2.5 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-10 cursor-pointer border border-gray-100/80 group/heart"
+            className="absolute top-2.5 start-2.5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-10 cursor-pointer border border-[#E8E0D5] group/heart"
             title={isEn ? "Add to wishlist" : "إضافة للمفضلة"}
             aria-label="Wishlist"
           >
             <Heart
-              size={18}
+              size={16}
               className={
                 wishlisted
-                  ? "fill-red-500 text-red-500"
-                  : "text-red-400 group-hover/heart:text-red-500 group-hover/heart:fill-red-500/20 transition-colors"
+                  ? "fill-[#B93832] text-[#B93832]"
+                  : "text-[#B93832]/60 group-hover/heart:text-[#B93832] group-hover/heart:fill-[#B93832]/20 transition-colors"
               }
             />
           </button>
@@ -276,7 +286,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
               e.stopPropagation();
               setQuickViewOpen(true);
             }}
-            className="absolute bottom-2.5 end-2.5 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs shadow-xs text-gray-600 hover:text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+            className="absolute bottom-2.5 end-2.5 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs shadow-xs text-[#74685E] hover:text-[#292321] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
             title={isEn ? "Quick View" : "نظرة سريعة"}
             aria-label="Quick View"
           >
@@ -286,35 +296,36 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
 
         {/* Card Content */}
         <Link href={`/products/${product.slug}`} className="block">
-          <p className="card-category text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 line-clamp-1">
+          <p className="card-category text-[11px] font-bold text-[#74685E] uppercase tracking-wider mb-1 line-clamp-1">
             {product.category}
           </p>
-          <h3 className="card-title text-sm sm:text-base font-bold text-gray-900 group-hover:text-[#C6A46A] transition-colors line-clamp-1 mb-2">
+          <h3 className="card-title text-sm sm:text-base font-bold text-[#292321] group-hover:text-[#C58B45] transition-colors line-clamp-1 mb-2">
             {product.name}
           </h3>
 
           {/* Star Rating */}
-          <div className="flex items-center gap-1.5 mb-2.5">
-            <Star size={13} className="fill-amber-400 text-amber-400" />
-            <span className="text-xs font-bold text-gray-800">
-              {product.rating?.toFixed(1) || "4.8"}
-            </span>
-            <span className="text-xs text-gray-400">
-              ({product.reviewCount || 18})
+          <div className="flex items-center gap-1.5 mb-2">
+            <div className="flex items-center text-[#C58B45]">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={12} fill="currentColor" />
+              ))}
+            </div>
+            <span className="text-xs font-bold text-[#292321]">
+              ({product.reviewCount || 5})
             </span>
           </div>
 
           {/* Price */}
           <div className="flex items-baseline gap-2 mb-3">
             <span
-              className="card-price text-base sm:text-lg font-black text-gray-950"
+              className="card-price text-base sm:text-lg font-black text-[#B93832]"
               suppressHydrationWarning
             >
               {formatPrice(product.price)}
             </span>
             {product.originalPrice && (
               <span
-                className="card-old-price text-xs text-gray-400 line-through"
+                className="card-old-price text-xs text-[#74685E] line-through font-bold"
                 suppressHydrationWarning
               >
                 {formatPrice(product.originalPrice)}
@@ -325,7 +336,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
       </div>
 
       {/* Card Actions (WhatsApp Buy & Add to Cart) */}
-      <div className="pt-2.5 border-t border-gray-100 flex items-center gap-2">
+      <div className="pt-2.5 border-t border-[#E8E0D5] flex items-center gap-2">
         <button
           onClick={handleWhatsAppOrder}
           className="flex-1 h-9 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-2 rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
@@ -337,7 +348,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
 
         <button
           onClick={handleAddToCart}
-          className="w-9 h-9 rounded-xl bg-black hover:bg-[#C6A46A] text-white flex items-center justify-center transition-colors shadow-2xs shrink-0 cursor-pointer"
+          className="w-9 h-9 rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] text-white flex items-center justify-center transition-colors shadow-2xs shrink-0 cursor-pointer"
           title={isEn ? "Add to Cart" : "أضف للسلة"}
           aria-label="Add to Cart"
         >

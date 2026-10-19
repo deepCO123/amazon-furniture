@@ -19,20 +19,16 @@ export default function ChooseCategorySection() {
   const t = getTranslation(language);
 
   const categoryTabs = [
-    { id: "غرف النوم", label: t.tabBedrooms },
-    { id: "كراسي ومكاتب", label: t.tabChairsDesks },
-    { id: "ركن ومجالس", label: t.tabLiving },
-    { id: "المطابخ", label: t.tabKitchens },
-    { id: "دريسنج روم", label: t.tabDressing },
+    { id: "كراسي شبك", label: t.tabMeshChairs },
+    { id: "كراسي طبية", label: t.tabMedicalChairs },
     { id: "ترابيزة تليفزيون", label: t.tabTv },
-    { id: "أثاث خارجي", label: t.tabOutdoor },
     { id: "ستائر مكتبية", label: t.tabCurtains },
-    { id: "ليزي بوي", label: t.tabLazyBoy },
-    { id: "بين باج", label: t.tabBeanBag },
-    { id: "اضاءة", label: t.tabLighting },
+    { id: "مكاتب", label: t.tabDesks },
+    { id: "انتريهات", label: t.tabLivingSets },
+    { id: "كراسي جلد", label: t.tabLeatherChairs },
   ];
 
-  const [activeTab, setActiveTab] = useState("غرف النوم");
+  const [activeTab, setActiveTab] = useState("كراسي شبك");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const products = useProductStore((s) => s.products);
@@ -47,37 +43,20 @@ export default function ChooseCategorySection() {
 
   // Filter products for active tab
   const filteredProducts = products.filter((p) => {
-    if (activeTab === "غرف النوم") {
+    if (activeTab === "كراسي شبك") {
       return (
-        p.category === "غرف النوم" ||
-        p.category === "غرفة نوم كاملة" ||
-        p.name.includes("نوم") ||
-        p.name.includes("سرير")
+        p.category === "كراسي شبك" ||
+        p.category.includes("شبك") ||
+        p.name.includes("شبك")
       );
     }
-    if (activeTab === "كراسي ومكاتب") {
+    if (activeTab === "كراسي طبية") {
       return (
-        p.category.includes("كراسي") ||
-        p.category === "مكاتب" ||
-        p.category.includes("مكتب") ||
-        p.name.includes("كرسي") ||
-        p.name.includes("مكتب")
+        p.category === "كراسي طبية" ||
+        p.category.includes("طبي") ||
+        p.name.includes("طبي") ||
+        p.name.includes("ارجونوميك")
       );
-    }
-    if (activeTab === "ركن ومجالس") {
-      return (
-        p.category === "ركن ومجالس" ||
-        p.tags?.includes("كنبة") ||
-        p.tags?.includes("ركن ومجالس") ||
-        p.name.includes("ركنة") ||
-        p.name.includes("كنبة")
-      );
-    }
-    if (activeTab === "المطابخ") {
-      return p.category === "المطابخ" || p.category === "مطبخ كامل" || p.name.includes("مطبخ");
-    }
-    if (activeTab === "دريسنج روم") {
-      return p.category === "دريسنج روم" || p.category === "دريسنج" || p.name.includes("دريسنج");
     }
     if (activeTab === "ترابيزة تليفزيون") {
       return (
@@ -86,24 +65,37 @@ export default function ChooseCategorySection() {
         p.name.includes("شاشة")
       );
     }
-    if (activeTab === "أثاث خارجي") {
-      return p.category === "أثاث خارجي" || p.tags?.includes("أثاث خارجي");
-    }
     if (activeTab === "ستائر مكتبية") {
       return (
         p.category === "ستائر مكتبية" ||
         p.category === "ستائر" ||
-        p.name.includes("ستائر")
+        p.name.includes("ستائر") ||
+        p.name.includes("ستارة")
       );
     }
-    if (activeTab === "اضاءة") {
-      return p.category === "اضاءة" || p.name.includes("اضاءة") || p.name.includes("اباجورة");
+    if (activeTab === "مكاتب") {
+      return (
+        p.category === "مكاتب" ||
+        p.category.includes("مكتب") ||
+        p.name.includes("مكتب")
+      );
     }
-    if (activeTab === "بين باج") {
-      return p.category === "بين باج" || p.name.includes("بين باج");
+    if (activeTab === "انتريهات") {
+      return (
+        p.category === "انتريهات" ||
+        p.category.includes("انتريه") ||
+        p.name.includes("انتريه") ||
+        p.name.includes("صالون") ||
+        p.name.includes("ركنة") ||
+        p.name.includes("كنبة")
+      );
     }
-    if (activeTab === "ليزي بوي") {
-      return p.category === "ليزي بوي" || p.name.includes("ليزي بوي");
+    if (activeTab === "كراسي جلد") {
+      return (
+        p.category === "كراسي جلد" ||
+        p.category.includes("جلد") ||
+        p.name.includes("جلد")
+      );
     }
     return p.category.toLowerCase().includes(activeTab.toLowerCase());
   });
@@ -145,8 +137,8 @@ export default function ChooseCategorySection() {
   return (
     <section className="py-10 lg:py-14 bg-white border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* ── Sub-Category Tabs (Oscar Image 2) ─────────────────────────── */}
-        <div className="flex items-center gap-6 sm:gap-8 overflow-x-auto pb-3 mb-8 scrollbar-none justify-start md:justify-center border-b border-gray-100">
+        {/* ── Sub-Category Tabs (Distinctive, Bold & Clear for Customers) ─────────────────────────── */}
+        <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-2 mb-8 scrollbar-none justify-start md:justify-center border-b border-gray-200">
           {categoryTabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -155,13 +147,16 @@ export default function ChooseCategorySection() {
                 onClick={() => {
                   setActiveTab(tab.id);
                 }}
-                className={`whitespace-nowrap pb-2.5 text-xs sm:text-sm font-bold transition-all relative cursor-pointer ${
+                className={`whitespace-nowrap px-4 py-2.5 rounded-xl text-sm sm:text-base transition-all relative cursor-pointer font-black tracking-wide flex items-center gap-2 ${
                   isActive
-                    ? "text-[#ff7b1b] font-black border-b-2 border-[#ff7b1b]"
-                    : "text-gray-500 hover:text-gray-800"
+                    ? "bg-[#151922] text-[#DFC79C] shadow-md ring-2 ring-[#C6A46A]/50 scale-[1.02]"
+                    : "bg-gray-100 hover:bg-gray-200/80 text-gray-800 hover:text-black"
                 }`}
               >
-                {tab.label}
+                <span>{tab.label}</span>
+                {isActive && (
+                  <span className="w-2 h-2 rounded-full bg-[#C6A46A] animate-pulse" />
+                )}
               </button>
             );
           })}

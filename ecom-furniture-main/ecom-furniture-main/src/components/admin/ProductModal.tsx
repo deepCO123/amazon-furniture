@@ -28,7 +28,7 @@ export default function ProductModal({
   product,
 }: ProductModalProps) {
   const [name, setName] = useState("");
-  const [category, setCategory] = useState("Sofas");
+  const [category, setCategory] = useState("كراسي شبك");
   const [price, setPrice] = useState("");
   const [originalPrice, setOriginalPrice] = useState("");
   const [material, setMaterial] = useState("خشب زان أحمر طبيعي");
@@ -66,7 +66,7 @@ export default function ProductModal({
     const timer = setTimeout(() => {
       if (product) {
         setName(product.name || "");
-        setCategory(product.category || "كراسي مكتب");
+        setCategory(product.category || "كراسي شبك");
         setPrice(product.price ? String(product.price) : "");
         setOriginalPrice(product.originalPrice ? String(product.originalPrice) : "");
         setMaterial(product.material || "خشب زان أحمر طبيعي");
@@ -95,7 +95,7 @@ export default function ProductModal({
         setModel3dUrl(product.specs?.model3dUrl || "");
       } else {
         setName("");
-        setCategory("كراسي مكتب");
+        setCategory("كراسي شبك");
         setPrice("");
         setOriginalPrice("");
         setMaterial("خشب زان أحمر طبيعي");

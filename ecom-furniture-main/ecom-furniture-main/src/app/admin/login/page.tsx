@@ -36,11 +36,11 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-4" dir="rtl">
+    <div className="admin-dashboard min-h-screen bg-[#F1F5F9] text-[#0F172A] flex flex-col items-center justify-center p-4 font-sans" dir="rtl" data-admin="true">
       <div className="w-full max-w-md space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-3">
-          <div className="relative w-16 h-16 rounded-2xl overflow-hidden shadow-2xl border-2 border-[#C5A880] mx-auto">
+          <div className="relative w-16 h-16 rounded-2xl overflow-hidden shadow-md border-2 border-[#2563EB] mx-auto bg-white">
             <Image
               src="/logo-icon.png"
               alt="Amazon Furniture"
@@ -50,48 +50,48 @@ export default function AdminLoginPage() {
             />
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
               Amazon Furniture
             </h1>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-[#64748B] mt-1">
               لوحة تحكم وإدارة المتجر • حساب الإدارة
             </p>
           </div>
         </div>
 
         {/* Card */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-5">
+        <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-8 shadow-xl space-y-5">
           {error && (
-            <div className="p-3.5 bg-red-950/80 border border-red-800 rounded-xl flex items-center gap-2.5 text-red-200 text-xs sm:text-sm">
-              <AlertCircle size={18} className="shrink-0 text-red-400" />
+            <div className="p-3.5 bg-red-50 border border-red-200 rounded-xl flex items-center gap-2.5 text-red-700 text-xs sm:text-sm">
+              <AlertCircle size={18} className="shrink-0 text-red-600" />
               <span>{error}</span>
             </div>
           )}
 
           {/* Quick Fill Demo Credentials */}
-          <div className="bg-slate-800/60 border border-slate-700/70 rounded-xl p-3 text-xs space-y-1.5">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="text-slate-400 font-medium">بيانات الدخول الافتراضية:</span>
+              <span className="text-[#64748B] font-medium">بيانات الدخول الافتراضية:</span>
               <button
                 type="button"
                 onClick={() => {
                   setUsername("admin@amazonfurniture.eg");
                   setPassword("Admin@Pass2026!");
                 }}
-                className="text-[#C5A880] hover:underline font-semibold cursor-pointer"
+                className="text-[#2563EB] hover:underline font-bold cursor-pointer"
               >
                 تعبئة تلقائية ⚡
               </button>
             </div>
-            <div className="text-slate-300 font-mono text-[11px] space-y-0.5" dir="ltr">
-              <div>User: <span className="text-[#C5A880]">admin@amazonfurniture.eg</span></div>
-              <div>Pass: <span className="text-[#C5A880]">Admin@Pass2026!</span></div>
+            <div className="text-[#334155] font-mono text-[11px] space-y-0.5" dir="ltr">
+              <div>User: <span className="text-[#2563EB] font-bold">admin@amazonfurniture.eg</span></div>
+              <div>Pass: <span className="text-[#2563EB] font-bold">Admin@Pass2026!</span></div>
             </div>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">
+              <label className="block text-xs font-bold text-[#334155] mb-1.5">
                 اسم المستخدم / المسؤول
               </label>
               <div className="relative">
@@ -101,14 +101,14 @@ export default function AdminLoginPage() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="اسم المستخدم المعتمد"
-                  className="w-full pl-3 pr-10 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]"
+                  className="w-full pl-3 pr-10 py-3 rounded-xl bg-white border border-[#E2E8F0] text-[#0F172A] placeholder-slate-400 text-sm focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB]"
                 />
                 <User size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">
+              <label className="block text-xs font-bold text-[#334155] mb-1.5">
                 كلمة المرور
               </label>
               <div className="relative">
@@ -118,7 +118,7 @@ export default function AdminLoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-3 pr-10 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]"
+                  className="w-full pl-3 pr-10 py-3 rounded-xl bg-white border border-[#E2E8F0] text-[#0F172A] placeholder-slate-400 text-sm focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB]"
                 />
                 <Lock size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
               </div>
@@ -127,7 +127,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 rounded-xl bg-[#C5A880] hover:bg-[#b0936b] text-slate-950 font-bold text-base transition-all shadow-lg flex items-center justify-center gap-2"
+              className="w-full py-3.5 px-4 rounded-xl bg-[#2563EB] hover:bg-blue-700 text-white font-bold text-base transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -148,7 +148,7 @@ export default function AdminLoginPage() {
         <div className="text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#0F172A] transition-colors"
           >
             <ArrowRight size={14} />
             <span>العودة لمتجر Amazon Furniture</span>

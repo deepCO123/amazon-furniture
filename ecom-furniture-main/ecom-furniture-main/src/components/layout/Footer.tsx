@@ -21,12 +21,13 @@ import { getTranslation } from "@/lib/translations";
 const footerLinksData = {
   ar: {
     shop: [
-      { label: "كراسي مكتب", href: "/products" },
-      { label: "كراسي جيمينج", href: "/products" },
-      { label: "مكاتب مديرين وموظفين", href: "/products" },
-      { label: "كراسي طبية إرجونوميك", href: "/products" },
-      { label: "ركن واستقبال مكاتب", href: "/products" },
-      { label: "ستائر مكتبية", href: "/products" },
+      { label: "كراسي شبك", href: "/products?category=كراسي شبك" },
+      { label: "كراسي طبية", href: "/products?category=كراسي طبية" },
+      { label: "ترابيزة تليفزيون", href: "/products?category=ترابيزة تليفزيون" },
+      { label: "ستائر مكتبية", href: "/products?category=ستائر مكتبية" },
+      { label: "مكاتب", href: "/products?category=مكاتب" },
+      { label: "انتريهات", href: "/products?category=انتريهات" },
+      { label: "كراسي جلد", href: "/products?category=كراسي جلد" },
       { label: "استشارة مجانية بالمنصورة 🎁", href: "/#consultation" },
     ],
     company: [
@@ -45,12 +46,13 @@ const footerLinksData = {
   },
   en: {
     shop: [
-      { label: "Office Chairs", href: "/products" },
-      { label: "Gaming Chairs", href: "/products" },
-      { label: "Executive Desks", href: "/products" },
-      { label: "Ergonomic Chairs", href: "/products" },
-      { label: "Lounge & Reception", href: "/products" },
-      { label: "Office Blinds", href: "/products" },
+      { label: "Mesh Chairs", href: "/products?category=كراسي شبك" },
+      { label: "Ergonomic Chairs", href: "/products?category=كراسي طبية" },
+      { label: "TV Tables", href: "/products?category=ترابيزة تليفزيون" },
+      { label: "Office Blinds", href: "/products?category=ستائر مكتبية" },
+      { label: "Office Desks", href: "/products?category=مكاتب" },
+      { label: "Living Sets", href: "/products?category=انتريهات" },
+      { label: "Leather Chairs", href: "/products?category=كراسي جلد" },
       { label: "Free Consultation 🎁", href: "/#consultation" },
     ],
     company: [
@@ -154,13 +156,13 @@ export default function Footer() {
           {/* Brand + Contact + Newsletter */}
           <div className="lg:col-span-5">
             <Link href="/" className="flex items-center mb-5 group">
-              <div className="relative h-11 w-48 transition-transform duration-200 group-hover:scale-[1.02]">
+              <div className="relative h-12 w-40 rounded-xl overflow-hidden transition-transform duration-200 group-hover:scale-[1.03] shadow-md border border-white/20">
                 <Image
-                  src="/amazon-furniture-logo-white.png"
+                  src="/amazon-new-logo.jpg"
                   alt={SITE_NAME}
                   fill
-                  sizes="192px"
-                  className="object-contain object-right"
+                  sizes="160px"
+                  className="object-cover object-center"
                 />
               </div>
             </Link>

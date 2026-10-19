@@ -89,11 +89,12 @@ export default function AdminLayout({
 
   return (
     <div
-      className={`min-h-screen font-sans transition-colors duration-200 selection:bg-cyan-500 selection:text-black ${
+      className={`admin-dashboard min-h-screen font-sans transition-colors duration-200 selection:bg-blue-600 selection:text-white ${
         theme === "dark"
           ? "bg-[#0b0e14] text-slate-100"
-          : "bg-[#F3F5F9] text-slate-800"
+          : "bg-[#F1F5F9] text-[#0F172A]"
       }`}
+      data-admin="true"
       dir="rtl"
     >
       {children}

@@ -9,8 +9,6 @@ import {
   Package,
   Ruler,
   KeyRound,
-  MapPin,
-  Phone,
   Mail,
   ShieldCheck,
   CheckCircle2,

@@ -32,7 +32,7 @@ export default function OscarHeroBanner() {
   const { language } = useLanguageStore();
   const t = getTranslation(language);
 
-  const slides = [
+  const slides: Slide[] = [
     {
       id: 1,
       title: t.slide1Title,
@@ -96,116 +96,124 @@ export default function OscarHeroBanner() {
   const slide = slides[current] || slides[0];
 
   return (
-    <section className="w-full bg-[#f6f2ec]">
-      {/* ── 1. Full-Bleed Edge-to-Edge Hero Banner ───────────────────── */}
-      <div className="relative w-full h-[480px] sm:h-[540px] md:h-[600px] lg:h-[680px] overflow-hidden select-none bg-[#1e1b18]">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={slide.id}
-            initial={false}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
-            className="absolute inset-0 w-full h-full"
-          >
-            {/* Full-width edge-to-edge background photograph with 95% HD quality */}
-            <Image
-              src={slide.image}
-              alt={slide.title}
-              fill
-              priority
-              quality={95}
-              className="object-cover object-center w-full h-full"
-              sizes="100vw"
-            />
+    <section className="w-full bg-white pt-3 sm:pt-4 pb-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* ── 1. Rounded Card Hero Banner (Primary Brown #6B4F3A & Gold #C58B45) ─── */}
+        <div className="relative w-full h-[380px] sm:h-[460px] md:h-[500px] lg:h-[540px] rounded-3xl overflow-hidden select-none bg-[#6B4F3A] shadow-2xl border border-[#83644D]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={slide.id}
+              initial={false}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 w-full h-full"
+            >
+              {/* Background Image */}
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                fill
+                priority
+                quality={95}
+                className="object-cover object-center w-full h-full"
+                sizes="100vw"
+              />
 
-            {/* Gradient overlay for clear typography legibility */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  language === "en"
-                    ? "linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.60) 35%, rgba(0,0,0,0.20) 60%, rgba(0,0,0,0) 80%)"
-                    : "linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.60) 28%, rgba(0,0,0,0.20) 50%, rgba(0,0,0,0) 70%)",
-              }}
-            />
-          </motion.div>
-        </AnimatePresence>
+              {/* Gradient Overlay for Warm Brown Atmosphere */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(to left, rgba(107,79,58,0.95) 0%, rgba(107,79,58,0.75) 38%, rgba(107,79,58,0.25) 65%, rgba(0,0,0,0) 85%)",
+                }}
+              />
+            </motion.div>
+          </AnimatePresence>
 
-        {/* Content Container */}
-        <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex items-center justify-start pb-8 sm:pb-12">
-          <div className={`max-w-xl space-y-4 sm:space-y-6 ${language === "en" ? "text-left" : "text-right"}`}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={slide.id}
-                initial={false}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5 }}
-                className="space-y-4 sm:space-y-5"
-              >
-                {/* Main Heading */}
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] font-sans">
-                  {slide.title}
-                </h1>
+          {/* Content Container */}
+          <div className="relative z-10 w-full h-full p-6 sm:p-10 lg:p-14 flex items-center justify-start">
+            <div className={`max-w-xl space-y-4 sm:space-y-5 ${language === "en" ? "text-left" : "text-right"}`}>
+              {/* Promotional Ribbon */}
+              <div className="inline-flex items-center gap-2 bg-[#B93832] text-white text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg">
+                <span>🔥 عروض التخفيضات الكبرى | خصومات حتى 50%</span>
+              </div>
 
-                {/* Subtitle description */}
-                <p className="text-sm sm:text-base lg:text-lg text-gray-100 max-w-lg leading-relaxed font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-                  {slide.subtitle}
-                </p>
+              {/* Main Heading */}
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight drop-shadow-md">
+                {slide.title}
+              </h1>
 
-                {/* Interactive Action Buttons side-by-side */}
-                <div className="pt-3 flex flex-wrap items-center gap-3.5 justify-start">
-                  <Link
-                    href={slide.cta1Link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center bg-white hover:bg-gray-100 text-gray-900 font-extrabold text-sm sm:text-base px-8 sm:px-10 py-3 rounded-lg shadow-xl hover:shadow-2xl transition-all cursor-pointer"
-                  >
-                    <span>{slide.cta1Text}</span>
-                  </Link>
+              {/* Subtitle description */}
+              <p className="text-xs sm:text-sm lg:text-base text-[#E8D8C3] max-w-lg leading-relaxed font-bold drop-shadow-sm">
+                {slide.subtitle}
+              </p>
 
-                  <Link
-                    href={slide.cta2Link}
-                    className="inline-flex items-center justify-center bg-[#3c2a1e]/85 hover:bg-[#3c2a1e] text-white border border-white/30 backdrop-blur-md font-extrabold text-sm sm:text-base px-8 sm:px-10 py-3 rounded-lg shadow-xl transition-all cursor-pointer"
-                  >
-                    <span>{slide.cta2Text}</span>
-                  </Link>
+              {/* Installment Badges Strip (0% مقدم، 0% مصاريف) */}
+              <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                <div className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-3 py-1 rounded-xl text-xs font-black flex items-center gap-1.5">
+                  <span className="text-[#C58B45] font-extrabold text-sm">0%</span>
+                  <span>مقدم</span>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+                <div className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-3 py-1 rounded-xl text-xs font-black flex items-center gap-1.5">
+                  <span className="text-[#C58B45] font-extrabold text-sm">0%</span>
+                  <span>مصاريف</span>
+                </div>
+                <div className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-3 py-1 rounded-xl text-xs font-black flex items-center gap-1.5">
+                  <span className="text-[#C58B45] font-extrabold text-sm">10</span>
+                  <span>سنوات ضمان معتمد</span>
+                </div>
+              </div>
+
+              {/* Interactive Action Buttons */}
+              <div className="pt-2 flex flex-wrap items-center gap-3 justify-start">
+                <Link
+                  href={slide.cta1Link}
+                  className="inline-flex items-center justify-center bg-[#C58B45] hover:bg-[#B07836] text-white font-black text-xs sm:text-sm px-7 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all cursor-pointer hover:scale-105"
+                >
+                  <span>تسوق العروض فوراً</span>
+                </Link>
+
+                <Link
+                  href={slide.cta2Link}
+                  className="inline-flex items-center justify-center bg-white/20 hover:bg-white/30 text-white border border-white/40 backdrop-blur-md font-black text-xs sm:text-sm px-6 py-3 rounded-xl shadow-lg transition-all cursor-pointer"
+                >
+                  <span>طلب استشارة ومعاينة مجانية</span>
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
 
-        {/* Carousel Navigation Arrows */}
-        <button
-          onClick={() => setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1))}
-          aria-label="السابق"
-          className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm flex items-center justify-center transition-all opacity-80 hover:opacity-100 cursor-pointer shadow-lg"
-        >
-          <ChevronRight size={24} />
-        </button>
+          {/* Carousel Navigation Arrows */}
+          <button
+            onClick={() => setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1))}
+            aria-label="السابق"
+            className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs flex items-center justify-center transition-all cursor-pointer shadow-lg"
+          >
+            <ChevronRight size={20} />
+          </button>
 
-        <button
-          onClick={() => setCurrent((prev) => (prev + 1) % slides.length)}
-          aria-label="التالي"
-          className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-sm flex items-center justify-center transition-all opacity-80 hover:opacity-100 cursor-pointer shadow-lg"
-        >
-          <ChevronLeft size={24} />
-        </button>
+          <button
+            onClick={() => setCurrent((prev) => (prev + 1) % slides.length)}
+            aria-label="التالي"
+            className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs flex items-center justify-center transition-all cursor-pointer shadow-lg"
+          >
+            <ChevronLeft size={20} />
+          </button>
 
-        {/* Slider Pagination Dots */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
-          {slides.map((s, idx) => (
-            <button
-              key={s.id}
-              onClick={() => setCurrent(idx)}
-              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                current === idx ? "w-8 bg-[#e58e26]" : "w-2.5 bg-white/70 hover:bg-white"
-              }`}
-              aria-label={`Slide ${idx + 1}`}
-            />
-          ))}
+          {/* Slider Pagination Dots */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+            {slides.map((s, idx) => (
+              <button
+                key={s.id}
+                onClick={() => setCurrent(idx)}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  current === idx ? "w-7 bg-[#D97706]" : "w-2 bg-white/60 hover:bg-white"
+                }`}
+                aria-label={`Slide ${idx + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 

@@ -362,8 +362,8 @@ export default function CartPage() {
 
               <p className="text-[11px] text-muted text-center mt-3">
                 {isEn
-                  ? "Direct support from Mohamed Esmaeil"
-                  : "تأكيد فوري ودعم مباشر من الأستاذ محمد إسماعيل"}
+                  ? "Direct support from customer care team"
+                  : "تأكيد فوري ودعم مباشر من فريق المبيعات"}
               </p>
             </div>
           </AnimatedSection>

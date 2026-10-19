@@ -1,27 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Ruler,
   UploadCloud,
   CheckCircle2,
   Trash2,
-  Eye,
   MessageCircle,
-  Phone,
   Sparkles,
-  ArrowRight,
   ShieldCheck,
-  Palette,
-  Layers,
-  Building,
-  User,
-  MapPin,
   Clock,
-  HelpCircle,
 } from "lucide-react";
 import { useLanguageStore } from "@/store/languageStore";
 import { apiClient } from "@/lib/apiClient";
@@ -609,6 +599,19 @@ ${notes ? `📝 *ملاحظات وإضافات:* ${notes}\n` : ""}${
                       placeholder="customer@example.com"
                       value={customerEmail}
                       onChange={(e) => setCustomerEmail(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent focus:border-accent text-xs outline-none"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">
+                      العنوان بالتفصيل (اختياري)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="اسم الشارع، رقم العمارة أو الفيلا..."
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent focus:border-accent text-xs outline-none"
                     />
                   </div>

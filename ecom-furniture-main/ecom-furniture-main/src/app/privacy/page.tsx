@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Lock, Eye, Database, ShieldCheck, UserCheck, Bell } from "lucide-react";
+import { Lock, Eye, Database, ShieldCheck, UserCheck } from "lucide-react";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 
 export const metadata: Metadata = {
