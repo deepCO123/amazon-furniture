@@ -9,9 +9,22 @@ const router = express.Router();
 const { verifyToken, checkRole } = require('../middlewares/auth');
 const jsonCache = require('../services/jsonCache');
 
-// 0. إعادة تحميل وتفريغ الكاش من القرص يدوياً ومزامنتها مع قاعدة البيانات
-router.get('/reload-cache', async (req, res) => {
+// 0. إعادة تحميل وتفريغ الكاش — محمي بتوكن الأدمن
+// في الإنتاج: قراءة حصرية ومحدثة من MongoDB (لا كتابة ولا قراءة من ملفات JSON)
+router.get('/reload-cache', verifyToken, checkRole('admin'), async (req, res) => {
   try {
+    if (jsonCache.isProductionMode()) {
+      jsonCache.invalidate('products.json');
+      const products = await jsonCache.read('products.json', []);
+      return res.json({
+        success: true,
+        source: 'mongodb',
+        count: products.length,
+        timestamp: Date.now(),
+      });
+    }
+
+    // بيئة التطوير المحلي فقط: إعادة تحميل البيانات من ملف JSON
     const fs = require('fs/promises');
     const path = require('path');
     const filePath = path.resolve(
@@ -26,8 +39,9 @@ router.get('/reload-cache', async (req, res) => {
     );
     const raw = await fs.readFile(filePath, 'utf-8');
     const products = JSON.parse(raw);
+    jsonCache.invalidate('products.json');
     await jsonCache.write('products.json', products);
-    res.json({ success: true, count: products.length, timestamp: Date.now() });
+    res.json({ success: true, source: 'local_file_dev', count: products.length, timestamp: Date.now() });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -126,11 +140,11 @@ router.delete('/', verifyToken, checkRole('admin'), async (req, res) => {
       return res.status(400).json({ error: 'Product ID is required' });
     }
     const products = await jsonCache.read('products.json', []);
-    const filtered = products.filter((p) => String(p.id) !== String(id));
-    if (filtered.length === products.length) {
+    const exists = products.some((p) => String(p.id) === String(id));
+    if (!exists) {
       return res.status(404).json({ error: 'Product not found' });
     }
-    await jsonCache.write('products.json', filtered);
+    await jsonCache.deleteItem('products.json', id);
     res.json({ success: true, deletedId: id });
   } catch (err) {
     console.error('Delete product error:', err);

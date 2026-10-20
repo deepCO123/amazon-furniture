@@ -246,20 +246,12 @@ router.delete('/:id', verifyToken, checkRole('admin'), async (req, res) => {
     const { id } = req.params;
 
     const list = await jsonCache.read('custom_orders.json', []);
-    const filtered = list.filter((o) => o.id !== id);
-    if (filtered.length === list.length) {
+    const exists = list.some((o) => o.id === id);
+    if (!exists) {
       return res.status(404).json({ error: 'Custom order not found' });
     }
 
-    await jsonCache.write('custom_orders.json', filtered);
-
-    if (jsonCache.isMongoConnected()) {
-      try {
-        await CustomOrder.findOneAndDelete({ id });
-      } catch (dbErr) {
-        console.warn('CustomOrder Mongo delete notice:', dbErr.message);
-      }
-    }
+    await jsonCache.deleteItem('custom_orders.json', id);
 
     res.json({ success: true, deletedId: id });
   } catch (err) {

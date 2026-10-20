@@ -63,19 +63,28 @@ const INITIAL_COUPONS = [
 ];
 
 async function ensureCouponsInitialized() {
+  // في بيئة الإنتاج، نمنع تماماً الحقن التلقائي للكوبونات التوضيحية عند خلو قاعدة البيانات
+  if (jsonCache.isProductionMode()) {
+    return;
+  }
+
+  if (jsonCache.isMongoConnected()) {
+    try {
+      const count = await Coupon.countDocuments({});
+      if (count > 0) return;
+      // إذا كانت قاعدة البيانات فارغة تماماً، نقوم بتهيئة الكوبونات الترحيبية الأساسية
+      for (const cp of INITIAL_COUPONS) {
+        await Coupon.create(cp);
+      }
+      jsonCache.invalidate('coupons.json');
+      return;
+    } catch (err) {
+      console.warn('[Coupons Mongo Init Warning]', err.message);
+    }
+  }
   const coupons = await jsonCache.read('coupons.json', []);
   if (!coupons || coupons.length === 0) {
     await jsonCache.write('coupons.json', INITIAL_COUPONS);
-    if (jsonCache.isMongoConnected()) {
-      try {
-        for (const cp of INITIAL_COUPONS) {
-          const exists = await Coupon.findOne({ code: cp.code });
-          if (!exists) await Coupon.create(cp);
-        }
-      } catch (err) {
-        console.warn('[Coupons Mongo Seed Notice]', err.message);
-      }
-    }
   }
 }
 
@@ -296,21 +305,13 @@ router.delete('/:id', verifyToken, checkRole('admin'), async (req, res) => {
   try {
     const { id } = req.params;
     const coupons = await jsonCache.read('coupons.json', []);
-    const filtered = coupons.filter((c) => c.id !== id && c.code !== id);
+    const target = coupons.find((c) => c.id === id || c.code === id);
 
-    if (filtered.length === coupons.length) {
+    if (!target) {
       return res.status(404).json({ error: 'الكوبون غير موجود' });
     }
 
-    await jsonCache.write('coupons.json', filtered);
-
-    if (jsonCache.isMongoConnected()) {
-      try {
-        await Coupon.findOneAndDelete({ $or: [{ id }, { code: id }] });
-      } catch (dbErr) {
-        console.warn('Coupon Mongo delete notice:', dbErr.message);
-      }
-    }
+    await jsonCache.deleteItem('coupons.json', target.code || id);
 
     res.json({ success: true, deletedId: id });
   } catch (err) {
@@ -322,4 +323,5 @@ router.delete('/:id', verifyToken, checkRole('admin'), async (req, res) => {
 module.exports = {
   router,
   validateCouponLogic,
+  ensureCouponsInitialized,
 };

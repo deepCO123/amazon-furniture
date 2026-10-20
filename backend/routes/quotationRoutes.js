@@ -66,10 +66,12 @@ router.delete('/', verifyToken, checkRole('admin'), async (req, res) => {
     if (!id) return res.status(400).json({ error: 'ID is required' });
 
     const items = await jsonCache.read('quotations.json', []);
-    const filtered = items.filter((q) => q.id !== id);
-    await jsonCache.write('quotations.json', filtered);
+    const exists = items.some((q) => q.id === id);
+    if (!exists) return res.status(404).json({ error: 'Quotation not found' });
 
-    res.json({ success: true });
+    await jsonCache.deleteItem('quotations.json', id);
+
+    res.json({ success: true, deletedId: id });
   } catch (err) {
     console.error('DELETE /api/quotations error:', err);
     res.status(500).json({ error: 'Failed to delete quotation' });

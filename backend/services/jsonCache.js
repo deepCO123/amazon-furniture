@@ -23,6 +23,8 @@ const {
   Consultation,
   Email,
   Review,
+  CustomOrder,
+  Coupon,
 } = require('../models');
 
 // خريطة ربط الأسماء بالنماذج
@@ -43,6 +45,10 @@ const modelMap = {
   'emails': Email,
   'reviews.json': Review,
   'reviews': Review,
+  'coupons.json': Coupon,
+  'coupons': Coupon,
+  'custom_orders.json': CustomOrder,
+  'custom_orders': CustomOrder,
 };
 
 // مسار ملفات الـ JSON الاحتياطية
@@ -80,10 +86,38 @@ class MongoDataCache {
     return process.env.NODE_ENV === 'production';
   }
 
+  isTestMode() {
+    return process.env.NODE_ENV === 'test' || Boolean(process.env.JEST_WORKER_ID);
+  }
+
   getProductionGuardError(operation, filename) {
     return new Error(
       `MongoDB is required in production for ${operation} on ${filename}. Local JSON fallback is disabled to prevent stale data from becoming the system of record.`
     );
+  }
+
+  /**
+   * تحديد فلتر المعرف الثابت والآمن وفقاً للمخطط لكل نموذج
+   */
+  getDocFilter(key, doc) {
+    if (!doc) return null;
+    const normalizedKey = key.toLowerCase();
+
+    // الكوبونات معرّفة بشكل أساسي وفريد برمز الكود (code)
+    if (normalizedKey.includes('coupon')) {
+      const code = doc.code ? String(doc.code).trim().toUpperCase() : null;
+      if (code) return { code };
+      if (doc.id) return { $or: [{ id: doc.id }, { code: String(doc.id).trim().toUpperCase() }] };
+    }
+
+    const docId = doc.id || (doc._id ? doc._id.toString() : null);
+    if (docId) {
+      return { id: docId };
+    }
+    if (doc._id) {
+      return { _id: doc._id };
+    }
+    return null;
   }
 
   cleanDocument(doc) {
@@ -94,19 +128,23 @@ class MongoDataCache {
     }
     delete clean._id;
     delete clean.__v;
+    // ملاحظة أمنية: لا يتم حذف passwordHash هنا لتمكين التوثيق الداخلي
+    // تنظيف البيانات الحساسة يتم فقط في طبقة الاستجابة للعميل في الراوترات
     return clean;
   }
 
   cleanDocuments(docs) {
     if (!Array.isArray(docs)) return docs;
-    return docs.map(d => this.cleanDocument(d));
+    return docs.map((d) => this.cleanDocument(d));
   }
 
   /**
    * قراءة البيانات:
    * 1. من الـ RAM Cache مباشرة إن وجدت (0ms).
-   * 2. من MongoDB عبر Mongoose إن كان متصلاً.
-   * 3. من ملف الـ JSON المحلي كخيار احتياطي موثوق.
+   * 2. من MongoDB عبر Mongoose كمصدر رسمي وموثوق (Authoritative Source of Truth).
+   *    - المصفوفة الفارغة [] تعتبر حالة صحيحة ومؤكدة من قاعدة البيانات.
+   *    - في بيئة الإنتاج: أي خطأ في الاتصال أو الاستعلام يتم رميه مباشرة دون الارتداد للـ JSON.
+   * 3. من ملف الـ JSON المحلي كخيار احتياطي للتطوير المحلي فقط عند عدم الاتصال بقاعدة البيانات.
    */
   async read(filename, fallback = []) {
     const key = filename.toLowerCase();
@@ -120,28 +158,33 @@ class MongoDataCache {
     this.stats.misses++;
     const Model = modelMap[key];
 
-    // 2. محاولة القراءة من MongoDB
+    // 2. محاولة القراءة من MongoDB (المصدر المعتمد)
     if (this.isMongoConnected() && Model) {
       try {
         const mongoDocs = await Model.find({}).lean();
-        if (mongoDocs && mongoDocs.length > 0) {
-          const cleaned = this.cleanDocuments(mongoDocs);
-          this.cache.set(key, cleaned);
-          this.stats.dbReads++;
-          return cleaned;
-        }
+        // نجاح الاستعلام: حتى لو كانت المجموعة فارغة []، هذه حالة رسمية وصحيحة
+        const cleaned = this.cleanDocuments(mongoDocs || []);
+        this.cache.set(key, cleaned);
+        this.stats.dbReads++;
+        return cleaned;
       } catch (err) {
-        console.warn(`[MongoCache Notice] MongoDB read failed for ${key}, falling back to file:`, err.message);
+        console.error(`[MongoCache Error] MongoDB query failed for ${key}:`, err.message);
+        if (this.isProductionMode()) {
+          throw new Error(
+            `[Database Read Failure] Failed to read ${filename} from MongoDB in production: ${err.message}`
+          );
+        }
       }
     }
 
-    if (this.isProductionMode() && !this.isMongoConnected()) {
+    // 3. في بيئة الإنتاج: منع تام للارتداد الصامت لملفات الـ JSON عند انقطاع الاتصال أو فشل الاستعلام
+    if (this.isProductionMode()) {
       const err = this.getProductionGuardError('read', filename);
       console.error(`[MongoCache Security] ${err.message}`);
       throw err;
     }
 
-    // 3. القراءة من ملف الـ JSON المحلي فقط في بيئات التطوير
+    // 4. القراءة من ملف الـ JSON المحلي فقط في بيئات التطوير
     const filePath = this.getFilePath(filename);
     try {
       const raw = await fs.readFile(filePath, 'utf-8');
@@ -160,9 +203,10 @@ class MongoDataCache {
 
   /**
    * حفظ وتحديث البيانات:
-   * 1. تحديث الكاش في الذاكرة فوراً.
-   * 2. حفظ البيانات في MongoDB.
-   * 3. حفظ نسخة احتياطية على القرص لضمان استقرار التطبيق.
+   * 1. الحفظ في MongoDB أولاً والتأكد من نجاحه.
+   *    - عدم الحذف التلقائي العشوائي للمستندات الأخرى غير المرفقة في المصفوفة (حماية كاملة من فقد البيانات).
+   * 2. تحديث الكاش في الذاكرة RAM فقط بعد نجاح العملية في MongoDB.
+   * 3. في بيئة الإنتاج: عدم الكتابة على القرص المحلي لمنع الكتابة في ملفات السورس.
    */
   async write(filename, data) {
     const key = filename.toLowerCase();
@@ -175,53 +219,120 @@ class MongoDataCache {
       throw err;
     }
 
-    // تحديث الكاش في الذاكرة فوراً
-    this.cache.set(key, data);
-    this.stats.writes++;
-
-    // 1. حفظ في MongoDB إن كان متصلاً بنظام bulkWrite الآمن (Zero Data-Loss Window)
+    // 1. حفظ في MongoDB أولاً إن كان متصلاً بنظام bulkWrite التراكمي الآمن
     if (this.isMongoConnected() && Model && Array.isArray(data)) {
-      try {
-        if (data.length > 0) {
-          const ops = data.map((doc) => {
-            const docId = doc.id || (doc._id ? doc._id.toString() : null);
-            const filter = docId ? { id: docId } : { _id: doc._id };
-            return {
+      if (data.length > 0) {
+        const ops = [];
+        for (const doc of data) {
+          const filter = this.getDocFilter(key, doc);
+          if (filter) {
+            ops.push({
               updateOne: {
                 filter,
                 update: { $set: doc },
                 upsert: true,
               },
-            };
-          });
-          await Model.bulkWrite(ops, { ordered: false });
-
-          // مزامنة الحذف: إزالة المستندات التي حُذفت فعلياً دون مسح الكل دفعة واحدة
-          const currentIds = data.map((d) => d.id).filter(Boolean);
-          if (currentIds.length > 0) {
-            await Model.deleteMany({ id: { $nin: currentIds } });
+            });
           }
-        } else {
-          await Model.deleteMany({});
         }
-      } catch (dbErr) {
-        console.warn(`[MongoCache Warning] MongoDB bulk sync warning for ${key}:`, dbErr.message);
+
+        if (ops.length > 0) {
+          try {
+            await Model.bulkWrite(ops, { ordered: false });
+          } catch (dbErr) {
+            console.error(`[MongoCache Error] MongoDB bulkWrite failed for ${key}:`, dbErr.message);
+            // لا نبتلع الخطأ أبداً! نرميه للميدلوير ليتم التعامل معه وعدم إيهام العميل بنجاح وهمي
+            throw new Error(`[Database Write Failure] MongoDB write failed for ${filename}: ${dbErr.message}`);
+          }
+        }
+      }
+      // حماية صارمة من الحذف التلقائي:
+      // لن يتم استدعاء Model.deleteMany() هنا إطلاقاً لمنع محو السجلات السابقة عند إرسال مصفوفة جزئية.
+    }
+
+    // 2. تحديث الكاش في الذاكرة فقط بعد نجاح الحفظ الفعلي في قاعدة البيانات
+    this.cache.set(key, data);
+    this.stats.writes++;
+
+    // 3. حفظ نسخة احتياطية على القرص (Write-Through) فقط في بيئات التطوير غير الاختبارية
+    if (!this.isProductionMode() && !this.isTestMode()) {
+      try {
+        const jsonString = JSON.stringify(data, null, 2);
+        await fs.writeFile(filePath, jsonString, 'utf-8');
+      } catch (error) {
+        console.warn(`[MongoCache Dev Notice] Failed to write local backup ${filename}:`, error.message);
       }
     }
 
-    // 2. حفظ نسخة احتياطية على القرص (Write-Through) فقط في بيئات التطوير
-    try {
-      const jsonString = JSON.stringify(data, null, 2);
-      await fs.writeFile(filePath, jsonString, 'utf-8');
-      return true;
-    } catch (error) {
-      console.error(`[MongoCache Error] Failed to write backup ${filename}:`, error.message);
-      return true;
-    }
+    return true;
   }
 
   /**
-   * إبطال الكاش لملف معين
+   * حذف مستند محدد وموجه بدقة دون التأثير على بقية المستندات
+   * @param {string} filename اسم الملف أو النموذج
+   * @param {string|object} identifier المعرف (id أو code أو كائن فلتر)
+   */
+  async deleteItem(filename, identifier) {
+    const key = filename.toLowerCase();
+    const Model = modelMap[key];
+
+    if (this.isProductionMode() && !this.isMongoConnected()) {
+      const err = this.getProductionGuardError('delete', filename);
+      console.error(`[MongoCache Security] ${err.message}`);
+      throw err;
+    }
+
+    let filter = null;
+    if (typeof identifier === 'object' && identifier !== null) {
+      filter = identifier;
+    } else if (key.includes('coupon')) {
+      const normCode = String(identifier).trim().toUpperCase();
+      filter = { $or: [{ code: normCode }, { id: identifier }] };
+    } else {
+      filter = { id: String(identifier) };
+    }
+
+    // 1. الحذف من MongoDB أولاً
+    if (this.isMongoConnected() && Model) {
+      try {
+        await Model.deleteOne(filter);
+      } catch (dbErr) {
+        console.error(`[MongoCache Error] Failed to delete document in ${key}:`, dbErr.message);
+        throw new Error(`[Database Delete Failure] Failed to delete in ${filename}: ${dbErr.message}`);
+      }
+    }
+
+    // 2. التحديث في كاش الرامات
+    if (this.cache.has(key)) {
+      const current = this.cache.get(key);
+      if (Array.isArray(current)) {
+        let updated;
+        if (key.includes('coupon')) {
+          const norm = String(identifier).trim().toUpperCase();
+          updated = current.filter((c) => c.code !== norm && c.id !== identifier);
+        } else {
+          const idStr = String(identifier);
+          updated = current.filter((d) => String(d.id) !== idStr);
+        }
+        this.cache.set(key, updated);
+      }
+    }
+
+    // 3. تحديث ملف التطوير المحلي إن وُجد (تخطي في بيئات الاختبار)
+    if (!this.isProductionMode() && !this.isTestMode() && this.cache.has(key)) {
+      try {
+        const filePath = this.getFilePath(filename);
+        await fs.writeFile(filePath, JSON.stringify(this.cache.get(key), null, 2), 'utf-8');
+      } catch (fileErr) {
+        // تجاهل أخطاء ملف التطوير المحلي
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * إبطال الكاش لملف معين لإعادة التحميل عند الحاجة
    */
   invalidate(filename) {
     const key = filename.toLowerCase();
