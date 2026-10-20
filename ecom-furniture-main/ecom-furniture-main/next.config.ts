@@ -15,7 +15,26 @@ const nextConfig: NextConfig = {
   // Proxy ALL /api/* requests to Express backend — eliminates CORS
   // and makes the frontend a pure UI layer with zero filesystem I/O
   async rewrites() {
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+    const isProd = process.env.NODE_ENV === "production";
+    const isVercel = Boolean(process.env.VERCEL);
+    const configuredBackend = process.env.NEXT_PUBLIC_BACKEND_URL?.trim();
+
+    if (isProd && !configuredBackend) {
+      console.warn(
+        "⚠️ [Configuration Guard] NEXT_PUBLIC_BACKEND_URL is not set in production. " +
+        (isVercel
+          ? "Please set NEXT_PUBLIC_BACKEND_URL in your Vercel Project Settings."
+          : "Falling back to http://localhost:5000 for local production testing.")
+      );
+    }
+
+    // In Vercel production without a backend URL, avoid silently proxying to localhost
+    const backendUrl = configuredBackend || (isVercel ? "" : "http://localhost:5000");
+
+    if (!backendUrl) {
+      return [];
+    }
+
     return [
       {
         source: "/api/:path*",
@@ -27,11 +46,16 @@ const nextConfig: NextConfig = {
       },
     ];
   },
- images: {
+  images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
         pathname: "/**",
       },
       {

@@ -229,6 +229,7 @@ export default function CheckoutPage() {
     if (!customerData) return;
     setSubmittingOrder(true);
 
+    // eslint-disable-next-line react-hooks/purity
     const orderId = `AF-${Math.floor(100000 + Math.random() * 900000)}`;
     setCreatedOrderId(orderId);
 
