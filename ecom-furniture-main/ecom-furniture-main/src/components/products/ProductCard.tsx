@@ -227,11 +227,11 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
   return (
     <div
       data-card="product"
-      className="product-card group bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative flex flex-col justify-between h-full"
+      className="product-card group bg-white rounded-xl sm:rounded-3xl p-2.5 sm:p-4 border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative flex flex-col justify-between h-full"
     >
       <div>
         {/* Image Container with Subtle Background */}
-        <div className="relative aspect-[4/3] sm:aspect-square bg-[#F8F5F0] rounded-xl sm:rounded-2xl overflow-hidden flex items-center justify-center p-3 mb-3.5">
+        <div className="relative aspect-[4/3] sm:aspect-square bg-[#F8F5F0] rounded-lg sm:rounded-2xl overflow-hidden flex items-center justify-center p-2 sm:p-3 mb-2.5 sm:mb-3.5">
           <Image
             src={product.images[0] || "/placeholder.jpg"}
             alt={product.name}
@@ -240,37 +240,37 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
               product.images[0]?.startsWith("/uploads/") ||
                 product.images[0]?.startsWith("http")
             )}
-            className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-contain p-1.5 sm:p-2 group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
 
           {/* Red Pill Discount Badge */}
           {product.originalPrice && product.originalPrice > product.price ? (
-            <span className="absolute top-2.5 end-2.5 z-10 bg-[#B93832] text-white text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-md">
-              وفر {(product.originalPrice - product.price).toLocaleString("ar-EG")} جنيه
+            <span className="absolute top-2 end-2 z-10 bg-[#B93832] text-white text-[9px] sm:text-[11px] font-black px-2 py-0.5 rounded-full shadow-md">
+              وفر {(product.originalPrice - product.price).toLocaleString("ar-EG")} ج
             </span>
           ) : discountPercent > 0 ? (
-            <span className="absolute top-2.5 end-2.5 z-10 bg-[#B93832] text-white text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-md">
+            <span className="absolute top-2 end-2 z-10 bg-[#B93832] text-white text-[9px] sm:text-[11px] font-black px-2 py-0.5 rounded-full shadow-md">
               -{discountPercent}%
             </span>
           ) : null}
 
           {/* Product Code Watermark */}
           {product.code && (
-            <span className="absolute bottom-2 start-2 z-10 text-[10px] font-mono font-bold text-[#74685E] bg-white/80 backdrop-blur-xs px-1.5 py-0.5 rounded">
-              Code: {product.code}
+            <span className="absolute bottom-1.5 start-1.5 z-10 text-[9px] sm:text-[10px] font-mono font-bold text-[#74685E] bg-white/80 backdrop-blur-xs px-1.5 py-0.5 rounded">
+              {product.code}
             </span>
           )}
 
           {/* Floating Round Wishlist Heart */}
           <button
             onClick={handleToggleWishlist}
-            className="absolute top-2.5 start-2.5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-10 cursor-pointer border border-[#E8E0D5] group/heart"
+            className="absolute top-2 start-2 w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-white shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-10 cursor-pointer border border-[#E8E0D5] group/heart"
             title={isEn ? "Add to wishlist" : "إضافة للمفضلة"}
             aria-label="Wishlist"
           >
             <Heart
-              size={16}
+              size={14}
               className={
                 wishlisted
                   ? "fill-[#B93832] text-[#B93832]"
@@ -286,46 +286,46 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
               e.stopPropagation();
               setQuickViewOpen(true);
             }}
-            className="absolute bottom-2.5 end-2.5 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs shadow-xs text-[#74685E] hover:text-[#292321] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+            className="absolute bottom-2 end-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 backdrop-blur-xs shadow-xs text-[#74685E] hover:text-[#292321] hidden sm:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
             title={isEn ? "Quick View" : "نظرة سريعة"}
             aria-label="Quick View"
           >
-            <Eye size={15} />
+            <Eye size={14} />
           </button>
         </div>
 
         {/* Card Content */}
         <Link href={`/products/${product.slug}`} className="block">
-          <p className="card-category text-[11px] font-bold text-[#74685E] uppercase tracking-wider mb-1 line-clamp-1">
+          <p className="card-category text-[10px] sm:text-[11px] font-bold text-[#74685E] uppercase tracking-wider mb-1 line-clamp-1">
             {product.category}
           </p>
-          <h3 className="card-title text-sm sm:text-base font-bold text-[#292321] group-hover:text-[#C58B45] transition-colors line-clamp-1 mb-2">
+          <h3 className="card-title text-xs sm:text-base font-bold text-[#292321] group-hover:text-[#C58B45] transition-colors line-clamp-2 min-h-[2rem] sm:min-h-[2.75rem] mb-1.5 leading-snug">
             {product.name}
           </h3>
 
           {/* Star Rating */}
-          <div className="flex items-center gap-1.5 mb-2">
+          <div className="flex items-center gap-1 mb-1.5 sm:mb-2">
             <div className="flex items-center text-[#C58B45]">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} size={12} fill="currentColor" />
+                <Star key={i} size={11} fill="currentColor" />
               ))}
             </div>
-            <span className="text-xs font-bold text-[#292321]">
+            <span className="text-[10px] sm:text-xs font-bold text-[#292321]">
               ({product.reviewCount || 5})
             </span>
           </div>
 
           {/* Price */}
-          <div className="flex items-baseline gap-2 mb-3">
+          <div className="flex flex-wrap items-baseline gap-1 sm:gap-2 mb-2 sm:mb-3">
             <span
-              className="card-price text-base sm:text-lg font-black text-[#B93832]"
+              className="card-price text-sm sm:text-lg font-black text-[#B93832] truncate"
               suppressHydrationWarning
             >
               {formatPrice(product.price)}
             </span>
             {product.originalPrice && (
               <span
-                className="card-old-price text-xs text-[#74685E] line-through font-bold"
+                className="card-old-price text-[11px] sm:text-xs text-[#74685E] line-through font-bold"
                 suppressHydrationWarning
               >
                 {formatPrice(product.originalPrice)}
@@ -336,23 +336,23 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
       </div>
 
       {/* Card Actions (WhatsApp Buy & Add to Cart) */}
-      <div className="pt-2.5 border-t border-[#E8E0D5] flex items-center gap-2">
+      <div className="pt-2 sm:pt-2.5 border-t border-[#E8E0D5] flex items-center gap-1.5 sm:gap-2">
         <button
           onClick={handleWhatsAppOrder}
-          className="flex-1 h-9 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-2 rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+          className="flex-1 min-h-[36px] sm:h-9 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] sm:text-xs font-bold px-2 rounded-lg sm:rounded-xl flex items-center justify-center gap-1 sm:gap-1.5 transition-colors shadow-2xs cursor-pointer truncate"
           title="طلب فوري عبر واتساب"
         >
-          <MessageCircle size={14} />
-          <span>{isEn ? "WhatsApp" : "طلب واتساب ⚡"}</span>
+          <MessageCircle size={13} className="shrink-0" />
+          <span className="truncate">{isEn ? "WhatsApp" : "واتساب ⚡"}</span>
         </button>
 
         <button
           onClick={handleAddToCart}
-          className="w-9 h-9 rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] text-white flex items-center justify-center transition-colors shadow-2xs shrink-0 cursor-pointer"
+          className="min-w-[36px] min-h-[36px] sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] text-white flex items-center justify-center transition-colors shadow-2xs shrink-0 cursor-pointer"
           title={isEn ? "Add to Cart" : "أضف للسلة"}
           aria-label="Add to Cart"
         >
-          <ShoppingBag size={16} />
+          <ShoppingBag size={15} />
         </button>
       </div>
 

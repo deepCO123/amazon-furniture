@@ -32,6 +32,37 @@ export default function OscarHeroBanner() {
   const { language } = useLanguageStore();
   const t = getTranslation(language);
 
+  // Touch Swipe Support
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  const minSwipeDistance = 45;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const distance = touchStartX - touchEndX;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (language === "en") {
+      if (isLeftSwipe) setCurrent((prev) => (prev + 1) % slides.length);
+      if (isRightSwipe) setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    } else {
+      // RTL: Swiping left advances in RTL layout
+      if (isLeftSwipe) setCurrent((prev) => (prev + 1) % slides.length);
+      if (isRightSwipe) setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    }
+  };
+
   const slides: Slide[] = [
     {
       id: 1,
@@ -96,10 +127,15 @@ export default function OscarHeroBanner() {
   const slide = slides[current] || slides[0];
 
   return (
-    <section className="w-full bg-white pt-3 sm:pt-4 pb-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="w-full bg-white pt-2 sm:pt-4 pb-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         {/* ── 1. Rounded Card Hero Banner (Primary Brown #6B4F3A & Gold #C58B45) ─── */}
-        <div className="relative w-full h-[380px] sm:h-[460px] md:h-[500px] lg:h-[540px] rounded-3xl overflow-hidden select-none bg-[#6B4F3A] shadow-2xl border border-[#83644D]">
+        <div
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+          className="relative w-full min-h-[450px] sm:min-h-[460px] md:h-[500px] lg:h-[540px] rounded-2xl sm:rounded-3xl overflow-hidden select-none bg-[#6B4F3A] shadow-2xl border border-[#83644D] flex flex-col justify-center"
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.id}
@@ -125,58 +161,58 @@ export default function OscarHeroBanner() {
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background:
-                    "linear-gradient(to left, rgba(107,79,58,0.95) 0%, rgba(107,79,58,0.75) 38%, rgba(107,79,58,0.25) 65%, rgba(0,0,0,0) 85%)",
+                    "linear-gradient(to left, rgba(107,79,58,0.96) 0%, rgba(107,79,58,0.85) 45%, rgba(107,79,58,0.4) 75%, rgba(0,0,0,0.1) 100%)",
                 }}
               />
             </motion.div>
           </AnimatePresence>
 
           {/* Content Container */}
-          <div className="relative z-10 w-full h-full p-6 sm:p-10 lg:p-14 flex items-center justify-start">
-            <div className={`max-w-xl space-y-4 sm:space-y-5 ${language === "en" ? "text-left" : "text-right"}`}>
+          <div className="relative z-10 w-full h-full p-4 sm:p-8 lg:p-14 flex items-center justify-start">
+            <div className={`max-w-xl space-y-3 sm:space-y-4 ${language === "en" ? "text-left" : "text-right"}`}>
               {/* Promotional Ribbon */}
-              <div className="inline-flex items-center gap-2 bg-[#B93832] text-white text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg">
+              <div className="inline-flex items-center gap-1.5 bg-[#B93832] text-white text-[11px] sm:text-xs font-black px-3 py-1 rounded-full shadow-lg">
                 <span>🔥 عروض التخفيضات الكبرى | خصومات حتى 50%</span>
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight drop-shadow-md">
+              <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-snug sm:leading-tight tracking-tight drop-shadow-md">
                 {slide.title}
               </h1>
 
               {/* Subtitle description */}
-              <p className="text-xs sm:text-sm lg:text-base text-[#E8D8C3] max-w-lg leading-relaxed font-bold drop-shadow-sm">
+              <p className="text-xs sm:text-sm lg:text-base text-[#E8D8C3] max-w-lg leading-relaxed font-bold drop-shadow-sm line-clamp-2 sm:line-clamp-none">
                 {slide.subtitle}
               </p>
 
-              {/* Installment Badges Strip (0% مقدم، 0% مصاريف) */}
-              <div className="flex flex-wrap items-center gap-2.5 pt-1">
-                <div className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-3 py-1 rounded-xl text-xs font-black flex items-center gap-1.5">
-                  <span className="text-[#C58B45] font-extrabold text-sm">0%</span>
+              {/* Installment Badges Strip */}
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 pt-0.5">
+                <div className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-2.5 py-1 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black flex items-center gap-1">
+                  <span className="text-[#C58B45] font-extrabold text-xs sm:text-sm">0%</span>
                   <span>مقدم</span>
                 </div>
-                <div className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-3 py-1 rounded-xl text-xs font-black flex items-center gap-1.5">
-                  <span className="text-[#C58B45] font-extrabold text-sm">0%</span>
+                <div className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-2.5 py-1 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black flex items-center gap-1">
+                  <span className="text-[#C58B45] font-extrabold text-xs sm:text-sm">0%</span>
                   <span>مصاريف</span>
                 </div>
-                <div className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-3 py-1 rounded-xl text-xs font-black flex items-center gap-1.5">
-                  <span className="text-[#C58B45] font-extrabold text-sm">10</span>
-                  <span>سنوات ضمان معتمد</span>
+                <div className="bg-white/15 backdrop-blur-md border border-white/25 text-white px-2.5 py-1 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black flex items-center gap-1">
+                  <span className="text-[#C58B45] font-extrabold text-xs sm:text-sm">10</span>
+                  <span>سنوات ضمان</span>
                 </div>
               </div>
 
               {/* Interactive Action Buttons */}
-              <div className="pt-2 flex flex-wrap items-center gap-3 justify-start">
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 justify-start w-full sm:w-auto">
                 <Link
                   href={slide.cta1Link}
-                  className="inline-flex items-center justify-center bg-[#C58B45] hover:bg-[#B07836] text-white font-black text-xs sm:text-sm px-7 py-3 rounded-xl shadow-xl hover:shadow-2xl transition-all cursor-pointer hover:scale-105"
+                  className="inline-flex min-h-[44px] items-center justify-center bg-[#C58B45] hover:bg-[#B07836] text-white font-black text-xs sm:text-sm px-6 py-2.5 sm:py-3 rounded-xl shadow-xl transition-all cursor-pointer hover:scale-102 active:scale-98 text-center"
                 >
                   <span>تسوق العروض فوراً</span>
                 </Link>
 
                 <Link
                   href={slide.cta2Link}
-                  className="inline-flex items-center justify-center bg-white/20 hover:bg-white/30 text-white border border-white/40 backdrop-blur-md font-black text-xs sm:text-sm px-6 py-3 rounded-xl shadow-lg transition-all cursor-pointer"
+                  className="inline-flex min-h-[44px] items-center justify-center bg-white/20 hover:bg-white/30 text-white border border-white/40 backdrop-blur-md font-black text-xs sm:text-sm px-5 py-2.5 sm:py-3 rounded-xl shadow-lg transition-all cursor-pointer text-center"
                 >
                   <span>طلب استشارة ومعاينة مجانية</span>
                 </Link>
@@ -184,11 +220,11 @@ export default function OscarHeroBanner() {
             </div>
           </div>
 
-          {/* Carousel Navigation Arrows */}
+          {/* Carousel Navigation Arrows - Hidden on extra small mobile, visible sm+ */}
           <button
             onClick={() => setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1))}
             aria-label="السابق"
-            className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs flex items-center justify-center transition-all cursor-pointer shadow-lg"
+            className="hidden sm:flex absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs items-center justify-center transition-all cursor-pointer shadow-lg"
           >
             <ChevronRight size={20} />
           </button>
@@ -196,19 +232,19 @@ export default function OscarHeroBanner() {
           <button
             onClick={() => setCurrent((prev) => (prev + 1) % slides.length)}
             aria-label="التالي"
-            className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs flex items-center justify-center transition-all cursor-pointer shadow-lg"
+            className="hidden sm:flex absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-xs items-center justify-center transition-all cursor-pointer shadow-lg"
           >
             <ChevronLeft size={20} />
           </button>
 
           {/* Slider Pagination Dots */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2">
             {slides.map((s, idx) => (
               <button
                 key={s.id}
                 onClick={() => setCurrent(idx)}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                  current === idx ? "w-7 bg-[#D97706]" : "w-2 bg-white/60 hover:bg-white"
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer min-w-[8px] min-h-[8px] ${
+                  current === idx ? "w-6 bg-[#D97706]" : "w-2 bg-white/60 hover:bg-white"
                 }`}
                 aria-label={`Slide ${idx + 1}`}
               />

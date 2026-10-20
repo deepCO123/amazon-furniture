@@ -134,19 +134,51 @@ export default function CartPage() {
                   key={`${item.product.id}-${item.color}`}
                   layout
                   exit={{ opacity: 0, x: -100 }}
-                  className="bg-white rounded-2xl p-4 sm:p-6 border border-surface-dark flex gap-4 text-start shadow-xs"
+                  className="bg-white rounded-2xl p-3.5 sm:p-6 border border-surface-dark flex flex-col sm:flex-row gap-3.5 sm:gap-4 text-start shadow-xs"
                 >
-                  <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-xl overflow-hidden shrink-0 bg-surface border border-surface-dark">
-                    <Image
-                      src={item.product.images[0]}
-                      alt={item.product.name}
-                      fill
-                      className="object-cover"
-                      sizes="128px"
-                    />
+                  <div className="flex gap-3.5 sm:contents items-start">
+                    {/* Item Image */}
+                    <div className="relative w-20 h-20 sm:w-32 sm:h-32 rounded-xl overflow-hidden shrink-0 bg-surface border border-surface-dark">
+                      <Image
+                        src={item.product.images[0]}
+                        alt={item.product.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 80px, 128px"
+                      />
+                    </div>
+
+                    {/* Mobile top details + delete */}
+                    <div className="flex-1 min-w-0 sm:hidden">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <p className="text-[10px] text-muted uppercase tracking-wider font-semibold">
+                            {item.product.category}
+                          </p>
+                          <h3 className="font-bold text-primary text-sm line-clamp-2 mt-0.5">
+                            {item.product.name}
+                          </h3>
+                          {item.color && (
+                            <p className="text-xs text-muted mt-1">
+                              {isEn ? "Color:" : "اللون:"} {item.color}
+                            </p>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => removeItem(item.product.id)}
+                          className="w-10 h-10 -me-1 -mt-1 rounded-xl text-muted hover:text-danger hover:bg-red-50 flex items-center justify-center transition-colors shrink-0"
+                          title={isEn ? "Remove item" : "حذف العنصر"}
+                          aria-label={isEn ? "Remove item" : "حذف العنصر"}
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
+
+                  {/* Desktop and Tablet Details Column */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-between">
+                    <div className="hidden sm:flex items-start justify-between gap-2">
                       <div>
                         <p className="text-xs text-muted uppercase tracking-wide">
                           {item.product.category}
@@ -162,40 +194,45 @@ export default function CartPage() {
                       </div>
                       <button
                         onClick={() => removeItem(item.product.id)}
-                        className="p-1.5 text-muted hover:text-danger transition-colors shrink-0"
+                        className="w-10 h-10 rounded-lg text-muted hover:text-danger hover:bg-red-50 flex items-center justify-center transition-colors shrink-0"
                         title={isEn ? "Remove item" : "حذف العنصر"}
+                        aria-label={isEn ? "Remove item" : "حذف العنصر"}
                       >
                         <Trash2 size={18} />
                       </button>
                     </div>
 
-                    <div className="mt-4 flex items-center justify-between">
-                      <div className="flex items-center border border-surface-dark rounded-lg bg-surface">
+                    {/* Bottom Quantity Stepper & Price */}
+                    <div className="pt-2 sm:pt-4 border-t border-surface-dark/60 sm:border-t-0 flex items-center justify-between">
+                      <div className="flex items-center border border-surface-dark rounded-xl bg-surface overflow-hidden">
                         <button
                           onClick={() =>
                             updateQuantity(item.product.id, item.quantity - 1)
                           }
-                          className="p-2 hover:bg-white transition-colors"
+                          className="w-10 h-10 flex items-center justify-center hover:bg-white text-primary transition-colors cursor-pointer"
                           aria-label="Decrease quantity"
                         >
                           <Minus size={14} />
                         </button>
-                        <span className="w-10 text-center text-sm font-bold text-primary">
+                        <span className="w-9 text-center text-sm font-black text-primary">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() =>
                             updateQuantity(item.product.id, item.quantity + 1)
                           }
-                          className="p-2 hover:bg-white transition-colors"
+                          className="w-10 h-10 flex items-center justify-center hover:bg-white text-primary transition-colors cursor-pointer"
                           aria-label="Increase quantity"
                         >
                           <Plus size={14} />
                         </button>
                       </div>
-                      <p className="font-extrabold text-primary text-base sm:text-lg">
-                        {formatPrice(item.product.price * item.quantity)}
-                      </p>
+                      <div className="text-end">
+                        <span className="text-xs text-muted block sm:hidden">الإجمالي:</span>
+                        <p className="font-extrabold text-primary text-base sm:text-lg" suppressHydrationWarning>
+                          {formatPrice(item.product.price * item.quantity)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </motion.div>

@@ -53,20 +53,18 @@ export default function LoginPage() {
       <AnimatedSection className="w-full max-w-md">
         <div className="bg-white rounded-2xl p-8 border border-surface-dark shadow-sm">
           <div className="text-center mb-6">
-            <Link href="/" className="inline-flex flex-col items-center gap-2 mb-4 group">
-              <div className="relative w-14 h-14 rounded-2xl overflow-hidden shadow-md border border-accent/40 group-hover:border-accent transition-all duration-300">
-                <Image
-                  src="/logo-icon.png"
-                  alt="Amazon Furniture"
-                  fill
-                  priority
-                  sizes="56px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
+            <Link href="/" className="inline-flex flex-col items-center gap-2 mb-4 group" aria-label="AMAZON">
+              <Image
+                src="/logo/amazon-logo-bronze.svg"
+                alt="AMAZON"
+                width={160}
+                height={80}
+                className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                priority
+              />
             </Link>
             <h1 className="text-2xl font-bold text-primary">تسجيل الدخول / Sign In</h1>
-            <p className="text-muted mt-1 text-sm">سجل دخولك لحسابك في Amazon Furniture</p>
+            <p className="text-muted mt-1 text-sm">سجل دخولك لحسابك في AMAZON</p>
           </div>
 
           {/* Google 1-Click Login Button */}

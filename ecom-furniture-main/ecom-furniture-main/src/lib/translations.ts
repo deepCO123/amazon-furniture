@@ -3,7 +3,7 @@ import type { Language } from "@/store/languageStore";
 export const translations = {
   ar: {
     // Brand
-    brandName: "Amazon Furniture",
+    brandName: "AMAZON",
     est: "تأسس عام 1994",
     manager: "خدمة العملاء والمبيعات",
     managerTitle: "فريق المبيعات والدعم الفني",
@@ -144,7 +144,7 @@ export const translations = {
     lightMode: "الوضع النهاري",
 
     // Why Choose Us
-    whyTag: "لماذا تختار Amazon Furniture؟",
+    whyTag: "لماذا تختار AMAZON؟",
     whyTitle: "جودة استثنائية وتفاصيل لا تُضاهى",
     featSustainable: "خشب طبيعي مستدام",
     featSustainableDesc: "أخشاب طبيعية عالية الجودة تم اختيارها بعناية لضمان أطول عمر افتراضي.",
@@ -209,7 +209,7 @@ export const translations = {
     chatWhatsApp: "تواصل عبر واتساب",
     facebookPage: "صفحتنا على فيسبوك",
     followUs: "تابعنا على منصات التواصل",
-    rightsReserved: "جميع الحقوق محفوظة لشركة Amazon Furniture.",
+    rightsReserved: "جميع الحقوق محفوظة لـ AMAZON – Premium Living Solutions.",
     directContact: "تواصل مباشر مع الإدارة",
 
     // Contact page
@@ -226,12 +226,12 @@ export const translations = {
 
     // WhatsApp Floating
     whatsappHelp: "تواصل معنا عبر واتساب",
-    whatsappDefaultMsg: "مرحباً، أود الاستفسار عن منتجات وتفاصيل أثاث Amazon Furniture.",
+    whatsappDefaultMsg: "مرحباً، أود الاستفسار عن منتجات وتفاصيل أثاث AMAZON.",
   },
 
   sa: {
     // Brand
-    brandName: "Amazon Furniture",
+    brandName: "AMAZON",
     est: "تأسست عام 1994",
     manager: "خدمة العملاء والمبيعات",
     managerTitle: "فريق المبيعات والدعم الفني",
@@ -372,7 +372,7 @@ export const translations = {
     lightMode: "الوضع النهاري",
 
     // Why Choose Us
-    whyTag: "ليه تختار Amazon Furniture؟",
+    whyTag: "ليه تختار AMAZON؟",
     whyTitle: "جودة نفتخر فيها وخدمة تليق بك",
     featSustainable: "أخشاب طبيعية فاخرة",
     featSustainableDesc: "ننتقي أجود أنواع الأخشاب الصلبة لضمان متانة وفخامة تدوم طويلاً.",
@@ -437,7 +437,7 @@ export const translations = {
     chatWhatsApp: "محادثة واتساب فورية",
     facebookPage: "صفحتنا على فيسبوك",
     followUs: "تابعنا على المنصات",
-    rightsReserved: "كافة الحقوق محفوظة لـ Amazon Furniture.",
+    rightsReserved: "كافة الحقوق محفوظة لـ AMAZON – Premium Living Solutions.",
     directContact: "تواصل مباشر مع الإدارة",
 
     // Contact page
@@ -454,12 +454,12 @@ export const translations = {
 
     // WhatsApp Floating
     whatsappHelp: "تواصل معنا عبر واتساب",
-    whatsappDefaultMsg: "السلام عليكم، حابب أستفسر عن تشكيلة أثاث Amazon Furniture والأسعار المتاحة.",
+    whatsappDefaultMsg: "السلام عليكم، حابب أستفسر عن تشكيلة أثاث AMAZON والأسعار المتاحة.",
   },
 
   en: {
     // Brand
-    brandName: "Amazon Furniture",
+    brandName: "AMAZON",
     est: "Est. 1994",
     manager: "Customer Service & Sales",
     managerTitle: "Support & Sales Team",
@@ -600,7 +600,7 @@ export const translations = {
     lightMode: "Light Mode",
 
     // Why Choose Us
-    whyTag: "Why Amazon Furniture?",
+    whyTag: "Why AMAZON?",
     whyTitle: "Uncompromising Quality & Craftsmanship",
     featSustainable: "Sustainable Hardwoods",
     featSustainableDesc: "Ethically harvested, kiln-dried hardwoods designed to endure generations.",
@@ -665,7 +665,7 @@ export const translations = {
     chatWhatsApp: "Chat on WhatsApp",
     facebookPage: "Official Facebook Page",
     followUs: "Follow Us",
-    rightsReserved: "All rights reserved. Amazon Furniture.",
+    rightsReserved: "All rights reserved. AMAZON – Premium Living Solutions.",
     directContact: "Direct Executive Contact",
 
     // Contact page
@@ -682,7 +682,7 @@ export const translations = {
 
     // WhatsApp Floating
     whatsappHelp: "Chat with Mohamed Esmaeil",
-    whatsappDefaultMsg: "Hello Mr. Mohamed Esmaeil, I would like to inquire about Amazon Furniture products.",
+    whatsappDefaultMsg: "Hello Mr. Mohamed Esmaeil, I would like to inquire about AMAZON products.",
   },
 };
 

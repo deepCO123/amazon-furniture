@@ -115,8 +115,18 @@ export default function Navbar() {
         setShowSearchDropdown(false);
       }
     };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+        setShowSearchDropdown(false);
+      }
+    };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   if (pathname?.startsWith("/admin")) {
@@ -156,18 +166,16 @@ export default function Navbar() {
         {/* ── 2. Main Header Row (Aligned, Balanced Spacing) ───────────── */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5">
           <div className="flex items-center justify-between gap-3 sm:gap-6 lg:gap-8">
-            {/* Brand Logo with New User Logo */}
-            <Link href="/" className="flex items-center shrink-0 group py-0.5">
-              <div className="relative h-10 sm:h-12 w-28 sm:w-36 rounded-xl overflow-hidden transition-transform duration-200 group-hover:scale-[1.03] shadow-xs border border-[#E8E0D5]">
-                <Image
-                  src="/amazon-new-logo.jpg"
-                  alt={SITE_NAME}
-                  fill
-                  sizes="(max-width: 640px) 112px, 144px"
-                  className="object-cover object-center"
-                  priority
-                />
-              </div>
+            {/* Brand Logo - 46px on desktop, 38-40px on mobile */}
+            <Link href="/" className="flex items-center shrink-0 group py-0.5" aria-label="AMAZON">
+              <Image
+                src="/logo/amazon-horizontal-bronze.svg"
+                alt="AMAZON"
+                width={180}
+                height={46}
+                className="h-[38px] sm:h-[46px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                priority
+              />
             </Link>
 
             {/* Center: Flexible Responsive Pill Search Bar */}
@@ -309,22 +317,25 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              {/* Cart */}
+              {/* Cart - Always Visible */}
               <Link
                 href="/cart"
-                className="relative p-1 text-gray-800 hover:text-black transition-colors"
+                className="relative min-w-[44px] min-h-[44px] flex items-center justify-center p-2 text-gray-800 hover:text-black transition-colors"
                 title={t.cart}
+                aria-label={t.cart}
               >
                 <ShoppingBag size={24} strokeWidth={1.8} />
-                <span className="absolute -top-1.5 -right-1.5 bg-black text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
+                <span className="absolute top-1 end-1 bg-black text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
                   {hydrated ? itemCount : 0}
                 </span>
               </Link>
 
-              {/* Mobile Menu Button */}
+              {/* Mobile Menu Button (Hamburger) */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="lg:hidden p-1.5 text-gray-700 hover:text-primary"
+                className="lg:hidden min-w-[44px] min-h-[44px] p-2 rounded-xl text-gray-700 hover:text-primary hover:bg-gray-100 flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="قائمة التصفح"
+                aria-expanded={isOpen}
               >
                 {isOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -448,12 +459,22 @@ export default function Navbar() {
         {/* ── 4. Mobile Drawer Menu (All Store Pages Included) ─────────── */}
         <AnimatePresence>
           {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-white border-t border-gray-200 shadow-xl overflow-hidden"
-            >
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsOpen(false)}
+                className="fixed inset-0 bg-black/40 z-30 lg:hidden backdrop-blur-xs transition-opacity"
+                aria-hidden="true"
+              />
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="lg:hidden relative z-40 bg-white border-t border-gray-200 shadow-xl overflow-hidden"
+              >
               <div className="p-4 space-y-3 max-h-[80vh] overflow-y-auto">
                 <Link
                   href="/#consultation"
@@ -574,6 +595,7 @@ export default function Navbar() {
                 </div>
               </div>
             </motion.div>
+            </>
           )}
         </AnimatePresence>
       </header>

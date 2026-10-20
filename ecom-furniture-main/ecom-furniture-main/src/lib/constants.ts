@@ -1,5 +1,5 @@
-export const SITE_NAME = "Amazon Furniture";
-export const SITE_DESCRIPTION = "Premium handcrafted furniture for modern living";
+export const SITE_NAME = "AMAZON";
+export const SITE_DESCRIPTION = "Premium Living Solutions";
 export const SITE_URL = "http://localhost:3000";
 
 export const NAV_LINKS = [

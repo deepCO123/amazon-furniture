@@ -5,6 +5,8 @@
  */
 
 const PDFDocument = require('pdfkit');
+const path = require('path');
+const fs = require('fs');
 
 /**
  * توليد ملف PDF للفاتورة وإرجاعه كـ Buffer في الذاكرة
@@ -19,9 +21,9 @@ function generateInvoiceBuffer(order) {
         margin: 40,
         info: {
           Title: `فاتورة ضريبية وشهادة ضمان - ${order.id}`,
-          Author: 'Amazon Furniture Egypt',
+          Author: 'AMAZON – Premium Living Solutions',
           Subject: 'فاتورة رسمية وعقد ضمان الأخشاب الطبيعية لمدة 10 سنوات',
-          Creator: 'Amazon Furniture ERP System',
+          Creator: 'AMAZON ERP System',
         },
       });
 
@@ -39,21 +41,34 @@ function generateInvoiceBuffer(order) {
       // Accent gold bottom line for banner
       doc
         .rect(0, 107, doc.page.width, 3)
-        .fill('#C5A880');
+        .fill('#c98d74');
 
-      // Company Title & Tagline
-      doc
-        .fillColor('#FFFFFF')
-        .fontSize(22)
-        .font('Helvetica-Bold')
-        .text('AMAZON FURNITURE', 45, 30);
-
-      doc
-        .fillColor('#C5A880')
-        .fontSize(9)
-        .font('Helvetica')
-        .text('ESTABLISHED 1994 | LUXURY HANDCRAFTED FURNITURE', 45, 58)
-        .text('Damietta & Mansoura Factories | Cairo Showrooms', 45, 72);
+      // Company Logo (White Horizontal on Dark Header)
+      const logoPath = path.join(__dirname, '../assets/logo/amazon-horizontal-white.png');
+      if (fs.existsSync(logoPath)) {
+        doc.image(logoPath, 45, 24, { height: 38 });
+        doc
+          .fillColor('#c98d74')
+          .fontSize(8.5)
+          .font('Helvetica-Bold')
+          .text('PREMIUM LIVING SOLUTIONS', 45, 68)
+          .fillColor('#A1A1AA')
+          .fontSize(8)
+          .font('Helvetica')
+          .text('ESTABLISHED 1994 | LUXURY HANDCRAFTED FURNITURE', 45, 82);
+      } else {
+        doc
+          .fillColor('#FFFFFF')
+          .fontSize(22)
+          .font('Helvetica-Bold')
+          .text('AMAZON', 45, 30);
+        doc
+          .fillColor('#c98d74')
+          .fontSize(9)
+          .font('Helvetica')
+          .text('PREMIUM LIVING SOLUTIONS', 45, 58)
+          .text('Damietta & Mansoura Factories | Cairo Showrooms', 45, 72);
+      }
 
       // Invoice Badge / Order ID on Right
       doc
@@ -247,7 +262,7 @@ function generateInvoiceBuffer(order) {
         .fontSize(7)
         .font('Helvetica')
         .fillColor('#94A3B8')
-        .text('Amazon Furniture Quality Control Unit', leftCol + 20, footerY + 14)
+        .text('AMAZON Quality Control Unit', leftCol + 20, footerY + 14)
         .text('Mohamed Ismail - General Director', 360, footerY + 14);
 
       doc
@@ -259,7 +274,7 @@ function generateInvoiceBuffer(order) {
         .font('Helvetica')
         .fillColor('#64748B')
         .text(
-          'Amazon Furniture Egypt | Factory: New Damietta Industrial Area | Mansoura Showroom: Talkha Main St. | Phone: +20 109 1084863',
+          'AMAZON – Premium Living Solutions | Factory: New Damietta Industrial Area | Mansoura Showroom: Talkha Main St. | Phone: +20 109 1084863',
           leftCol,
           770,
           { align: 'center', width: 510 }

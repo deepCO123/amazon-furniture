@@ -101,7 +101,8 @@ function MobileAccordion({
     <div className="border-b border-white/10 lg:border-0">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-between w-full py-4 lg:py-0 lg:pointer-events-none"
+        className="flex items-center justify-between w-full py-4 lg:py-0 lg:pointer-events-none min-h-[44px] cursor-pointer"
+        aria-expanded={open}
       >
         <h3 className="font-semibold text-lg">{title}</h3>
         <ChevronDown
@@ -155,16 +156,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Brand + Contact + Newsletter */}
           <div className="lg:col-span-5">
-            <Link href="/" className="flex items-center mb-5 group">
-              <div className="relative h-12 w-40 rounded-xl overflow-hidden transition-transform duration-200 group-hover:scale-[1.03] shadow-md border border-white/20">
-                <Image
-                  src="/amazon-new-logo.jpg"
-                  alt={SITE_NAME}
-                  fill
-                  sizes="160px"
-                  className="object-cover object-center"
-                />
-              </div>
+            <Link href="/" className="flex items-center mb-5 group" aria-label="AMAZON">
+              <Image
+                src="/logo/amazon-logo-color.svg"
+                alt="AMAZON"
+                width={170}
+                height={70}
+                className="w-[140px] sm:w-[170px] h-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+              />
             </Link>
             <p className="text-white/70 text-sm leading-relaxed mb-6 max-w-md">
               {t.footerDesc}

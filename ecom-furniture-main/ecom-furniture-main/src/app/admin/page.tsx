@@ -174,6 +174,7 @@ export default function AdminDashboardPage() {
   const [viewingReceiptOrder, setViewingReceiptOrder] = useState<Order | null>(null);
 
   const [notification, setNotification] = useState<string | null>(null);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const showNotification = (msg: string) => {
     setNotification(msg);
@@ -575,21 +576,34 @@ export default function AdminDashboardPage() {
       <aside className={`w-full lg:fixed lg:top-0 lg:right-0 lg:w-64 xl:w-72 lg:h-screen lg:max-h-screen shrink-0 border-b lg:border-b-0 lg:border-s p-4 lg:p-5 flex flex-col justify-between z-40 transition-colors duration-200 ${panelCls}`}>
         <div className="flex flex-col flex-1 min-h-0">
           {/* Brand header */}
-          <div className={`flex items-center gap-3 pb-4 border-b mb-3 shrink-0 ${borderSep}`}>
-            <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-lg border border-cyan-500/40 bg-[#171B24] shrink-0">
-              <Image src="/logo-icon.png" alt="Amazon Furniture" fill className="object-cover" />
-            </div>
-            <div className="min-w-0">
-              <h2 className={`font-black text-sm truncate ${textTitle}`}>Amazon Furniture</h2>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                <span className={`text-[11px] font-bold ${textMuted}`}>لوحة الإدارة المباشرة</span>
+          <div className={`flex items-center justify-between pb-4 border-b mb-3 shrink-0 ${borderSep}`}>
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-lg border border-[#c98d74]/40 bg-[#171B24] shrink-0 p-1">
+                <Image src="/logo/amazon-mark-color.svg" alt="AMAZON" fill className="object-contain" />
+              </div>
+              <div className="min-w-0">
+                <h2 className={`font-black text-sm truncate ${textTitle}`}>AMAZON</h2>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="w-2 h-2 rounded-full bg-[#c98d74] animate-pulse" />
+                  <span className={`text-[10px] font-bold ${textMuted} truncate`}>Premium Living Solutions</span>
+                </div>
               </div>
             </div>
+
+            {/* Mobile menu toggle */}
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen(!mobileNavOpen)}
+              className="lg:hidden px-3 py-1.5 rounded-xl border border-slate-700 text-slate-200 hover:text-white bg-slate-800/80 flex items-center gap-1.5 text-xs font-bold transition-all min-h-[38px]"
+              aria-label="تبديل قائمة لوحة التحكم"
+            >
+              <span>{mobileNavOpen ? "إغلاق" : "الأقسام"}</span>
+              <span className="text-sm font-mono">{mobileNavOpen ? "✕" : "☰"}</span>
+            </button>
           </div>
 
           {/* Navigation Items (Scrollable internally with no-scrollbar if viewport is short) */}
-          <nav className="space-y-1 overflow-y-auto no-scrollbar flex-1 pe-0.5">
+          <nav className={`space-y-1 overflow-y-auto no-scrollbar flex-1 pe-0.5 ${mobileNavOpen ? "block" : "hidden lg:block"}`}>
             {[
               { id: "products", label: "المنتجات والمخزون", icon: Package, count: products.length },
               { id: "orders", label: "الطلبات والتصنيع", icon: ShoppingBag, count: orders.length },
@@ -606,8 +620,11 @@ export default function AdminDashboardPage() {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id as AdminTab)}
-                  className={`w-full text-right px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between transition-all cursor-pointer ${
+                  onClick={() => {
+                    setActiveTab(tab.id as AdminTab);
+                    setMobileNavOpen(false);
+                  }}
+                  className={`w-full text-right px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between transition-all cursor-pointer min-h-[44px] ${
                     isActive
                       ? isDark
                         ? "bg-[#182a3d] text-cyan-400 border border-cyan-500/30 shadow-lg shadow-cyan-950/40 font-black"
@@ -644,7 +661,7 @@ export default function AdminDashboardPage() {
             <div className="pt-2">
               <Link
                 href="/admin/returns-intelligence"
-                className={`w-full text-right px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between transition-all cursor-pointer ${
+                className={`w-full text-right px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between transition-all cursor-pointer min-h-[44px] ${
                   isDark
                     ? "bg-gradient-to-r from-amber-500/15 via-red-500/10 to-transparent text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 shadow-md shadow-amber-950/20"
                     : "bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 shadow-xs"
@@ -663,7 +680,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Sidebar Footer Actions (Firmly Pinned in Viewport at all times) */}
-        <div className={`pt-3 border-t space-y-2 mt-2 shrink-0 ${borderSep}`}>
+        <div className={`pt-3 border-t space-y-2 mt-2 shrink-0 ${borderSep} ${mobileNavOpen ? "block" : "hidden lg:block"}`}>
           {/* Dark / Light Mode Switcher */}
           <ThemeToggle variant="sidebar" />
 
@@ -1262,10 +1279,10 @@ export default function AdminDashboardPage() {
 
                           {/* Actions */}
                           <td className="px-6 py-4 text-center">
-                            <div className="flex items-center justify-center gap-1.5">
+                            <div className="flex items-center justify-center gap-1.5 whitespace-nowrap min-w-[120px]">
                               <button
                                 onClick={() => handleOpenEdit(p)}
-                                className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                                className="p-2.5 min-w-[38px] min-h-[38px] flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
                                 title="تعديل المنتج والمخزون"
                               >
                                 <Edit2 size={16} />
@@ -1274,7 +1291,7 @@ export default function AdminDashboardPage() {
                               <Link
                                 href={`/products/${p.slug}`}
                                 target="_blank"
-                                className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                                className="p-2.5 min-w-[38px] min-h-[38px] flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
                                 title="معاينة في المتجر"
                               >
                                 <Eye size={16} />
@@ -1282,7 +1299,7 @@ export default function AdminDashboardPage() {
 
                               <button
                                 onClick={() => handleOpenDelete(p)}
-                                className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+                                className="p-2.5 min-w-[38px] min-h-[38px] flex items-center justify-center text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
                                 title="حذف المنتج"
                               >
                                 <Trash2 size={16} />

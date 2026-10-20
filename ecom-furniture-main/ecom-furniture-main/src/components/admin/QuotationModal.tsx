@@ -79,16 +79,17 @@ export default function QuotationModal({ isOpen, onClose, quotation }: Quotation
         <div id="quotation-print-area" className="flex-1 overflow-y-auto p-8 sm:p-10 space-y-6 text-slate-800 bg-white">
           {/* Brand Header */}
           <div className="flex items-start justify-between border-b-2 border-slate-900 pb-6">
-            <div className="flex items-center gap-3">
-              <div className="relative w-14 h-14 rounded-2xl overflow-hidden border border-amber-300 shrink-0">
-                <Image src="/logo-icon.png" alt="Amazon Furniture" fill className="object-cover" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-                  Amazon Furniture
-                </h1>
+            <div className="flex items-center gap-4">
+              <Image
+                src="/logo/amazon-horizontal-bronze.svg"
+                alt="AMAZON"
+                width={190}
+                height={50}
+                className="h-12 w-auto object-contain"
+              />
+              <div className="border-s border-slate-200 ps-4">
                 <p className="text-xs text-amber-800 font-bold">
-                  من المصنع لحد باب البيت — أثاث مكتبي ومنزلي فاخر
+                  AMAZON – Premium Living Solutions
                 </p>
                 <p className="text-[11px] text-slate-500 mt-0.5">
                   المنصورة - المعرض والمصنع الرئيسي | هاتف: 01091084863

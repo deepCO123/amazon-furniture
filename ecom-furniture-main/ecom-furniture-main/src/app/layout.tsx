@@ -32,49 +32,48 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Amazon Furniture | Premium Handcrafted Furniture",
-    template: "%s | Amazon Furniture",
+    default: "AMAZON | Premium Living Solutions",
+    template: "%s | AMAZON",
   },
   description:
-    "Premium handcrafted furniture for modern living. Discover our curated collection of sofas, tables, chairs, beds, and more.",
+    "AMAZON – Premium Living Solutions. أرقى تشكيلات الأثاث الفاخر وحلول المعيشة العصرية للمنازل والمكاتب بأعلى معايير الجودة والتصميم.",
   keywords: [
+    "AMAZON",
+    "Premium Living Solutions",
     "furniture",
+    "أثاث فاخر",
     "handcrafted furniture",
-    "premium furniture",
-    "sofas",
-    "dining tables",
-    "bedroom furniture",
     "modern furniture",
-    "wood furniture",
-    "online furniture shop",
+    "sofas",
+    "luxury furniture Egypt",
   ],
-  authors: [{ name: "Amazon Furniture" }],
-  creator: "Amazon Furniture",
-  publisher: "Amazon Furniture",
+  authors: [{ name: "AMAZON" }],
+  creator: "AMAZON",
+  publisher: "AMAZON",
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "ar_EG",
     url: siteUrl,
-    siteName: "Amazon Furniture",
-    title: "Amazon Furniture | Premium Handcrafted Furniture",
+    siteName: "AMAZON",
+    title: "AMAZON | Premium Living Solutions",
     description:
-      "Premium handcrafted furniture for modern living. Explore sofas, tables, chairs, and more.",
+      "AMAZON – Premium Living Solutions. أرقى تشكيلات الأثاث الفاخر وحلول المعيشة العصرية.",
     images: [
       {
-        url: "/logo.png",
-        width: 1024,
-        height: 559,
-        alt: "Amazon Furniture — Premium Handcrafted Furniture",
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "AMAZON – Premium Living Solutions",
         type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Amazon Furniture | Premium Handcrafted Furniture",
+    title: "AMAZON | Premium Living Solutions",
     description:
-      "Premium handcrafted furniture for modern living. Explore sofas, tables, chairs, and more.",
-    images: ["/logo.png"],
+      "AMAZON – Premium Living Solutions. أرقى تشكيلات الأثاث الفاخر وحلول المعيشة العصرية.",
+    images: ["/opengraph-image.png"],
   },
   robots: {
     index: true,
@@ -88,9 +87,12 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/logo-icon.png",
-    shortcut: "/logo-icon.png",
-    apple: "/logo-icon.png",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
   },
 };
 
@@ -99,6 +101,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "AMAZON",
+    "alternateName": "AMAZON – Premium Living Solutions",
+    "url": siteUrl,
+    "logo": `${siteUrl}/logo/amazon-horizontal-bronze.svg`,
+    "image": `${siteUrl}/opengraph-image.png`,
+    "description": "AMAZON – Premium Living Solutions",
+  };
+
   return (
     <html
       lang="ar"
@@ -107,8 +120,13 @@ export default function RootLayout({
       className={`${cairo.variable} font-sans h-full antialiased`}
     >
       <head>
-        <link rel="icon" href="/logo-icon.png" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link rel="canonical" href={siteUrl} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('amazon-furniture-theme');var theme=t?JSON.parse(t).state.theme:'light';document.documentElement.classList.add(theme);document.documentElement.setAttribute('data-theme',theme);}catch(e){document.documentElement.classList.add('light');document.documentElement.setAttribute('data-theme','light');}})();`,

@@ -314,16 +314,16 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
             </div>
 
             {/* Main Action Buttons (Desktop & Top View) */}
-            <div className="flex items-center gap-3 pt-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-3">
               <button
                 onClick={handleDirectBuy}
-                className="flex-1 py-3 px-6 rounded-xl bg-[#C58B45] hover:bg-[#b07837] text-white font-black text-sm shadow-md transition-all hover:scale-[1.02] cursor-pointer"
+                className="w-full sm:flex-1 py-3.5 px-6 rounded-xl bg-[#C58B45] hover:bg-[#b07837] text-white font-black text-sm shadow-md transition-all active:scale-95 cursor-pointer min-h-[44px] flex items-center justify-center"
               >
-                شراء الآن
+                اطلب الآن
               </button>
               <button
                 onClick={handleAddToCart}
-                className="flex-1 py-3 px-6 rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] text-white font-black text-sm shadow-md transition-all hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2"
+                className="w-full sm:flex-1 py-3.5 px-6 rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] text-white font-black text-sm shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2 min-h-[44px]"
               >
                 <ShoppingBag size={18} />
                 <span>{added ? "تمت الإضافة للسلة! ✓" : "أضف إلى السلة"}</span>
@@ -504,7 +504,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                 عرض كل قسم {product.category} ←
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-5">
               {related.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
@@ -513,45 +513,38 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
         )}
       </div>
 
-      {/* ── 7. SofaZone Sticky Bottom Action Bar (Image 1 & 2 Style) ─────── */}
-      <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl py-3 px-4 sm:px-8 z-40 transition-all">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      {/* ── 7. Sticky Bottom Action Bar with Safe Area & Mobile Support ─────── */}
+      <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl py-2.5 px-3 sm:px-8 z-40 transition-all pb-[calc(0.625rem+env(safe-area-inset-bottom))]">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           
-          {/* Action Buttons on Left (in RTL) */}
-          <div className="flex items-center gap-3">
+          {/* Action Buttons */}
+          <div className="flex items-center gap-2 flex-1 sm:flex-none">
             <button
               onClick={handleDirectBuy}
-              className="bg-[#C58B45] hover:bg-[#b07837] text-white font-black text-xs sm:text-sm px-6 sm:px-8 py-2.5 rounded-xl shadow-md transition-all hover:scale-105 cursor-pointer"
+              className="flex-1 sm:flex-none bg-[#C58B45] hover:bg-[#b07837] text-white font-black text-xs sm:text-sm px-4 sm:px-8 py-2.5 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer min-h-[44px] flex items-center justify-center"
             >
-              شراء الآن
+              اطلب الآن
             </button>
             <button
               onClick={handleAddToCart}
-              className="bg-[#6B4F3A] hover:bg-[#573E2D] text-white font-black text-xs sm:text-sm px-5 sm:px-7 py-2.5 rounded-xl shadow-md transition-all hover:scale-105 cursor-pointer flex items-center gap-2"
+              className="flex-1 sm:flex-none bg-[#6B4F3A] hover:bg-[#573E2D] text-white font-black text-xs sm:text-sm px-3 sm:px-7 py-2.5 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-1.5 min-h-[44px]"
             >
               <ShoppingBag size={16} />
-              <span>{added ? "تمت الإضافة! ✓" : "أضف إلى السلة"}</span>
+              <span>{added ? "تمت الإضافة!" : "أضف للسلة"}</span>
             </button>
           </div>
 
-          {/* Mini Product Preview on Right (in RTL) */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Price & preview */}
+          <div className="flex items-center gap-2.5 shrink-0">
             <div className="text-end">
-              <h4 className="text-xs sm:text-sm font-black text-gray-900 line-clamp-1 max-w-[280px]">
+              <span className="text-base sm:text-lg font-black text-[#B93832]" suppressHydrationWarning>
+                {formatPrice(product.price)}
+              </span>
+              <h4 className="hidden md:block text-xs font-bold text-gray-700 line-clamp-1 max-w-[200px]">
                 {product.name}
               </h4>
-              <div className="flex items-center gap-2 justify-end">
-                <span className="text-sm font-black text-[#B93832]">
-                  {formatPrice(product.price)}
-                </span>
-                {product.originalPrice && product.originalPrice > product.price && (
-                  <span className="text-xs text-gray-400 line-through font-bold">
-                    {formatPrice(product.originalPrice)}
-                  </span>
-                )}
-              </div>
             </div>
-            <div className="relative w-12 h-12 rounded-xl bg-gray-50 overflow-hidden border border-gray-200 shrink-0">
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gray-50 overflow-hidden border border-gray-200 shrink-0">
               <Image
                 src={product.images[0] || "/placeholder.jpg"}
                 alt={product.name}

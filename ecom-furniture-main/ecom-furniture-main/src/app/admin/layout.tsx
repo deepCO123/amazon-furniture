@@ -63,7 +63,7 @@ export default function AdminLayout({
           </div>
           <div>
             <h2 className="text-2xl font-black text-white mb-2">
-              لوحة تحكم Amazon Furniture
+              لوحة تحكم AMAZON
             </h2>
             <p className="text-sm text-slate-400 leading-relaxed">
               يرجى تسجيل الدخول كمسؤول للمتابعة وإدارة المتجر والطلبات

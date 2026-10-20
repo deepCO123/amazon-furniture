@@ -766,6 +766,7 @@ ${itemsListText}
                         <Input
                           label={isEn ? "Full Name" : "الاسم ثلاثي بالكامل"}
                           placeholder={isEn ? "e.g. John Doe" : "مثال: أحمد محمود إبراهيم"}
+                          autoComplete="name"
                           error={errors.fullName?.message}
                           {...register("fullName")}
                         />
@@ -773,6 +774,7 @@ ${itemsListText}
                           label={isEn ? "Email Address (for VIP receipt & order updates)" : "البريد الإلكتروني (لتأكيد الطلب والفاتورة)"}
                           placeholder="example@gmail.com"
                           type="email"
+                          autoComplete="email"
                           error={errors.email?.message}
                           {...register("email")}
                         />
@@ -783,6 +785,8 @@ ${itemsListText}
                           label={isEn ? "Phone / WhatsApp Number" : "رقم الهاتف / الواتساب"}
                           placeholder="01X XXXX XXXX / +966 ..."
                           type="tel"
+                          inputMode="tel"
+                          autoComplete="tel"
                           error={errors.phone?.message}
                           {...register("phone")}
                         />
@@ -798,7 +802,7 @@ ${itemsListText}
                               setSelectedGovernorate(e.target.value);
                               setValue("city", e.target.value);
                             }}
-                            className="w-full px-4 py-2.5 rounded-lg border border-surface-dark bg-white text-primary text-sm focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none"
+                            className="w-full px-4 py-2.5 rounded-lg border border-surface-dark bg-white text-primary text-base md:text-sm min-h-[44px] focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none"
                           >
                             {EGYPT_GOVERNORATES.map((g) => (
                               <option key={g.id} value={g.id}>
@@ -812,6 +816,7 @@ ${itemsListText}
                       <Input
                         label={isEn ? "Detailed Street Address" : "العنوان بالتفصيل (اسم الشارع، رقم العقار، الدور، علامة مميزة)"}
                         placeholder={isEn ? "Street, building, apartment..." : "شارع، رقم العمارة، رقم الشقة، علامة مميزة"}
+                        autoComplete="street-address"
                         error={errors.address?.message}
                         {...register("address")}
                       />
@@ -1409,12 +1414,42 @@ ${itemsListText}
                       </label>
                     </div>
 
+                    {/* Mobile Order Summary Recap (Appears before submit button on mobile) */}
+                    <div className="lg:hidden bg-surface rounded-2xl p-4 border border-surface-dark space-y-3 mb-4">
+                      <div className="flex items-center justify-between font-bold text-sm text-primary pb-2 border-b border-surface-dark">
+                        <span>{isEn ? "Order Summary" : "ملخص الطلب والحساب"}</span>
+                        <span className="text-xs text-muted">({items.length} {isEn ? "items" : "منتجات"})</span>
+                      </div>
+                      <div className="space-y-1.5 text-xs">
+                        <div className="flex justify-between text-muted">
+                          <span>المجموع الفرعي:</span>
+                          <span className="font-semibold text-primary">{formatPrice(total)}</span>
+                        </div>
+                        {couponDiscount > 0 && (
+                          <div className="flex justify-between text-emerald-600 font-semibold">
+                            <span>خصم الكوبون:</span>
+                            <span>-{formatPrice(couponDiscount)}</span>
+                          </div>
+                        )}
+                        <div className="flex justify-between text-muted">
+                          <span>تكلفة الشحن ({shippingInfo.governorateName}):</span>
+                          <span className={shippingCost === 0 ? "font-bold text-emerald-600" : "font-semibold text-primary"}>
+                            {shippingCost === 0 ? "مجاني ✓" : formatPrice(shippingCost)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between text-base font-extrabold text-primary pt-2 border-t border-surface-dark">
+                          <span>المبلغ الإجمالي للدفع:</span>
+                          <span className="text-accent-dark">{formatPrice(grandTotal)}</span>
+                        </div>
+                      </div>
+                    </div>
+
                     {/* Submit Order Buttons */}
                     <div className="space-y-3 pt-2">
                       <button
                         onClick={generateAndSendOrder}
                         disabled={submittingOrder}
-                        className="w-full py-4 px-6 rounded-xl bg-accent hover:bg-accent-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-lg flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                        className="w-full py-4 px-6 rounded-xl bg-accent hover:bg-accent-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-lg flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer min-h-[48px]"
                       >
                         <ShieldCheck size={22} />
                         <span>

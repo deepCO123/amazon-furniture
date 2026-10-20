@@ -26,8 +26,8 @@ router.get('/products', async (req, res) => {
           condition: 'new',
           price: `${p.price} EGP`,
           link: `${clientUrl}/products/${p.slug || p.id}`,
-          image_link: Array.isArray(p.images) && p.images[0] ? p.images[0] : `${clientUrl}/og-image.jpg`,
-          brand: 'Amazon Furniture',
+          image_link: Array.isArray(p.images) && p.images[0] ? p.images[0] : `${clientUrl}/opengraph-image.png`,
+          brand: 'AMAZON',
           category: p.category || 'Furniture',
         })),
       });
@@ -37,9 +37,9 @@ router.get('/products', async (req, res) => {
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     xml += `<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">\n`;
     xml += `  <channel>\n`;
-    xml += `    <title>Amazon Furniture Products Catalog</title>\n`;
+    xml += `    <title>AMAZON Products Catalog</title>\n`;
     xml += `    <link>${clientUrl}</link>\n`;
-    xml += `    <description>كتالوج منتجات Amazon Furniture الرسمي المحدث لحظياً للمبيعات والإعلانات</description>\n`;
+    xml += `    <description>كتالوج منتجات AMAZON – Premium Living Solutions المحدث لحظياً للمبيعات والإعلانات</description>\n`;
 
     for (const p of products) {
       const pId = p.id || p._id || `prod_${Date.now()}`;
@@ -57,7 +57,7 @@ router.get('/products', async (req, res) => {
       xml += `      <g:description><![CDATA[${pDesc}]]></g:description>\n`;
       xml += `      <g:link>${pLink}</g:link>\n`;
       xml += `      <g:image_link>${pImg}</g:image_link>\n`;
-      xml += `      <g:brand>Amazon Furniture</g:brand>\n`;
+      xml += `      <g:brand>AMAZON</g:brand>\n`;
       xml += `      <g:condition>new</g:condition>\n`;
       xml += `      <g:availability>${pAvailability}</g:availability>\n`;
       xml += `      <g:price>${pPrice}</g:price>\n`;

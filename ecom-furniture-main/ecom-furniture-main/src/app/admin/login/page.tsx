@@ -40,21 +40,22 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-3">
-          <div className="relative w-16 h-16 rounded-2xl overflow-hidden shadow-md border-2 border-[#2563EB] mx-auto bg-white">
+          <Link href="/" className="inline-block" aria-label="AMAZON">
             <Image
-              src="/logo-icon.png"
-              alt="Amazon Furniture"
-              fill
+              src="/logo/amazon-logo-bronze.svg"
+              alt="AMAZON"
+              width={180}
+              height={90}
+              className="h-20 w-auto mx-auto object-contain transition-transform duration-200 hover:scale-[1.02]"
               priority
-              className="object-cover"
             />
-          </div>
+          </Link>
           <div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
-              Amazon Furniture
+              AMAZON
             </h1>
-            <p className="text-xs text-[#64748B] mt-1">
-              لوحة تحكم وإدارة المتجر • حساب الإدارة
+            <p className="text-xs text-[#64748B] mt-1 font-medium">
+              Premium Living Solutions • لوحة تحكم وإدارة المتجر
             </p>
           </div>
         </div>
@@ -151,7 +152,7 @@ export default function AdminLoginPage() {
             className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#0F172A] transition-colors"
           >
             <ArrowRight size={14} />
-            <span>العودة لمتجر Amazon Furniture</span>
+            <span>العودة لمتجر AMAZON</span>
           </Link>
         </div>
       </div>

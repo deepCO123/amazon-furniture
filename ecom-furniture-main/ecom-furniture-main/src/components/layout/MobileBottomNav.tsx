@@ -18,8 +18,8 @@ export default function MobileBottomNav() {
   const cartCount = useCartStore((s) => s.getItemCount());
   const wishlistCount = useWishlistStore((s) => s.items.length);
 
-  // Hide bottom bar in admin dashboard
-  if (pathname?.startsWith("/admin")) {
+  // Hide bottom bar in admin dashboard or on individual product detail page (where sticky buy bar is present)
+  if (pathname?.startsWith("/admin") || (pathname?.startsWith("/products/") && pathname !== "/products")) {
     return null;
   }
 
