@@ -10,6 +10,7 @@ import Badge from "@/components/ui/Badge";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 
 const statusColors: Record<string, "default" | "success" | "warning" | "accent"> = {
+  under_review: "warning",
   pending: "warning",
   processing: "accent",
   shipped: "accent",
@@ -86,8 +87,10 @@ export default function OrdersPage() {
                       })}
                     </p>
                   </div>
-                  <Badge variant={statusColors[order.status]} size="md">
-                    {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                  <Badge variant={statusColors[order.status] || "default"} size="md">
+                    {order.status === "under_review"
+                      ? "Under Review"
+                      : order.status.charAt(0).toUpperCase() + order.status.slice(1).replace(/_/g, " ")}
                   </Badge>
                 </div>
 

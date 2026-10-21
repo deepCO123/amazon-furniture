@@ -190,7 +190,7 @@ router.post('/', async (req, res) => {
     couponCode: couponCode || null,
     shippingCost: serverShippingCost,
     total: serverTotal, // ← always server-calculated, never from frontend
-    status: 'processing',
+    status: body.status || 'under_review',
     date: new Date().toISOString(),
     shippingAddress: shippingAddress || {},
     notes: notes || '',

@@ -841,7 +841,7 @@ export default function AdminDashboardPage() {
               {orders.length.toLocaleString("ar-EG")}
             </p>
             <span className={`text-[11px] font-semibold block mt-1.5 ${isDark ? "text-cyan-300/80" : "text-cyan-600"}`}>
-              {orders.filter((o) => o.status === "pending" || o.status === "processing").length} طلب قيد التجهيز والتصنيع
+              {orders.filter((o) => o.status === "under_review" || o.status === "pending" || o.status === "processing").length} طلب قيد التجهيز والتصنيع
             </span>
           </div>
 
@@ -1815,6 +1815,7 @@ export default function AdminDashboardPage() {
                                   : "bg-amber-50 text-amber-700 border-amber-300"
                               }`}
                             >
+                              <option value="under_review">تحت المراجعة</option>
                               <option value="pending">قيد الانتظار</option>
                               <option value="confirmed">تم التأكيد والعربون</option>
                               <option value="under_production">قيد التصنيع بالورشة</option>

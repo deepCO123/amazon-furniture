@@ -65,7 +65,7 @@ describe('Orders API & Checkout Suite', () => {
       expect(res.body.success).toBe(true);
       expect(res.body.orderId).toBeDefined();
       expect(res.body.order).toBeDefined();
-      expect(res.body.order.status).toBe('processing');
+      expect(res.body.order.status).toBe('under_review');
       createdOrderId = res.body.orderId;
     });
   });

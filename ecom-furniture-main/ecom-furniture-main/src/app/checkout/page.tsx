@@ -351,7 +351,7 @@ ${itemsListText}
           discount: couponDiscount,
           couponCode: appliedCoupon?.code || null,
           total: grandTotal,
-          status: "processing",
+          status: "under_review",
           date: new Date().toISOString(),
           shippingAddress: {
             firstName: customerData.fullName,
@@ -381,7 +381,7 @@ ${itemsListText}
       id: orderId,
       items: [...items],
       total: grandTotal,
-      status: "processing",
+      status: "under_review",
       date: new Date().toISOString(),
       shippingAddress: {
         firstName: customerData.fullName,

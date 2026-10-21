@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ShoppingBag, MessageCircle, Heart, ChevronLeft, ChevronRight } from "lucide-react";
 import { useProductStore } from "@/store/productStore";
 import { useCartStore } from "@/store/cartStore";
@@ -14,6 +15,7 @@ import { useLanguageStore } from "@/store/languageStore";
 import { getTranslation } from "@/lib/translations";
 
 export default function SaveQuarterCostSection() {
+  const router = useRouter();
   const { language } = useLanguageStore();
   const t = getTranslation(language);
 
@@ -104,7 +106,12 @@ export default function SaveQuarterCostSection() {
               return (
                 <div
                   key={product.id}
-                  className="w-[230px] sm:w-[245px] shrink-0 group flex flex-col justify-between rounded-xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-md transition-all overflow-hidden text-right"
+                  onClick={(e) => {
+                    const target = e.target as HTMLElement;
+                    if (target.closest("button") || target.closest("a")) return;
+                    router.push(`/products/${product.slug}`);
+                  }}
+                  className="w-[230px] sm:w-[245px] shrink-0 group flex flex-col justify-between rounded-xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-md transition-all overflow-hidden text-right cursor-pointer"
                 >
                   <div className="relative">
                     {/* Discount Badge in Top Right (Oscar style) */}
@@ -171,7 +178,9 @@ export default function SaveQuarterCostSection() {
                       {/* Add to Cart / Quick WhatsApp Button */}
                       <div className="space-y-1">
                         <button
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
                             addItem(product);
                             addToast(language === "en" ? `Added ${product.name} to cart` : `تمت إضافة ${product.name} إلى السلة`, "cart");
                           }}

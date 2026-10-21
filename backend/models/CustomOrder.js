@@ -27,7 +27,7 @@ const customOrderSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['new', 'under_review', 'quoted', 'agreed', 'in_production', 'completed', 'cancelled'],
-      default: 'new',
+      default: 'under_review',
       index: true,
     },
     quotePrice: { type: Number, default: 0 },

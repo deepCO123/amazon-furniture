@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ChevronRight, ChevronLeft, Star, ShoppingBag, MessageCircle } from "lucide-react";
 import { useProductStore } from "@/store/productStore";
 import { useCartStore } from "@/store/cartStore";
@@ -11,6 +12,7 @@ import type { Product } from "@/types";
 import { useToastStore } from "@/components/ui/Toast";
 
 export default function SofaZoneInstantProducts() {
+  const router = useRouter();
   const products = useProductStore((s) => s.products);
   const addItem = useCartStore((s) => s.addItem);
   const addToast = useToastStore((s) => s.addToast);
@@ -94,7 +96,12 @@ export default function SofaZoneInstantProducts() {
             return (
               <div
                 key={p.id}
-                className="w-[260px] sm:w-[290px] shrink-0 bg-white rounded-2xl border border-[#E8E0D5] hover:border-[#C58B45] hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group"
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  if (target.closest("button") || target.closest("a")) return;
+                  router.push(`/products/${p.slug}`);
+                }}
+                className="w-[260px] sm:w-[290px] shrink-0 bg-white rounded-2xl border border-[#E8E0D5] hover:border-[#C58B45] hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group cursor-pointer"
               >
                 {/* Image Container with Badges */}
                 <div className="relative aspect-[4/3] bg-gray-50 overflow-hidden">
@@ -175,6 +182,7 @@ export default function SofaZoneInstantProducts() {
                       <button
                         onClick={(e) => {
                           e.preventDefault();
+                          e.stopPropagation();
                           addItem(p, 1);
                           addToast("تمت الإضافة إلى السلة بنجاح! 🛒", "success");
                         }}

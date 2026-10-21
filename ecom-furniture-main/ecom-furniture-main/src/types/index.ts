@@ -67,6 +67,7 @@ export interface CartItem {
 }
 
 export type OrderStatus =
+  | "under_review" // تحت المراجعة
   | "pending" // قيد الانتظار
   | "confirmed" // تم التأكيد والعربون
   | "under_production" // قيد التصنيع بالورشة

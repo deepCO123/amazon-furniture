@@ -156,7 +156,7 @@ router.post('/', async (req, res) => {
       preferredColor: preferredColor || '',
       notes: notes || '',
       referenceImage: referenceImage || '',
-      status: 'new',
+      status: req.body.status || 'under_review',
       quotePrice: 0,
       adminNotes: '',
       createdAt: new Date().toISOString(),

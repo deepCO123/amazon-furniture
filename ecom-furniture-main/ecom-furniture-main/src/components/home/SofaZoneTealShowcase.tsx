@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ShoppingBag, MessageCircle, ArrowLeft } from "lucide-react";
 import { useProductStore } from "@/store/productStore";
 import { useCartStore } from "@/store/cartStore";
@@ -11,6 +12,7 @@ import type { Product } from "@/types";
 import { useToastStore } from "@/components/ui/Toast";
 
 export default function SofaZoneTealShowcase() {
+  const router = useRouter();
   const tabs = [
     "كراسي شبك",
     "كراسي طبية",
@@ -93,10 +95,15 @@ export default function SofaZoneTealShowcase() {
             return (
               <div
                 key={p.id}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col group text-[#292321] border border-[#E8E0D5]"
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  if (target.closest("button") || target.closest("a")) return;
+                  router.push(`/products/${p.slug}`);
+                }}
+                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col group text-[#292321] border border-[#E8E0D5] cursor-pointer"
               >
                 {/* Image & Discount Badge */}
-                <div className="relative aspect-square bg-[#F8F5F0] overflow-hidden">
+                <div className="relative aspect-square bg-[#F8F5F0] overflow-hidden cursor-pointer">
                   <span className="absolute top-2 right-2 z-10 bg-[#B93832] text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-md">
                     {savingsText}
                   </span>
@@ -153,6 +160,7 @@ export default function SofaZoneTealShowcase() {
                     <button
                       onClick={(e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         addItem(p, 1);
                         addToast("تمت الإضافة للسلة! 🛒", "success");
                       }}

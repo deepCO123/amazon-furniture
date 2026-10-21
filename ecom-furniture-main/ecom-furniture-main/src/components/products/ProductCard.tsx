@@ -3,6 +3,7 @@
 import { useState, lazy, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Heart, ShoppingBag, Star, Eye, MessageCircle } from "lucide-react";
 import type { Product } from "@/types";
 import { formatPrice, getDiscount, getProductUrl } from "@/lib/utils";
@@ -23,6 +24,7 @@ export default function ProductCard({
   product,
   viewMode = "grid",
 }: ProductCardProps) {
+  const router = useRouter();
   const { language } = useLanguageStore();
   const isEn = language === "en";
   const addItem = useCartStore((s) => s.addItem);
@@ -32,6 +34,14 @@ export default function ProductCard({
   const wishlisted = hydrated ? isInWishlist(product.id) : false;
   const addToast = useToastStore((s) => s.addToast);
   const [quickViewOpen, setQuickViewOpen] = useState(false);
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest("button") || target.closest("a")) {
+      return;
+    }
+    router.push(`/products/${product.slug}`);
+  };
 
   const discountPercent = product.originalPrice
     ? getDiscount(product.originalPrice, product.price)
@@ -106,12 +116,10 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
     return (
       <div
         data-card="product"
-        className="product-card group bg-white rounded-2xl border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+        onClick={handleCardClick}
+        className="product-card group bg-white rounded-2xl border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
       >
-        <Link
-          href={`/products/${product.slug}`}
-          className="flex flex-col sm:flex-row items-stretch"
-        >
+        <div className="flex flex-col sm:flex-row items-stretch">
           {/* Image Container */}
           <div className="relative w-full sm:w-60 md:w-72 shrink-0 aspect-[4/3] sm:aspect-square bg-[#F8F5F0] overflow-hidden flex items-center justify-center p-3">
             <Image
@@ -216,7 +224,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
               </div>
             </div>
           </div>
-        </Link>
+        </div>
       </div>
     );
   }
@@ -227,11 +235,12 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
   return (
     <div
       data-card="product"
-      className="product-card group bg-white rounded-xl sm:rounded-3xl p-2.5 sm:p-4 border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative flex flex-col justify-between h-full"
+      onClick={handleCardClick}
+      className="product-card group bg-white rounded-xl sm:rounded-3xl p-2.5 sm:p-4 border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative flex flex-col justify-between h-full cursor-pointer"
     >
       <div>
         {/* Image Container with Subtle Background */}
-        <div className="relative aspect-[4/3] sm:aspect-square bg-[#F8F5F0] rounded-lg sm:rounded-2xl overflow-hidden flex items-center justify-center p-2 sm:p-3 mb-2.5 sm:mb-3.5">
+        <div className="relative aspect-[4/3] sm:aspect-square bg-[#F8F5F0] rounded-lg sm:rounded-2xl overflow-hidden flex items-center justify-center p-2 sm:p-3 mb-2.5 sm:mb-3.5 cursor-pointer">
           <Image
             src={product.images[0] || "/placeholder.jpg"}
             alt={product.name}

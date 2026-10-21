@@ -31,7 +31,7 @@ interface TrackResponse {
 }
 
 const STAGES = [
-  { key: "pending", label: "تم استلام الطلب", desc: "تم تسجيل الطلب بالنظام وبانتظار التأكيد", icon: Clock },
+  { key: "under_review", label: "تحت المراجعة", desc: "تم تسجيل الطلب بالنظام وهو الآن قيد المراجعة والاعتماد", icon: Clock },
   { key: "confirmed", label: "تم تأكيد الحجز", desc: "تمت مراجعة المقاسات واعتماد أمر التشغيل", icon: CheckCircle2 },
   { key: "under_production", label: "قيد التصنيع بالورشة", desc: "جاري تصنيع وتفصيل القطع بأعلى معايير الخشب والدهان", icon: Hammer },
   { key: "qc_passed", label: "اجتياز فحص الجودة", desc: "تم الفحص الفني للتأكد من خلو القطع من أي عيوب", icon: ShieldCheck },
@@ -42,6 +42,7 @@ const STAGES = [
 
 function getStageIndex(status: string) {
   switch (status) {
+    case "under_review":
     case "pending": return 0;
     case "confirmed": return 1;
     case "under_production": return 2;
@@ -51,7 +52,7 @@ function getStageIndex(status: string) {
     case "processing": return 4;
     case "shipped": return 5;
     case "delivered": return 6;
-    default: return 1;
+    default: return 0;
   }
 }
 
