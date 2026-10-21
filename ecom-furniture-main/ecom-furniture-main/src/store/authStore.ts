@@ -4,13 +4,14 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { User, Order } from "@/types";
 import { apiClient } from "@/lib/apiClient";
+import { useAdminAuthStore } from "@/store/adminAuthStore";
 
 interface AuthStore {
   user: User | null;
   orders: Order[];
   loading: boolean;
   setUser: (user: User | null) => void;
-  login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  login: (email: string, password: string) => Promise<{ success: boolean; message?: string; user?: User }>;
   register: (name: string, email: string, password: string, phone?: string, city?: string) => Promise<{ success: boolean; message?: string }>;
   logout: () => Promise<void>;
   checkSession: () => Promise<void>;
@@ -42,7 +43,21 @@ export const useAuthStore = create<AuthStore>()(
               avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(res.user.name)}&backgroundColor=c5a880`,
             };
             set({ user: loggedInUser, loading: false });
-            return { success: true };
+
+            // إذا كان المستخدم مسؤولاً (Admin)، نقوم بمزامنة حالة لوحة التحكم فوراً
+            if (loggedInUser.role === "admin") {
+              useAdminAuthStore.setState({
+                isAuthenticated: true,
+                user: {
+                  name: loggedInUser.name,
+                  role: "المدير العام / مسؤول المتجر",
+                  email: loggedInUser.email,
+                },
+                loading: false,
+              });
+            }
+
+            return { success: true, user: loggedInUser };
           }
 
           set({ loading: false });
@@ -88,6 +103,7 @@ export const useAuthStore = create<AuthStore>()(
           // Clear local state even if backend call fails
         }
         set({ user: null });
+        useAdminAuthStore.setState({ isAuthenticated: false, user: null });
       },
 
       checkSession: async () => {
@@ -96,20 +112,31 @@ export const useAuthStore = create<AuthStore>()(
           if (res.success && res.user) {
             // Session is valid — update user data from server
             const currentUser = get().user;
-            set({
-              user: {
-                id: res.user.id,
-                email: res.user.email,
-                name: res.user.name || currentUser?.name || res.user.email.split("@")[0],
-                role: (res.user.role as "customer" | "admin") || "customer",
-                avatar: currentUser?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(res.user.email)}&backgroundColor=c5a880`,
-                phone: currentUser?.phone,
-                city: currentUser?.city,
-              },
-            });
+            const updatedUser: User = {
+              id: res.user.id,
+              email: res.user.email,
+              name: res.user.name || currentUser?.name || res.user.email.split("@")[0],
+              role: (res.user.role as "customer" | "admin") || "customer",
+              avatar: currentUser?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(res.user.email)}&backgroundColor=c5a880`,
+              phone: currentUser?.phone,
+              city: currentUser?.city,
+            };
+            set({ user: updatedUser });
+
+            if (updatedUser.role === "admin") {
+              useAdminAuthStore.setState({
+                isAuthenticated: true,
+                user: {
+                  name: updatedUser.name,
+                  role: "المدير العام / مسؤول المتجر",
+                  email: updatedUser.email,
+                },
+              });
+            }
           } else {
             // Session expired or invalid — clear local user
             set({ user: null });
+            useAdminAuthStore.setState({ isAuthenticated: false, user: null });
           }
         } catch {
           // Network error — keep existing user state (offline support)

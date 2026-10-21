@@ -13,11 +13,11 @@ import {
   Shield,
   Lock,
   MessageCircle,
-  User,
 } from "lucide-react";
 import { SITE_NAME } from "@/lib/constants";
 import { useLanguageStore } from "@/store/languageStore";
 import { getTranslation } from "@/lib/translations";
+
 const footerLinksData = {
   ar: {
     shop: [
@@ -27,19 +27,16 @@ const footerLinksData = {
       { label: "ستائر مكتبية", href: "/products?category=ستائر مكتبية" },
       { label: "مكاتب", href: "/products?category=مكاتب" },
       { label: "انتريهات", href: "/products?category=انتريهات" },
-      { label: "كراسي جلد", href: "/products?category=كراسي جلد" },
-      { label: "استشارة مجانية بالمنصورة 🎁", href: "/#consultation" },
     ],
-    company: [
+    quickLinks: [
       { label: "عن المعرض والمصنع", href: "/about" },
       { label: "تواصل معنا", href: "/contact" },
-      { label: "الموقع في المنصورة (Google)", href: "https://maps.app.goo.gl/NP3m16vbWodtcp9c8?g_st=ic" },
-      { label: "احجز استشارة مجانية", href: "/#consultation" },
+      { label: "تتبع طلبك", href: "/track" },
+      { label: "طلب استشارة ومعاينة مجانية", href: "/#consultation" },
+      { label: "طلب تفصيل أثاث خاص", href: "/custom-order" },
     ],
     support: [
-      { label: "التركيب: مجاناً 100%", href: "/contact" },
-      { label: "معاينة المنصورة مجاناً", href: "/#consultation" },
-      { label: "الاسترجاع وعقد الضمان 10 سنوات", href: "/return-policy" },
+      { label: "الضمان والاسترجاع (10 سنوات)", href: "/return-policy" },
       { label: "الشروط والأحكام", href: "/terms" },
       { label: "سياسة الخصوصية", href: "/privacy" },
     ],
@@ -52,18 +49,15 @@ const footerLinksData = {
       { label: "Office Blinds", href: "/products?category=ستائر مكتبية" },
       { label: "Office Desks", href: "/products?category=مكاتب" },
       { label: "Living Sets", href: "/products?category=انتريهات" },
-      { label: "Leather Chairs", href: "/products?category=كراسي جلد" },
-      { label: "Free Consultation 🎁", href: "/#consultation" },
     ],
-    company: [
+    quickLinks: [
       { label: "About Factory & Showroom", href: "/about" },
       { label: "Contact Us", href: "/contact" },
-      { label: "Mansoura Location (Google)", href: "https://maps.app.goo.gl/NP3m16vbWodtcp9c8?g_st=ic" },
-      { label: "Book Free Consultation", href: "/#consultation" },
+      { label: "Track Your Order", href: "/track" },
+      { label: "Free Consultation & Inspection", href: "/#consultation" },
+      { label: "Custom Furniture Order", href: "/custom-order" },
     ],
     support: [
-      { label: "Free Installation (100%)", href: "/contact" },
-      { label: "Free On-Site Inspection", href: "/#consultation" },
       { label: "10-Year Warranty & Returns", href: "/return-policy" },
       { label: "Terms & Conditions", href: "/terms" },
       { label: "Privacy Policy", href: "/privacy" },
@@ -98,17 +92,17 @@ function MobileAccordion({
 }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-b border-white/10 lg:border-0">
+    <div className="border-b border-white/10 lg:border-0 py-1 lg:py-0">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-between w-full py-4 lg:py-0 lg:pointer-events-none min-h-[44px] cursor-pointer"
+        className="flex items-center justify-between w-full py-2.5 lg:py-0 lg:pointer-events-none min-h-[40px] cursor-pointer"
         aria-expanded={open}
       >
-        <h3 className="font-semibold text-lg">{title}</h3>
+        <h3 className="font-bold text-sm sm:text-base text-white tracking-wide">{title}</h3>
         <ChevronDown
-          size={18}
-          className={`lg:hidden transition-transform duration-300 ${
-            open ? "rotate-180" : ""
+          size={16}
+          className={`lg:hidden transition-transform duration-300 text-white/60 ${
+            open ? "rotate-180 text-white" : ""
           }`}
         />
       </button>
@@ -118,14 +112,14 @@ function MobileAccordion({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
             className="overflow-hidden lg:!h-auto lg:!opacity-100 lg:overflow-visible"
           >
-            <div className="pb-4 lg:pb-0">{children}</div>
+            <div className="pt-1 pb-3 lg:py-0">{children}</div>
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="hidden lg:block">{children}</div>
+      <div className="hidden lg:block mt-3">{children}</div>
     </div>
   );
 }
@@ -150,248 +144,207 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-primary text-white">
-      {/* ── Main footer ──────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
-          {/* Brand + Contact + Newsletter */}
-          <div className="lg:col-span-5">
-            <Link href="/" className="flex items-center mb-5 group" aria-label="AMAZON">
+    <footer className="bg-[#1C1917] text-white border-t border-[#292524]">
+      {/* ── Main footer: sleek, compact and clean ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-8">
+          
+          {/* Column 1: Brand & Direct Contact (4 cols) */}
+          <div className="lg:col-span-4 space-y-3">
+            <Link href="/" className="inline-block group" aria-label="AMAZON">
               <Image
                 src="/logo/amazon-logo-color.svg"
                 alt="AMAZON"
-                width={170}
-                height={70}
-                className="w-[140px] sm:w-[170px] h-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                width={140}
+                height={55}
+                className="w-[125px] sm:w-[140px] h-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
               />
             </Link>
-            <p className="text-white/70 text-sm leading-relaxed mb-6 max-w-md">
+            <p className="text-white/70 text-xs sm:text-sm leading-relaxed max-w-sm">
               {t.footerDesc}
             </p>
 
-            {/* Contact Details */}
-            <div className="space-y-3 text-sm text-white/80 mb-8 bg-white/5 p-4 rounded-xl border border-white/10">
-              {/* Manager */}
-              <div className="flex items-center gap-2.5 text-accent-light font-semibold">
-                <User size={16} className="shrink-0 text-accent" />
-                <span>{t.manager} — {t.managerTitle}</span>
-              </div>
-
-              {/* Phone */}
+            {/* Direct Contact Links */}
+            <div className="space-y-1.5 text-xs text-white/80 pt-1">
               <a
                 href="tel:+201091084863"
-                className="flex items-center gap-2.5 hover:text-accent transition-colors"
+                className="flex items-center gap-2 hover:text-[#C58B45] transition-colors"
                 title={t.callUs}
               >
-                <Phone size={16} className="shrink-0 text-accent" />
-                <span dir="ltr" className="font-semibold">+20 109 1084863</span>
+                <Phone size={14} className="shrink-0 text-[#C58B45]" />
+                <span dir="ltr" className="font-bold">+20 109 1084863</span>
               </a>
 
-              {/* WhatsApp */}
               <a
                 href="https://wa.me/201091084863"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 text-[#25D366] hover:text-[#3ce07a] transition-colors font-semibold"
+                className="flex items-center gap-2 text-[#25D366] hover:text-[#3ce07a] transition-colors font-medium"
                 title={t.chatWhatsApp}
               >
-                <MessageCircle size={16} className="shrink-0" />
-                <span>{t.chatWhatsApp}: <strong dir="ltr">+20 109 1084863</strong></span>
+                <MessageCircle size={14} className="shrink-0" />
+                <span>واتساب مباشر: <strong dir="ltr">+20 109 1084863</strong></span>
               </a>
 
-              {/* Google Maps */}
               <a
                 href="https://maps.app.goo.gl/NP3m16vbWodtcp9c8?g_st=ic"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 hover:text-accent transition-colors"
+                className="flex items-center gap-2 hover:text-[#C58B45] transition-colors"
                 title={t.openInMaps}
               >
-                <MapPin size={16} className="shrink-0 text-accent" />
-                <span className="underline underline-offset-4">
-                  {t.showroomFactory}
-                </span>
+                <MapPin size={14} className="shrink-0 text-[#C58B45]" />
+                <span className="underline underline-offset-2">المعرض والمصنع: المنصورة، مصر</span>
               </a>
 
-              {/* Facebook */}
               <a
-                href="https://www.facebook.com/share/19YB7qVNxZ/?mibextid=wwXIfr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2.5 text-[#1877F2] hover:brightness-125 transition-all font-semibold"
-                title={t.facebookPage}
+                href="mailto:hello@amazonfurniture.eg"
+                className="flex items-center gap-2 hover:text-[#C58B45] transition-colors"
               >
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
-                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
-                </svg>
-                <span>{t.facebookPage}</span>
-              </a>
-
-              {/* Email */}
-              <a
-                href="mailto:hello@amazonfurniture.com"
-                className="flex items-center gap-2.5 hover:text-accent transition-colors"
-              >
-                <Mail size={16} className="shrink-0 text-accent" />
-                <span>hello@amazonfurniture.com</span>
+                <Mail size={14} className="shrink-0 text-[#C58B45]" />
+                <span>hello@amazonfurniture.eg</span>
               </a>
             </div>
 
-            {/* Newsletter */}
-            <div>
-              <h4 className="font-semibold text-sm mb-2">{t.newsletterTitle}</h4>
-              <p className="text-white/60 text-xs mb-3">{t.newsletterSubtitle}</p>
-              {subscribed ? (
-                <p className="text-accent text-sm">{t.subscribedMsg}</p>
-              ) : (
-                <form onSubmit={handleSubscribe} className="flex gap-2 max-w-md">
-                  <input
-                    type="email"
-                    placeholder={t.emailPlaceholder}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="flex-1 px-3 py-2 bg-white/10 border border-white/10 rounded-lg text-sm placeholder:text-white/40 focus:border-accent focus:ring-1 focus:ring-accent/30 min-w-0"
-                  />
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-accent hover:bg-accent-light text-primary font-bold rounded-lg transition-colors shrink-0 text-sm"
-                  >
-                    {t.subscribe}
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-
-          {/* Shop Links */}
-          <div className="lg:col-span-2 lg:col-start-6">
-            <MobileAccordion title={t.shop}>
-              <ul className="space-y-2.5">
-                {currentLinks.shop.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-white/60 hover:text-accent transition-colors text-sm"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </MobileAccordion>
-          </div>
-
-          {/* Company Links */}
-          <div className="lg:col-span-2">
-            <MobileAccordion title={t.company}>
-              <ul className="space-y-2.5">
-                {currentLinks.company.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-white/60 hover:text-accent transition-colors text-sm"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </MobileAccordion>
-          </div>
-
-          {/* Support Links */}
-          <div className="lg:col-span-2">
-            <MobileAccordion title={t.support}>
-              <ul className="space-y-2.5">
-                {currentLinks.support.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-white/60 hover:text-accent transition-colors text-sm"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </MobileAccordion>
-          </div>
-
-          {/* Social + Trust */}
-          <div className="lg:col-span-2">
-            <h3 className="font-semibold text-lg mb-4 hidden lg:block">
-              {t.followUs}
-            </h3>
-            <h3 className="font-semibold text-lg mb-4 lg:hidden">{t.followUs}</h3>
-
-            {/* Social icons */}
-            <div className="flex gap-3 mb-8">
+            {/* Social Icons Row */}
+            <div className="flex items-center gap-2.5 pt-2">
               {socials.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent/30 transition-colors text-white hover:text-accent"
+                  className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#C58B45] hover:text-white transition-all text-white/80"
                   aria-label={social.label}
                   title={social.label}
                 >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-5 h-5"
-                  >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                     <path d={social.icon} />
                   </svg>
                 </a>
               ))}
             </div>
+          </div>
 
-            {/* Trust badges */}
-            <div className="space-y-3">
-              {[
-                { icon: Lock, text: "SSL Secure" },
-                { icon: Shield, text: "Buyer Protection" },
-              ].map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-center gap-2 text-white/40 text-xs">
-                  <Icon size={12} />
-                  <span>{text}</span>
-                </div>
-              ))}
+          {/* Column 2: Shop Categories (3 cols) */}
+          <div className="lg:col-span-3">
+            <MobileAccordion title={t.shop}>
+              <ul className="space-y-2">
+                {currentLinks.shop.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-white/60 hover:text-[#C58B45] transition-colors text-xs sm:text-sm block"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </MobileAccordion>
+          </div>
+
+          {/* Column 3: Quick Links & Policies (2 cols) */}
+          <div className="lg:col-span-2">
+            <MobileAccordion title="روابط هامة">
+              <ul className="space-y-2">
+                {currentLinks.quickLinks.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-white/60 hover:text-[#C58B45] transition-colors text-xs sm:text-sm block"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+                {currentLinks.support.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-white/60 hover:text-[#C58B45] transition-colors text-xs sm:text-sm block"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </MobileAccordion>
+          </div>
+
+          {/* Column 4: Compact Newsletter & Trust (3 cols) */}
+          <div className="lg:col-span-3 space-y-4">
+            <div>
+              <h3 className="font-bold text-sm sm:text-base text-white mb-1.5">{t.newsletterTitle}</h3>
+              <p className="text-white/60 text-xs mb-2.5 leading-relaxed">{t.newsletterSubtitle}</p>
+              {subscribed ? (
+                <p className="text-[#C58B45] text-xs font-bold">{t.subscribedMsg}</p>
+              ) : (
+                <form onSubmit={handleSubscribe} className="flex gap-1.5">
+                  <input
+                    type="email"
+                    placeholder={t.emailPlaceholder}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="flex-1 px-3 py-1.5 bg-white/10 border border-white/10 rounded-lg text-xs placeholder:text-white/40 focus:border-[#C58B45] focus:outline-none min-w-0"
+                  />
+                  <button
+                    type="submit"
+                    className="px-3 py-1.5 bg-[#C58B45] hover:bg-[#b07837] text-white font-bold rounded-lg transition-colors shrink-0 text-xs cursor-pointer"
+                  >
+                    {t.subscribe}
+                  </button>
+                </form>
+              )}
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center gap-3 pt-1 text-white/50 text-[11px]">
+              <div className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-md border border-white/10">
+                <Lock size={12} className="text-[#C58B45]" />
+                <span>SSL 256-bit Secure</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-md border border-white/10">
+                <Shield size={12} className="text-[#C58B45]" />
+                <span>ضمان 10 سنوات معتمد</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Payment methods + copyright ──────────── */}
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+      {/* ── Compact Bottom Bar: Payment Methods & Copyright ── */}
+      <div className="border-t border-white/10 bg-[#141211]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          {/* Payment Methods */}
+          <div className="flex items-center gap-2 text-xs text-white/60">
+            <span className="text-[11px] font-semibold text-white/40">طرق الدفع:</span>
             {/* Visa */}
-            <svg viewBox="0 0 48 32" className="h-6 w-auto" aria-label="Visa">
-              <rect width="48" height="32" rx="4" fill="#1A1F71"/>
-              <path d="M19.5 21h-3l1.9-11h3l-1.9 11zm7.8-10.7c-.6-.2-1.5-.5-2.7-.5-3 0-5 1.5-5 3.7 0 1.6 1.5 2.6 2.6 3.1 1.2.6 1.6.9 1.6 1.5 0 .8-1 1.2-1.9 1.2-1.2 0-1.9-.2-2.9-.6l-.4-.2-.4 2.5c.7.3 2 .6 3.4.6 3.2 0 5.3-1.5 5.3-3.8 0-1.3-.8-2.3-2.5-3.1-1-.5-1.7-.9-1.7-1.4 0-.5.6-1 1.8-1 1 0 1.8.2 2.4.5l.3.1.5-2.5zm6.4 0h-2.3c-.7 0-1.3.2-1.6.9l-4.5 10.1h3.2l.6-1.7h3.9l.4 1.7h2.8l-2.5-11zm-3.7 7.1l1.6-4.3.9 4.3h-2.5zM16.3 10l-2.8 7.5-.3-1.5c-.5-1.7-2.1-3.5-3.9-4.4l2.7 10h3.3l4.8-11.6h-3.8z" fill="#fff"/>
-            </svg>
+            <span className="px-2 py-0.5 rounded bg-white text-[#1A1F71] font-black text-[10px] tracking-wider">
+              VISA
+            </span>
             {/* Mastercard */}
-            <svg viewBox="0 0 48 32" className="h-6 w-auto" aria-label="Mastercard">
-              <rect width="48" height="32" rx="4" fill="#252525"/>
-              <circle cx="19" cy="16" r="8" fill="#EB001B"/>
-              <circle cx="29" cy="16" r="8" fill="#F79E1B"/>
-              <path d="M24 10.2a8 8 0 010 11.6 8 8 0 000-11.6z" fill="#FF5F00"/>
-            </svg>
-            {/* GCash */}
-            <svg viewBox="0 0 48 32" className="h-6 w-auto" aria-label="GCash">
-              <rect width="48" height="32" rx="4" fill="#007DFE"/>
-              <text x="24" y="20" textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold" fontFamily="Arial, sans-serif">GCash</text>
-            </svg>
-            {/* Maya */}
-            <svg viewBox="0 0 48 32" className="h-6 w-auto" aria-label="Maya">
-              <rect width="48" height="32" rx="4" fill="#00C4B4"/>
-              <text x="24" y="20" textAnchor="middle" fill="#fff" fontSize="11" fontWeight="bold" fontFamily="Arial, sans-serif">Maya</text>
-            </svg>
+            <span className="px-2 py-0.5 rounded bg-[#252525] text-white font-bold text-[10px] flex items-center gap-1">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#EB001B] inline-block -mr-1" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#F79E1B] inline-block" />
+            </span>
+            {/* InstaPay */}
+            <span className="px-2 py-0.5 rounded bg-[#5A287F] text-white font-bold text-[10px]">
+              InstaPay
+            </span>
+            {/* Fawry */}
+            <span className="px-2 py-0.5 rounded bg-[#FECE00] text-black font-extrabold text-[10px]">
+              Fawry
+            </span>
+            {/* Cash on delivery */}
+            <span className="px-2 py-0.5 rounded bg-white/10 text-white text-[10px] font-medium">
+              الدفع عند الاستلام
+            </span>
           </div>
-          <p className="text-white/40 text-xs text-center sm:text-end">
+
+          {/* Copyright */}
+          <p className="text-white/40 text-[11px] text-center sm:text-end">
             &copy; 2026 {SITE_NAME}. {t.rightsReserved}
           </p>
         </div>

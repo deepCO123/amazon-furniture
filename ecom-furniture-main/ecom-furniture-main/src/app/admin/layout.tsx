@@ -70,7 +70,7 @@ export default function AdminLayout({
             </p>
           </div>
           <Link
-            href="/admin/login"
+            href="/auth/login"
             className="block w-full py-3.5 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition-all shadow-lg shadow-cyan-500/25"
           >
             تسجيل الدخول الآن

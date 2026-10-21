@@ -115,7 +115,7 @@ export default function AdminDashboardPage() {
 
   const handleLogout = () => {
     logout();
-    router.push("/admin/login");
+    router.push("/auth/login");
   };
 
   // Products Tab State
@@ -540,7 +540,7 @@ export default function AdminDashboardPage() {
           // Retry failed
         }
         alert("انتهت صلاحية الجلسة الإدارية أو غير مصرح لك. يرجى تسجيل الدخول مجدداً كمسؤول.");
-        router.push("/admin/login");
+        router.push("/auth/login");
       } else {
         alert(`تعذر حذف المنتج: ${errMsg}`);
       }

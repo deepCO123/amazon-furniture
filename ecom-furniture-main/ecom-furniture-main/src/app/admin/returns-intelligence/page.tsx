@@ -122,7 +122,7 @@ export default function ReturnsIntelligencePage() {
     let mounted = true;
     checkSession().then((valid) => {
       if (!valid && mounted) {
-        router.push("/admin/login");
+        router.push("/auth/login");
       }
     });
     return () => {

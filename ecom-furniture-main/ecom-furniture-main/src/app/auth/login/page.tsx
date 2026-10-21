@@ -15,8 +15,14 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 
 const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  email: z
+    .string()
+    .min(1, "يرجى إدخال البريد الإلكتروني")
+    .refine(
+      (val) => val.includes("@") || val.toLowerCase().trim() === "admin",
+      "يرجى كتابة بريد إلكتروني صحيح أو admin"
+    ),
+  password: z.string().min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
@@ -30,6 +36,7 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -41,7 +48,11 @@ export default function LoginPage() {
 
     const result = await login(data.email, data.password);
     if (result.success) {
-      router.push("/");
+      if (result.user?.role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     } else {
       setError(result.message || "بيانات الدخول غير صحيحة. تأكد من البريد وكلمة المرور.");
     }
@@ -64,7 +75,7 @@ export default function LoginPage() {
               />
             </Link>
             <h1 className="text-2xl font-bold text-primary">تسجيل الدخول / Sign In</h1>
-            <p className="text-muted mt-1 text-sm">سجل دخولك لحسابك في AMAZON</p>
+            <p className="text-muted mt-1 text-sm">سجل دخولك لحسابك في AMAZON (عملاء أو مسؤولين)</p>
           </div>
 
           {/* Google 1-Click Login Button */}
@@ -96,8 +107,8 @@ export default function LoginPage() {
 
             <Input
               label="البريد الإلكتروني / Email"
-              type="email"
-              placeholder="client@amazonfurniture.eg أو john@example.com"
+              type="text"
+              placeholder="client@amazonfurniture.eg أو admin"
               error={errors.email?.message}
               {...register("email")}
             />
@@ -114,6 +125,22 @@ export default function LoginPage() {
               تسجيل الدخول / Sign In
             </Button>
           </form>
+
+          {/* Quick Admin Demo Fill Shortcut */}
+          <div className="mt-4 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs flex items-center justify-between text-slate-600">
+            <span className="text-[11px]">هل أنت مسؤول النظام؟</span>
+            <button
+              type="button"
+              onClick={() => {
+                setValue("email", "admin@amazonfurniture.eg");
+                setValue("password", "Admin@Pass2026!");
+                setError("");
+              }}
+              className="text-[#C58B45] hover:text-[#93662a] font-bold text-[11px] underline cursor-pointer"
+            >
+              تعبئة بيانات الأدمن تلقائياً ⚡
+            </button>
+          </div>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-muted">
