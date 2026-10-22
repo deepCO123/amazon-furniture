@@ -74,17 +74,17 @@ export default function ProductDetailPage({
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8F5F0]">
-        <div className="text-center p-8 bg-white rounded-2xl shadow-xl max-w-md">
-          <h1 className="text-2xl font-black text-[#6B4F3A] mb-3">
+      <div className="min-h-screen flex items-center justify-center bg-[#F8F5F0] dark:bg-[#0B0E14]">
+        <div className="text-center p-8 bg-white dark:bg-[#151A24] border border-transparent dark:border-[#232B3C] rounded-2xl shadow-xl max-w-md">
+          <h1 className="text-2xl font-black text-[#6B4F3A] dark:text-[#E8D4B0] mb-3">
             {isEn ? "Product Not Found" : "عفواً، المنتج غير موجود"}
           </h1>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
             {isEn ? "This item may have been removed or updated." : "ربما تم تعديل كود المنتج أو نقله."}
           </p>
           <Link
             href="/products"
-            className="inline-block bg-[#6B4F3A] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-[#573E2D] transition-colors"
+            className="inline-block bg-[#6B4F3A] dark:bg-[#C58B45] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-[#573E2D] dark:hover:bg-[#b07837] transition-colors"
           >
             {isEn ? "Back to Shop" : "العودة إلى المعرض"}
           </Link>
@@ -140,11 +140,11 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
     : "75 سم";
 
   return (
-    <div className="min-h-screen bg-[#F8F5F0] pb-24">
+    <div className="min-h-screen bg-[#F8F5F0] dark:bg-[#0B0E14] pb-24">
       {/* ── 1. Top Breadcrumb Navigation (SofaZone Reference) ─────────── */}
-      <div className="bg-white border-b border-gray-200/80">
+      <div className="bg-white dark:bg-[#121620] border-b border-gray-200/80 dark:border-[#232B3C]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 font-medium">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">
             <Link href="/" className="hover:text-[#C58B45] transition-colors">
               الرئيسية
             </Link>
@@ -156,7 +156,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
               {product.category}
             </Link>
             <span>/</span>
-            <span className="text-gray-900 font-bold line-clamp-1">{product.name}</span>
+            <span className="text-gray-900 dark:text-white font-bold line-clamp-1">{product.name}</span>
           </nav>
         </div>
       </div>
@@ -177,47 +177,47 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
             )}
 
             {/* Product Title */}
-            <h1 className="text-2xl sm:text-3xl lg:text-3xl font-black text-[#6B4F3A] leading-tight tracking-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-3xl font-black text-[#6B4F3A] dark:text-[#E8D4B0] leading-tight tracking-tight">
               {product.name}
             </h1>
 
             {/* Rating Stars & Product Code */}
-            <div className="flex items-center justify-between gap-4 text-xs text-gray-500 pt-1">
+            <div className="flex items-center justify-between gap-4 text-xs text-gray-500 dark:text-gray-400 pt-1">
               <div className="flex items-center gap-1.5">
-                <span className="font-bold text-gray-700">({reviews.length})</span>
+                <span className="font-bold text-gray-700 dark:text-gray-300">({reviews.length})</span>
                 <div className="flex items-center text-amber-400">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
                       size={14}
-                      className={i < Math.floor(product.rating || 5) ? "fill-amber-400 text-amber-400" : "text-gray-300"}
+                      className={i < Math.floor(product.rating || 5) ? "fill-amber-400 text-amber-400" : "text-gray-300 dark:text-gray-600"}
                     />
                   ))}
                 </div>
               </div>
 
               {/* Product Code Watermark */}
-              <div className="font-mono text-xs font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
+              <div className="font-mono text-xs font-bold text-gray-500 dark:text-gray-300 bg-gray-100 dark:bg-[#1A2230] border border-transparent dark:border-[#2D3748] px-2 py-0.5 rounded">
                 رمز المنتج: {product.code || `SZ-${product.id.slice(-4).toUpperCase()}`}
               </div>
             </div>
 
             {/* Price Row (SofaZone Red Price) */}
             <div className="flex items-baseline gap-3 pt-1 pb-2">
-              <span className="text-2xl sm:text-3xl font-black text-[#B93832]" suppressHydrationWarning>
+              <span className="text-2xl sm:text-3xl font-black text-[#B93832] dark:text-[#F87171]" suppressHydrationWarning>
                 {formatPrice(product.price)}
               </span>
               {product.originalPrice && product.originalPrice > product.price && (
-                <span className="text-sm sm:text-base text-gray-400 line-through font-bold" suppressHydrationWarning>
+                <span className="text-sm sm:text-base text-gray-400 dark:text-gray-500 line-through font-bold" suppressHydrationWarning>
                   {formatPrice(product.originalPrice)}
                 </span>
               )}
             </div>
 
             {/* Guarantees Strip (Image 1 Style) */}
-            <div className="space-y-1.5 py-2 border-y border-gray-200/90 text-xs font-bold text-gray-800">
+            <div className="space-y-1.5 py-2 border-y border-gray-200/90 dark:border-[#232B3C] text-xs font-bold text-gray-800 dark:text-gray-200">
               <div className="flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                <CheckCircle2 size={16} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
                 <span>ضمان معتمد لمدة 10 سنوات على الهيكل والخامات</span>
               </div>
               <div className="flex items-center gap-2">
@@ -228,9 +228,9 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
 
             {/* Curtain Type Selector (for blinds and curtains) */}
             {isCurtain && (
-              <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200/80 my-3">
+              <div className="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/40 my-3">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-black text-[#6B4F3A]">
+                  <label className="text-xs font-black text-[#6B4F3A] dark:text-[#E8D4B0]">
                     نوع الستارة المطلوب:
                   </label>
                   <span className="text-[11px] text-[#C58B45] font-bold">
@@ -245,8 +245,8 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                       onClick={() => setSelectedCurtainType(type)}
                       className={`p-2 rounded-lg border text-xs font-bold text-start transition-all ${
                         selectedCurtainType === type
-                          ? "bg-[#6B4F3A] text-white border-[#6B4F3A] shadow-xs"
-                          : "bg-white text-gray-700 border-gray-200 hover:border-[#C58B45]"
+                          ? "bg-[#6B4F3A] dark:bg-[#C58B45] text-white border-[#6B4F3A] dark:border-[#C58B45] shadow-xs"
+                          : "bg-white dark:bg-[#1A2230] text-gray-700 dark:text-gray-200 border-gray-200 dark:border-[#2D3748] hover:border-[#C58B45]"
                       }`}
                     >
                       {type}
@@ -257,42 +257,42 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
             )}
 
             {/* ── 3. SofaZone Specifications Table (Image 1 & 2 Style) ──── */}
-            <div className="border border-gray-200 rounded-xl overflow-hidden shadow-xs bg-white text-xs">
-              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
-                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">المقاس</div>
-                <div className="p-2.5 text-gray-900 text-center font-medium font-mono">{dimensionsText}</div>
+            <div className="border border-gray-200 dark:border-[#232B3C] rounded-xl overflow-hidden shadow-xs bg-white dark:bg-[#151A24] text-xs">
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 dark:divide-[#232B3C] border-b border-gray-200 dark:border-[#232B3C]">
+                <div className="bg-gray-50 dark:bg-[#1A2230] p-2.5 font-bold text-gray-700 dark:text-gray-300 text-center">المقاس</div>
+                <div className="p-2.5 text-gray-900 dark:text-gray-100 text-center font-medium font-mono">{dimensionsText}</div>
               </div>
-              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
-                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">الإرتفاع</div>
-                <div className="p-2.5 text-gray-900 text-center font-medium">{heightText}</div>
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 dark:divide-[#232B3C] border-b border-gray-200 dark:border-[#232B3C]">
+                <div className="bg-gray-50 dark:bg-[#1A2230] p-2.5 font-bold text-gray-700 dark:text-gray-300 text-center">الإرتفاع</div>
+                <div className="p-2.5 text-gray-900 dark:text-gray-100 text-center font-medium">{heightText}</div>
               </div>
-              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
-                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">نوع الخشب / الخامة</div>
-                <div className="p-2.5 text-gray-900 text-center font-medium">{product.material || "خشب زان أحمر / شبك طبي معالج"}</div>
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 dark:divide-[#232B3C] border-b border-gray-200 dark:border-[#232B3C]">
+                <div className="bg-gray-50 dark:bg-[#1A2230] p-2.5 font-bold text-gray-700 dark:text-gray-300 text-center">نوع الخشب / الخامة</div>
+                <div className="p-2.5 text-gray-900 dark:text-gray-100 text-center font-medium">{product.material || "خشب زان أحمر / شبك طبي معالج"}</div>
               </div>
-              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
-                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">كثافة الخشب / الإسفنج</div>
-                <div className="p-2.5 text-gray-900 text-center font-medium">
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 dark:divide-[#232B3C] border-b border-gray-200 dark:border-[#232B3C]">
+                <div className="bg-gray-50 dark:bg-[#1A2230] p-2.5 font-bold text-gray-700 dark:text-gray-300 text-center">كثافة الخشب / الإسفنج</div>
+                <div className="p-2.5 text-gray-900 dark:text-gray-100 text-center font-medium">
                   {product.category === "مكاتب" || product.category === "ترابيزة تليفزيون"
                     ? "MDF إسباني عالي الكثافة 16.5 مم"
                     : "إسفنج كثافة 36 سوبر سوفت"}
                 </div>
               </div>
-              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
-                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">الميكانيزم / الشاسيه</div>
-                <div className="p-2.5 text-gray-900 text-center font-medium">
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 dark:divide-[#232B3C] border-b border-gray-200 dark:border-[#232B3C]">
+                <div className="bg-gray-50 dark:bg-[#1A2230] p-2.5 font-bold text-gray-700 dark:text-gray-300 text-center">الميكانيزم / الشاسيه</div>
+                <div className="p-2.5 text-gray-900 dark:text-gray-100 text-center font-medium">
                   {product.category.includes("كرسي")
                     ? "ميكانيزم تركي هيدروليك أصلي متعدد الأوضاع"
                     : "شاسيه حديد صلب معالج إلكتروستاتيك"}
                 </div>
               </div>
-              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 border-b border-gray-200">
-                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">الضمان</div>
-                <div className="p-2.5 text-emerald-700 text-center font-black">10 سنوات ضمان معتمد</div>
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 dark:divide-[#232B3C] border-b border-gray-200 dark:border-[#232B3C]">
+                <div className="bg-gray-50 dark:bg-[#1A2230] p-2.5 font-bold text-gray-700 dark:text-gray-300 text-center">الضمان</div>
+                <div className="p-2.5 text-emerald-700 dark:text-emerald-400 text-center font-black">10 سنوات ضمان معتمد</div>
               </div>
-              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200">
-                <div className="bg-gray-50 p-2.5 font-bold text-gray-700 text-center">ميعاد الاستلام</div>
-                <div className="p-2.5 text-gray-900 text-center font-bold text-[#D97706]">استلام فوري (أو خلال 3-5 أيام)</div>
+              <div className="grid grid-cols-2 divide-x divide-x-reverse divide-gray-200 dark:divide-[#232B3C]">
+                <div className="bg-gray-50 dark:bg-[#1A2230] p-2.5 font-bold text-gray-700 dark:text-gray-300 text-center">ميعاد الاستلام</div>
+                <div className="p-2.5 text-gray-900 dark:text-gray-100 text-center font-bold text-[#D97706] dark:text-amber-400">استلام فوري (أو خلال 3-5 أيام)</div>
               </div>
             </div>
 
@@ -301,13 +301,13 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
               <button
                 type="button"
                 onClick={handleAskQuestion}
-                className="flex items-center gap-1.5 text-xs font-black text-gray-700 hover:text-[#C58B45] transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 text-xs font-black text-gray-700 dark:text-gray-300 hover:text-[#C58B45] transition-colors cursor-pointer"
               >
                 <HelpCircle size={15} className="text-[#C58B45]" />
                 <span>اطرح سؤالاً عن هذا المنتج 💬</span>
               </button>
 
-              <div className="flex items-center gap-1.5 text-xs font-black text-emerald-700">
+              <div className="flex items-center gap-1.5 text-xs font-black text-emerald-700 dark:text-emerald-400">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span>متوفر بالمصنع</span>
               </div>
@@ -343,10 +343,10 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                     setSelectedImage(i);
                     setShowTechnicalSketch(false);
                   }}
-                  className={`relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 transition-all shrink-0 bg-white shadow-xs cursor-pointer ${
+                  className={`relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 transition-all shrink-0 bg-white dark:bg-[#1A2230] shadow-xs cursor-pointer ${
                     selectedImage === i && !showTechnicalSketch
                       ? "border-[#C58B45] ring-2 ring-[#C58B45]/20 scale-105"
-                      : "border-gray-200 opacity-70 hover:opacity-100"
+                      : "border-gray-200 dark:border-[#2D3748] opacity-70 hover:opacity-100"
                   }`}
                 >
                   <Image
@@ -362,20 +362,20 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
               {/* Technical Sketch Thumbnail (Image 2 Style) */}
               <button
                 onClick={() => setShowTechnicalSketch(true)}
-                className={`relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 transition-all shrink-0 bg-gray-50 flex flex-col items-center justify-center shadow-xs cursor-pointer ${
+                className={`relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 transition-all shrink-0 bg-gray-50 dark:bg-[#1A2230] flex flex-col items-center justify-center shadow-xs cursor-pointer ${
                   showTechnicalSketch
-                    ? "border-[#C58B45] ring-2 ring-[#C58B45]/20 scale-105 bg-amber-50"
-                    : "border-gray-200 opacity-70 hover:opacity-100"
+                    ? "border-[#C58B45] ring-2 ring-[#C58B45]/20 scale-105 bg-amber-50 dark:bg-amber-950/30"
+                    : "border-gray-200 dark:border-[#2D3748] opacity-70 hover:opacity-100"
                 }`}
                 title="مخطط المقاسات والأبعاد"
               >
-                <Ruler size={20} className="text-[#6B4F3A] mb-1" />
-                <span className="text-[10px] font-black text-gray-700">الأبعاد CM</span>
+                <Ruler size={20} className="text-[#6B4F3A] dark:text-[#C58B45] mb-1" />
+                <span className="text-[10px] font-black text-gray-700 dark:text-gray-300">الأبعاد CM</span>
               </button>
             </div>
 
             {/* Main Stage Image / Technical Diagram */}
-            <div className="order-1 md:order-2 flex-1 w-full bg-white rounded-3xl border border-gray-200/80 p-4 sm:p-8 relative shadow-lg overflow-hidden min-h-[380px] sm:min-h-[480px] flex items-center justify-center">
+            <div className="order-1 md:order-2 flex-1 w-full bg-white dark:bg-[#151A24] rounded-3xl border border-gray-200/80 dark:border-[#232B3C] p-4 sm:p-8 relative shadow-lg overflow-hidden min-h-[380px] sm:min-h-[480px] flex items-center justify-center">
               
               {/* Wishlist Button */}
               <button
@@ -388,26 +388,26 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                     addToast(isEn ? "Added to wishlist" : "تمت الإضافة للمفضلة ❤️", "wishlist");
                   }
                 }}
-                className="absolute top-4 start-4 z-20 w-10 h-10 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center hover:scale-110 transition-all cursor-pointer"
+                className="absolute top-4 start-4 z-20 w-10 h-10 rounded-full bg-white dark:bg-[#1A2230] shadow-md border border-gray-100 dark:border-[#2D3748] flex items-center justify-center hover:scale-110 transition-all cursor-pointer"
                 title="إضافة للمفضلة"
               >
-                <Heart size={18} className={wishlisted ? "fill-red-500 text-red-500" : "text-gray-400"} />
+                <Heart size={18} className={wishlisted ? "fill-red-500 text-red-500" : "text-gray-400 dark:text-gray-300"} />
               </button>
 
               {/* Technical Sketch View (Image 2 Style with CM dimensions) */}
               {showTechnicalSketch ? (
                 <div className="w-full h-full flex flex-col items-center justify-center py-6 text-center animate-fadeIn relative">
-                  <div className="relative w-64 h-72 border-2 border-dashed border-gray-400 rounded-xl flex flex-col items-center justify-center p-4 bg-gray-50/80">
+                  <div className="relative w-64 h-72 border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-xl flex flex-col items-center justify-center p-4 bg-gray-50/80 dark:bg-[#1A2230]/80">
                     {/* Width dimension marker */}
-                    <div className="absolute -top-6 inset-x-0 flex items-center justify-center text-xs font-mono font-black text-[#6B4F3A]">
+                    <div className="absolute -top-6 inset-x-0 flex items-center justify-center text-xs font-mono font-black text-[#6B4F3A] dark:text-[#E8D4B0]">
                       ◀─── {product.dimensions?.width || 80} CM ───▶
                     </div>
                     {/* Height dimension marker */}
-                    <div className="absolute -right-10 inset-y-0 flex items-center justify-center -rotate-90 text-xs font-mono font-black text-[#6B4F3A] whitespace-nowrap">
+                    <div className="absolute -right-10 inset-y-0 flex items-center justify-center -rotate-90 text-xs font-mono font-black text-[#6B4F3A] dark:text-[#E8D4B0] whitespace-nowrap">
                       ◀─── {product.dimensions?.height || 110} CM ───▶
                     </div>
                     {/* Depth dimension marker */}
-                    <div className="absolute -left-10 inset-y-0 flex items-center justify-center rotate-90 text-xs font-mono font-black text-gray-500 whitespace-nowrap">
+                    <div className="absolute -left-10 inset-y-0 flex items-center justify-center rotate-90 text-xs font-mono font-black text-gray-500 dark:text-gray-400 whitespace-nowrap">
                       العمق: {product.dimensions?.depth || 40} CM
                     </div>
 
@@ -418,9 +418,9 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                       className="object-contain opacity-35 p-6"
                     />
 
-                    <div className="relative z-10 bg-white/90 backdrop-blur-xs p-3 rounded-xl border border-gray-200 text-xs shadow-sm">
-                      <p className="font-black text-[#6B4F3A] mb-1">المخطط الهندسي للمقاسات</p>
-                      <p className="font-mono text-gray-600">
+                    <div className="relative z-10 bg-white/90 dark:bg-[#151A24]/90 backdrop-blur-xs p-3 rounded-xl border border-gray-200 dark:border-[#232B3C] text-xs shadow-sm">
+                      <p className="font-black text-[#6B4F3A] dark:text-[#E8D4B0] mb-1">المخطط الهندسي للمقاسات</p>
+                      <p className="font-mono text-gray-600 dark:text-gray-400">
                         {product.dimensions?.width || 80}W × {product.dimensions?.depth || 40}D × {product.dimensions?.height || 110}H CM
                       </p>
                     </div>
@@ -446,7 +446,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                         (selectedImage - 1 + product.images.length) % product.images.length
                       )
                     }
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-gray-800 flex items-center justify-center shadow-md transition-all cursor-pointer z-10"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 dark:bg-[#1A2230]/90 hover:bg-white dark:hover:bg-[#1A2230] text-gray-800 dark:text-gray-200 flex items-center justify-center shadow-md transition-all cursor-pointer z-10"
                     aria-label="Previous image"
                   >
                     <ChevronLeft size={20} />
@@ -455,7 +455,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                     onClick={() =>
                       setSelectedImage((selectedImage + 1) % product.images.length)
                     }
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-gray-800 flex items-center justify-center shadow-md transition-all cursor-pointer z-10"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 dark:bg-[#1A2230]/90 hover:bg-white dark:hover:bg-[#1A2230] text-gray-800 dark:text-gray-200 flex items-center justify-center shadow-md transition-all cursor-pointer z-10"
                     aria-label="Next image"
                   >
                     <ChevronRight size={20} />
@@ -467,25 +467,25 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
         </div>
 
         {/* ── 5. Product Description & Factory Guarantees ───────────────── */}
-        <div className="mt-12 bg-white rounded-3xl p-6 sm:p-10 border border-gray-200/80 shadow-xs">
-          <h3 className="text-xl font-black text-[#6B4F3A] mb-4">
+        <div className="mt-12 bg-white dark:bg-[#151A24] rounded-3xl p-6 sm:p-10 border border-gray-200/80 dark:border-[#232B3C] shadow-xs">
+          <h3 className="text-xl font-black text-[#6B4F3A] dark:text-[#E8D4B0] mb-4">
             تفاصيل ومميزات القطعة
           </h3>
-          <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-4xl mb-6">
+          <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed max-w-4xl mb-6">
             {product.description}
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-gray-100">
-            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/70">
-              <h4 className="font-black text-[#6B4F3A] text-sm mb-1">خشب زان أحمر ومواد مطابقة للمواصفات</h4>
-              <p className="text-xs text-gray-500">تم اختيار الخامات والميكانيزمات المقاومة للإجهاد لتدوم أطول فترة ممكنة.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-gray-100 dark:border-[#232B3C]">
+            <div className="p-4 rounded-2xl bg-stone-50 dark:bg-[#1A2230] border border-stone-200/70 dark:border-[#2D3748]">
+              <h4 className="font-black text-[#6B4F3A] dark:text-[#E8D4B0] text-sm mb-1">خشب زان أحمر ومواد مطابقة للمواصفات</h4>
+              <p className="text-xs text-gray-500 dark:text-gray-400">تم اختيار الخامات والميكانيزمات المقاومة للإجهاد لتدوم أطول فترة ممكنة.</p>
             </div>
-            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/70">
-              <h4 className="font-black text-[#6B4F3A] text-sm mb-1">شحن وتركيب مجاني</h4>
-              <p className="text-xs text-gray-500">فريق فني متخصص يقوم بالمعاينة والتركيب الفوري لضمان أعلى مستوى من الرضا.</p>
+            <div className="p-4 rounded-2xl bg-stone-50 dark:bg-[#1A2230] border border-stone-200/70 dark:border-[#2D3748]">
+              <h4 className="font-black text-[#6B4F3A] dark:text-[#E8D4B0] text-sm mb-1">شحن وتركيب مجاني</h4>
+              <p className="text-xs text-gray-500 dark:text-gray-400">فريق فني متخصص يقوم بالمعاينة والتركيب الفوري لضمان أعلى مستوى من الرضا.</p>
             </div>
-            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/70">
-              <h4 className="font-black text-[#6B4F3A] text-sm mb-1">خدمة ما بعد البيع وضمان حقيقي</h4>
-              <p className="text-xs text-gray-500">فريق الدعم الفني متاح دائماً عبر الواتساب والمصنع لمتابعة أي استفسار.</p>
+            <div className="p-4 rounded-2xl bg-stone-50 dark:bg-[#1A2230] border border-stone-200/70 dark:border-[#2D3748]">
+              <h4 className="font-black text-[#6B4F3A] dark:text-[#E8D4B0] text-sm mb-1">خدمة ما بعد البيع وضمان حقيقي</h4>
+              <p className="text-xs text-gray-500 dark:text-gray-400">فريق الدعم الفني متاح دائماً عبر الواتساب والمصنع لمتابعة أي استفسار.</p>
             </div>
           </div>
         </div>
@@ -494,7 +494,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
         {related.length > 0 && (
           <div className="mt-14">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl sm:text-2xl font-black text-[#6B4F3A]">
+              <h3 className="text-xl sm:text-2xl font-black text-[#6B4F3A] dark:text-[#E8D4B0]">
                 منتجات أخرى من قسم {product.category}
               </h3>
               <Link
@@ -514,7 +514,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
       </div>
 
       {/* ── 7. Sticky Bottom Action Bar with Safe Area & Mobile Support ─────── */}
-      <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl py-2.5 px-3 sm:px-8 z-40 transition-all pb-[calc(0.625rem+env(safe-area-inset-bottom))]">
+      <div className="fixed bottom-0 inset-x-0 bg-white/95 dark:bg-[#0E121A]/95 backdrop-blur-md border-t border-gray-200 dark:border-[#1E2536] shadow-2xl py-2.5 px-3 sm:px-8 z-40 transition-all pb-[calc(0.625rem+env(safe-area-inset-bottom))]">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           
           {/* Action Buttons */}
@@ -527,7 +527,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
             </button>
             <button
               onClick={handleAddToCart}
-              className="flex-1 sm:flex-none bg-[#6B4F3A] hover:bg-[#573E2D] text-white font-black text-xs sm:text-sm px-3 sm:px-7 py-2.5 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-1.5 min-h-[44px]"
+              className="flex-1 sm:flex-none bg-[#6B4F3A] hover:bg-[#573E2D] dark:bg-[#C58B45] dark:hover:bg-[#B37A38] text-white font-black text-xs sm:text-sm px-3 sm:px-7 py-2.5 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-1.5 min-h-[44px]"
             >
               <ShoppingBag size={16} />
               <span>{added ? "تمت الإضافة!" : "أضف للسلة"}</span>
@@ -537,14 +537,14 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
           {/* Price & preview */}
           <div className="flex items-center gap-2.5 shrink-0">
             <div className="text-end">
-              <span className="text-base sm:text-lg font-black text-[#B93832]" suppressHydrationWarning>
+              <span className="text-base sm:text-lg font-black text-[#B93832] dark:text-[#F87171]" suppressHydrationWarning>
                 {formatPrice(product.price)}
               </span>
-              <h4 className="hidden md:block text-xs font-bold text-gray-700 line-clamp-1 max-w-[200px]">
+              <h4 className="hidden md:block text-xs font-bold text-gray-700 dark:text-gray-300 line-clamp-1 max-w-[200px]">
                 {product.name}
               </h4>
             </div>
-            <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gray-50 overflow-hidden border border-gray-200 shrink-0">
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gray-50 dark:bg-[#1A2230] overflow-hidden border border-gray-200 dark:border-[#2D3748] shrink-0">
               <Image
                 src={product.images[0] || "/placeholder.jpg"}
                 alt={product.name}

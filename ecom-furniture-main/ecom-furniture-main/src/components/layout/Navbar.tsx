@@ -172,7 +172,15 @@ export default function Navbar() {
                 alt="AMAZON"
                 width={180}
                 height={46}
-                className="h-[38px] sm:h-[46px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                className="h-[38px] sm:h-[46px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02] dark:hidden"
+                priority
+              />
+              <Image
+                src="/logo/amazon-horizontal-white.svg"
+                alt="AMAZON"
+                width={180}
+                height={46}
+                className="h-[38px] sm:h-[46px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02] hidden dark:block"
                 priority
               />
             </Link>
@@ -181,7 +189,7 @@ export default function Navbar() {
             <div ref={searchRef} className="flex-1 min-w-0 max-w-2xl relative hidden md:block">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex items-center rounded-full border border-[#E8E0D5] hover:border-[#C58B45] focus-within:border-[#C58B45] bg-white p-1 pl-1 pr-2.5 shadow-2xs transition-colors"
+                className="flex items-center rounded-full border border-[#E8E0D5] dark:border-[#2C3549] hover:border-[#C58B45] focus-within:border-[#C58B45] bg-white dark:bg-[#151A24] p-1 pl-1 pr-2.5 shadow-2xs transition-colors"
               >
                 {/* Search Button */}
                 <button
@@ -201,30 +209,30 @@ export default function Navbar() {
                     setShowSearchDropdown(true);
                   }}
                   onFocus={() => setShowSearchDropdown(true)}
-                  className={`flex-1 min-w-0 px-3 py-1 text-sm text-primary placeholder:text-gray-400 outline-none bg-transparent font-medium ${
+                  className={`flex-1 min-w-0 px-3 py-1 text-sm text-primary dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#79859A] outline-none bg-transparent font-medium ${
                     language === "en" ? "text-left" : "text-right"
                   }`}
                 />
 
                 {/* Vertical Divider */}
-                <div className="h-4 w-px bg-gray-200 shrink-0" />
+                <div className="h-4 w-px bg-gray-200 dark:bg-[#2C3549] shrink-0" />
 
                 {/* Category Dropdown */}
                 <div className="relative bg-transparent shrink-0 max-w-[130px]">
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="appearance-none bg-transparent text-xs font-bold text-gray-700 py-1 ps-2 pe-5 cursor-pointer outline-none truncate"
+                    className="appearance-none bg-transparent text-xs font-bold text-gray-700 dark:text-slate-200 py-1 ps-2 pe-5 cursor-pointer outline-none truncate"
                   >
                     {searchCategories.map((cat) => (
-                      <option key={cat.value} value={cat.value}>
+                      <option key={cat.value} value={cat.value} className="bg-white dark:bg-[#151A24] text-gray-900 dark:text-white">
                         {cat.label}
                       </option>
                     ))}
                   </select>
                   <ChevronDown
                     size={11}
-                    className="absolute left-1.5 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
+                    className="absolute left-1.5 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 pointer-events-none"
                   />
                 </div>
               </form>
@@ -236,10 +244,10 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 5 }}
-                    className="absolute top-full mt-2 left-0 right-0 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 max-h-[380px] overflow-y-auto"
+                    className="absolute top-full mt-2 left-0 right-0 bg-white dark:bg-[#151A24] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#2C3549] overflow-hidden z-50 max-h-[380px] overflow-y-auto"
                   >
                     {results.length === 0 ? (
-                      <div className="p-6 text-center text-sm text-gray-500">
+                      <div className="p-6 text-center text-sm text-gray-500 dark:text-gray-400">
                         {t.noSearchResults} &ldquo;{query}&rdquo;
                       </div>
                     ) : (
@@ -252,9 +260,9 @@ export default function Navbar() {
                               setShowSearchDropdown(false);
                               setQuery("");
                             }}
-                            className="flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50/60 transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50/60 dark:hover:bg-amber-950/20 transition-colors"
                           >
-                            <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                            <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 dark:bg-[#1E2536] shrink-0">
                               <Image
                                 src={product.images[0]}
                                 alt={product.name}
@@ -264,17 +272,17 @@ export default function Navbar() {
                               />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-semibold text-primary truncate">
+                              <p className="text-sm font-semibold text-primary dark:text-white truncate">
                                 {product.name}
                               </p>
-                              <p className="text-xs text-gray-500">{product.category}</p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">{product.category}</p>
                             </div>
                             <div className="text-left shrink-0">
-                              <p className="text-sm font-bold text-amber-700" suppressHydrationWarning>
+                              <p className="text-sm font-bold text-amber-700 dark:text-[#E8D4B0]" suppressHydrationWarning>
                                 {formatPrice(product.price)}
                               </p>
                               {product.originalPrice && (
-                                <p className="text-[11px] text-gray-400 line-through" suppressHydrationWarning>
+                                <p className="text-[11px] text-gray-400 dark:text-gray-500 line-through" suppressHydrationWarning>
                                   {formatPrice(product.originalPrice)}
                                 </p>
                               )}
@@ -293,12 +301,12 @@ export default function Navbar() {
               {/* User Account */}
               <Link
                 href={user ? "/profile" : "/auth/login"}
-                className="p-1 text-gray-800 hover:text-black transition-colors flex items-center gap-1"
+                className="p-1 text-gray-800 dark:text-slate-200 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1"
                 title={user ? `${t.myAccount} (${user.name})` : t.login}
               >
                 <User size={24} strokeWidth={1.8} />
                 {user && (
-                  <span className="hidden xl:inline text-[11px] font-bold text-stone-800 max-w-[90px] truncate">
+                  <span className="hidden xl:inline text-[11px] font-bold text-stone-800 dark:text-slate-200 max-w-[90px] truncate">
                     {user.name.split(" ")[0]}
                   </span>
                 )}
@@ -307,11 +315,11 @@ export default function Navbar() {
               {/* Wishlist */}
               <Link
                 href="/wishlist"
-                className="relative p-1 text-gray-800 hover:text-black transition-colors"
+                className="relative p-1 text-gray-800 dark:text-slate-200 hover:text-black dark:hover:text-white transition-colors"
                 title={t.wishlist}
               >
                 <Heart size={24} strokeWidth={1.8} />
-                <span className="absolute -top-1.5 -right-1.5 bg-black text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
+                <span className="absolute -top-1.5 -right-1.5 bg-black dark:bg-[#C58B45] text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
                   {hydrated ? wishlistItems.length : 0}
                 </span>
               </Link>
@@ -319,12 +327,12 @@ export default function Navbar() {
               {/* Cart - Always Visible */}
               <Link
                 href="/cart"
-                className="relative min-w-[44px] min-h-[44px] flex items-center justify-center p-2 text-gray-800 hover:text-black transition-colors"
+                className="relative min-w-[44px] min-h-[44px] flex items-center justify-center p-2 text-gray-800 dark:text-slate-200 hover:text-black dark:hover:text-white transition-colors"
                 title={t.cart}
                 aria-label={t.cart}
               >
                 <ShoppingBag size={24} strokeWidth={1.8} />
-                <span className="absolute top-1 end-1 bg-black text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
+                <span className="absolute top-1 end-1 bg-black dark:bg-[#C58B45] text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
                   {hydrated ? itemCount : 0}
                 </span>
               </Link>
@@ -332,7 +340,7 @@ export default function Navbar() {
               {/* Mobile Menu Button (Hamburger) */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="lg:hidden min-w-[44px] min-h-[44px] p-2 rounded-xl text-gray-700 hover:text-primary hover:bg-gray-100 flex items-center justify-center transition-colors cursor-pointer"
+                className="lg:hidden min-w-[44px] min-h-[44px] p-2 rounded-xl text-gray-700 dark:text-slate-200 hover:text-primary dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="قائمة التصفح"
                 aria-expanded={isOpen}
               >
@@ -343,8 +351,8 @@ export default function Navbar() {
 
           {/* Mobile Search input for small screens */}
           <div className="mt-2.5 md:hidden relative">
-            <form onSubmit={handleSearchSubmit} className="flex rounded-full border border-gray-300 p-1 bg-white overflow-hidden shadow-xs">
-              <button type="submit" className="bg-black text-white px-4 py-1.5 rounded-full font-bold text-xs">
+            <form onSubmit={handleSearchSubmit} className="flex rounded-full border border-gray-300 dark:border-[#2C3549] p-1 bg-white dark:bg-[#151A24] overflow-hidden shadow-xs">
+              <button type="submit" className="bg-black dark:bg-[#C58B45] text-white px-4 py-1.5 rounded-full font-bold text-xs">
                 {t.searchBtn}
               </button>
               <input
@@ -356,7 +364,7 @@ export default function Navbar() {
                   setShowSearchDropdown(true);
                 }}
                 onFocus={() => setShowSearchDropdown(true)}
-                className={`flex-1 px-3 py-1.5 text-xs outline-none font-medium ${
+                className={`flex-1 px-3 py-1.5 text-xs outline-none font-medium text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-[#79859A] bg-transparent ${
                   language === "en" ? "text-left" : "text-right"
                 }`}
               />
@@ -369,10 +377,10 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
-                  className="absolute top-full mt-2 left-0 right-0 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 max-h-[300px] overflow-y-auto"
+                  className="absolute top-full mt-2 left-0 right-0 bg-white dark:bg-[#151A24] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#2C3549] overflow-hidden z-50 max-h-[300px] overflow-y-auto"
                 >
                   {results.length === 0 ? (
-                    <div className="p-4 text-center text-xs text-gray-500">
+                    <div className="p-4 text-center text-xs text-gray-500 dark:text-gray-400">
                       لا توجد نتائج مطابقة لـ &ldquo;{query}&rdquo;
                     </div>
                   ) : (
@@ -385,9 +393,9 @@ export default function Navbar() {
                             setShowSearchDropdown(false);
                             setQuery("");
                           }}
-                          className="flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50/60 transition-colors border-b border-gray-50 last:border-none"
+                          className="flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50/60 dark:hover:bg-amber-950/20 transition-colors border-b border-gray-50 dark:border-[#232B3C] last:border-none"
                         >
-                          <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                          <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-gray-100 dark:bg-[#1E2536] shrink-0">
                             <Image
                               src={product.images[0] || "/placeholder.jpg"}
                               alt={product.name}
@@ -397,15 +405,15 @@ export default function Navbar() {
                             />
                           </div>
                           <div className="flex-1 min-w-0 text-right">
-                            <p className="text-xs font-bold text-gray-900 truncate">
+                            <p className="text-xs font-bold text-gray-900 dark:text-white truncate">
                               {product.name}
                             </p>
-                            <p className="text-[10px] text-gray-400">
+                            <p className="text-[10px] text-gray-400 dark:text-gray-500">
                               {product.category}
                             </p>
                           </div>
                           <div className="text-left shrink-0">
-                            <p className="text-xs font-bold text-amber-700">
+                            <p className="text-xs font-bold text-amber-700 dark:text-[#E8D4B0]">
                               {formatPrice(product.price)}
                             </p>
                           </div>
@@ -420,7 +428,7 @@ export default function Navbar() {
         </div>
 
         {/* ── 3. SofaZone Category Navigation Row (White with Golden Header & Carets) ──────── */}
-        <nav className="bg-white text-[#292321] border-t border-b border-[#E8E0D5] shadow-2xs overflow-x-auto no-scrollbar scroll-smooth">
+        <nav className="bg-white dark:bg-[#151A24] text-[#292321] dark:text-[#F5F6F8] border-t border-b border-[#E8E0D5] dark:border-[#232B3C] shadow-2xs overflow-x-auto no-scrollbar scroll-smooth">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-11 gap-4 sm:gap-6 min-w-max">
             {/* Right: "تسوق حسب التصنيف" */}
             <Link
@@ -432,7 +440,7 @@ export default function Navbar() {
               <ChevronDown size={13} />
             </Link>
 
-            <div className="h-4 w-px bg-[#E8E0D5] shrink-0" />
+            <div className="h-4 w-px bg-[#E8E0D5] dark:bg-[#232B3C] shrink-0" />
 
             {/* Center: Category Links with Carets */}
             <div className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
@@ -440,10 +448,10 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="group relative py-1 text-xs sm:text-[13px] font-black text-[#292321] tracking-wide hover:text-[#C58B45] transition-all flex items-center gap-1 whitespace-nowrap shrink-0"
+                  className="group relative py-1 text-xs sm:text-[13px] font-black text-[#292321] dark:text-[#F5F6F8] tracking-wide hover:text-[#C58B45] dark:hover:text-[#C58B45] transition-all flex items-center gap-1 whitespace-nowrap shrink-0"
                 >
                   <span>{link.label}</span>
-                  <ChevronDown size={11} className="text-[#74685E] group-hover:text-[#C58B45] transition-colors" />
+                  <ChevronDown size={11} className="text-[#74685E] dark:text-[#A7B0C0] group-hover:text-[#C58B45] transition-colors" />
                   {link.hasBadge && (
                     <span className="bg-[#B93832] text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs">
                       {link.badge}
@@ -472,7 +480,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="lg:hidden relative z-40 bg-white border-t border-gray-200 shadow-xl overflow-hidden"
+                className="lg:hidden relative z-40 bg-white dark:bg-[#121620] border-t border-gray-200 dark:border-[#232B3C] shadow-xl overflow-hidden"
               >
               <div className="p-4 space-y-3 max-h-[80vh] overflow-y-auto">
                 <Link
@@ -489,7 +497,7 @@ export default function Navbar() {
                   <Link
                     href="/products"
                     onClick={() => setIsOpen(false)}
-                    className="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-xs font-bold text-slate-800 flex items-center justify-center gap-1.5 border border-slate-200/60"
+                    className="p-3 rounded-xl bg-slate-50 dark:bg-[#181E2B] hover:bg-slate-100 dark:hover:bg-[#1F2737] text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-center gap-1.5 border border-slate-200/60 dark:border-[#232B3C]"
                   >
                     <span>🛍️ جميع المعروضات</span>
                   </Link>
@@ -497,7 +505,7 @@ export default function Navbar() {
                   <Link
                     href="/products?tag=sale"
                     onClick={() => setIsOpen(false)}
-                    className="p-3 rounded-xl bg-red-50 hover:bg-red-100 text-xs font-bold text-red-700 flex items-center justify-center gap-1.5 border border-red-200/60"
+                    className="p-3 rounded-xl bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/40 text-xs font-bold text-red-700 dark:text-red-400 flex items-center justify-center gap-1.5 border border-red-200/60 dark:border-red-900/40"
                   >
                     <span>🔥 عروض الخصومات</span>
                   </Link>
@@ -505,7 +513,7 @@ export default function Navbar() {
                   <Link
                     href="/orders"
                     onClick={() => setIsOpen(false)}
-                    className="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-xs font-bold text-slate-800 flex items-center justify-center gap-1.5 border border-slate-200/60"
+                    className="p-3 rounded-xl bg-slate-50 dark:bg-[#181E2B] hover:bg-slate-100 dark:hover:bg-[#1F2737] text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-center gap-1.5 border border-slate-200/60 dark:border-[#232B3C]"
                   >
                     <span>📦 تتبع طلباتي</span>
                   </Link>
@@ -513,7 +521,7 @@ export default function Navbar() {
                   <Link
                     href="/cart"
                     onClick={() => setIsOpen(false)}
-                    className="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-xs font-bold text-slate-800 flex items-center justify-center gap-1.5 border border-slate-200/60"
+                    className="p-3 rounded-xl bg-slate-50 dark:bg-[#181E2B] hover:bg-slate-100 dark:hover:bg-[#1F2737] text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-center gap-1.5 border border-slate-200/60 dark:border-[#232B3C]"
                   >
                     <span>🛒 سلة المشتريات ({hydrated ? itemCount : 0})</span>
                   </Link>
@@ -521,7 +529,7 @@ export default function Navbar() {
                   <Link
                     href="/about"
                     onClick={() => setIsOpen(false)}
-                    className="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-xs font-bold text-slate-800 flex items-center justify-center gap-1.5 border border-slate-200/60"
+                    className="p-3 rounded-xl bg-slate-50 dark:bg-[#181E2B] hover:bg-slate-100 dark:hover:bg-[#1F2737] text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-center gap-1.5 border border-slate-200/60 dark:border-[#232B3C]"
                   >
                     <span>🏢 عن المصنع والمعرض</span>
                   </Link>
@@ -529,15 +537,15 @@ export default function Navbar() {
                   <Link
                     href="/contact"
                     onClick={() => setIsOpen(false)}
-                    className="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-xs font-bold text-slate-800 flex items-center justify-center gap-1.5 border border-slate-200/60"
+                    className="p-3 rounded-xl bg-slate-50 dark:bg-[#181E2B] hover:bg-slate-100 dark:hover:bg-[#1F2737] text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-center gap-1.5 border border-slate-200/60 dark:border-[#232B3C]"
                   >
                     <span>📍 فروعنا بالمنصورة</span>
                   </Link>
                 </div>
 
                 {/* Categories List */}
-                <div className="pt-2 pb-1 border-t border-gray-100">
-                  <p className="text-xs font-bold text-gray-400 mb-2">أقسام الأثاث المتخصصة</p>
+                <div className="pt-2 pb-1 border-t border-gray-100 dark:border-[#232B3C]">
+                  <p className="text-xs font-bold text-gray-400 dark:text-gray-500 mb-2">أقسام الأثاث المتخصصة</p>
                   <div className="grid grid-cols-2 gap-1.5">
                     {secondaryNavLinks.map((link) => (
                       <Link
@@ -547,8 +555,8 @@ export default function Navbar() {
                         className={cn(
                           "block px-3 py-2 rounded-lg text-xs font-medium transition-colors",
                           link.highlight 
-                            ? "text-red-600 font-bold bg-red-50"
-                            : "text-gray-700 hover:bg-gray-100"
+                            ? "text-red-600 dark:text-red-400 font-bold bg-red-50 dark:bg-red-950/30"
+                            : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-[#181E2B]"
                         )}
                       >
                         {link.label}
@@ -558,11 +566,11 @@ export default function Navbar() {
                 </div>
 
                 {/* Account & Admin */}
-                <div className="pt-2 border-t border-gray-100 flex items-center justify-between text-xs">
+                <div className="pt-2 border-t border-gray-100 dark:border-[#232B3C] flex items-center justify-between text-xs">
                   <Link
                     href="/auth/login"
                     onClick={() => setIsOpen(false)}
-                    className="font-bold text-primary hover:text-amber-700"
+                    className="font-bold text-primary dark:text-white hover:text-amber-700 dark:hover:text-[#C58B45]"
                   >
                     {user ? `👤 مرحباً، ${user.name}` : "تسجيل الدخول / إنشاء حساب"}
                   </Link>
@@ -570,7 +578,7 @@ export default function Navbar() {
                   <Link
                     href="/admin"
                     onClick={() => setIsOpen(false)}
-                    className="font-bold text-slate-500 hover:text-primary bg-slate-100 px-2.5 py-1 rounded-md"
+                    className="font-bold text-slate-500 dark:text-slate-300 hover:text-primary dark:hover:text-white bg-slate-100 dark:bg-[#181E2B] px-2.5 py-1 rounded-md"
                   >
                     لوحة الإدارة ⚙️
                   </Link>

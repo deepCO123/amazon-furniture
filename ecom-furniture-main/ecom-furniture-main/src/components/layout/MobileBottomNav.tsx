@@ -73,25 +73,25 @@ export default function MobileBottomNav() {
               href={item.href}
               className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all relative ${
                 item.highlight
-                  ? "text-amber-700 font-bold"
+                  ? "text-amber-700 dark:text-amber-400 font-bold"
                   : item.isActive
-                  ? "text-slate-900 font-bold"
-                  : "text-slate-500 hover:text-slate-900 font-medium"
+                  ? "text-slate-900 dark:text-white font-bold"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium"
               }`}
             >
               <div className="relative">
                 {item.highlight ? (
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-600 to-amber-500 text-white flex items-center justify-center shadow-md -mt-4 border-2 border-white">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-600 to-amber-500 text-white flex items-center justify-center shadow-md -mt-4 border-2 border-white dark:border-[#0E121A]">
                     <Icon size={18} />
                   </div>
                 ) : (
-                  <div className={`p-1 rounded-lg ${item.isActive ? "bg-slate-100" : ""}`}>
+                  <div className={`p-1 rounded-lg ${item.isActive ? "bg-slate-100 dark:bg-slate-800/80" : ""}`}>
                     <Icon size={20} strokeWidth={item.isActive ? 2.4 : 1.8} />
                   </div>
                 )}
 
                 {item.badge !== null && item.badge !== undefined && (
-                  <span className="absolute -top-1 -right-1.5 bg-black text-white text-[9px] font-black min-w-4 h-4 px-1 rounded-full flex items-center justify-center shadow-xs">
+                  <span className="absolute -top-1 -right-1.5 bg-black dark:bg-[#C58B45] text-white text-[9px] font-black min-w-4 h-4 px-1 rounded-full flex items-center justify-center shadow-xs">
                     {item.badge}
                   </span>
                 )}
@@ -99,7 +99,7 @@ export default function MobileBottomNav() {
 
               <span
                 className={`text-[10px] mt-0.5 tracking-tight ${
-                  item.highlight ? "font-black text-amber-700" : ""
+                  item.highlight ? "font-black text-amber-700 dark:text-amber-400" : ""
                 }`}
               >
                 {item.label}

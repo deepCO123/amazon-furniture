@@ -41,7 +41,7 @@ export default function WhatsAppButton() {
         <MessageCircle size={26} className="relative z-10" />
 
         {/* Clean subtle hover tooltip */}
-        <span className="absolute left-full ml-3 px-2.5 py-1 bg-[#292321] text-white text-xs font-bold rounded-lg shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap hidden sm:inline-block">
+        <span className="absolute left-full ml-3 px-2.5 py-1 bg-[#292321] dark:bg-[#1E2536] text-white text-xs font-bold rounded-lg shadow-md border border-transparent dark:border-[#2D3748] opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap hidden sm:inline-block">
           تواصل عبر واتساب
         </span>
       </a>

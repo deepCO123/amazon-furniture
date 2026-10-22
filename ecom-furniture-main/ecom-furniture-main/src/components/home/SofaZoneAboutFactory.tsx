@@ -6,14 +6,14 @@ import { MapPin, Smile, Truck, ArrowLeft } from "lucide-react";
 
 export default function SofaZoneAboutFactory() {
   return (
-    <section className="py-16 bg-[#F8F5F0] border-t border-b border-[#E8E0D5]">
+    <section className="py-16 bg-[#F8F5F0] dark:bg-[#0B0E14] border-t border-b border-[#E8E0D5] dark:border-[#1E2536]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           
           {/* ── Left Side: Real Showroom / Factory Building Photo with Badge ── */}
           <div className="relative group">
             {/* Showroom Image Container */}
-            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-[#E8E0D5] bg-[#6B4F3A]">
+            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-[#E8E0D5] dark:border-[#232B3C] bg-[#6B4F3A]">
               <Image
                 src="/oscar-hero.jpg"
                 alt="معرض ومصنع أمازون فرنتشر بالمنصورة"
@@ -48,54 +48,54 @@ export default function SofaZoneAboutFactory() {
               <span className="text-xs sm:text-sm font-black text-[#C58B45] uppercase tracking-wider block mb-2">
                 من نحن
               </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#6B4F3A] tracking-tight leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#6B4F3A] dark:text-[#E8D4B0] tracking-tight leading-tight">
                 الأيدي المصرية وراء كل قطعة
               </h2>
             </div>
 
-            <p className="text-sm sm:text-base text-[#74685E] font-medium leading-relaxed">
+            <p className="text-sm sm:text-base text-[#74685E] dark:text-[#9DA8B9] font-medium leading-relaxed">
               أمازون فرنتشر شركة أثاث مصرية متخصصة تنطلق من مدينة المنصورة، نجمع بين جودة التصنيع المحلي الفائقة والتصميم الأوروبي العصري لنحول مساحتك المكتبية أو المنزلية إلى مزيج استثنائي من الراحة، العملية، والأناقة بأفضل سعر مباشر من المصنع دون أي وسيط.
             </p>
 
             {/* 3 Bullet Features */}
             <div className="space-y-4 pt-2">
               <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#E8D8C3] text-[#6B4F3A] flex items-center justify-center shrink-0 shadow-xs">
-                  <MapPin size={20} className="text-[#6B4F3A]" />
+                <div className="w-10 h-10 rounded-xl bg-[#E8D8C3] dark:bg-[#1E2738] text-[#6B4F3A] dark:text-[#C58B45] flex items-center justify-center shrink-0 shadow-xs">
+                  <MapPin size={20} className="text-[#6B4F3A] dark:text-[#C58B45]" />
                 </div>
                 <div>
-                  <h4 className="text-sm sm:text-base font-extrabold text-[#292321]">
+                  <h4 className="text-sm sm:text-base font-extrabold text-[#292321] dark:text-[#F5F6F8]">
                     مصنعنا ومعرضنا في المنصورة
                   </h4>
-                  <p className="text-xs text-[#74685E] font-medium">
+                  <p className="text-xs text-[#74685E] dark:text-[#9DA8B9] font-medium">
                     تقدر تشرفنا بالمعاينة والتجربة الواقعية لأي موديل قبل الشراء
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#E8D8C3] text-[#6B4F3A] flex items-center justify-center shrink-0 shadow-xs">
-                  <Smile size={20} className="text-[#6B4F3A]" />
+                <div className="w-10 h-10 rounded-xl bg-[#E8D8C3] dark:bg-[#1E2738] text-[#6B4F3A] dark:text-[#C58B45] flex items-center justify-center shrink-0 shadow-xs">
+                  <Smile size={20} className="text-[#6B4F3A] dark:text-[#C58B45]" />
                 </div>
                 <div>
-                  <h4 className="text-sm sm:text-base font-extrabold text-[#292321]">
+                  <h4 className="text-sm sm:text-base font-extrabold text-[#292321] dark:text-[#F5F6F8]">
                     أكثر من 1000 تصميم مميز وضمان معتمد
                   </h4>
-                  <p className="text-xs text-[#74685E] font-medium">
+                  <p className="text-xs text-[#74685E] dark:text-[#9DA8B9] font-medium">
                     خشب زان أحمر روماني طبيعي 100% وشاسيهات إلكتروستاتيك صلبة
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#E8D8C3] text-[#6B4F3A] flex items-center justify-center shrink-0 shadow-xs">
-                  <Truck size={20} className="text-[#6B4F3A]" />
+                <div className="w-10 h-10 rounded-xl bg-[#E8D8C3] dark:bg-[#1E2738] text-[#6B4F3A] dark:text-[#C58B45] flex items-center justify-center shrink-0 shadow-xs">
+                  <Truck size={20} className="text-[#6B4F3A] dark:text-[#C58B45]" />
                 </div>
                 <div>
-                  <h4 className="text-sm sm:text-base font-extrabold text-[#292321]">
+                  <h4 className="text-sm sm:text-base font-extrabold text-[#292321] dark:text-[#F5F6F8]">
                     توصيل وتركيب مجاني لجميع أنحاء مصر
                   </h4>
-                  <p className="text-xs text-[#74685E] font-medium">
+                  <p className="text-xs text-[#74685E] dark:text-[#9DA8B9] font-medium">
                     فريق فني محترف يقوم بالتركيب والتسليم لحد باب بيتك
                   </p>
                 </div>

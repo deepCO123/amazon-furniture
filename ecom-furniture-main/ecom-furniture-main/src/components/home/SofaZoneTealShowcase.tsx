@@ -48,7 +48,7 @@ export default function SofaZoneTealShowcase() {
 
   return (
     <section className="py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto bg-[#6B4F3A] text-white rounded-3xl py-12 px-4 sm:px-8 shadow-2xl relative overflow-hidden">
+      <div className="max-w-7xl mx-auto bg-[#6B4F3A] dark:bg-[#121620] dark:border dark:border-[#232B3C] text-white rounded-3xl py-12 px-4 sm:px-8 shadow-2xl relative overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-400/5 rounded-full blur-3xl pointer-events-none" />
@@ -100,10 +100,10 @@ export default function SofaZoneTealShowcase() {
                   if (target.closest("button") || target.closest("a")) return;
                   router.push(`/products/${p.slug}`);
                 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col group text-[#292321] border border-[#E8E0D5] cursor-pointer"
+                className="bg-white dark:bg-[#1A2230] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col group text-[#292321] dark:text-[#F5F6F8] border border-[#E8E0D5] dark:border-[#2D3748] cursor-pointer"
               >
                 {/* Image & Discount Badge */}
-                <div className="relative aspect-square bg-[#F8F5F0] overflow-hidden cursor-pointer">
+                <div className="relative aspect-square bg-[#F8F5F0] dark:bg-[#131720] overflow-hidden cursor-pointer">
                   <span className="absolute top-2 right-2 z-10 bg-[#B93832] text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-md">
                     {savingsText}
                   </span>
@@ -122,18 +122,18 @@ export default function SofaZoneTealShowcase() {
                   <div>
                     <Link
                       href={`/products/${p.slug}`}
-                      className="block font-bold text-xs sm:text-sm text-[#292321] group-hover:text-[#C58B45] transition-colors line-clamp-2 leading-snug mb-1.5"
+                      className="block font-bold text-xs sm:text-sm text-[#292321] dark:text-[#F5F6F8] group-hover:text-[#C58B45] transition-colors line-clamp-2 leading-snug mb-1.5"
                     >
                       {p.name}
                     </Link>
 
                     {/* Price */}
                     <div className="mb-2">
-                      <div className="text-sm sm:text-base font-black text-[#B93832]">
+                      <div className="text-sm sm:text-base font-black text-[#B93832] dark:text-[#F87171]">
                         {formatPrice(p.price)}
                       </div>
                       {p.originalPrice && (
-                        <div className="text-[11px] text-[#74685E] line-through font-bold">
+                        <div className="text-[11px] text-[#74685E] dark:text-[#8D98AA] line-through font-bold">
                           {formatPrice(p.originalPrice)}
                         </div>
                       )}
@@ -141,17 +141,17 @@ export default function SofaZoneTealShowcase() {
 
                     {/* Color Swatches Thumbnails */}
                     <div className="flex items-center gap-1 mb-2.5">
-                      <span className="w-3.5 h-3.5 rounded-full border border-gray-300 bg-[#C8B29B]" />
-                      <span className="w-3.5 h-3.5 rounded-full border border-gray-300 bg-[#374151]" />
-                      <span className="w-3.5 h-3.5 rounded-full border border-gray-300 bg-[#111827]" />
+                      <span className="w-3.5 h-3.5 rounded-full border border-gray-300 dark:border-gray-600 bg-[#C8B29B]" />
+                      <span className="w-3.5 h-3.5 rounded-full border border-gray-300 dark:border-gray-600 bg-[#374151]" />
+                      <span className="w-3.5 h-3.5 rounded-full border border-gray-300 dark:border-gray-600 bg-[#111827]" />
                     </div>
                   </div>
 
                   {/* Actions */}
-                  <div className="pt-2 border-t border-[#E8E0D5] flex items-center justify-between gap-1.5">
+                  <div className="pt-2 border-t border-[#E8E0D5] dark:border-[#2D3748] flex items-center justify-between gap-1.5">
                     <button
                       onClick={(e) => handleQuickWhatsApp(p, e)}
-                      className="flex-1 py-1.5 px-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[11px] font-black rounded-lg transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                      className="flex-1 py-1.5 px-2 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 text-[11px] font-black rounded-lg transition-colors flex items-center justify-center gap-1 cursor-pointer"
                     >
                       <MessageCircle size={13} />
                       <span>واتساب</span>
@@ -164,7 +164,7 @@ export default function SofaZoneTealShowcase() {
                         addItem(p, 1);
                         addToast("تمت الإضافة للسلة! 🛒", "success");
                       }}
-                      className="p-1.5 rounded-lg bg-[#6B4F3A] hover:bg-[#573E2D] text-white transition-colors cursor-pointer"
+                      className="p-1.5 rounded-lg bg-[#6B4F3A] hover:bg-[#573E2D] dark:bg-[#C58B45] dark:hover:bg-[#B37A38] text-white transition-colors cursor-pointer"
                       title="إضافة للسلة"
                     >
                       <ShoppingBag size={14} />

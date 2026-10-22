@@ -54,10 +54,10 @@ const coffeeCards: CoffeeCornerCard[] = [
 
 export default function SofaZoneLifestyleBanners() {
   return (
-    <section className="py-12 bg-[#F8F5F0]">
+    <section className="py-12 bg-[#F8F5F0] dark:bg-[#0B0E14]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Top Header Banner with Website Theme Colors ─────────────────── */}
-        <div className="relative rounded-2xl overflow-hidden mb-8 shadow-md border border-[#E8E0D5] bg-[#6B4F3A] text-white py-8 sm:py-10 px-4 text-center">
+        <div className="relative rounded-2xl overflow-hidden mb-8 shadow-md border border-[#E8E0D5] dark:border-[#232B3C] bg-[#6B4F3A] dark:bg-[#121620] text-white py-8 sm:py-10 px-4 text-center">
           {/* Subtle background ambient image */}
           <div className="absolute inset-0 opacity-25 mix-blend-overlay">
             <Image
@@ -74,7 +74,7 @@ export default function SofaZoneLifestyleBanners() {
           <div className="relative z-10 flex flex-col items-center justify-center">
             {/* Torn-paper / brush title box */}
             <div className="inline-block relative mb-3">
-              <div className="bg-[#E8D8C3] text-[#6B4F3A] font-black text-xl sm:text-2xl lg:text-3xl px-8 sm:px-12 py-2 rounded-lg shadow-md transform -rotate-0.5 border border-white/50">
+              <div className="bg-[#E8D8C3] dark:bg-[#1E2738] text-[#6B4F3A] dark:text-[#E8D4B0] font-black text-xl sm:text-2xl lg:text-3xl px-8 sm:px-12 py-2 rounded-lg shadow-md transform -rotate-0.5 border border-white/50 dark:border-white/10">
                 كوفي كورنرز
               </div>
             </div>
@@ -91,12 +91,12 @@ export default function SofaZoneLifestyleBanners() {
           {coffeeCards.map((card) => (
             <div
               key={card.id}
-              className="group bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+              className="group bg-white dark:bg-[#151A24] rounded-2xl overflow-hidden border border-[#E5E7EB] dark:border-[#232B3C] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
             >
               {/* Product Photo Container */}
               <Link
                 href={card.href}
-                className="relative aspect-[4/3] w-full overflow-hidden bg-[#FAF7F2] flex items-center justify-center"
+                className="relative aspect-[4/3] w-full overflow-hidden bg-[#FAF7F2] dark:bg-[#131720] flex items-center justify-center"
               >
                 <Image
                   src={card.photo}
@@ -108,7 +108,7 @@ export default function SofaZoneLifestyleBanners() {
               </Link>
 
               {/* Bottom Information Overlay Bar (Image 3 Style) */}
-              <div className="bg-[#74685E]/90 text-white p-3 sm:p-3.5 backdrop-blur-sm mt-auto border-t border-white/10 flex items-center justify-between gap-2.5">
+              <div className="bg-[#74685E]/90 dark:bg-[#1C2332]/95 text-white p-3 sm:p-3.5 backdrop-blur-sm mt-auto border-t border-white/10 dark:border-white/5 flex items-center justify-between gap-2.5">
                 {/* Right Details: Thumbnail + Title + Price */}
                 <div className="flex items-center gap-2 min-w-0">
                   {/* Miniature Thumbnail */}
@@ -126,7 +126,7 @@ export default function SofaZoneLifestyleBanners() {
                     <div className="text-xs font-bold text-white truncate leading-tight">
                       {card.title}
                     </div>
-                    <div className="text-xs font-black text-[#B93832] leading-tight mt-0.5">
+                    <div className="text-xs font-black text-[#B93832] dark:text-[#F87171] leading-tight mt-0.5">
                       {card.price}
                     </div>
                     <div className="text-[10px] text-gray-300 line-through leading-tight">

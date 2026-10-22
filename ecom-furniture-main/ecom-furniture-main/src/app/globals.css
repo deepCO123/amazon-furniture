@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+
 * {
   font-family: 'Cairo', var(--font-cairo), system-ui, -apple-system, sans-serif;
   scrollbar-width: thin;
@@ -121,25 +123,37 @@
 
 .dark,
 [data-theme="dark"] {
-  --background: #111318;
+  --background: #0D1017;
   --foreground: #F5F6F8;
-  --color-surface: #111318;
-  --color-surface-dark: #1A1F29;
-  --color-primary: #F5F6F8;
+  --color-surface: #121620;
+  --color-surface-dark: #191E2B;
+  --color-primary: #C58B45;
+  --color-primary-light: #D9A466;
+  --color-primary-dark: #A57132;
   --color-secondary: #A7B0C0;
   --color-muted: #A7B0C0;
-  --color-border: #2A3140;
-  --color-accent: #C6A46A;
+  --color-border: #232B3C;
+  --color-accent: #C58B45;
   --color-accent-light: #DFC79C;
   --color-accent-dark: #9E7D48;
-  --color-input: #191E27;
-  --color-input-border: #303747;
+  --color-input: #151A24;
+  --color-input-border: #2C3549;
+
+  --sf-bg: #0D1017;
+  --sf-card: #151A24;
+  --sf-beige-light: #1F2737;
+  --sf-brown-primary: #E8D4B0;
+  --sf-gold: #C58B45;
+  --sf-text: #F5F6F8;
+  --sf-text-secondary: #A7B0C0;
+  --sf-border: #232B3C;
+  --sf-discount-red: #F87171;
 }
 
 /* ── Refined Charcoal Dark Mode System for Amazon Furniture ── */
 .dark body,
 [data-theme="dark"] body {
-  background-color: #111318 !important;
+  background-color: #0D1017 !important;
   color: #F5F6F8 !important;
 }
 
@@ -148,51 +162,51 @@
 [data-theme="dark"] header,
 .dark header > div,
 [data-theme="dark"] header > div {
-  background-color: #151922 !important;
-  border-color: #2A3140 !important;
+  background-color: #121620 !important;
+  border-color: #232B3C !important;
   color: #F5F6F8 !important;
 }
 
 .dark header .bg-white,
 [data-theme="dark"] header .bg-white {
-  background-color: #151922 !important;
-  border-color: #2A3140 !important;
+  background-color: #151A24 !important;
+  border-color: #232B3C !important;
 }
 
 .dark header input,
 [data-theme="dark"] header input {
   color: #F5F6F8 !important;
-  background-color: #191E27 !important;
-  border-color: #303747 !important;
+  background-color: #151A24 !important;
+  border-color: #2C3549 !important;
 }
 
 .dark header select,
 [data-theme="dark"] header select {
   color: #F5F6F8 !important;
-  background-color: #191E27 !important;
+  background-color: #151A24 !important;
 }
 
 .dark header select option,
 [data-theme="dark"] header select option {
-  background-color: #191E27 !important;
+  background-color: #151A24 !important;
   color: #F5F6F8 !important;
 }
 
-/* Cards, Sections & Surfaces (Excluding designated White Product Cards) */
-.dark .bg-white:not(.product-card):not([data-card="product"]):not(.keep-white),
-[data-theme="dark"] .bg-white:not(.product-card):not([data-card="product"]):not(.keep-white) {
-  background-color: #1A1F29 !important;
+/* Cards, Sections & Surfaces in Dark Mode */
+.dark .bg-white:not(.keep-white),
+[data-theme="dark"] .bg-white:not(.keep-white) {
+  background-color: #151A24 !important;
   color: #F5F6F8 !important;
 }
 
 .dark .bg-surface,
 [data-theme="dark"] .bg-surface {
-  background-color: #111318 !important;
+  background-color: #0D1017 !important;
 }
 
 .dark .bg-surface-dark,
 [data-theme="dark"] .bg-surface-dark {
-  background-color: #1A1F29 !important;
+  background-color: #191E2B !important;
 }
 
 .dark .bg-\[\#f6f2ec\],
@@ -203,15 +217,26 @@
 [data-theme="dark"] .bg-\[\#F0EBE3\],
 .dark .bg-\[\#FBF9F5\],
 [data-theme="dark"] .bg-\[\#FBF9F5\],
+.dark .bg-\[\#F8F5F0\],
+[data-theme="dark"] .bg-\[\#F8F5F0\],
+.dark .bg-\[\#F9FAFB\],
+[data-theme="dark"] .bg-\[\#F9FAFB\] {
+  background-color: #0D1017 !important;
+}
+
 .dark .bg-gray-50,
 [data-theme="dark"] .bg-gray-50,
 .dark .bg-gray-100:not(.keep-light),
 [data-theme="dark"] .bg-gray-100:not(.keep-light),
+.dark .bg-slate-50,
+[data-theme="dark"] .bg-slate-50,
+.dark .bg-slate-100:not(.keep-light),
+[data-theme="dark"] .bg-slate-100:not(.keep-light),
 .dark .bg-stone-50,
 [data-theme="dark"] .bg-stone-50,
 .dark .bg-neutral-50,
 [data-theme="dark"] .bg-neutral-50 {
-  background-color: #1A1F29 !important;
+  background-color: #191E2B !important;
 }
 
 /* Borders in Dark Mode */
@@ -223,34 +248,83 @@
 [data-theme="dark"] .border-gray-300,
 .dark .border-slate-200,
 [data-theme="dark"] .border-slate-200,
+.dark .border-slate-300,
+[data-theme="dark"] .border-slate-300,
 .dark .border-neutral-200,
 [data-theme="dark"] .border-neutral-200,
 .dark .border-stone-200,
 [data-theme="dark"] .border-stone-200,
 .dark .border-surface-dark,
-[data-theme="dark"] .border-surface-dark {
-  border-color: #2A3140 !important;
+[data-theme="dark"] .border-surface-dark,
+.dark .border-\[\#E8E0D5\],
+[data-theme="dark"] .border-\[\#E8E0D5\],
+.dark .border-\[\#E5E7EB\],
+[data-theme="dark"] .border-\[\#E5E7EB\],
+.dark .divide-\[\#E5E7EB\] > :not([hidden]) ~ :not([hidden]),
+[data-theme="dark"] .divide-\[\#E5E7EB\] > :not([hidden]) ~ :not([hidden]),
+.dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]),
+[data-theme="dark"] .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #232B3C !important;
 }
 
-/* Typography in Dark Mode (Outside Product Cards) */
-.dark :not(.product-card):not([data-card="product"]) > .text-gray-900,
-[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-gray-900,
-.dark :not(.product-card):not([data-card="product"]) > .text-gray-800,
-[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-gray-800,
-.dark :not(.product-card):not([data-card="product"]) > .text-gray-700,
-[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-gray-700,
-.dark :not(.product-card):not([data-card="product"]) > .text-primary,
-[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-primary {
+/* Typography in Dark Mode (High Contrast & Legibility) */
+.dark .text-gray-900,
+[data-theme="dark"] .text-gray-900,
+.dark .text-gray-800,
+[data-theme="dark"] .text-gray-800,
+.dark .text-slate-900,
+[data-theme="dark"] .text-slate-900,
+.dark .text-slate-800,
+[data-theme="dark"] .text-slate-800,
+.dark .text-stone-900,
+[data-theme="dark"] .text-stone-900,
+.dark .text-stone-800,
+[data-theme="dark"] .text-stone-800,
+.dark .text-\[\#292321\],
+[data-theme="dark"] .text-\[\#292321\],
+.dark .text-\[\#6B4F3A\],
+[data-theme="dark"] .text-\[\#6B4F3A\],
+.dark .text-\[\#573E2D\],
+[data-theme="dark"] .text-\[\#573E2D\],
+.dark .text-primary,
+[data-theme="dark"] .text-primary {
   color: #F5F6F8 !important;
 }
 
-.dark :not(.product-card):not([data-card="product"]) > .text-gray-600,
-[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-gray-600,
-.dark :not(.product-card):not([data-card="product"]) > .text-gray-500,
-[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-gray-500,
-.dark :not(.product-card):not([data-card="product"]) > .text-muted,
-[data-theme="dark"] :not(.product-card):not([data-card="product"]) > .text-muted {
+.dark .text-gray-700,
+[data-theme="dark"] .text-gray-700,
+.dark .text-gray-600,
+[data-theme="dark"] .text-gray-600,
+.dark .text-gray-500,
+[data-theme="dark"] .text-gray-500,
+.dark .text-slate-700,
+[data-theme="dark"] .text-slate-700,
+.dark .text-slate-600,
+[data-theme="dark"] .text-slate-600,
+.dark .text-slate-500,
+[data-theme="dark"] .text-slate-500,
+.dark .text-stone-700,
+[data-theme="dark"] .text-stone-700,
+.dark .text-stone-600,
+[data-theme="dark"] .text-stone-600,
+.dark .text-\[\#74685E\],
+[data-theme="dark"] .text-\[\#74685E\],
+.dark .text-muted,
+[data-theme="dark"] .text-muted {
   color: #A7B0C0 !important;
+}
+
+/* Background Primary in Dark Mode */
+.dark .bg-primary,
+[data-theme="dark"] .bg-primary {
+  background-color: #161B26 !important;
+  color: #F5F6F8 !important;
+  border-color: #283246 !important;
+}
+
+.dark .hover\:bg-primary-light:hover,
+[data-theme="dark"] .hover\:bg-primary-light:hover {
+  background-color: #1F2737 !important;
 }
 
 /* Inputs, Textareas & Selects in Dark Mode */
@@ -260,58 +334,94 @@
 [data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]),
 [data-theme="dark"] textarea,
 [data-theme="dark"] select {
-  background-color: #191E27 !important;
+  background-color: #151A24 !important;
   color: #F5F6F8 !important;
-  border-color: #303747 !important;
+  border-color: #2C3549 !important;
 }
 
 .dark input::placeholder,
 .dark textarea::placeholder,
 [data-theme="dark"] input::placeholder,
 [data-theme="dark"] textarea::placeholder {
-  color: #A7B0C0 !important;
+  color: #79859A !important;
 }
 
-/* Product Cards: explicitly pure white for furniture photography */
+/* Product Cards in Light & Dark Mode */
 .product-card,
 [data-card="product"] {
-  background-color: #FFFFFF !important;
-  color: #111827 !important;
+  background-color: #FFFFFF;
+  color: #111827;
 }
 
 .dark .product-card,
 [data-theme="dark"] .product-card,
 .dark [data-card="product"],
 [data-theme="dark"] [data-card="product"] {
-  background-color: #FFFFFF !important;
-  color: #111827 !important;
-  border-color: #2A3140 !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.25) !important;
+  background-color: #151A24 !important;
+  color: #F5F6F8 !important;
+  border-color: #232B3C !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* Inside white product card, keep text and badges naturally dark and readable */
+.dark .product-card:hover,
+[data-theme="dark"] .product-card:hover,
+.dark [data-card="product"]:hover,
+[data-theme="dark"] [data-card="product"]:hover {
+  border-color: #C58B45 !important;
+  box-shadow: 0 14px 35px -8px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(197, 139, 69, 0.25) !important;
+}
+
+/* Inside product card in dark mode */
 .dark .product-card h3,
 [data-theme="dark"] .product-card h3,
 .dark .product-card .card-title,
 [data-theme="dark"] .product-card .card-title {
-  color: #111827 !important;
+  color: #F5F6F8 !important;
 }
 
 .dark .product-card p,
 [data-theme="dark"] .product-card p,
 .dark .product-card .card-category,
 [data-theme="dark"] .product-card .card-category {
-  color: #6B7280 !important;
+  color: #A7B0C0 !important;
 }
 
 .dark .product-card .card-price,
 [data-theme="dark"] .product-card .card-price {
-  color: #111827 !important;
+  color: #F87171 !important;
 }
 
 .dark .product-card .card-old-price,
 [data-theme="dark"] .product-card .card-old-price {
-  color: #9CA3AF !important;
+  color: #79859A !important;
+}
+
+.dark .product-card .bg-\[\#F8F5F0\],
+[data-theme="dark"] .product-card .bg-\[\#F8F5F0\],
+.dark [data-card="product"] .bg-\[\#F8F5F0\],
+[data-theme="dark"] [data-card="product"] .bg-\[\#F8F5F0\],
+.dark .product-card .bg-gray-50,
+[data-theme="dark"] .product-card .bg-gray-50,
+.dark [data-card="product"] .bg-gray-50,
+[data-theme="dark"] [data-card="product"] .bg-gray-50 {
+  background-color: #1C2230 !important;
+}
+
+.dark .product-card button[aria-label="Wishlist"],
+[data-theme="dark"] .product-card button[aria-label="Wishlist"],
+.dark [data-card="product"] button[aria-label="Wishlist"],
+[data-theme="dark"] [data-card="product"] button[aria-label="Wishlist"] {
+  background-color: #1C2230 !important;
+  border-color: #2D374D !important;
+  color: #F5F6F8 !important;
+}
+
+.dark .product-card button[aria-label="Quick View"],
+[data-theme="dark"] .product-card button[aria-label="Quick View"],
+.dark [data-card="product"] button[aria-label="Quick View"],
+[data-theme="dark"] [data-card="product"] button[aria-label="Quick View"] {
+  background-color: #1C2230 !important;
+  color: #F5F6F8 !important;
 }
 
 /* Custom styled Checkbox for Category Filter */
@@ -332,13 +442,13 @@
 
 .dark .filter-checkbox,
 [data-theme="dark"] .filter-checkbox {
-  border-color: #303747;
-  background-color: #191E27;
+  border-color: #2C3549;
+  background-color: #151A24;
 }
 
 .filter-checkbox:checked {
-  background-color: #C6A46A !important;
-  border-color: #C6A46A !important;
+  background-color: #C58B45 !important;
+  border-color: #C58B45 !important;
 }
 
 .filter-checkbox::before {
@@ -371,25 +481,86 @@
   border-color: rgba(220, 38, 38, 0.35) !important;
 }
 
-.dark input::placeholder,
-.dark textarea::placeholder,
-[data-theme="dark"] input::placeholder,
-[data-theme="dark"] textarea::placeholder {
-  color: #64748B !important;
+/* Pastel badges and alerts in Dark Mode */
+.dark .bg-emerald-50,
+[data-theme="dark"] .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+.dark .text-emerald-700,
+.dark .text-emerald-800,
+.dark .text-emerald-900,
+[data-theme="dark"] .text-emerald-700,
+[data-theme="dark"] .text-emerald-800,
+[data-theme="dark"] .text-emerald-900 {
+  color: #34D399 !important;
+}
+
+.dark .bg-amber-50,
+.dark .bg-amber-50\/50,
+.dark .bg-amber-50\/80,
+[data-theme="dark"] .bg-amber-50,
+[data-theme="dark"] .bg-amber-50\/50,
+[data-theme="dark"] .bg-amber-50\/80 {
+  background-color: rgba(245, 158, 11, 0.12) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+.dark .text-amber-800,
+.dark .text-amber-900,
+.dark .text-amber-950,
+[data-theme="dark"] .text-amber-800,
+[data-theme="dark"] .text-amber-950 {
+  color: #FBBF24 !important;
+}
+
+.dark .bg-blue-50,
+[data-theme="dark"] .bg-blue-50 {
+  background-color: rgba(59, 130, 246, 0.12) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+.dark .text-blue-800,
+[data-theme="dark"] .text-blue-800 {
+  color: #60A5FA !important;
+}
+
+.dark .bg-red-50,
+.dark .bg-red-50\/70,
+[data-theme="dark"] .bg-red-50,
+[data-theme="dark"] .bg-red-50\/70 {
+  background-color: rgba(239, 68, 68, 0.12) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+.dark .text-red-700,
+[data-theme="dark"] .text-red-700 {
+  color: #F87171 !important;
+}
+
+.dark .bg-indigo-50,
+.dark .bg-indigo-50\/70,
+[data-theme="dark"] .bg-indigo-50,
+[data-theme="dark"] .bg-indigo-50\/70 {
+  background-color: rgba(99, 102, 241, 0.12) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+}
+.dark .text-indigo-950,
+.dark .text-indigo-800,
+[data-theme="dark"] .text-indigo-950,
+[data-theme="dark"] .text-indigo-800 {
+  color: #A5B4FC !important;
 }
 
 /* Mobile Bottom Navigation in Dark Mode */
 .dark nav[aria-label="التنقل السريع على الهاتف"],
 [data-theme="dark"] nav[aria-label="التنقل السريع على الهاتف"] {
-  background-color: rgba(14, 18, 26, 0.95) !important;
-  border-color: #1E2536 !important;
+  background-color: rgba(13, 16, 23, 0.96) !important;
+  border-color: #232B3C !important;
 }
 
 /* Footer in Dark Mode */
 .dark footer,
 [data-theme="dark"] footer {
-  background-color: #06080C !important;
-  border-color: #151A24 !important;
+  background-color: #080A0F !important;
+  border-color: #19202D !important;
 }
 
 /* Dropdowns & Popovers in Dark Mode */

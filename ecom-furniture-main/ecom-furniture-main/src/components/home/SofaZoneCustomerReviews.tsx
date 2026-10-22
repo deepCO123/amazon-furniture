@@ -55,7 +55,7 @@ export default function SofaZoneCustomerReviews() {
     : reviews;
 
   return (
-    <section className="py-14 bg-[#F8F5F0]">
+    <section className="py-14 bg-[#F8F5F0] dark:bg-[#0B0E14]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* ── Top Reviews Banner ───────────────────────── */}
@@ -78,17 +78,17 @@ export default function SofaZoneCustomerReviews() {
         </div>
 
         {/* ── Rating Stats & Filter Header Bar ─────────────────────────── */}
-        <div className="flex items-center justify-between pb-4 mb-8 border-b border-[#E8E0D5]">
+        <div className="flex items-center justify-between pb-4 mb-8 border-b border-[#E8E0D5] dark:border-[#232B3C]">
           <div className="flex items-center gap-2">
             <div className="flex items-center text-[#C58B45]">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} size={18} fill="currentColor" />
               ))}
             </div>
-            <span className="text-sm font-black text-[#292321]">
+            <span className="text-sm font-black text-[#292321] dark:text-[#F5F6F8]">
               72 تقييماً معتمداً
             </span>
-            <ChevronDown size={14} className="text-[#74685E]" />
+            <ChevronDown size={14} className="text-[#74685E] dark:text-[#9DA8B9]" />
           </div>
 
           <div className="flex items-center gap-2">
@@ -96,8 +96,8 @@ export default function SofaZoneCustomerReviews() {
               onClick={() => setFilterRating(filterRating ? null : 5)}
               className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors flex items-center gap-1.5 cursor-pointer ${
                 filterRating === 5
-                  ? "bg-[#6B4F3A] text-white border-[#6B4F3A]"
-                  : "bg-white text-[#74685E] border-[#E8E0D5] hover:bg-white/80"
+                  ? "bg-[#6B4F3A] dark:bg-[#C58B45] text-white border-[#6B4F3A] dark:border-[#C58B45]"
+                  : "bg-white dark:bg-[#1A2230] text-[#74685E] dark:text-gray-200 border-[#E8E0D5] dark:border-[#2D3748] hover:bg-white/80 dark:hover:bg-[#232B3C]"
               }`}
             >
               <SlidersHorizontal size={13} />
@@ -111,10 +111,10 @@ export default function SofaZoneCustomerReviews() {
           {filteredReviews.map((r) => (
             <div
               key={r.id}
-              className="bg-white rounded-2xl border border-[#E8E0D5] shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden"
+              className="bg-white dark:bg-[#151A24] rounded-2xl border border-[#E8E0D5] dark:border-[#232B3C] shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden"
             >
               {/* Real Delivered Customer Photo */}
-              <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
+              <div className="relative aspect-[4/3] bg-gray-100 dark:bg-[#1C2230] overflow-hidden">
                 <Image
                   src={r.deliveredImage}
                   alt={`صورة حقيقية من منزل أو مكتب ${r.customerName}`}
@@ -129,14 +129,14 @@ export default function SofaZoneCustomerReviews() {
                 <div>
                   {/* Verified Buyer & Date */}
                   <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-1 text-xs font-black text-[#292321]">
+                    <div className="flex items-center gap-1 text-xs font-black text-[#292321] dark:text-[#F5F6F8]">
                       <span>{r.customerName}</span>
                       <CheckCircle size={13} className="text-emerald-600 fill-emerald-100" />
-                      <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.2 rounded">
+                      <span className="text-[10px] text-emerald-700 dark:text-emerald-300 font-bold bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.2 rounded">
                         مشتري موثق
                       </span>
                     </div>
-                    <span className="text-[10px] text-[#74685E] font-mono">{r.date}</span>
+                    <span className="text-[10px] text-[#74685E] dark:text-[#8D98AA] font-mono">{r.date}</span>
                   </div>
 
                   {/* Stars */}
@@ -147,17 +147,17 @@ export default function SofaZoneCustomerReviews() {
                   </div>
 
                   {/* Customer Comment */}
-                  <p className="text-xs text-[#292321] leading-relaxed font-medium mb-3">
+                  <p className="text-xs text-[#292321] dark:text-[#D1D7E0] leading-relaxed font-medium mb-3">
                     &ldquo;{r.comment}&rdquo;
                   </p>
                 </div>
 
                 {/* Product Thumbnail at Bottom */}
-                <div className="pt-2.5 border-t border-[#E8E0D5] flex items-center justify-between gap-2 bg-[#F8F5F0]/60 -mx-4 -mb-4 p-3 rounded-b-2xl">
-                  <span className="text-[11px] font-bold text-[#74685E] truncate">
+                <div className="pt-2.5 border-t border-[#E8E0D5] dark:border-[#232B3C] flex items-center justify-between gap-2 bg-[#F8F5F0]/60 dark:bg-[#11151F] -mx-4 -mb-4 p-3 rounded-b-2xl">
+                  <span className="text-[11px] font-bold text-[#74685E] dark:text-[#A7B0C0] truncate">
                     {r.productName}
                   </span>
-                  <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-white border border-[#E8E0D5] shrink-0">
+                  <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-white dark:bg-[#1A2230] border border-[#E8E0D5] dark:border-[#2D3748] shrink-0">
                     <Image
                       src={r.productThumb}
                       alt={r.productName}

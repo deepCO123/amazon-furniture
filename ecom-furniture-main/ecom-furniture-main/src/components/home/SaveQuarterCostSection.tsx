@@ -63,21 +63,21 @@ export default function SaveQuarterCostSection() {
   };
 
   return (
-    <section className="py-10 bg-white">
+    <section className="py-10 bg-white dark:bg-[#0B0E14]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Section Title (Oscar Images 3 & 4) ────────────────────────── */}
         <div className="text-center mb-6">
-          <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">
             {t.saveTitle}
           </h2>
         </div>
 
         {/* ── Boxed Border Container with Rounded Corners (Oscar Style) ──── */}
-        <div className="relative rounded-3xl border border-gray-300 p-4 sm:p-7 bg-white shadow-sm">
+        <div className="relative rounded-3xl border border-gray-300 dark:border-[#232B3C] p-4 sm:p-7 bg-white dark:bg-[#121620] shadow-sm">
           {/* Navigation Arrows on the edges */}
           <button
             onClick={scrollRight}
-            className="absolute -right-3 sm:-right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center text-gray-700 hover:text-[#ff7b1b] transition-all cursor-pointer"
+            className="absolute -right-3 sm:-right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white dark:bg-[#1A2230] shadow-md border border-gray-200 dark:border-[#2D3748] flex items-center justify-center text-gray-700 dark:text-gray-200 hover:text-[#ff7b1b] dark:hover:text-[#ff7b1b] transition-all cursor-pointer"
             aria-label="Previous"
           >
             <ChevronRight size={18} />
@@ -85,7 +85,7 @@ export default function SaveQuarterCostSection() {
 
           <button
             onClick={scrollLeft}
-            className="absolute -left-3 sm:-left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center text-gray-700 hover:text-[#ff7b1b] transition-all cursor-pointer"
+            className="absolute -left-3 sm:-left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white dark:bg-[#1A2230] shadow-md border border-gray-200 dark:border-[#2D3748] flex items-center justify-center text-gray-700 dark:text-gray-200 hover:text-[#ff7b1b] dark:hover:text-[#ff7b1b] transition-all cursor-pointer"
             aria-label="Next"
           >
             <ChevronLeft size={18} />
@@ -111,7 +111,7 @@ export default function SaveQuarterCostSection() {
                     if (target.closest("button") || target.closest("a")) return;
                     router.push(`/products/${product.slug}`);
                   }}
-                  className="w-[230px] sm:w-[245px] shrink-0 group flex flex-col justify-between rounded-xl bg-white border border-gray-100 hover:border-gray-300 hover:shadow-md transition-all overflow-hidden text-right cursor-pointer"
+                  className="w-[230px] sm:w-[245px] shrink-0 group flex flex-col justify-between rounded-xl bg-white dark:bg-[#161B26] border border-gray-100 dark:border-[#232B3C] hover:border-gray-300 dark:hover:border-[#C58B45]/50 hover:shadow-md transition-all overflow-hidden text-right cursor-pointer"
                 >
                   <div className="relative">
                     {/* Discount Badge in Top Right (Oscar style) */}
@@ -133,7 +133,7 @@ export default function SaveQuarterCostSection() {
                           addToast("تمت الإضافة لقائمة الرغبات", "wishlist");
                         }
                       }}
-                      className="absolute top-2 left-2 z-10 p-1.5 rounded-full bg-white/80 hover:bg-white text-gray-400 hover:text-red-500 transition-colors shadow-sm cursor-pointer"
+                      className="absolute top-2 left-2 z-10 p-1.5 rounded-full bg-white/80 dark:bg-[#1C2230]/90 hover:bg-white dark:hover:bg-[#1C2230] text-gray-400 dark:text-gray-300 hover:text-red-500 transition-colors shadow-sm cursor-pointer"
                     >
                       <Heart size={14} className={isFav ? "fill-red-600 text-red-600" : ""} />
                     </button>
@@ -141,7 +141,7 @@ export default function SaveQuarterCostSection() {
                     {/* Image */}
                     <Link
                       href={`/products/${product.slug}`}
-                      className="relative block w-full pt-[90%] bg-gray-50 overflow-hidden"
+                      className="relative block w-full pt-[90%] bg-gray-50 dark:bg-[#1C2230] overflow-hidden"
                     >
                       <Image
                         src={product.images[0]}
@@ -156,7 +156,7 @@ export default function SaveQuarterCostSection() {
                   <div className="p-3 flex-1 flex flex-col justify-between">
                     <div>
                       <Link href={`/products/${product.slug}`}>
-                        <h4 className="font-bold text-xs text-gray-800 group-hover:text-[#ff7b1b] transition-colors line-clamp-2 mb-2 leading-relaxed">
+                        <h4 className="font-bold text-xs text-gray-800 dark:text-gray-100 group-hover:text-[#ff7b1b] dark:group-hover:text-[#C58B45] transition-colors line-clamp-2 mb-2 leading-relaxed">
                           {product.name}
                         </h4>
                       </Link>
@@ -165,11 +165,11 @@ export default function SaveQuarterCostSection() {
                     <div className="mt-2">
                       {/* Price in Oscar style */}
                       <div className="flex items-baseline gap-1.5 mb-2.5">
-                        <span className="text-xs sm:text-sm font-black text-[#ec0101]" suppressHydrationWarning>
+                        <span className="text-xs sm:text-sm font-black text-[#ec0101] dark:text-[#ff6b6b]" suppressHydrationWarning>
                           {formatPrice(product.price)}
                         </span>
                         {product.originalPrice && (
-                          <span className="text-[10px] text-gray-400 line-through" suppressHydrationWarning>
+                          <span className="text-[10px] text-gray-400 dark:text-gray-500 line-through" suppressHydrationWarning>
                             {formatPrice(product.originalPrice)}
                           </span>
                         )}
@@ -184,7 +184,7 @@ export default function SaveQuarterCostSection() {
                             addItem(product);
                             addToast(language === "en" ? `Added ${product.name} to cart` : `تمت إضافة ${product.name} إلى السلة`, "cart");
                           }}
-                          className="w-full bg-gray-50 hover:bg-[#ff7b1b] text-gray-700 hover:text-white border border-gray-200 hover:border-[#ff7b1b] font-bold text-[11px] py-1.5 px-2 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                          className="w-full bg-gray-50 dark:bg-[#1F2737] hover:bg-[#ff7b1b] dark:hover:bg-[#ff7b1b] text-gray-700 dark:text-gray-200 hover:text-white border border-gray-200 dark:border-[#2D3748] hover:border-[#ff7b1b] font-bold text-[11px] py-1.5 px-2 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                         >
                           <ShoppingBag size={12} />
                           <span>{t.addToCart}</span>
@@ -208,8 +208,8 @@ export default function SaveQuarterCostSection() {
           {/* Dots Indicator Below (Oscar Images 3 & 4) */}
           <div className="flex items-center justify-center gap-1.5 mt-5">
             <span className="w-5 h-1.5 rounded-full bg-[#ff7b1b]" />
-            <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-            <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+            <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-700" />
+            <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-700" />
           </div>
         </div>
       </div>

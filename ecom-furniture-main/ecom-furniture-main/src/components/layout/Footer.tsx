@@ -144,7 +144,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#1C1917] text-white border-t border-[#292524]">
+    <footer className="bg-[#1C1917] dark:bg-[#0A0D13] text-white border-t border-[#292524] dark:border-[#1E2536]">
       {/* ── Main footer: sleek, compact and clean ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -153,11 +153,11 @@ export default function Footer() {
           <div className="lg:col-span-4 space-y-3">
             <Link href="/" className="inline-block group" aria-label="AMAZON">
               <Image
-                src="/logo/amazon-logo-color.svg"
+                src="/logo/amazon-horizontal-white.svg"
                 alt="AMAZON"
-                width={140}
-                height={55}
-                className="w-[125px] sm:w-[140px] h-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                width={150}
+                height={40}
+                className="w-[135px] sm:w-[150px] h-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
               />
             </Link>
             <p className="text-white/70 text-xs sm:text-sm leading-relaxed max-w-sm">
@@ -315,7 +315,7 @@ export default function Footer() {
       </div>
 
       {/* ── Compact Bottom Bar: Payment Methods & Copyright ── */}
-      <div className="border-t border-white/10 bg-[#141211]">
+      <div className="border-t border-white/10 dark:border-white/5 bg-[#141211] dark:bg-[#07090E]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
           {/* Payment Methods */}
           <div className="flex items-center gap-2 text-xs text-white/60">

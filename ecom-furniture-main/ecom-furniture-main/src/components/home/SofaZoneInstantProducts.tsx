@@ -45,7 +45,7 @@ export default function SofaZoneInstantProducts() {
   };
 
   return (
-    <section className="py-12 bg-[#F9FAFB] border-t border-b border-gray-100">
+    <section className="py-12 bg-[#F9FAFB] dark:bg-[#0B0E14] border-t border-b border-gray-100 dark:border-[#1E2536]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Section Header ───────────────────────────────────────────── */}
         <div className="flex items-center justify-between mb-8">
@@ -54,11 +54,11 @@ export default function SofaZoneInstantProducts() {
               <span className="bg-[#B93832] text-white text-[11px] font-black px-2.5 py-0.5 rounded-full">
                 عروض حصرية
               </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-[#6B4F3A] tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-black text-[#6B4F3A] dark:text-[#E8D4B0] tracking-tight">
                 منتجات متاحة للإستلام الفوري
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-[#74685E] font-bold">
+            <p className="text-xs sm:text-sm text-[#74685E] dark:text-[#9DA8B9] font-bold">
               جاهزة للشحن والتوصيل خلال 24 ساعة فقط لحد باب البيت
             </p>
           </div>
@@ -67,14 +67,14 @@ export default function SofaZoneInstantProducts() {
           <div className="hidden sm:flex items-center gap-2">
             <button
               onClick={scrollRight}
-              className="w-10 h-10 rounded-full bg-white border border-[#E8E0D5] shadow-xs flex items-center justify-center text-[#292321] hover:text-[#C58B45] hover:border-[#C58B45] transition-all cursor-pointer"
+              className="w-10 h-10 rounded-full bg-white dark:bg-[#1A2230] border border-[#E8E0D5] dark:border-[#2D3748] shadow-xs flex items-center justify-center text-[#292321] dark:text-[#F5F6F8] hover:text-[#C58B45] hover:border-[#C58B45] transition-all cursor-pointer"
               aria-label="Previous"
             >
               <ChevronRight size={18} />
             </button>
             <button
               onClick={scrollLeft}
-              className="w-10 h-10 rounded-full bg-white border border-[#E8E0D5] shadow-xs flex items-center justify-center text-[#292321] hover:text-[#C58B45] hover:border-[#C58B45] transition-all cursor-pointer"
+              className="w-10 h-10 rounded-full bg-white dark:bg-[#1A2230] border border-[#E8E0D5] dark:border-[#2D3748] shadow-xs flex items-center justify-center text-[#292321] dark:text-[#F5F6F8] hover:text-[#C58B45] hover:border-[#C58B45] transition-all cursor-pointer"
               aria-label="Next"
             >
               <ChevronLeft size={18} />
@@ -101,10 +101,10 @@ export default function SofaZoneInstantProducts() {
                   if (target.closest("button") || target.closest("a")) return;
                   router.push(`/products/${p.slug}`);
                 }}
-                className="w-[260px] sm:w-[290px] shrink-0 bg-white rounded-2xl border border-[#E8E0D5] hover:border-[#C58B45] hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group cursor-pointer"
+                className="w-[260px] sm:w-[290px] shrink-0 bg-white dark:bg-[#151A24] rounded-2xl border border-[#E8E0D5] dark:border-[#232B3C] hover:border-[#C58B45] hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group cursor-pointer"
               >
                 {/* Image Container with Badges */}
-                <div className="relative aspect-[4/3] bg-gray-50 overflow-hidden">
+                <div className="relative aspect-[4/3] bg-gray-50 dark:bg-[#1C2230] overflow-hidden">
                   {/* Top Right Red Pill Badge */}
                   <span className="absolute top-2.5 right-2.5 z-10 bg-[#B93832] text-white text-[11px] font-black px-2.5 py-0.5 rounded-full shadow-md">
                     {savingsText}
@@ -119,7 +119,7 @@ export default function SofaZoneInstantProducts() {
                   />
 
                   {/* Primary Brown Bottom Ribbon: منتجات استلام فوري */}
-                  <div className="absolute bottom-0 inset-x-0 bg-[#6B4F3A]/95 backdrop-blur-xs text-white text-[11px] font-black py-1 text-center tracking-wide">
+                  <div className="absolute bottom-0 inset-x-0 bg-[#6B4F3A]/95 dark:bg-[#8A664B]/95 backdrop-blur-xs text-white text-[11px] font-black py-1 text-center tracking-wide">
                     منتجات استلام فوري ⚡
                   </div>
                 </div>
@@ -130,7 +130,7 @@ export default function SofaZoneInstantProducts() {
                     {/* Title */}
                     <Link
                       href={`/products/${p.slug}`}
-                      className="block font-bold text-sm text-[#292321] group-hover:text-[#C58B45] transition-colors line-clamp-2 leading-snug mb-2"
+                      className="block font-bold text-sm text-[#292321] dark:text-[#F5F6F8] group-hover:text-[#C58B45] transition-colors line-clamp-2 leading-snug mb-2"
                     >
                       {p.name}
                     </Link>
@@ -142,7 +142,7 @@ export default function SofaZoneInstantProducts() {
                           <Star key={i} size={13} fill="currentColor" />
                         ))}
                       </div>
-                      <span className="text-[11px] font-bold text-[#74685E]">
+                      <span className="text-[11px] font-bold text-[#74685E] dark:text-[#8D98AA]">
                         ({p.reviewCount || 5})
                       </span>
                     </div>
@@ -156,13 +156,13 @@ export default function SofaZoneInstantProducts() {
                   </div>
 
                   {/* Price & Action */}
-                  <div className="pt-2 border-t border-[#E8E0D5] flex items-center justify-between">
+                  <div className="pt-2 border-t border-[#E8E0D5] dark:border-[#232B3C] flex items-center justify-between">
                     <div>
-                      <div className="text-base sm:text-lg font-black text-[#B93832]">
+                      <div className="text-base sm:text-lg font-black text-[#B93832] dark:text-[#F87171]">
                         {formatPrice(p.price)}
                       </div>
                       {p.originalPrice && (
-                        <div className="text-xs text-[#74685E] line-through font-bold">
+                        <div className="text-xs text-[#74685E] dark:text-[#8D98AA] line-through font-bold">
                           {formatPrice(p.originalPrice)}
                         </div>
                       )}
@@ -172,7 +172,7 @@ export default function SofaZoneInstantProducts() {
                       {/* WhatsApp Buy */}
                       <button
                         onClick={(e) => handleQuickWhatsApp(p, e)}
-                        className="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors cursor-pointer"
+                        className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 transition-colors cursor-pointer"
                         title="شراء فوري عبر الواتساب"
                       >
                         <MessageCircle size={16} />
@@ -186,7 +186,7 @@ export default function SofaZoneInstantProducts() {
                           addItem(p, 1);
                           addToast("تمت الإضافة إلى السلة بنجاح! 🛒", "success");
                         }}
-                        className="p-2 rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] text-white transition-colors cursor-pointer shadow-xs"
+                        className="p-2 rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] dark:bg-[#C58B45] dark:hover:bg-[#B37A38] text-white transition-colors cursor-pointer shadow-xs"
                         title="إضافة للسلة"
                       >
                         <ShoppingBag size={16} />

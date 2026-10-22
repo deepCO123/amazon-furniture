@@ -1,5 +1,130 @@
 [
   {
+    "id": "AF-531010",
+    "customerName": "يوسف أحمد فاروق محمد",
+    "customerEmail": "yossif155farouk@gmail.com",
+    "customerPhone": "+201028951583",
+    "items": [
+      {
+        "product": {
+          "id": "6",
+          "name": "ستائر مكتبية عازلة للشمس والحرارة (متعددة الأنواع)",
+          "price": 1200,
+          "images": [
+            "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800",
+            "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
+          ],
+          "category": "ستائر مكتبية",
+          "slug": "office-curtains-blinds-custom"
+        },
+        "quantity": 10,
+        "color": "أوف وايت / رمادي عصري / بيج",
+        "curtainType": "ستائر رول بلاك أوت (Roll-up Blackout)",
+        "selectedDimensions": null
+      },
+      {
+        "product": {
+          "id": "prod_gl135_waiting",
+          "name": "كرسي انتظار ومؤتمرات شبك طبي شاسيه زلاجة - كود GL-135 Waiting",
+          "price": 2950,
+          "images": [
+            "/uploads/gl135-waiting-showroom.jpg",
+            "/uploads/gl135-waiting-studio.jpg"
+          ],
+          "category": "كراسي طبية",
+          "slug": "gl-135-waiting-cantilever-mesh-chair"
+        },
+        "quantity": 7,
+        "color": "أسود",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "subtotal": 32650,
+    "discount": 0,
+    "couponCode": null,
+    "shippingCost": 0,
+    "total": 32650,
+    "status": "under_review",
+    "date": "2026-10-22T04:55:09.517Z",
+    "shippingAddress": {
+      "firstName": "يوسف أحمد فاروق محمد",
+      "lastName": "",
+      "email": "yossif155farouk@gmail.com",
+      "phone": "+201028951583",
+      "address": "Al Mansurah, Egypt",
+      "city": "الدقهلية (المنصورة)",
+      "state": "الدقهلية (المنصورة)",
+      "zipCode": "00000"
+    },
+    "notes": "سشيشسيش",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {}
+  },
+  {
+    "id": "AF-101478",
+    "customerName": "يوسف أحمد فاروق محمد",
+    "customerEmail": "yossif155farouk@gmail.com",
+    "customerPhone": "+201028951583",
+    "items": [
+      {
+        "product": {
+          "id": "6",
+          "name": "ستائر مكتبية عازلة للشمس والحرارة (متعددة الأنواع)",
+          "price": 1200,
+          "images": [
+            "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800",
+            "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800"
+          ],
+          "category": "ستائر مكتبية",
+          "slug": "office-curtains-blinds-custom"
+        },
+        "quantity": 1,
+        "color": "أوف وايت / رمادي عصري / بيج",
+        "curtainType": "ستائر شرائح رأسية فورتيكال (Vertical)",
+        "selectedDimensions": null
+      },
+      {
+        "product": {
+          "id": "prod_designer_chair_bw",
+          "name": "كرسي مودرن ديزاينر جلد أبيض × أسود بقاعدة معدنية",
+          "price": 3200,
+          "images": [
+            "/uploads/designer-chair-bw.jpg"
+          ],
+          "category": "كراسي جلد",
+          "slug": "designer-modern-chair-black-white"
+        },
+        "quantity": 1,
+        "color": "أبيض × أسود",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "subtotal": 4400,
+    "discount": 0,
+    "couponCode": null,
+    "shippingCost": 350,
+    "total": 4750,
+    "status": "under_review",
+    "date": "2026-10-22T04:48:06.113Z",
+    "shippingAddress": {
+      "firstName": "يوسف أحمد فاروق محمد",
+      "lastName": "",
+      "email": "yossif155farouk@gmail.com",
+      "phone": "+201028951583",
+      "address": "Al Mansurah, Egypt",
+      "city": "الدقهلية (المنصورة)",
+      "state": "الدقهلية (المنصورة)",
+      "zipCode": "00000"
+    },
+    "notes": "مبارك",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {}
+  },
+  {
     "id": "AF-738454",
     "customerName": "أحمد محمود إبراهيم",
     "customerEmail": "ahmed.mahmoud@gmail.com",

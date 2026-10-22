@@ -84,7 +84,7 @@ const row2Categories: CategoryItem[] = [
 
 export default function SofaZoneCategoryGrid() {
   return (
-    <section className="py-10 bg-[#F8F5F0]">
+    <section className="py-10 bg-[#F8F5F0] dark:bg-[#0B0E14]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Section Header with Exact Oval Ring Badge from Image 1 ────────── */}
         <div className="text-center mb-8 flex justify-center">
@@ -105,21 +105,21 @@ export default function SofaZoneCategoryGrid() {
                 strokeWidth="2.5"
               />
             </svg>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#6B4F3A] tracking-tight relative z-10 px-4">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#6B4F3A] dark:text-[#E8D4B0] tracking-tight relative z-10 px-4">
               تسوق حسب القسم
             </h2>
           </div>
         </div>
 
         {/* ── Outer White Unified Grid Container (Image 1 Style) ─────────────── */}
-        <div className="bg-white rounded-2xl border border-[#E5E7EB] shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-[#121620] rounded-2xl border border-[#E5E7EB] dark:border-[#232B3C] shadow-sm overflow-hidden">
           {/* Row 1: 6 Category Cells */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 border-b border-[#E5E7EB] divide-x divide-x-reverse divide-[#E5E7EB]">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 border-b border-[#E5E7EB] dark:border-[#232B3C] divide-x divide-x-reverse divide-[#E5E7EB] dark:divide-[#232B3C]">
             {row1Categories.map((cat) => (
               <Link
                 key={cat.id}
                 href={cat.href}
-                className="group flex flex-col items-center justify-between p-4 sm:p-5 hover:bg-[#FDFBF9] transition-all duration-200 text-center"
+                className="group flex flex-col items-center justify-between p-4 sm:p-5 hover:bg-[#FDFBF9] dark:hover:bg-[#181E2B] transition-all duration-200 text-center"
               >
                 {/* Product cutout image with natural drop shadow */}
                 <div className="relative w-full h-28 sm:h-36 flex items-center justify-center my-auto">
@@ -132,7 +132,7 @@ export default function SofaZoneCategoryGrid() {
                   />
                 </div>
                 {/* Category Label */}
-                <span className="text-xs sm:text-sm font-bold text-[#292321] group-hover:text-[#C58B45] transition-colors mt-3">
+                <span className="text-xs sm:text-sm font-bold text-[#292321] dark:text-[#F5F6F8] group-hover:text-[#C58B45] transition-colors mt-3">
                   {cat.name}
                 </span>
               </Link>
@@ -140,12 +140,12 @@ export default function SofaZoneCategoryGrid() {
           </div>
 
           {/* Row 2: 5 Category Cells (غرف النوم removed as requested) */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-x divide-x-reverse divide-[#E5E7EB]">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-x divide-x-reverse divide-[#E5E7EB] dark:divide-[#232B3C]">
             {row2Categories.map((cat) => (
               <Link
                 key={cat.id}
                 href={cat.href}
-                className="group flex flex-col items-center justify-between p-4 sm:p-5 hover:bg-[#FDFBF9] transition-all duration-200 text-center"
+                className="group flex flex-col items-center justify-between p-4 sm:p-5 hover:bg-[#FDFBF9] dark:hover:bg-[#181E2B] transition-all duration-200 text-center"
               >
                 {/* Product cutout image with natural drop shadow */}
                 <div className="relative w-full h-28 sm:h-36 flex items-center justify-center my-auto">
@@ -158,7 +158,7 @@ export default function SofaZoneCategoryGrid() {
                   />
                 </div>
                 {/* Category Label */}
-                <span className="text-xs sm:text-sm font-bold text-[#292321] group-hover:text-[#C58B45] transition-colors mt-3">
+                <span className="text-xs sm:text-sm font-bold text-[#292321] dark:text-[#F5F6F8] group-hover:text-[#C58B45] transition-colors mt-3">
                   {cat.name}
                 </span>
               </Link>

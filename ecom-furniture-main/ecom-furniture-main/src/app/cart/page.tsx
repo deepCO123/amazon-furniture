@@ -134,11 +134,11 @@ export default function CartPage() {
                   key={`${item.product.id}-${item.color}`}
                   layout
                   exit={{ opacity: 0, x: -100 }}
-                  className="bg-white rounded-2xl p-3.5 sm:p-6 border border-surface-dark flex flex-col sm:flex-row gap-3.5 sm:gap-4 text-start shadow-xs"
+                  className="bg-white dark:bg-[#151A24] rounded-2xl p-3.5 sm:p-6 border border-surface-dark dark:border-[#232B3C] flex flex-col sm:flex-row gap-3.5 sm:gap-4 text-start shadow-xs"
                 >
                   <div className="flex gap-3.5 sm:contents items-start">
                     {/* Item Image */}
-                    <div className="relative w-20 h-20 sm:w-32 sm:h-32 rounded-xl overflow-hidden shrink-0 bg-surface border border-surface-dark">
+                    <div className="relative w-20 h-20 sm:w-32 sm:h-32 rounded-xl overflow-hidden shrink-0 bg-surface dark:bg-[#1A2230] border border-surface-dark dark:border-[#2D3748]">
                       <Image
                         src={item.product.images[0]}
                         alt={item.product.name}
@@ -204,12 +204,12 @@ export default function CartPage() {
 
                     {/* Bottom Quantity Stepper & Price */}
                     <div className="pt-2 sm:pt-4 border-t border-surface-dark/60 sm:border-t-0 flex items-center justify-between">
-                      <div className="flex items-center border border-surface-dark rounded-xl bg-surface overflow-hidden">
+                      <div className="flex items-center border border-surface-dark dark:border-[#2D3748] rounded-xl bg-surface dark:bg-[#1A2230] overflow-hidden">
                         <button
                           onClick={() =>
                             updateQuantity(item.product.id, item.quantity - 1)
                           }
-                          className="w-10 h-10 flex items-center justify-center hover:bg-white text-primary transition-colors cursor-pointer"
+                          className="w-10 h-10 flex items-center justify-center hover:bg-white dark:hover:bg-[#232B3C] text-primary transition-colors cursor-pointer"
                           aria-label="Decrease quantity"
                         >
                           <Minus size={14} />
@@ -221,7 +221,7 @@ export default function CartPage() {
                           onClick={() =>
                             updateQuantity(item.product.id, item.quantity + 1)
                           }
-                          className="w-10 h-10 flex items-center justify-center hover:bg-white text-primary transition-colors cursor-pointer"
+                          className="w-10 h-10 flex items-center justify-center hover:bg-white dark:hover:bg-[#232B3C] text-primary transition-colors cursor-pointer"
                           aria-label="Increase quantity"
                         >
                           <Plus size={14} />
@@ -259,8 +259,8 @@ export default function CartPage() {
 
           {/* Order Summary */}
           <AnimatedSection delay={0.1}>
-            <div className="bg-white rounded-2xl p-6 border border-surface-dark sticky top-28 shadow-xs text-start">
-              <h2 className="text-lg font-bold text-primary mb-4 pb-3 border-b border-surface-dark">
+            <div className="bg-white dark:bg-[#151A24] rounded-2xl p-6 border border-surface-dark dark:border-[#232B3C] sticky top-28 shadow-xs text-start">
+              <h2 className="text-lg font-bold text-primary mb-4 pb-3 border-b border-surface-dark dark:border-[#232B3C]">
                 {isEn ? "Order Summary" : "ملخص الطلب"}
               </h2>
 
