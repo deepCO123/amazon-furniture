@@ -27,18 +27,18 @@ export default function QuotationModal({ isOpen, onClose, quotation }: Quotation
 
   return (
     <div className="fixed inset-0 z-[260] bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto print:p-0 print:bg-white">
-      <div className="bg-white rounded-2xl max-w-4xl w-full shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col print:max-h-none print:shadow-none print:border-none print:rounded-none">
+      <div className="bg-white dark:bg-[#151922] rounded-2xl max-w-4xl w-full shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden max-h-[92vh] flex flex-col print:max-h-none print:shadow-none print:border-none print:rounded-none transition-colors">
         {/* Action Header (Hidden in Print) */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50 print:hidden shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 print:hidden shrink-0">
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+            <div className="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold border border-amber-500/30">
               <FileText size={18} />
             </div>
             <div>
-              <h3 className="font-bold text-slate-900 text-sm">
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm">
                 عرض سعر رسمي #{quotation.id}
               </h3>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
                 يمكنك طباعة العرض مباشرة كـ PDF أو إرساله للعميل عبر الواتساب
               </p>
             </div>
@@ -48,7 +48,7 @@ export default function QuotationModal({ isOpen, onClose, quotation }: Quotation
             <Button
               onClick={handlePrint}
               variant="outline"
-              className="flex items-center gap-1.5 text-xs py-2 px-3 border-slate-300"
+              className="flex items-center gap-1.5 text-xs py-2 px-3 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200"
             >
               <Printer size={15} />
               <span>طباعة / حفظ PDF</span>
@@ -68,7 +68,7 @@ export default function QuotationModal({ isOpen, onClose, quotation }: Quotation
 
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-700 rounded-xl"
+              className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-xl transition-colors cursor-pointer"
             >
               <X size={20} />
             </button>

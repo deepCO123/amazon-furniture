@@ -67,11 +67,11 @@ export default function CustomerModal({
 
   return (
     <div className="fixed inset-0 z-[250] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl border border-slate-200 overflow-hidden my-8 max-h-[90vh] flex flex-col text-start" dir="rtl">
+      <div className="bg-white dark:bg-[#151922] text-slate-900 dark:text-slate-100 rounded-2xl w-full max-w-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden my-8 max-h-[90vh] flex flex-col text-start transition-colors" dir="rtl">
         {/* Header */}
-        <div className="p-6 border-b border-slate-200 bg-slate-50 flex items-start justify-between">
+        <div className="p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 flex items-start justify-between">
           <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-[#C5A880] shrink-0 bg-white shadow-sm">
+            <div className="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-[#C5A880] shrink-0 bg-white dark:bg-slate-800 shadow-sm">
               <Image
                 src={
                   customer.avatar ||
@@ -86,29 +86,29 @@ export default function CustomerModal({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-bold text-slate-900">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                   {customer.name}
                 </h2>
                 {customer.provider === "google" && (
-                  <span className="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-100 flex items-center gap-1">
+                  <span className="bg-blue-500/15 text-blue-600 dark:text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-500/30 flex items-center gap-1">
                     Google Verified ✓
                   </span>
                 )}
               </div>
-              <div className="flex flex-wrap items-center gap-y-1 gap-x-4 text-xs text-slate-500 mt-1.5">
+              <div className="flex flex-wrap items-center gap-y-1 gap-x-4 text-xs text-slate-500 dark:text-slate-400 mt-1.5">
                 <span className="flex items-center gap-1">
-                  <Mail size={13} className="text-slate-400" />
+                  <Mail size={13} className="text-slate-400 dark:text-slate-500" />
                   {customer.email}
                 </span>
                 {customer.phone && (
                   <span className="flex items-center gap-1">
-                    <Phone size={13} className="text-slate-400" />
+                    <Phone size={13} className="text-slate-400 dark:text-slate-500" />
                     {customer.phone}
                   </span>
                 )}
                 {customer.city && (
                   <span className="flex items-center gap-1">
-                    <MapPin size={13} className="text-slate-400" />
+                    <MapPin size={13} className="text-slate-400 dark:text-slate-500" />
                     {customer.city}
                   </span>
                 )}
@@ -118,38 +118,38 @@ export default function CustomerModal({
 
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-200/60 transition-colors"
+            className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Quick Stats Banner & Contact Actions */}
-        <div className="p-6 border-b border-slate-100 bg-white space-y-4">
+        <div className="p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#151922] space-y-4">
           <div className="grid grid-cols-3 gap-3">
-            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-              <span className="text-xs text-slate-500 font-bold block">
+            <div className="bg-slate-50 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-bold block">
                 عدد الطلبات
               </span>
-              <span className="text-xl font-extrabold text-slate-900 mt-1 block">
+              <span className="text-xl font-extrabold text-slate-900 dark:text-white mt-1 block">
                 {orders.length > 0 ? orders.length : customer.ordersCount || 0} أوردر
               </span>
             </div>
 
-            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-              <span className="text-xs text-slate-500 font-bold block">
+            <div className="bg-slate-50 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-bold block">
                 إجمالي المشتريات
               </span>
-              <span className="text-xl font-extrabold text-slate-900 mt-1 block">
+              <span className="text-xl font-extrabold text-slate-900 dark:text-white mt-1 block">
                 {formatPrice(totalSpent)}
               </span>
             </div>
 
-            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-              <span className="text-xs text-slate-500 font-bold block">
+            <div className="bg-slate-50 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-bold block">
                 تاريخ الانضمام
               </span>
-              <span className="text-xs font-bold text-slate-700 mt-2 block">
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300 mt-2 block">
                 {customer.createdAt ? new Date(customer.createdAt).toLocaleDateString("ar-EG") : "حديثاً"}
               </span>
             </div>
@@ -172,7 +172,7 @@ export default function CustomerModal({
             {customer.phone && (
               <a
                 href={`tel:${customer.phone}`}
-                className="py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
+                className="py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
               >
                 <Phone size={14} />
                 <span>اتصال هاتفياً</span>
@@ -184,14 +184,14 @@ export default function CustomerModal({
         {/* Orders Timeline */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <Package size={16} className="text-[#8B6E45]" />
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Package size={16} className="text-[#8B6E45] dark:text-[#C5A880]" />
               <span>سجل الأوردرات والطلبات السابقة ({orders.length})</span>
             </h3>
           </div>
 
           {orders.length === 0 ? (
-            <div className="py-12 text-center text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+            <div className="py-12 text-center text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-900/40 rounded-xl border border-dashed border-slate-200 dark:border-slate-800">
               <ShoppingBag size={32} className="mx-auto mb-2 opacity-40" />
               <p className="font-semibold text-sm">لم يقم هذا العميل بأي طلبات بعد</p>
             </div>
@@ -200,14 +200,14 @@ export default function CustomerModal({
               {orders.map((ord) => (
                 <div
                   key={ord.id}
-                  className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs space-y-3"
+                  className="bg-white dark:bg-[#1a202c] rounded-xl border border-slate-200 dark:border-slate-800 p-4 shadow-xs space-y-3"
                 >
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
                     <div>
-                      <span className="font-bold text-slate-900 text-sm block">
+                      <span className="font-bold text-slate-900 dark:text-white text-sm block">
                         طلب #{ord.id}
                       </span>
-                      <span className="text-[11px] text-slate-400">
+                      <span className="text-[11px] text-slate-400 dark:text-slate-500">
                         {new Date(ord.date).toLocaleDateString("ar-EG", {
                           year: "numeric",
                           month: "long",
@@ -228,7 +228,7 @@ export default function CustomerModal({
                         className="flex items-center justify-between text-xs py-1"
                       >
                         <div className="flex items-center gap-2.5">
-                          <div className="relative w-9 h-9 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+                          <div className="relative w-9 h-9 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shrink-0">
                             <Image
                               src={item.product?.images?.[0] || "/placeholder.jpg"}
                               alt={item.product?.name || "Product"}
@@ -237,16 +237,16 @@ export default function CustomerModal({
                             />
                           </div>
                           <div>
-                            <p className="font-bold text-slate-800">
+                            <p className="font-bold text-slate-800 dark:text-slate-200">
                               {item.product?.name}
                             </p>
-                            <p className="text-[10px] text-slate-400">
+                            <p className="text-[10px] text-slate-400 dark:text-slate-500">
                               الكمية: {item.quantity}{" "}
                               {item.color && `• اللون: ${item.color}`}
                             </p>
                           </div>
                         </div>
-                        <span className="font-bold text-slate-900">
+                        <span className="font-bold text-slate-900 dark:text-white">
                           {formatPrice((item.product?.price || 0) * item.quantity)}
                         </span>
                       </div>
@@ -254,11 +254,11 @@ export default function CustomerModal({
                   </div>
 
                   {/* Total & Delivery note */}
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                    <span className="text-slate-500">
+                  <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+                    <span className="text-slate-500 dark:text-slate-400">
                       📍 {ord.shippingAddress?.city} - {ord.shippingAddress?.address}
                     </span>
-                    <span className="font-extrabold text-sm text-slate-900">
+                    <span className="font-extrabold text-sm text-slate-900 dark:text-white">
                       الإجمالي: {formatPrice(ord.total)}
                     </span>
                   </div>

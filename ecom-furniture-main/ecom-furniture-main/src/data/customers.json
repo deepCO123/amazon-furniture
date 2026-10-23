@@ -1853,8 +1853,8 @@
     "phone": "",
     "city": "القاهرة",
     "provider": "email",
-    "ordersCount": 0,
-    "totalSpent": 0,
+    "ordersCount": 1,
+    "totalSpent": 16600,
     "createdAt": "2026-10-03T11:47:20.879Z",
     "updatedAt": "2026-10-03T11:47:20.879Z"
   }

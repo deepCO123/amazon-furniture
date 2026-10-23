@@ -268,20 +268,20 @@ export default function ProductModal({
 
   return (
     <div className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl w-full max-w-3xl shadow-2xl border border-surface-dark overflow-hidden my-8 max-h-[90vh] flex flex-col">
+      <div className="bg-white dark:bg-[#151922] text-slate-900 dark:text-slate-100 rounded-2xl w-full max-w-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden my-8 max-h-[90vh] flex flex-col transition-colors">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-dark bg-surface/50">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60">
           <div>
-            <h2 className="text-xl font-bold text-primary">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
               {product ? "تعديل بيانات المنتج" : "إضافة منتج جديد للمتجر"}
             </h2>
-            <p className="text-xs text-muted mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               ستظهر التعديلات مباشرة في المتجر لجميع العملاء فور الحفظ
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-muted hover:text-primary rounded-xl hover:bg-surface transition-colors"
+            className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <X size={20} />
           </button>
@@ -290,7 +290,7 @@ export default function ProductModal({
         {/* Content */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-6">
           {error && (
-            <div className="p-3.5 bg-red-50 border border-red-200 rounded-xl flex items-center gap-2.5 text-danger text-sm">
+            <div className="p-3.5 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl flex items-center gap-2.5 text-red-600 dark:text-red-400 text-sm">
               <AlertCircle size={18} className="shrink-0" />
               <span>{error}</span>
             </div>
@@ -298,8 +298,8 @@ export default function ProductModal({
 
           {/* Images Section */}
           <div className="space-y-3">
-            <label className="block text-sm font-bold text-primary">
-              صور المنتج (يرجى رفع صور واضحة للقطعة) <span className="text-danger">*</span>
+            <label className="block text-sm font-bold text-slate-900 dark:text-slate-200">
+              صور المنتج (يرجى رفع صور واضحة للقطعة) <span className="text-red-500">*</span>
             </label>
 
             {/* Upload Area */}
@@ -319,7 +319,7 @@ export default function ProductModal({
                 className={`flex-1 border-2 border-dashed rounded-xl p-5 flex flex-col items-center justify-center cursor-pointer transition-all ${
                   uploading
                     ? "border-accent bg-accent/5 pointer-events-none"
-                    : "border-surface-dark hover:border-accent hover:bg-surface/50"
+                    : "border-slate-300 dark:border-slate-700 hover:border-accent bg-slate-50 dark:bg-slate-900/40 hover:bg-slate-100 dark:hover:bg-slate-800"
                 }`}
               >
                 {uploading ? (
@@ -330,10 +330,10 @@ export default function ProductModal({
                 ) : (
                   <>
                     <Upload size={24} className="text-accent mb-1.5" />
-                    <span className="text-sm font-bold text-primary">
+                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
                       اضغط لاختيار صورة من جهازك (كمبيوتر / هاتف)
                     </span>
-                    <span className="text-xs text-muted mt-1">
+                    <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                       PNG, JPG, WEBP تصلح حتى 15 ميجابايت
                     </span>
                   </>
@@ -341,8 +341,8 @@ export default function ProductModal({
               </label>
 
               {/* URL fallback */}
-              <div className="sm:w-64 flex flex-col justify-between border border-surface-dark rounded-xl p-3 bg-surface/30">
-                <span className="text-xs font-semibold text-muted mb-1.5">
+              <div className="sm:w-64 flex flex-col justify-between border border-slate-200 dark:border-slate-700 rounded-xl p-3 bg-slate-50 dark:bg-slate-900/50">
+                <span className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">
                   أو إضافة رابط صورة خارجي:
                 </span>
                 <div className="flex gap-2">
@@ -351,12 +351,12 @@ export default function ProductModal({
                     value={customImageUrl}
                     onChange={(e) => setCustomImageUrl(e.target.value)}
                     placeholder="https://..."
-                    className="flex-1 text-xs px-2.5 py-2 rounded-lg border border-surface-dark bg-white focus:outline-none focus:ring-1 focus:ring-accent"
+                    className="flex-1 text-xs px-2.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-accent"
                   />
                   <button
                     type="button"
                     onClick={handleAddImageUrl}
-                    className="px-3 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-colors"
+                    className="px-3 py-2 bg-accent text-slate-950 text-xs font-bold rounded-lg hover:bg-accent/90 transition-colors"
                   >
                     إضافة
                   </button>
@@ -370,7 +370,7 @@ export default function ProductModal({
                 {images.map((img, idx) => (
                   <div
                     key={idx}
-                    className="relative group aspect-square rounded-xl overflow-hidden border border-surface-dark bg-surface shadow-xs"
+                    className="relative group aspect-square rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shadow-xs"
                   >
                     <Image
                       src={img}
@@ -380,14 +380,14 @@ export default function ProductModal({
                       className="object-cover"
                     />
                     {idx === 0 && (
-                      <span className="absolute top-1 right-1 bg-accent text-primary-dark font-bold text-[9px] px-1.5 py-0.5 rounded shadow-xs">
+                      <span className="absolute top-1 right-1 bg-accent text-slate-950 font-bold text-[9px] px-1.5 py-0.5 rounded shadow-xs">
                         الرئيسية
                       </span>
                     )}
                     <button
                       type="button"
                       onClick={() => handleRemoveImage(idx)}
-                      className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
+                      className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white cursor-pointer"
                       title="حذف الصورة"
                     >
                       <Trash2 size={18} className="text-red-400 hover:text-red-300" />
@@ -401,8 +401,8 @@ export default function ProductModal({
           {/* Basic Info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-primary mb-1.5">
-                اسم المنتج بالكامل <span className="text-danger">*</span>
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">
+                اسم المنتج بالكامل <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -410,21 +410,21 @@ export default function ProductModal({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="مثال: ركنة صالون مودرن خشب زان"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-surface-dark text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-primary mb-1.5">
-                القسم / التصنيف <span className="text-danger">*</span>
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">
+                القسم / التصنيف <span className="text-red-500">*</span>
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-surface-dark text-sm bg-white focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 {categories.map((cat) => (
-                  <option key={cat.id} value={cat.name}>
+                  <option key={cat.id} value={cat.name} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                     {cat.name} ({cat.slug})
                   </option>
                 ))}
@@ -434,19 +434,19 @@ export default function ProductModal({
 
           {/* Curtain Types Configuration (if category is curtains) */}
           {category.includes("ستائر") && (
-            <div className="p-4 rounded-xl bg-amber-50 border border-amber-200">
-              <label className="block text-xs font-bold text-amber-900 mb-1.5 flex items-center justify-between">
+            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+              <label className="block text-xs font-bold text-amber-800 dark:text-amber-400 mb-1.5 flex items-center justify-between">
                 <span>أنواع الستارة المتوفرة لاختيار العميل (كل نوع في سطر منفصل)</span>
-                <span className="text-[10px] text-amber-700 bg-amber-100 px-2 py-0.5 rounded">اختياري للستائر</span>
+                <span className="text-[10px] text-amber-700 dark:text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded">اختياري للستائر</span>
               </label>
               <textarea
                 rows={4}
                 value={curtainTypesText}
                 onChange={(e) => setCurtainTypesText(e.target.value)}
                 placeholder="ستائر رول بلاك أوت (Roll-up Blackout)&#10;ستائر زيبرا ثنائية الطبقات (Zebra Blinds)&#10;ستائر شرائح معدنية ألومنيوم (Venetian)&#10;ستائر شرائح رأسية فورتيكال (Vertical)&#10;ستائر مكتبية ذكية كهربائية (Smart Motorized)"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-amber-200 bg-white text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-amber-500/30 bg-white dark:bg-slate-900 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
-              <span className="text-[11px] text-amber-700 mt-1 block">
+              <span className="text-[11px] text-amber-700 dark:text-amber-400 mt-1 block">
                 سيظهر للعميل في صفحة المنتج زر لاختيار نوع الستارة بالتحديد قبل إضافتها للسلة وللأوردر.
               </span>
             </div>
@@ -455,8 +455,8 @@ export default function ProductModal({
           {/* Pricing & Stock */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold text-primary mb-1.5">
-                السعر الفعلي (بالجنيه) <span className="text-danger">*</span>
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">
+                السعر الفعلي (بالجنيه) <span className="text-red-500">*</span>
               </label>
               <input
                 type="number"
@@ -465,15 +465,15 @@ export default function ProductModal({
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="مثال: 12500"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-surface-dark text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent"
               />
-              <span className="text-[11px] text-muted mt-1 block">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 block">
                 يحول تلقائياً للريال والدولار حسب لغة الزائر.
               </span>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-primary mb-1.5">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">
                 السعر قبل الخصم (اختياري)
               </label>
               <input
@@ -482,17 +482,17 @@ export default function ProductModal({
                 value={originalPrice}
                 onChange={(e) => setOriginalPrice(e.target.value)}
                 placeholder="مثال: 15000"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-surface-dark text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent"
               />
-              <span className="text-[11px] text-muted mt-1 block">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 block">
                 لإظهار نسبة الخصم والتوفير.
               </span>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-primary mb-1.5 flex items-center justify-between">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5 flex items-center justify-between">
                 <span>كمية المخزون (القطع المتوفرة)</span>
-                <span className="text-[11px] font-normal px-2 py-0.5 rounded bg-accent/10 text-accent">خصم تلقائي</span>
+                <span className="text-[11px] font-normal px-2 py-0.5 rounded bg-amber-500/15 text-amber-600 dark:text-amber-400">خصم تلقائي</span>
               </label>
               <input
                 type="number"
@@ -501,9 +501,9 @@ export default function ProductModal({
                 value={stockQuantity}
                 onChange={(e) => setStockQuantity(e.target.value)}
                 placeholder="مثال: 10"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-surface-dark text-sm font-bold text-primary focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-accent"
               />
-              <span className="text-[11px] text-muted mt-1 block">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 block">
                 ينقص تلقائياً عند كل أوردر، وإذا وصل 0 يُعلم بنفاد الكمية.
               </span>
             </div>
@@ -512,7 +512,7 @@ export default function ProductModal({
           {/* Specifications */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold text-primary mb-1.5">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">
                 نوع الخشب / الخامة
               </label>
               <input
@@ -520,12 +520,12 @@ export default function ProductModal({
                 value={material}
                 onChange={(e) => setMaterial(e.target.value)}
                 placeholder="مثال: خشب زان أحمر طبيعي"
-                className="w-full px-3 py-2 rounded-xl border border-surface-dark text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-primary mb-1.5">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">
                 اللون المتوفر
               </label>
               <input
@@ -533,12 +533,12 @@ export default function ProductModal({
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
                 placeholder="مثال: بيج كافيه / كحلي"
-                className="w-full px-3 py-2 rounded-xl border border-surface-dark text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-primary mb-1.5">
+              <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">
                 الوزن التقريبي (كجم)
               </label>
               <input
@@ -546,61 +546,61 @@ export default function ProductModal({
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 placeholder="مثال: 45"
-                className="w-full px-3 py-2 rounded-xl border border-surface-dark text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
           </div>
 
           {/* Dimensions */}
           <div>
-            <label className="block text-xs font-bold text-primary mb-1.5">
+            <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">
               الأبعاد والمقاسات (سم)
             </label>
             <div className="grid grid-cols-3 gap-3">
               <div>
-                <span className="text-[11px] text-muted block mb-1">العرض (سم)</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 block mb-1">العرض (سم)</span>
                 <input
                   type="number"
                   value={width}
                   onChange={(e) => setWidth(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-surface-dark text-sm"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm"
                 />
               </div>
               <div>
-                <span className="text-[11px] text-muted block mb-1">الارتفاع (سم)</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 block mb-1">الارتفاع (سم)</span>
                 <input
                   type="number"
                   value={height}
                   onChange={(e) => setHeight(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-surface-dark text-sm"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm"
                 />
               </div>
               <div>
-                <span className="text-[11px] text-muted block mb-1">العمق (سم)</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 block mb-1">العمق (سم)</span>
                 <input
                   type="number"
                   value={depth}
                   onChange={(e) => setDepth(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-surface-dark text-sm"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm"
                 />
               </div>
             </div>
             {/* Volumetric Weight Calculator Hint */}
-            <div className="mt-2 p-2.5 rounded-lg bg-amber-50/80 border border-amber-200/70 text-xs text-amber-900 flex items-center justify-between">
+            <div className="mt-2 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs text-amber-800 dark:text-amber-300 flex items-center justify-between">
               <span>الوزن الحجمي التقديري لشركات الشحن (L×W×H / 5000):</span>
-              <span className="font-mono font-black text-amber-800">
+              <span className="font-mono font-black text-amber-700 dark:text-amber-300">
                 {Math.round(((Number(width) || 100) * (Number(height) || 75) * (Number(depth) || 80)) / 5000)} كجم
               </span>
             </div>
           </div>
 
           {/* ── Furniture Spec Matrix (المواصفات الفنية المتقدمة) ── */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <span>🛋️ مواصفات التصنيع والخامات المتخصصة</span>
               </h3>
-              <span className="text-[11px] text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full font-semibold">
+              <span className="text-[11px] text-amber-700 dark:text-amber-300 bg-amber-500/15 px-2.5 py-0.5 rounded-full font-semibold">
                 قطاع الأثاث والمفروشات
               </span>
             </div>
@@ -608,7 +608,7 @@ export default function ProductModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Wood Type */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   نوع الخشب الرئيسي
                 </label>
                 <input
@@ -616,13 +616,13 @@ export default function ProductModal({
                   value={woodType}
                   onChange={(e) => setWoodType(e.target.value)}
                   placeholder="مثال: خشب زان أحمر روماني"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
               {/* Fabric Type */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   نوع القماش والتنجيد
                 </label>
                 <input
@@ -630,13 +630,13 @@ export default function ProductModal({
                   value={fabricType}
                   onChange={(e) => setFabricType(e.target.value)}
                   placeholder="مثال: كتان تركي معالج / هامر / جلد مقلوب"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
               {/* Foam Density */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   كثافة ونوع الإسفنج
                 </label>
                 <input
@@ -644,13 +644,13 @@ export default function ProductModal({
                   value={foamDensity}
                   onChange={(e) => setFoamDensity(e.target.value)}
                   placeholder="مثال: كثافة 33 سوبر سوفت / ريبوند طبي"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
               {/* Chassis & Mechanism */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   نوع الشاسيه والميكانيزم
                 </label>
                 <input
@@ -658,13 +658,13 @@ export default function ProductModal({
                   value={chassisType}
                   onChange={(e) => setChassisType(e.target.value)}
                   placeholder="مثال: شاسيه حديد دهان إلكتروستاتيك / ميكانيزم تركي"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
               {/* Lead Time Days */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   مدة التصنيع والتجهيز (بالأيام)
                 </label>
                 <input
@@ -673,13 +673,13 @@ export default function ProductModal({
                   value={leadTimeDays}
                   onChange={(e) => setLeadTimeDays(e.target.value)}
                   placeholder="مثال: 7"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
               {/* Warranty Years */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                   مدة الضمان المعتمد (سنوات)
                 </label>
                 <input
@@ -688,63 +688,63 @@ export default function ProductModal({
                   value={warrantyYears}
                   onChange={(e) => setWarrantyYears(e.target.value)}
                   placeholder="مثال: 3"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
               {/* 3D / AR Model Link */}
               <div className="sm:col-span-2">
-                <label className="block text-xs font-bold text-slate-700 mb-1 flex items-center justify-between">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1 flex items-center justify-between">
                   <span>رابط نموذج الواقع المعزز ثلاثي الأبعاد 3D/AR (.glb / .usdz)</span>
-                  <span className="text-[10px] text-slate-500 font-normal">اختياري لمعاينة المنتج بالموبايل</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">اختياري لمعاينة المنتج بالموبايل</span>
                 </label>
                 <input
                   type="url"
                   value={model3dUrl}
                   onChange={(e) => setModel3dUrl(e.target.value)}
                   placeholder="https://.../model.glb"
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm text-left font-mono focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm text-left font-mono focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
             </div>
 
             {/* Checkbox Features */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-              <label className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer">
+              <label className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={waterRepellent}
                   onChange={(e) => setWaterRepellent(e.target.checked)}
                   className="w-4 h-4 rounded text-amber-600 accent-amber-600"
                 />
-                <span className="text-xs font-bold text-slate-800">قماش مقاوم للبقع والسوائل</span>
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">قماش مقاوم للبقع والسوائل</span>
               </label>
 
-              <label className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer">
+              <label className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={requiresAssembly}
                   onChange={(e) => setRequiresAssembly(e.target.checked)}
                   className="w-4 h-4 rounded text-amber-600 accent-amber-600"
                 />
-                <span className="text-xs font-bold text-slate-800">يتطلب فني تركيب مصاحب</span>
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">يتطلب فني تركيب مصاحب</span>
               </label>
 
-              <label className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer">
+              <label className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={isDisassemblable}
                   onChange={(e) => setIsDisassemblable(e.target.checked)}
                   className="w-4 h-4 rounded text-amber-600 accent-amber-600"
                 />
-                <span className="text-xs font-bold text-slate-800">قابل للفك والتركيب</span>
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">قابل للفك والتركيب</span>
               </label>
             </div>
           </div>
 
           {/* Toggles */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-surface-dark">
-            <label className="flex items-center gap-3 p-3.5 rounded-xl border border-surface-dark hover:bg-surface/50 cursor-pointer transition-colors">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-200 dark:border-slate-800">
+            <label className="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-slate-100 dark:hover:bg-slate-800/60 cursor-pointer transition-colors">
               <input
                 type="checkbox"
                 checked={inStock}
@@ -752,16 +752,16 @@ export default function ProductModal({
                 className="w-5 h-5 text-accent rounded accent-[#C5A880]"
               />
               <div>
-                <span className="text-sm font-bold text-primary block">
+                <span className="text-sm font-bold text-slate-900 dark:text-white block">
                   متوفر للتسليم والمعاينة الفورية
                 </span>
-                <span className="text-xs text-muted block">
+                <span className="text-xs text-slate-500 dark:text-slate-400 block">
                   إذا تم إلغاؤه سيظهر للعميل كـ &ldquo;غير متوفر حالياً&rdquo;
                 </span>
               </div>
             </label>
 
-            <label className="flex items-center gap-3 p-3.5 rounded-xl border border-surface-dark hover:bg-surface/50 cursor-pointer transition-colors">
+            <label className="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-slate-100 dark:hover:bg-slate-800/60 cursor-pointer transition-colors">
               <input
                 type="checkbox"
                 checked={featured}
@@ -769,10 +769,10 @@ export default function ProductModal({
                 className="w-5 h-5 text-accent rounded accent-[#C5A880]"
               />
               <div>
-                <span className="text-sm font-bold text-primary block">
+                <span className="text-sm font-bold text-slate-900 dark:text-white block">
                   عرض في الصفحة الرئيسية (Featured)
                 </span>
-                <span className="text-xs text-muted block">
+                <span className="text-xs text-slate-500 dark:text-slate-400 block">
                   يظهر المنتج في قسم أبرز القطع والموديلات
                 </span>
               </div>
@@ -781,7 +781,7 @@ export default function ProductModal({
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-bold text-primary mb-1.5">
+            <label className="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">
               الوصف والمواصفات التفصيلية للقطعة
             </label>
             <textarea
@@ -789,12 +789,12 @@ export default function ProductModal({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="اكتب هنا نبذة عن جمال التصميم، المتانة، وجودة التشطيب، وإمكانية تنفيذ أي مقاسات خاصة..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-surface-dark text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
           {/* Footer Actions */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-surface-dark">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
             <Button
               type="button"
               variant="outline"

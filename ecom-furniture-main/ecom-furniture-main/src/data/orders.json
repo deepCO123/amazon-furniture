@@ -1,5 +1,67 @@
 [
   {
+    "id": "AF-345968",
+    "customerName": "محمد إسماعيل (المدير العام)",
+    "customerEmail": "admin@amazonfurniture.eg",
+    "customerPhone": "+201028951583",
+    "items": [
+      {
+        "product": {
+          "id": "prod_gl135_extra_2",
+          "name": "كرسي مكتب شبك أسود ظهر متوسط بمساند أذرع - كود GL-135-C02",
+          "price": 2650,
+          "images": [
+            "/uploads/gl135-studio-08.jpg",
+            "/uploads/gl135-showroom-09.jpg"
+          ],
+          "category": "كراسي شبك",
+          "slug": "gl-135-chair-gl-135-c02"
+        },
+        "quantity": 1,
+        "color": "أسود",
+        "curtainType": "",
+        "selectedDimensions": null
+      },
+      {
+        "product": {
+          "id": "prod_bed_1",
+          "name": "سرير كابوتنيه مودرن خشب زان أحمر تنجيد سوفت",
+          "price": 13800,
+          "images": [
+            "/categories/beds.png"
+          ],
+          "category": "سراير",
+          "slug": "modern-tufted-king-bed-red-beech"
+        },
+        "quantity": 1,
+        "color": "بيج رملي",
+        "curtainType": "",
+        "selectedDimensions": null
+      }
+    ],
+    "subtotal": 16450,
+    "discount": 0,
+    "couponCode": null,
+    "shippingCost": 150,
+    "total": 16600,
+    "status": "under_review",
+    "date": "2026-10-23T20:23:30.883Z",
+    "shippingAddress": {
+      "firstName": "محمد إسماعيل (المدير العام)",
+      "lastName": "",
+      "email": "admin@amazonfurniture.eg",
+      "phone": "+201028951583",
+      "address": "Al Mansurah, Egypt",
+      "city": "القاهرة",
+      "state": "القاهرة",
+      "zipCode": "00000"
+    },
+    "notes": "",
+    "paymentMethod": "cod",
+    "paymentStatus": "pending",
+    "paymentDetails": {}
+  },
+  {
     "id": "AF-531010",
     "customerName": "يوسف أحمد فاروق محمد",
     "customerEmail": "yossif155farouk@gmail.com",

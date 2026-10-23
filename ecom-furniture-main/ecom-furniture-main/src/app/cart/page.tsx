@@ -165,8 +165,8 @@ export default function CartPage() {
                           )}
                         </div>
                         <button
-                          onClick={() => removeItem(item.product.id)}
-                          className="w-10 h-10 -me-1 -mt-1 rounded-xl text-muted hover:text-danger hover:bg-red-50 flex items-center justify-center transition-colors shrink-0"
+                          onClick={() => removeItem(item.product.id, item.color, item.curtainType)}
+                          className="w-10 h-10 -me-1 -mt-1 rounded-xl text-muted hover:text-danger hover:bg-red-50 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
                           title={isEn ? "Remove item" : "حذف العنصر"}
                           aria-label={isEn ? "Remove item" : "حذف العنصر"}
                         >
@@ -193,8 +193,8 @@ export default function CartPage() {
                         )}
                       </div>
                       <button
-                        onClick={() => removeItem(item.product.id)}
-                        className="w-10 h-10 rounded-lg text-muted hover:text-danger hover:bg-red-50 flex items-center justify-center transition-colors shrink-0"
+                        onClick={() => removeItem(item.product.id, item.color, item.curtainType)}
+                        className="w-10 h-10 rounded-lg text-muted hover:text-danger hover:bg-red-50 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
                         title={isEn ? "Remove item" : "حذف العنصر"}
                         aria-label={isEn ? "Remove item" : "حذف العنصر"}
                       >
@@ -207,7 +207,7 @@ export default function CartPage() {
                       <div className="flex items-center border border-surface-dark dark:border-[#2D3748] rounded-xl bg-surface dark:bg-[#1A2230] overflow-hidden">
                         <button
                           onClick={() =>
-                            updateQuantity(item.product.id, item.quantity - 1)
+                            updateQuantity(item.product.id, item.quantity - 1, item.color, item.curtainType)
                           }
                           className="w-10 h-10 flex items-center justify-center hover:bg-white dark:hover:bg-[#232B3C] text-primary transition-colors cursor-pointer"
                           aria-label="Decrease quantity"
@@ -219,7 +219,7 @@ export default function CartPage() {
                         </span>
                         <button
                           onClick={() =>
-                            updateQuantity(item.product.id, item.quantity + 1)
+                            updateQuantity(item.product.id, item.quantity + 1, item.color, item.curtainType)
                           }
                           className="w-10 h-10 flex items-center justify-center hover:bg-white dark:hover:bg-[#232B3C] text-primary transition-colors cursor-pointer"
                           aria-label="Increase quantity"

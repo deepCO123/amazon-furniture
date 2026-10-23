@@ -920,7 +920,7 @@
       "depth": 58
     },
     "weight": 14,
-    "stockQuantity": 15,
+    "stockQuantity": 14,
     "returnCount": 0,
     "totalSold": 0,
     "rating": 4.741386701304714,
@@ -2413,7 +2413,7 @@
       "depth": 200
     },
     "weight": 68,
-    "stockQuantity": 6,
+    "stockQuantity": 5,
     "returnCount": 0,
     "totalSold": 14,
     "rating": 5,

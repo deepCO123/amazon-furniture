@@ -44,6 +44,7 @@ import { useProductStore } from "@/store/productStore";
 import { useToastStore } from "@/components/ui/Toast";
 import { apiClient } from "@/lib/apiClient";
 import { formatPrice } from "@/lib/utils";
+import AdminPagination from "@/components/admin/AdminPagination";
 
 // أنواع بيانات التحليلات
 interface ReturnReasonBreakdown {
@@ -116,6 +117,15 @@ export default function ReturnsIntelligencePage() {
   const [filterRisk, setFilterRisk] = useState<"all" | "high" | "safe">("all");
   const [investigatingProduct, setInvestigatingProduct] = useState<AnalyzedProduct | null>(null);
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  // Reset page to 1 whenever search or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterRisk]);
 
   // التحقق من صلاحية الجلسة
   useEffect(() => {
@@ -275,6 +285,12 @@ export default function ReturnsIntelligencePage() {
       return matchesSearch;
     });
   }, [data, searchTerm, filterRisk]);
+
+  // تقسيم المنتجات لصفحات (Pagination)
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredProducts.slice(start, start + itemsPerPage);
+  }, [filteredProducts, currentPage, itemsPerPage]);
 
   // إعداد بيانات الرسم البياني
   const chartData = useMemo(() => {
@@ -660,8 +676,8 @@ export default function ReturnsIntelligencePage() {
           {/* Table Element */}
           <div className="overflow-x-auto">
             <table className="w-full text-right text-xs">
-              <thead className={`border-b border-inherit font-black uppercase text-slate-400 ${
-                isDark ? "bg-[#10141E]" : "bg-slate-50"
+              <thead className={`border-b border-inherit font-black uppercase ${
+                isDark ? "bg-[#10141E] text-slate-300" : "bg-slate-100 text-slate-700"
               }`}>
                 <tr>
                   <th className="py-3.5 px-4">المنتج</th>
@@ -678,19 +694,19 @@ export default function ReturnsIntelligencePage() {
               <tbody className="divide-y divide-inherit">
                 {loading ? (
                   <tr>
-                    <td colSpan={8} className="py-12 text-center text-slate-400">
-                      <RefreshCw className="animate-spin text-cyan-400 mx-auto mb-2" size={24} />
+                    <td colSpan={8} className={`py-12 text-center ${isDark ? "text-slate-400" : "text-slate-600 font-medium"}`}>
+                      <RefreshCw className="animate-spin text-cyan-500 mx-auto mb-2" size={24} />
                       جاري فحص مؤشرات الأداء والبيانات...
                     </td>
                   </tr>
                 ) : filteredProducts.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="py-12 text-center text-slate-400">
+                    <td colSpan={8} className={`py-12 text-center ${isDark ? "text-slate-400" : "text-slate-600 font-medium"}`}>
                       لا توجد منتجات مطابقة لخيارات الفلترة الحالية.
                     </td>
                   </tr>
                 ) : (
-                  filteredProducts.map((prod) => {
+                  paginatedProducts.map((prod) => {
                     const isCrit = prod.riskLevel === "Critical";
                     const isHigh = prod.isHighRisk;
 
@@ -701,7 +717,7 @@ export default function ReturnsIntelligencePage() {
                           isCrit
                             ? isDark
                               ? "bg-red-950/20 hover:bg-red-950/30"
-                              : "bg-red-50/50 hover:bg-red-50"
+                              : "bg-red-50 hover:bg-red-100/60"
                             : isDark
                             ? "hover:bg-[#161B28]"
                             : "hover:bg-slate-50"
@@ -727,15 +743,15 @@ export default function ReturnsIntelligencePage() {
                               )}
                             </div>
                             <div className="min-w-0 max-w-xs">
-                              <h4 className="font-bold text-slate-200 truncate leading-tight">
+                              <h4 className={`font-bold truncate leading-tight ${isDark ? "text-slate-100" : "text-slate-900"}`}>
                                 {prod.name}
                               </h4>
                               <div className="flex items-center gap-2 mt-1">
-                                <span className="text-[10px] text-slate-400 font-mono">
+                                <span className={`text-[10px] font-mono ${isDark ? "text-slate-400" : "text-slate-500 font-semibold"}`}>
                                   ID: {prod.id}
                                 </span>
                                 {prod.stockQuantity <= 0 && (
-                                  <span className="text-[10px] px-1.5 py-0.2 rounded-md bg-red-500/20 text-red-400 font-bold">
+                                  <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-red-500/20 text-red-600 dark:text-red-400 font-bold">
                                     موقوف / نافد
                                   </span>
                                 )}
@@ -745,21 +761,21 @@ export default function ReturnsIntelligencePage() {
                         </td>
 
                         {/* Category */}
-                        <td className="py-3.5 px-4 text-center font-medium text-slate-300">
+                        <td className={`py-3.5 px-4 text-center font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>
                           {prod.category}
                         </td>
 
                         {/* Price */}
-                        <td className="py-3.5 px-4 text-center font-bold text-slate-300">
+                        <td className={`py-3.5 px-4 text-center font-bold ${isDark ? "text-slate-200" : "text-slate-900"}`}>
                           {formatPrice(prod.price)}
                         </td>
 
                         {/* Sales vs Returns */}
                         <td className="py-3.5 px-4 text-center">
                           <div className="inline-flex items-baseline gap-1 font-mono">
-                            <span className="font-black text-emerald-400">{prod.totalSold} مباع</span>
-                            <span className="text-slate-500">|</span>
-                            <span className="font-black text-red-400">{prod.totalReturned} مرتجع</span>
+                            <span className="font-black text-emerald-600 dark:text-emerald-400">{prod.totalSold} مباع</span>
+                            <span className={isDark ? "text-slate-600" : "text-slate-400"}>|</span>
+                            <span className="font-black text-red-600 dark:text-red-400">{prod.totalReturned} مرتجع</span>
                           </div>
                         </td>
 
@@ -768,10 +784,10 @@ export default function ReturnsIntelligencePage() {
                           <span
                             className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-black border ${
                               isCrit
-                                ? "bg-red-500/20 text-red-400 border-red-500/40 animate-pulse"
+                                ? "bg-red-500/20 text-red-600 dark:text-red-400 border-red-500/40 animate-pulse"
                                 : isHigh
-                                ? "bg-amber-500/20 text-amber-400 border-amber-500/40"
-                                : "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
+                                ? "bg-amber-500/20 text-amber-700 dark:text-amber-400 border-amber-500/40"
+                                : "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30"
                             }`}
                           >
                             {isHigh && <AlertTriangle size={12} />}
@@ -782,16 +798,20 @@ export default function ReturnsIntelligencePage() {
                         {/* Top Reason */}
                         <td className="py-3.5 px-4 text-center">
                           {prod.topReturnReason !== "None" ? (
-                            <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-slate-800 text-amber-300 border border-slate-700">
+                            <span className={`px-2 py-0.5 rounded-md text-[11px] font-bold border ${
+                              isDark
+                                ? "bg-slate-800 text-amber-300 border-slate-700"
+                                : "bg-amber-50 text-amber-900 border-amber-300"
+                            }`}>
                               {prod.returnReasons?.[0]?.ar || prod.topReturnReason}
                             </span>
                           ) : (
-                            <span className="text-slate-500 text-[11px]">—</span>
+                            <span className={`${isDark ? "text-slate-500" : "text-slate-400"} text-[11px]`}>—</span>
                           )}
                         </td>
 
                         {/* Total Loss */}
-                        <td className="py-3.5 px-4 text-center font-mono font-bold text-red-400">
+                        <td className="py-3.5 px-4 text-center font-mono font-bold text-red-600 dark:text-red-400">
                           {prod.totalLoss > 0 ? formatPrice(prod.totalLoss) : "0 ج.م"}
                         </td>
 
@@ -804,7 +824,7 @@ export default function ReturnsIntelligencePage() {
                               className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
                                 isDark
                                   ? "bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30"
-                                  : "bg-cyan-100 hover:bg-cyan-200 text-cyan-800"
+                                  : "bg-cyan-100 hover:bg-cyan-200 text-cyan-800 border border-cyan-300"
                               }`}
                               title="فحص أسباب الاسترجاع والعملاء المتضررين"
                             >
@@ -820,7 +840,7 @@ export default function ReturnsIntelligencePage() {
                                 className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
                                   isDark
                                     ? "bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/40"
-                                    : "bg-red-100 hover:bg-red-200 text-red-800"
+                                    : "bg-red-100 hover:bg-red-200 text-red-800 border border-red-300"
                                 }`}
                                 title="إيقاف بيع المنتج فوراً لحماية الأرباح"
                               >
@@ -834,7 +854,7 @@ export default function ReturnsIntelligencePage() {
                                 className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
                                   isDark
                                     ? "bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40"
-                                    : "bg-emerald-100 hover:bg-emerald-200 text-emerald-800"
+                                    : "bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300"
                                 }`}
                                 title="إعادة تفعيل المنتج في المتجر وتعيين رصيد مخزون"
                               >
@@ -851,6 +871,18 @@ export default function ReturnsIntelligencePage() {
               </tbody>
             </table>
           </div>
+
+          {/* Pagination */}
+          <AdminPagination
+            currentPage={currentPage}
+            totalItems={filteredProducts.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+            onItemsPerPageChange={(n) => {
+              setItemsPerPage(n);
+              setCurrentPage(1);
+            }}
+          />
         </section>
       </main>
 

@@ -55,6 +55,7 @@ import { useToastStore } from "@/components/ui/Toast";
 import Button from "@/components/ui/Button";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useAdminSocket } from "@/hooks/useAdminSocket";
+import AdminPagination from "@/components/admin/AdminPagination";
 
 // Lazy-load heavy admin modals to significantly reduce initial JS bundle size
 const ProductModal = dynamic(() => import("@/components/admin/ProductModal"), {
@@ -96,6 +97,9 @@ export default function AdminDashboardPage() {
   const subcardCls = isDark
     ? "bg-[#151922] border-[#232838]"
     : "bg-slate-50/90 border-slate-200 shadow-xs";
+  const cardCls = isDark
+    ? "bg-[#12151D] border-[#1F2433] text-slate-100 shadow-xs"
+    : "bg-white border-slate-200 text-slate-900 shadow-xs";
   const inputCls = isDark
     ? "bg-[#0E1119] border-[#282E3E] text-white placeholder:text-slate-500"
     : "bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 shadow-xs";
@@ -103,11 +107,13 @@ export default function AdminDashboardPage() {
     ? "bg-[#171B24] border-[#262C3D] text-slate-200"
     : "bg-slate-100 border-slate-200 text-slate-700";
   const textTitle = isDark ? "text-white" : "text-slate-900";
-  const textMuted = isDark ? "text-slate-400" : "text-slate-500";
+  const textMuted = isDark ? "text-slate-400" : "text-slate-600";
   const borderSep = isDark ? "border-[#1F2433]" : "border-slate-200";
   const thCls = isDark
-    ? "bg-[#161B26] text-slate-400 border-[#1F2433]"
+    ? "bg-[#161B26] text-slate-300 border-[#1F2433]"
     : "bg-slate-100 text-slate-700 border-slate-200";
+  const hoverRowCls = isDark ? "hover:bg-[#1A1F2D]" : "hover:bg-slate-50/80";
+  const divideCls = isDark ? "divide-[#1D2230]" : "divide-slate-100";
 
   const addToast = useToastStore((s) => s.addToast);
   const router = useRouter();
@@ -117,6 +123,31 @@ export default function AdminDashboardPage() {
     logout();
     router.push("/auth/login");
   };
+
+  // Pagination State for All Tabs
+  const [productsPage, setProductsPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(10);
+
+  const [customersPage, setCustomersPage] = useState(1);
+  const [customersPerPage, setCustomersPerPage] = useState(10);
+
+  const [ordersPage, setOrdersPage] = useState(1);
+  const [ordersPerPage, setOrdersPerPage] = useState(10);
+
+  const [returnsPage, setReturnsPage] = useState(1);
+  const [returnsPerPage, setReturnsPerPage] = useState(10);
+
+  const [quotationsPage, setQuotationsPage] = useState(1);
+  const [quotationsPerPage, setQuotationsPerPage] = useState(10);
+
+  const [consultationsPage, setConsultationsPage] = useState(1);
+  const [consultationsPerPage, setConsultationsPerPage] = useState(10);
+
+  const [emailsPage, setEmailsPage] = useState(1);
+  const [emailsPerPage, setEmailsPerPage] = useState(10);
+
+  const [customOrdersPage, setCustomOrdersPage] = useState(1);
+  const [customOrdersPerPage, setCustomOrdersPerPage] = useState(10);
 
   // Products Tab State
   const [searchQuery, setSearchQuery] = useState("");
@@ -467,6 +498,74 @@ export default function AdminDashboardPage() {
       );
     });
   }, [consultations, consultationSearch]);
+
+  // Reset pagination to page 1 when search or filters change
+  useEffect(() => { setProductsPage(1); }, [searchQuery, selectedCategory, stockFilter]);
+  useEffect(() => { setCustomersPage(1); }, [customerSearch]);
+  useEffect(() => { setOrdersPage(1); }, [orderSearch]);
+  useEffect(() => { setReturnsPage(1); }, [returnSearch]);
+  useEffect(() => { setQuotationsPage(1); }, [quotationSearch]);
+  useEffect(() => { setConsultationsPage(1); }, [consultationSearch]);
+  useEffect(() => { setEmailsPage(1); }, [emailSearch]);
+  useEffect(() => { setCustomOrdersPage(1); }, [customOrderSearch]);
+
+  // Filtered Custom Orders Memo
+  const filteredCustomOrders = useMemo(() => {
+    return customOrders.filter((c) => {
+      const q = customOrderSearch.toLowerCase();
+      const name = c.customerName || c.fullName || "";
+      const phone = c.customerPhone || c.phone || "";
+      return (
+        name.toLowerCase().includes(q) ||
+        phone.includes(q) ||
+        (c.city && c.city.toLowerCase().includes(q)) ||
+        (c.furnitureType && c.furnitureType.toLowerCase().includes(q)) ||
+        (c.notes && c.notes.toLowerCase().includes(q)) ||
+        (c.id && c.id.toLowerCase().includes(q))
+      );
+    });
+  }, [customOrders, customOrderSearch]);
+
+  // Paginated Data Slices for Tables
+  const paginatedProducts = useMemo(() => {
+    const start = (productsPage - 1) * productsPerPage;
+    return filteredProducts.slice(start, start + productsPerPage);
+  }, [filteredProducts, productsPage, productsPerPage]);
+
+  const paginatedCustomers = useMemo(() => {
+    const start = (customersPage - 1) * customersPerPage;
+    return filteredCustomers.slice(start, start + customersPerPage);
+  }, [filteredCustomers, customersPage, customersPerPage]);
+
+  const paginatedOrders = useMemo(() => {
+    const start = (ordersPage - 1) * ordersPerPage;
+    return filteredOrders.slice(start, start + ordersPerPage);
+  }, [filteredOrders, ordersPage, ordersPerPage]);
+
+  const paginatedReturns = useMemo(() => {
+    const start = (returnsPage - 1) * returnsPerPage;
+    return filteredReturns.slice(start, start + returnsPerPage);
+  }, [filteredReturns, returnsPage, returnsPerPage]);
+
+  const paginatedQuotations = useMemo(() => {
+    const start = (quotationsPage - 1) * quotationsPerPage;
+    return filteredQuotations.slice(start, start + quotationsPerPage);
+  }, [filteredQuotations, quotationsPage, quotationsPerPage]);
+
+  const paginatedConsultations = useMemo(() => {
+    const start = (consultationsPage - 1) * consultationsPerPage;
+    return filteredConsultations.slice(start, start + consultationsPerPage);
+  }, [filteredConsultations, consultationsPage, consultationsPerPage]);
+
+  const paginatedEmails = useMemo(() => {
+    const start = (emailsPage - 1) * emailsPerPage;
+    return filteredEmails.slice(start, start + emailsPerPage);
+  }, [filteredEmails, emailsPage, emailsPerPage]);
+
+  const paginatedCustomOrders = useMemo(() => {
+    const start = (customOrdersPage - 1) * customOrdersPerPage;
+    return filteredCustomOrders.slice(start, start + customOrdersPerPage);
+  }, [filteredCustomOrders, customOrdersPage, customOrdersPerPage]);
 
   // Products Statistics
   const productStats = useMemo(() => {
@@ -1122,7 +1221,7 @@ export default function AdminDashboardPage() {
                       </td>
                     </tr>
                   ) : (
-                    filteredProducts.map((p) => {
+                    paginatedProducts.map((p) => {
                       const qty = p.stockQuantity ?? (p.inStock ? 5 : 0);
                       const isLow = qty > 0 && qty <= 3;
                       const isZero = qty === 0;
@@ -1282,7 +1381,9 @@ export default function AdminDashboardPage() {
                             <div className="flex items-center justify-center gap-1.5 whitespace-nowrap min-w-[120px]">
                               <button
                                 onClick={() => handleOpenEdit(p)}
-                                className="p-2.5 min-w-[38px] min-h-[38px] flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                                className={`p-2.5 min-w-[38px] min-h-[38px] flex items-center justify-center rounded-lg transition-colors cursor-pointer ${
+                                  isDark ? "text-slate-300 hover:text-white hover:bg-slate-800" : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                                }`}
                                 title="تعديل المنتج والمخزون"
                               >
                                 <Edit2 size={16} />
@@ -1291,7 +1392,9 @@ export default function AdminDashboardPage() {
                               <Link
                                 href={`/products/${p.slug}`}
                                 target="_blank"
-                                className="p-2.5 min-w-[38px] min-h-[38px] flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                                className={`p-2.5 min-w-[38px] min-h-[38px] flex items-center justify-center rounded-lg transition-colors ${
+                                  isDark ? "text-slate-300 hover:text-white hover:bg-slate-800" : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                                }`}
                                 title="معاينة في المتجر"
                               >
                                 <Eye size={16} />
@@ -1299,7 +1402,7 @@ export default function AdminDashboardPage() {
 
                               <button
                                 onClick={() => handleOpenDelete(p)}
-                                className="p-2.5 min-w-[38px] min-h-[38px] flex items-center justify-center text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+                                className="p-2.5 min-w-[38px] min-h-[38px] flex items-center justify-center text-red-500 hover:text-red-700 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
                                 title="حذف المنتج"
                               >
                                 <Trash2 size={16} />
@@ -1313,6 +1416,18 @@ export default function AdminDashboardPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Products Pagination */}
+            <AdminPagination
+              currentPage={productsPage}
+              totalItems={filteredProducts.length}
+              itemsPerPage={productsPerPage}
+              onPageChange={setProductsPage}
+              onItemsPerPageChange={(n) => {
+                setProductsPerPage(n);
+                setProductsPage(1);
+              }}
+            />
           </div>
         </div>
       )}
@@ -1329,19 +1444,23 @@ export default function AdminDashboardPage() {
                 <Mail size={22} />
               </div>
               <div>
-                <p className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-2">
+                <p className={`text-xs sm:text-sm font-bold flex items-center gap-2 ${textTitle}`}>
                   <span>إشعارات تسجيل العملاء الجدد مفعلة تلقائياً</span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ${
+                    isDark ? "bg-emerald-950/60 text-emerald-300 border border-emerald-500/40" : "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                  }`}>
                     نشط الآن ✓
                   </span>
                 </p>
-                <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5">
-                  يصلك إشعار فوري بكامل بيانات أي عميل يسجل في متجرك على إيميلك: <strong className="text-slate-900 font-mono underline">khaledeldeep900@gmail.com</strong>
+                <p className={`text-[11px] sm:text-xs mt-0.5 ${textMuted}`}>
+                  يصلك إشعار فوري بكامل بيانات أي عميل يسجل في متجرك على إيميلك: <strong className={`font-mono underline ${textTitle}`}>khaledeldeep900@gmail.com</strong>
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2 shrink-0">
-              <span className="text-xs font-bold text-emerald-900 bg-white border border-emerald-200 px-3.5 py-1.5 rounded-xl shadow-xs">
+              <span className={`text-xs font-bold px-3.5 py-1.5 rounded-xl shadow-xs border ${
+                isDark ? "bg-[#151922] border-emerald-500/40 text-emerald-300" : "bg-white border-emerald-200 text-emerald-900"
+              }`}>
                 إجمالي المسجلين: {customers.length} عميل
               </span>
             </div>
@@ -1349,23 +1468,23 @@ export default function AdminDashboardPage() {
 
           {/* Customer CRM Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500">إجمالي العملاء</span>
-                <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                <span className={`text-xs font-bold ${textMuted}`}>إجمالي العملاء</span>
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${isDark ? "bg-blue-950/60 text-blue-400" : "bg-blue-50 text-blue-600"}`}>
                   <Users size={18} />
                 </div>
               </div>
-              <p className="text-3xl font-extrabold text-slate-900 mt-3">
+              <p className={`text-3xl font-extrabold mt-3 ${textTitle}`}>
                 {customerStats.totalCustomers}
               </p>
               <span className="text-[11px] text-slate-400 mt-1 block">عميل مسجل في قاعدة البيانات</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500">مسجلين بحساب Google</span>
-                <div className="w-8 h-8 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+                <span className={`text-xs font-bold ${textMuted}`}>مسجلين بحساب Google</span>
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${isDark ? "bg-red-950/60 text-red-400" : "bg-red-50 text-red-600"}`}>
                   <svg className="w-4 h-4" viewBox="0 0 24 24">
                     <path
                       fill="#EA4335"
@@ -1386,7 +1505,7 @@ export default function AdminDashboardPage() {
                   </svg>
                 </div>
               </div>
-              <p className="text-3xl font-extrabold text-slate-900 mt-3">
+              <p className={`text-3xl font-extrabold mt-3 ${textTitle}`}>
                 {customerStats.googleUsers}
               </p>
               <span className="text-[11px] text-slate-400 mt-1 block">
@@ -1394,27 +1513,27 @@ export default function AdminDashboardPage() {
               </span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500">إجمالي الأوردرات</span>
-                <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                <span className={`text-xs font-bold ${textMuted}`}>إجمالي الأوردرات</span>
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${isDark ? "bg-purple-950/60 text-purple-400" : "bg-purple-50 text-purple-600"}`}>
                   <ShoppingBag size={18} />
                 </div>
               </div>
-              <p className="text-3xl font-extrabold text-purple-600 mt-3">
+              <p className="text-3xl font-extrabold text-purple-500 dark:text-purple-400 mt-3">
                 {customerStats.totalOrders}
               </p>
               <span className="text-[11px] text-slate-400 mt-1 block">طلب تم تسجيله بالمتجر</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500">إجمالي المبيعات</span>
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <span className={`text-xs font-bold ${textMuted}`}>إجمالي المبيعات</span>
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${isDark ? "bg-emerald-950/60 text-emerald-400" : "bg-emerald-50 text-emerald-600"}`}>
                   <TrendingUp size={18} />
                 </div>
               </div>
-              <p className="text-2xl font-extrabold text-emerald-600 mt-3">
+              <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-3">
                 {formatPrice(customerStats.totalRevenue)}
               </p>
               <span className="text-[11px] text-slate-400 mt-1 block">قيمة مشتريات العملاء</span>
@@ -1422,24 +1541,24 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* Search bar */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className={`${panelCls} p-4 rounded-2xl border flex items-center gap-3`}>
             <div className="relative flex-1">
               <input
                 type="text"
                 value={customerSearch}
                 onChange={(e) => setCustomerSearch(e.target.value)}
                 placeholder="بحث باسم العميل، الإيميل، رقم التليفون، أو المدينة..."
-                className="w-full pl-4 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#C5A880]"
+                className={`w-full pl-4 pr-10 py-2.5 rounded-xl border text-sm focus:outline-none ${inputCls}`}
               />
               <Search size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
             </div>
           </div>
 
           {/* Customers Table */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+          <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
               <table className="w-full text-start text-sm">
-                <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 text-xs font-bold uppercase tracking-wider">
+                <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">العميل</th>
                     <th className="px-6 py-3.5 text-start">بيانات التواصل</th>
@@ -1449,16 +1568,16 @@ export default function AdminDashboardPage() {
                     <th className="px-6 py-3.5 text-center">الإجراء والملف</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className={`divide-y ${divideCls}`}>
                   {filteredCustomers.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="text-center py-12 text-slate-400">
-                        <Users size={36} className="mx-auto mb-2 opacity-40" />
-                        <p className="font-semibold text-slate-600">لا يوجد عملاء مطابقون للبحث</p>
+                        <Users size={36} className="mx-auto mb-2 opacity-40 text-cyan-400" />
+                        <p className={`font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>لا يوجد عملاء مطابقون للبحث</p>
                       </td>
                     </tr>
                   ) : (
-                    filteredCustomers.map((c) => {
+                    paginatedCustomers.map((c) => {
                       const cleanPhone = (c.phone || "").replace(/[^0-9]/g, "");
                       const whatsappUrl = cleanPhone
                         ? `https://wa.me/${cleanPhone.startsWith("0") ? "2" + cleanPhone : cleanPhone}?text=${encodeURIComponent(
@@ -1467,11 +1586,13 @@ export default function AdminDashboardPage() {
                         : null;
 
                       return (
-                        <tr key={c.id} className="hover:bg-slate-50/80 transition-colors">
+                        <tr key={c.id} className={`transition-colors ${hoverRowCls}`}>
                           {/* Avatar & Name */}
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
-                              <div className="relative w-11 h-11 rounded-full overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                              <div className={`relative w-11 h-11 rounded-full overflow-hidden shrink-0 border ${
+                                isDark ? "bg-slate-800 border-slate-700" : "bg-slate-100 border-slate-200"
+                              }`}>
                                 <Image
                                   src={c.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(c.name)}`}
                                   alt={c.name}
@@ -1481,18 +1602,22 @@ export default function AdminDashboardPage() {
                               </div>
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <span className="font-bold text-slate-900 text-sm">{c.name}</span>
+                                  <span className={`font-bold text-sm ${textTitle}`}>{c.name}</span>
                                   {c.provider === "google" ? (
-                                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-50 text-red-600 border border-red-100 flex items-center gap-0.5">
+                                    <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold border flex items-center gap-0.5 ${
+                                      isDark ? "bg-red-950/60 text-red-300 border-red-500/40" : "bg-red-50 text-red-600 border-red-100"
+                                    }`}>
                                       <span>Google</span>
                                     </span>
                                   ) : (
-                                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100 flex items-center gap-0.5">
+                                    <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold border flex items-center gap-0.5 ${
+                                      isDark ? "bg-blue-950/60 text-blue-300 border-blue-500/40" : "bg-blue-50 text-blue-700 border-blue-100"
+                                    }`}>
                                       <span>إيميل شخصي</span>
                                     </span>
                                   )}
                                 </div>
-                                <span className="text-[11px] text-slate-400 block">
+                                <span className={`text-[11px] block ${textMuted}`}>
                                   انضم في:{" "}
                                   {c.createdAt
                                     ? new Date(c.createdAt).toLocaleDateString("ar-EG", {
@@ -1509,14 +1634,14 @@ export default function AdminDashboardPage() {
                           {/* Contact Info */}
                           <td className="px-6 py-4">
                             <div className="space-y-1">
-                              <div className="flex items-center gap-1.5 text-xs text-slate-700">
+                              <div className={`flex items-center gap-1.5 text-xs ${isDark ? "text-slate-300" : "text-slate-700"}`}>
                                 <Mail size={13} className="text-slate-400 shrink-0" />
                                 <span className="font-mono">{c.email}</span>
                               </div>
                               {c.phone && (
-                                <div className="flex items-center gap-1.5 text-xs text-slate-700">
+                                <div className={`flex items-center gap-1.5 text-xs ${isDark ? "text-slate-300" : "text-slate-700"}`}>
                                   <Phone size={13} className="text-slate-400 shrink-0" />
-                                  <span dir="ltr" className="font-mono text-slate-800">
+                                  <span dir="ltr" className={`font-mono font-medium ${isDark ? "text-slate-200" : "text-slate-900"}`}>
                                     {c.phone}
                                   </span>
                                 </div>
@@ -1526,14 +1651,16 @@ export default function AdminDashboardPage() {
 
                           {/* City */}
                           <td className="px-6 py-4">
-                            <span className="text-xs text-slate-700 font-medium">
+                            <span className={`text-xs font-medium ${isDark ? "text-slate-300" : "text-slate-700"}`}>
                               {c.city || "القاهرة الكبرى"}
                             </span>
                           </td>
 
                           {/* Orders Count Badge */}
                           <td className="px-6 py-4 text-center">
-                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                            <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${
+                              isDark ? "bg-purple-950/60 text-purple-300 border-purple-500/40" : "bg-purple-50 text-purple-700 border-purple-200"
+                            }`}>
                               <ShoppingBag size={12} />
                               <span>{c.ordersCount || 0} أوردر</span>
                             </span>
@@ -1541,7 +1668,7 @@ export default function AdminDashboardPage() {
 
                           {/* Total Spent */}
                           <td className="px-6 py-4">
-                            <span className="font-bold text-slate-900 text-sm">
+                            <span className={`font-bold text-sm ${textTitle}`}>
                               {formatPrice(c.totalSpent || 0)}
                             </span>
                           </td>
@@ -1551,7 +1678,9 @@ export default function AdminDashboardPage() {
                             <div className="flex items-center justify-center gap-2">
                               <button
                                 onClick={() => setSelectedCustomer(c)}
-                                className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-colors flex items-center gap-1.5"
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer ${
+                                  isDark ? "bg-cyan-600 hover:bg-cyan-500 text-white" : "bg-slate-900 hover:bg-slate-800 text-white shadow-xs"
+                                }`}
                                 title="عرض ملف العميل وسجل طلباته الكامل"
                               >
                                 <Eye size={14} />
@@ -1563,7 +1692,9 @@ export default function AdminDashboardPage() {
                                   href={whatsappUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="p-2 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors"
+                                  className={`p-2 rounded-xl transition-colors ${
+                                    isDark ? "bg-emerald-950/60 text-emerald-400 hover:bg-emerald-900/60" : "bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
+                                  }`}
                                   title="محادثة واتساب مباشرة"
                                 >
                                   <MessageCircle size={16} />
@@ -1578,6 +1709,18 @@ export default function AdminDashboardPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Customers Pagination */}
+            <AdminPagination
+              currentPage={customersPage}
+              totalItems={filteredCustomers.length}
+              itemsPerPage={customersPerPage}
+              onPageChange={setCustomersPage}
+              onItemsPerPageChange={(n) => {
+                setCustomersPerPage(n);
+                setCustomersPage(1);
+              }}
+            />
           </div>
         </div>
       )}
@@ -1588,24 +1731,24 @@ export default function AdminDashboardPage() {
       {activeTab === "orders" && (
         <div className="space-y-6">
           {/* Order Search */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className={`${panelCls} p-4 rounded-2xl border flex items-center gap-3`}>
             <div className="relative flex-1">
               <input
                 type="text"
                 value={orderSearch}
                 onChange={(e) => setOrderSearch(e.target.value)}
                 placeholder="بحث برقم الطلب (ORD-...)، اسم العميل، أو الهاتف..."
-                className="w-full pl-4 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#C5A880]"
+                className={`w-full pl-4 pr-10 py-2.5 rounded-xl border text-sm focus:outline-none ${inputCls}`}
               />
               <Search size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
             </div>
           </div>
 
           {/* Orders Table */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+          <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
               <table className="w-full text-start text-sm">
-                <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 text-xs font-bold uppercase tracking-wider">
+                <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">رقم وتاريخ الطلب</th>
                     <th className="px-6 py-3.5 text-start">العميل</th>
@@ -1616,16 +1759,16 @@ export default function AdminDashboardPage() {
                     <th className="px-6 py-3.5 text-center">التواصل</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className={`divide-y ${divideCls}`}>
                   {filteredOrders.length === 0 ? (
                     <tr>
                       <td colSpan={7} className="text-center py-12 text-slate-400">
-                        <ShoppingBag size={36} className="mx-auto mb-2 opacity-40" />
-                        <p className="font-semibold text-slate-600">لا توجد طلبات مسجلة حالياً</p>
+                        <ShoppingBag size={36} className="mx-auto mb-2 opacity-40 text-cyan-400" />
+                        <p className={`font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>لا توجد طلبات مسجلة حالياً</p>
                       </td>
                     </tr>
                   ) : (
-                    filteredOrders.map((order) => {
+                    paginatedOrders.map((order) => {
                       const cleanPhone = (order.customerPhone || order.shippingAddress?.phone || "").replace(/[^0-9]/g, "");
                       const whatsappUrl = cleanPhone
                         ? `https://wa.me/${cleanPhone.startsWith("0") ? "2" + cleanPhone : cleanPhone}?text=${encodeURIComponent(
@@ -1634,10 +1777,10 @@ export default function AdminDashboardPage() {
                         : null;
 
                       return (
-                        <tr key={order.id} className="hover:bg-slate-50/80 transition-colors">
+                        <tr key={order.id} className={`transition-colors ${hoverRowCls}`}>
                           {/* Order ID & Date */}
                           <td className="px-6 py-4">
-                            <span className="font-mono font-bold text-slate-900 text-sm block">
+                            <span className={`font-mono font-bold text-sm block ${textTitle}`}>
                               #{order.id}
                             </span>
                             <span className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
@@ -1658,13 +1801,13 @@ export default function AdminDashboardPage() {
 
                           {/* Customer */}
                           <td className="px-6 py-4">
-                            <div className="font-bold text-slate-900 text-sm">
+                            <div className={`font-bold text-sm ${textTitle}`}>
                               {order.customerName || `${order.shippingAddress?.firstName || ""} ${order.shippingAddress?.lastName || ""}`}
                             </div>
-                            <div className="text-xs text-slate-400 font-mono mt-0.5">
+                            <div className={`text-xs font-mono mt-0.5 ${isDark ? "text-slate-300" : "text-slate-600"}`}>
                               {order.customerPhone || order.shippingAddress?.phone}
                             </div>
-                            <div className="text-[11px] text-slate-400 truncate max-w-xs mt-0.5">
+                            <div className={`text-[11px] truncate max-w-xs mt-0.5 ${textMuted}`}>
                               {order.shippingAddress?.city} - {order.shippingAddress?.address}
                             </div>
                           </td>
@@ -1674,7 +1817,9 @@ export default function AdminDashboardPage() {
                             <div className="space-y-1.5">
                               {order.items.map((item, idx) => (
                                 <div key={idx} className="flex items-center gap-2">
-                                  <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                                  <div className={`relative w-8 h-8 rounded-lg overflow-hidden shrink-0 border ${
+                                    isDark ? "bg-slate-800 border-slate-700" : "bg-slate-100 border-slate-200"
+                                  }`}>
                                     <Image
                                       src={item.product?.images?.[0] || "/placeholder.jpg"}
                                       alt={item.product?.name || "قطعة"}
@@ -1682,7 +1827,7 @@ export default function AdminDashboardPage() {
                                       className="object-cover"
                                     />
                                   </div>
-                                  <span className="text-xs text-slate-800 font-medium truncate max-w-[180px]">
+                                  <span className={`text-xs font-medium truncate max-w-[180px] ${isDark ? "text-slate-200" : "text-slate-800"}`}>
                                     {item.product?.name} × {item.quantity}
                                   </span>
                                 </div>
@@ -1692,10 +1837,10 @@ export default function AdminDashboardPage() {
 
                           {/* Total */}
                           <td className="px-6 py-4">
-                            <div className="font-bold text-slate-900 text-sm">
+                            <div className={`font-bold text-sm ${textTitle}`}>
                               {formatPrice(order.total)}
                             </div>
-                            <span className="text-[11px] text-emerald-600 font-medium block">
+                            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium block">
                               شامل التركيب مجاناً ✓
                             </span>
                           </td>
@@ -1705,40 +1850,50 @@ export default function AdminDashboardPage() {
                             <div className="space-y-1 inline-block text-start">
                               {/* Method Badge */}
                               {order.paymentMethod === "instapay" ? (
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${
+                                  isDark ? "bg-indigo-950/60 text-indigo-300 border-indigo-500/40" : "bg-indigo-50 text-indigo-700 border-indigo-200"
+                                }`}>
                                   <span>⚡ إنستاباي</span>
                                 </span>
                               ) : order.paymentMethod === "wallet" ? (
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-red-50 text-red-700 border border-red-200">
+                                <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${
+                                  isDark ? "bg-red-950/60 text-red-300 border-red-500/40" : "bg-red-50 text-red-700 border-red-200"
+                                }`}>
                                   <span>📱 محفظة كاش</span>
                                 </span>
                               ) : order.paymentMethod === "card" ? (
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                                <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${
+                                  isDark ? "bg-blue-950/60 text-blue-300 border-blue-500/40" : "bg-blue-50 text-blue-700 border-blue-200"
+                                }`}>
                                   <span>💳 فيزا / Paymob</span>
                                 </span>
                               ) : order.paymentMethod === "fawry" ? (
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                                <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${
+                                  isDark ? "bg-amber-950/60 text-amber-300 border-amber-500/40" : "bg-amber-50 text-amber-700 border-amber-200"
+                                }`}>
                                   <span>🔢 فوري باي</span>
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${
+                                  isDark ? "bg-emerald-950/60 text-emerald-300 border-emerald-500/40" : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                }`}>
                                   <span>💵 عند الاستلام</span>
                                 </span>
                               )}
 
                               {/* Details Tag */}
                               {order.paymentDetails?.transactionRef && (
-                                <span className="block text-[10px] text-slate-500 font-mono">
+                                <span className={`block text-[10px] font-mono ${textMuted}`}>
                                   مرجع: {order.paymentDetails.transactionRef}
                                 </span>
                               )}
                               {order.paymentDetails?.walletPhone && (
-                                <span className="block text-[10px] text-slate-500 font-mono" dir="ltr">
+                                <span className={`block text-[10px] font-mono ${textMuted}`} dir="ltr">
                                   📞 {order.paymentDetails.walletPhone}
                                 </span>
                               )}
                               {order.paymentDetails?.fawryCode && (
-                                <span className="block text-[10px] text-amber-700 font-mono font-bold">
+                                <span className="block text-[10px] text-amber-600 dark:text-amber-400 font-mono font-bold">
                                   كود: {order.paymentDetails.fawryCode}
                                 </span>
                               )}
@@ -1748,7 +1903,11 @@ export default function AdminDashboardPage() {
                                 <button
                                   type="button"
                                   onClick={() => setViewingReceiptOrder(order)}
-                                  className="inline-flex items-center gap-1.5 px-2 py-0.5 mt-1 rounded text-[11px] font-bold bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-300 transition-all cursor-pointer shadow-2xs"
+                                  className={`inline-flex items-center gap-1.5 px-2 py-0.5 mt-1 rounded text-[11px] font-bold border transition-all cursor-pointer shadow-2xs ${
+                                    isDark
+                                      ? "bg-amber-950/60 text-amber-300 border-amber-500/40 hover:bg-amber-900/60"
+                                      : "bg-amber-50 text-amber-800 hover:bg-amber-100 border-amber-300"
+                                  }`}
                                   title="فحص ومراجعة سكرين شوت التحويل"
                                 >
                                   <Eye size={12} />
@@ -1759,15 +1918,21 @@ export default function AdminDashboardPage() {
                               {/* Payment Status */}
                               <div className="pt-0.5">
                                 {order.paymentStatus === "paid" ? (
-                                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${
+                                    isDark ? "bg-emerald-950/60 text-emerald-300 border-emerald-500/40" : "bg-emerald-50 text-emerald-600 border-emerald-200"
+                                  }`}>
                                     مدفوع ✓
                                   </span>
                                 ) : order.paymentStatus === "verified" ? (
-                                  <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">
+                                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${
+                                    isDark ? "bg-blue-950/60 text-blue-300 border-blue-500/40" : "bg-blue-50 text-blue-600 border-blue-200"
+                                  }`}>
                                     تم التحقق ✓
                                   </span>
                                 ) : (
-                                  <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
+                                  <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
+                                    isDark ? "bg-slate-800 text-slate-300 border border-slate-700" : "bg-slate-100 text-slate-600"
+                                  }`}>
                                     معلق / عند الاستلام
                                   </span>
                                 )}
@@ -1797,35 +1962,35 @@ export default function AdminDashboardPage() {
                               }}
                               className={`text-xs font-bold px-3 py-1.5 rounded-full border cursor-pointer outline-none transition-colors ${
                                 order.status === "delivered"
-                                  ? "bg-emerald-50 text-emerald-700 border-emerald-300"
+                                  ? isDark ? "bg-emerald-950/60 text-emerald-300 border-emerald-500/40" : "bg-emerald-50 text-emerald-700 border-emerald-300"
                                   : order.status === "under_production"
-                                  ? "bg-purple-50 text-purple-700 border-purple-300"
+                                  ? isDark ? "bg-purple-950/60 text-purple-300 border-purple-500/40" : "bg-purple-50 text-purple-700 border-purple-300"
                                   : order.status === "qc_passed"
-                                  ? "bg-teal-50 text-teal-700 border-teal-300"
+                                  ? isDark ? "bg-teal-950/60 text-teal-300 border-teal-500/40" : "bg-teal-50 text-teal-700 border-teal-300"
                                   : order.status === "ready_for_dispatch"
-                                  ? "bg-indigo-50 text-indigo-700 border-indigo-300"
+                                  ? isDark ? "bg-indigo-950/60 text-indigo-300 border-indigo-500/40" : "bg-indigo-50 text-indigo-700 border-indigo-300"
                                   : order.status === "scheduled_delivery"
-                                  ? "bg-sky-50 text-sky-700 border-sky-300"
+                                  ? isDark ? "bg-sky-950/60 text-sky-300 border-sky-500/40" : "bg-sky-50 text-sky-700 border-sky-300"
                                   : order.status === "confirmed"
-                                  ? "bg-cyan-50 text-cyan-700 border-cyan-300"
+                                  ? isDark ? "bg-cyan-950/60 text-cyan-300 border-cyan-500/40" : "bg-cyan-50 text-cyan-700 border-cyan-300"
                                   : order.status === "shipped"
-                                  ? "bg-blue-50 text-blue-700 border-blue-300"
+                                  ? isDark ? "bg-blue-950/60 text-blue-300 border-blue-500/40" : "bg-blue-50 text-blue-700 border-blue-300"
                                   : order.status === "cancelled"
-                                  ? "bg-rose-50 text-rose-700 border-rose-300"
-                                  : "bg-amber-50 text-amber-700 border-amber-300"
+                                  ? isDark ? "bg-rose-950/60 text-rose-300 border-rose-500/40" : "bg-rose-50 text-rose-700 border-rose-300"
+                                  : isDark ? "bg-amber-950/60 text-amber-300 border-amber-500/40" : "bg-amber-50 text-amber-700 border-amber-300"
                               }`}
                             >
-                              <option value="under_review">تحت المراجعة</option>
-                              <option value="pending">قيد الانتظار</option>
-                              <option value="confirmed">تم التأكيد والعربون</option>
-                              <option value="under_production">قيد التصنيع بالورشة</option>
-                              <option value="qc_passed">اجتياز فحص الجودة</option>
-                              <option value="ready_for_dispatch">جاهز بالمخزن للشحن</option>
-                              <option value="scheduled_delivery">مجدول للتوصيل والتركيب</option>
-                              <option value="processing">قيد التجهيز</option>
-                              <option value="shipped">جاري الشحن</option>
-                              <option value="delivered">تم التسليم والتركيب</option>
-                              <option value="cancelled">ملغي</option>
+                              <option value="under_review" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>تحت المراجعة</option>
+                              <option value="pending" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>قيد الانتظار</option>
+                              <option value="confirmed" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>تم التأكيد والعربون</option>
+                              <option value="under_production" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>قيد التصنيع بالورشة</option>
+                              <option value="qc_passed" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>اجتياز فحص الجودة</option>
+                              <option value="ready_for_dispatch" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>جاهز بالمخزن للشحن</option>
+                              <option value="scheduled_delivery" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>مجدول للتوصيل والتركيب</option>
+                              <option value="processing" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>قيد التجهيز</option>
+                              <option value="shipped" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>جاري الشحن</option>
+                              <option value="delivered" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>تم التسليم والتركيب</option>
+                              <option value="cancelled" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>ملغي</option>
                             </select>
                           </td>
 
@@ -1836,7 +2001,9 @@ export default function AdminDashboardPage() {
                                 href={whatsappUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold transition-colors"
+                                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
+                                  isDark ? "bg-emerald-950/60 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-900/60" : "bg-emerald-50 hover:bg-emerald-100 text-emerald-700"
+                                }`}
                               >
                                 <MessageCircle size={14} />
                                 <span>واتساب</span>
@@ -1852,6 +2019,18 @@ export default function AdminDashboardPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Orders Pagination */}
+            <AdminPagination
+              currentPage={ordersPage}
+              totalItems={filteredOrders.length}
+              itemsPerPage={ordersPerPage}
+              onPageChange={setOrdersPage}
+              onItemsPerPageChange={(n) => {
+                setOrdersPerPage(n);
+                setOrdersPage(1);
+              }}
+            />
           </div>
         </div>
       )}
@@ -1863,56 +2042,56 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           {/* Stats Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">إجمالي طلبات الارتجاع</span>
-              <div className="text-2xl font-black text-slate-900 mt-1">{returns.length}</div>
-              <span className="text-[11px] text-purple-700 font-semibold mt-1 block">تتبع لوجستي عكسي</span>
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>إجمالي طلبات الارتجاع</span>
+              <div className={`text-2xl font-black mt-1 ${textTitle}`}>{returns.length}</div>
+              <span className="text-[11px] text-purple-600 dark:text-purple-400 font-semibold mt-1 block">تتبع لوجستي عكسي</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">قيد الفحص والمعاينة</span>
-              <div className="text-2xl font-black text-amber-600 mt-1">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>قيد الفحص والمعاينة</span>
+              <div className="text-2xl font-black text-amber-600 dark:text-amber-400 mt-1">
                 {returns.filter((r) => r.status === "pending_review").length}
               </div>
-              <span className="text-[11px] text-slate-400 mt-1 block">تحت إشراف فني الجودة</span>
+              <span className={`text-[11px] mt-1 block ${textMuted}`}>تحت إشراف فني الجودة</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">معروضات وتصفيات Outlet</span>
-              <div className="text-2xl font-black text-emerald-600 mt-1">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>معروضات وتصفيات Outlet</span>
+              <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">
                 {returns.filter((r) => r.status === "outlet_restocked").length}
               </div>
-              <span className="text-[11px] text-emerald-700 font-semibold mt-1 block">أعيد إدراجها للمخزن بخصم</span>
+              <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1 block">أعيد إدراجها للمخزن بخصم</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">إجمالي مبالغ المرتجعات</span>
-              <div className="text-2xl font-black text-slate-900 mt-1">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>إجمالي مبالغ المرتجعات</span>
+              <div className={`text-2xl font-black mt-1 ${textTitle}`}>
                 {formatPrice(returns.reduce((sum, r) => sum + (r.price || 0), 0))}
               </div>
-              <span className="text-[11px] text-slate-400 mt-1 block">معدل ارتداد منخفض 1.6%</span>
+              <span className={`text-[11px] mt-1 block ${textMuted}`}>معدل ارتداد منخفض 1.6%</span>
             </div>
           </div>
 
           {/* Search */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className={`${panelCls} p-4 rounded-2xl border flex items-center gap-3`}>
             <div className="relative flex-1">
               <input
                 type="text"
                 value={returnSearch}
                 onChange={(e) => setReturnSearch(e.target.value)}
                 placeholder="بحث برقم المرتجع، رقم الطلب، اسم العميل، أو القطعة..."
-                className="w-full pl-4 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#C5A880]"
+                className={`w-full pl-4 pr-10 py-2.5 rounded-xl border text-sm focus:outline-none ${inputCls}`}
               />
               <Search size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
             </div>
           </div>
 
           {/* Table */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+          <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
               <table className="w-full text-start text-sm">
-                <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 text-xs font-bold uppercase tracking-wider">
+                <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">رقم المرتجع والأوردر</th>
                     <th className="px-6 py-3.5 text-start">العميل والتواصل</th>
@@ -1922,23 +2101,23 @@ export default function AdminDashboardPage() {
                     <th className="px-6 py-3.5 text-center">الإجراء اللوجستي</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className={`divide-y ${divideCls}`}>
                   {returnsLoading ? (
                     <tr>
                       <td colSpan={6} className="text-center py-12 text-slate-400">
-                        <RefreshCw size={24} className="mx-auto mb-2 animate-spin text-[#C5A880]" />
-                        <p className="font-semibold text-slate-600">جاري تحميل سجل المرتجعات...</p>
+                        <RefreshCw size={24} className="mx-auto mb-2 animate-spin text-cyan-500" />
+                        <p className={`font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>جاري تحميل سجل المرتجعات...</p>
                       </td>
                     </tr>
                   ) : filteredReturns.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="text-center py-12 text-slate-400">
-                        <RotateCcw size={36} className="mx-auto mb-2 opacity-40 text-purple-600" />
-                        <p className="font-semibold text-slate-600">لا توجد طلبات مرتجعات مطابقة</p>
+                        <RotateCcw size={36} className="mx-auto mb-2 opacity-40 text-purple-500" />
+                        <p className={`font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>لا توجد طلبات مرتجعات مطابقة</p>
                       </td>
                     </tr>
                   ) : (
-                    filteredReturns.map((ret) => {
+                    paginatedReturns.map((ret) => {
                       const cleanPhone = (ret.customerPhone || "").replace(/[^0-9]/g, "");
                       const whatsappUrl = cleanPhone
                         ? `https://wa.me/${cleanPhone.startsWith("0") ? "2" + cleanPhone : cleanPhone}?text=${encodeURIComponent(
@@ -1947,13 +2126,13 @@ export default function AdminDashboardPage() {
                         : null;
 
                       return (
-                        <tr key={ret.id} className="hover:bg-slate-50/80 transition-colors">
+                        <tr key={ret.id} className={`transition-colors ${hoverRowCls}`}>
                           {/* ID & Order */}
                           <td className="px-6 py-4">
-                            <span className="font-mono font-bold text-slate-900 text-sm block">
+                            <span className={`font-mono font-bold text-sm block ${textTitle}`}>
                               #{ret.id}
                             </span>
-                            <span className="text-xs text-amber-800 font-mono font-semibold">
+                            <span className="text-xs text-amber-600 dark:text-amber-400 font-mono font-semibold">
                               طلب: #{ret.orderId}
                             </span>
                             <span className="text-[11px] text-slate-400 block mt-0.5">
@@ -1963,9 +2142,9 @@ export default function AdminDashboardPage() {
 
                           {/* Customer */}
                           <td className="px-6 py-4">
-                            <div className="font-bold text-slate-900 text-sm">{ret.customerName}</div>
+                            <div className={`font-bold text-sm ${textTitle}`}>{ret.customerName}</div>
                             {ret.customerPhone && (
-                              <div className="text-xs text-slate-500 font-mono mt-0.5" dir="ltr">
+                              <div className={`text-xs font-mono mt-0.5 ${textMuted}`} dir="ltr">
                                 {ret.customerPhone}
                               </div>
                             )}
@@ -1974,7 +2153,7 @@ export default function AdminDashboardPage() {
                                 href={whatsappUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] text-emerald-700 font-bold hover:underline mt-1"
+                                className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-bold hover:underline mt-1"
                               >
                                 <MessageCircle size={12} />
                                 <span>محادثة واتساب للمعاينة</span>
@@ -1984,8 +2163,8 @@ export default function AdminDashboardPage() {
 
                           {/* Product & Price */}
                           <td className="px-6 py-4">
-                            <div className="font-bold text-slate-900 text-sm">{ret.productName}</div>
-                            <span className="text-xs font-mono font-bold text-amber-700">
+                            <div className={`font-bold text-sm ${textTitle}`}>{ret.productName}</div>
+                            <span className="text-xs font-mono font-bold text-amber-600 dark:text-amber-400">
                               {formatPrice(ret.price)}
                             </span>
                           </td>
@@ -1993,14 +2172,14 @@ export default function AdminDashboardPage() {
                           {/* Reason */}
                           <td className="px-6 py-4 max-w-xs">
                             <span
-                              className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-bold mb-1 ${
+                              className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-bold mb-1 border ${
                                 ret.reason === "size_mismatch"
-                                  ? "bg-amber-100 text-amber-800"
+                                  ? isDark ? "bg-amber-950/60 text-amber-300 border-amber-500/40" : "bg-amber-100 text-amber-800 border-amber-200"
                                   : ret.reason === "shipping_damage"
-                                  ? "bg-red-100 text-red-800"
+                                  ? isDark ? "bg-red-950/60 text-red-300 border-red-500/40" : "bg-red-100 text-red-800 border-red-200"
                                   : ret.reason === "color_mismatch"
-                                  ? "bg-blue-100 text-blue-800"
-                                  : "bg-slate-100 text-slate-700"
+                                  ? isDark ? "bg-blue-950/60 text-blue-300 border-blue-500/40" : "bg-blue-100 text-blue-800 border-blue-200"
+                                  : isDark ? "bg-slate-800 text-slate-300 border-slate-700" : "bg-slate-100 text-slate-700 border-slate-200"
                               }`}
                             >
                               {ret.reason === "size_mismatch"
@@ -2013,7 +2192,7 @@ export default function AdminDashboardPage() {
                                 ? "عيب تصنيع بالخشب"
                                 : "طلب العميل"}
                             </span>
-                            <p className="text-xs text-slate-600 line-clamp-2">{ret.reasonDetails}</p>
+                            <p className={`text-xs line-clamp-2 ${textMuted}`}>{ret.reasonDetails}</p>
                           </td>
 
                           {/* Status */}
@@ -2038,21 +2217,21 @@ export default function AdminDashboardPage() {
                               }}
                               className={`text-xs font-bold px-3 py-1.5 rounded-full border cursor-pointer outline-none ${
                                 ret.status === "outlet_restocked"
-                                  ? "bg-emerald-50 text-emerald-700 border-emerald-300"
+                                  ? isDark ? "bg-emerald-950/60 text-emerald-300 border-emerald-500/40" : "bg-emerald-50 text-emerald-700 border-emerald-300"
                                   : ret.status === "inspection_approved"
-                                  ? "bg-blue-50 text-blue-700 border-blue-300"
+                                  ? isDark ? "bg-blue-950/60 text-blue-300 border-blue-500/40" : "bg-blue-50 text-blue-700 border-blue-300"
                                   : ret.status === "refunded"
-                                  ? "bg-purple-50 text-purple-700 border-purple-300"
+                                  ? isDark ? "bg-purple-950/60 text-purple-300 border-purple-500/40" : "bg-purple-50 text-purple-700 border-purple-300"
                                   : ret.status === "rejected"
-                                  ? "bg-rose-50 text-rose-700 border-rose-300"
-                                  : "bg-amber-50 text-amber-700 border-amber-300"
+                                  ? isDark ? "bg-rose-950/60 text-rose-300 border-rose-500/40" : "bg-rose-50 text-rose-700 border-rose-300"
+                                  : isDark ? "bg-amber-950/60 text-amber-300 border-amber-500/40" : "bg-amber-50 text-amber-700 border-amber-300"
                               }`}
                             >
-                              <option value="pending_review">قيد المراجعة والمعاينة</option>
-                              <option value="inspection_approved">تمت الموافقة على الاستلام</option>
-                              <option value="outlet_restocked">تم التحويل لـ Outlet</option>
-                              <option value="refunded">تم استرداد المبلغ</option>
-                              <option value="rejected">مرفوض</option>
+                              <option value="pending_review" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>قيد المراجعة والمعاينة</option>
+                              <option value="inspection_approved" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>تمت الموافقة على الاستلام</option>
+                              <option value="outlet_restocked" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>تم التحويل لـ Outlet</option>
+                              <option value="refunded" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>تم استرداد المبلغ</option>
+                              <option value="rejected" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>مرفوض</option>
                             </select>
                           </td>
 
@@ -2079,13 +2258,19 @@ export default function AdminDashboardPage() {
                                     addToast("تعذر التحديث", "error");
                                   }
                                 }}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold transition-colors border border-amber-200 cursor-pointer"
+                                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-colors border cursor-pointer ${
+                                  isDark
+                                    ? "bg-amber-950/60 hover:bg-amber-900/60 text-amber-300 border-amber-500/40"
+                                    : "bg-amber-50 hover:bg-amber-100 text-amber-800 border-amber-200"
+                                }`}
                               >
                                 <RotateCcw size={13} />
                                 <span>تحويل لقسم Outlet</span>
                               </button>
                             ) : (
-                              <span className="text-xs text-emerald-700 font-bold bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                              <span className={`text-xs font-bold px-3 py-1 rounded-full border ${
+                                isDark ? "bg-emerald-950/60 text-emerald-300 border-emerald-500/40" : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                              }`}>
                                 بالمخزن (Outlet ✓)
                               </span>
                             )}
@@ -2097,6 +2282,18 @@ export default function AdminDashboardPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Returns Pagination */}
+            <AdminPagination
+              currentPage={returnsPage}
+              totalItems={filteredReturns.length}
+              itemsPerPage={returnsPerPage}
+              onPageChange={setReturnsPage}
+              onItemsPerPageChange={(n) => {
+                setReturnsPerPage(n);
+                setReturnsPage(1);
+              }}
+            />
           </div>
         </div>
       )}
@@ -2108,23 +2305,23 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           {/* Stats Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">عروض الأسعار المسجلة</span>
-              <div className="text-2xl font-black text-slate-900 mt-1">{quotations.length}</div>
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>عروض الأسعار المسجلة</span>
+              <div className={`text-2xl font-black mt-1 ${textTitle}`}>{quotations.length}</div>
               <span className="text-[11px] text-slate-400 mt-1 block">تجهيز شركات وفلل وعرائس</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">إجمالي مبالغ العروض المقدمة</span>
-              <div className="text-2xl font-black text-amber-700 mt-1">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>إجمالي مبالغ العروض المقدمة</span>
+              <div className="text-2xl font-black text-amber-600 dark:text-amber-400 mt-1">
                 {formatPrice(quotations.reduce((sum, q) => sum + (q.total || 0), 0))}
               </div>
-              <span className="text-[11px] text-emerald-600 font-semibold mt-1 block">شامل الخصومات والتركيب</span>
+              <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1 block">شامل الخصومات والتركيب</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs col-span-2 lg:col-span-1">
-              <span className="text-xs text-slate-500 font-bold block">متوسط قيمة العرض</span>
-              <div className="text-2xl font-black text-slate-900 mt-1">
+            <div className={`${cardCls} p-5 rounded-2xl border col-span-2 lg:col-span-1`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>متوسط قيمة العرض</span>
+              <div className={`text-2xl font-black mt-1 ${textTitle}`}>
                 {quotations.length > 0
                   ? formatPrice(Math.round(quotations.reduce((sum, q) => sum + (q.total || 0), 0) / quotations.length))
                   : "0 ج.م"}
@@ -2134,24 +2331,24 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* Quotations Search */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className={`${panelCls} p-4 rounded-2xl border flex items-center gap-3`}>
             <div className="relative flex-1">
               <input
                 type="text"
                 value={quotationSearch}
                 onChange={(e) => setQuotationSearch(e.target.value)}
                 placeholder="بحث برقم عرض السعر، اسم العميل، الشركة، أو الهاتف..."
-                className="w-full pl-4 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#C5A880]"
+                className={`w-full pl-4 pr-10 py-2.5 rounded-xl border text-sm focus:outline-none ${inputCls}`}
               />
               <Search size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
             </div>
           </div>
 
           {/* Quotations Table */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+          <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
               <table className="w-full text-start text-sm">
-                <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 text-xs font-bold uppercase tracking-wider">
+                <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">رقم وتاريخ العرض</th>
                     <th className="px-6 py-3.5 text-start">العميل / الشركة</th>
@@ -2161,23 +2358,23 @@ export default function AdminDashboardPage() {
                     <th className="px-6 py-3.5 text-center">الإجراءات والطباعة</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className={`divide-y ${divideCls}`}>
                   {quotationsLoading ? (
                     <tr>
                       <td colSpan={6} className="text-center py-12 text-slate-400">
-                        <RefreshCw size={24} className="mx-auto mb-2 animate-spin text-[#C5A880]" />
-                        <p className="font-semibold text-slate-600">جاري تحميل عروض الأسعار...</p>
+                        <RefreshCw size={24} className="mx-auto mb-2 animate-spin text-cyan-500" />
+                        <p className={`font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>جاري تحميل عروض الأسعار...</p>
                       </td>
                     </tr>
                   ) : filteredQuotations.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="text-center py-12 text-slate-400">
-                        <FileText size={36} className="mx-auto mb-2 opacity-40 text-amber-600" />
-                        <p className="font-semibold text-slate-600">لا توجد عروض أسعار مسجلة</p>
+                        <FileText size={36} className="mx-auto mb-2 opacity-40 text-amber-500" />
+                        <p className={`font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>لا توجد عروض أسعار مسجلة</p>
                       </td>
                     </tr>
                   ) : (
-                    filteredQuotations.map((q) => {
+                    paginatedQuotations.map((q) => {
                       const cleanPhone = (q.customerPhone || "").replace(/[^0-9]/g, "");
                       const whatsappUrl = cleanPhone
                         ? `https://wa.me/${cleanPhone.startsWith("0") ? "2" + cleanPhone : cleanPhone}?text=${encodeURIComponent(
@@ -2186,9 +2383,9 @@ export default function AdminDashboardPage() {
                         : null;
 
                       return (
-                        <tr key={q.id} className="hover:bg-slate-50/80 transition-colors">
+                        <tr key={q.id} className={`transition-colors ${hoverRowCls}`}>
                           <td className="px-6 py-4">
-                            <span className="font-mono font-bold text-slate-900 text-sm block">
+                            <span className={`font-mono font-bold text-sm block ${textTitle}`}>
                               #{q.id}
                             </span>
                             <span className="text-[11px] text-slate-400 block mt-0.5">
@@ -2197,11 +2394,11 @@ export default function AdminDashboardPage() {
                           </td>
 
                           <td className="px-6 py-4">
-                            <div className="font-bold text-slate-900 text-sm">{q.customerName}</div>
+                            <div className={`font-bold text-sm ${textTitle}`}>{q.customerName}</div>
                             {q.companyName && (
-                              <div className="text-xs text-slate-500">{q.companyName}</div>
+                              <div className={`text-xs ${textMuted}`}>{q.companyName}</div>
                             )}
-                            <div className="text-xs text-slate-400 font-mono mt-0.5" dir="ltr">
+                            <div className={`text-xs font-mono mt-0.5 ${textMuted}`} dir="ltr">
                               {q.customerPhone}
                             </div>
                           </td>
@@ -2209,7 +2406,7 @@ export default function AdminDashboardPage() {
                           <td className="px-6 py-4">
                             <div className="space-y-1">
                               {q.items.map((it, idx) => (
-                                <div key={idx} className="text-xs text-slate-700 font-medium truncate max-w-[200px]">
+                                <div key={idx} className={`text-xs font-medium truncate max-w-[200px] ${isDark ? "text-slate-300" : "text-slate-700"}`}>
                                   • {it.product?.name} × {it.quantity}
                                 </div>
                               ))}
@@ -2217,16 +2414,18 @@ export default function AdminDashboardPage() {
                           </td>
 
                           <td className="px-6 py-4">
-                            <div className="font-bold text-slate-900 text-sm">{formatPrice(q.total)}</div>
+                            <div className={`font-bold text-sm ${textTitle}`}>{formatPrice(q.total)}</div>
                             {q.discount > 0 && (
-                              <span className="text-[11px] text-emerald-600 block">
+                              <span className="text-[11px] text-emerald-600 dark:text-emerald-400 block">
                                 وفر: {formatPrice(q.discount)}
                               </span>
                             )}
                           </td>
 
                           <td className="px-6 py-4 text-center">
-                            <span className="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-full">
+                            <span className={`text-xs font-bold px-3 py-1 rounded-full border ${
+                              isDark ? "bg-slate-800 text-slate-300 border-slate-700" : "bg-slate-100 text-slate-700 border-slate-200"
+                            }`}>
                               حتى {new Date(q.validUntil).toLocaleDateString("ar-EG")}
                             </span>
                           </td>
@@ -2235,7 +2434,9 @@ export default function AdminDashboardPage() {
                             <div className="flex items-center justify-center gap-2">
                               <button
                                 onClick={() => setSelectedQuotation(q)}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-colors cursor-pointer shadow-xs"
+                                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
+                                  isDark ? "bg-cyan-600 hover:bg-cyan-500 text-white" : "bg-slate-900 hover:bg-slate-800 text-white shadow-xs"
+                                }`}
                                 title="معاينة وطباعة العرض PDF"
                               >
                                 <Printer size={13} />
@@ -2247,7 +2448,9 @@ export default function AdminDashboardPage() {
                                   href={whatsappUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="p-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors"
+                                  className={`p-1.5 rounded-xl transition-colors ${
+                                    isDark ? "bg-emerald-950/60 text-emerald-400 hover:bg-emerald-900/60" : "bg-emerald-50 hover:bg-emerald-100 text-emerald-700"
+                                  }`}
                                   title="إرسال عبر الواتساب"
                                 >
                                   <MessageCircle size={16} />
@@ -2262,6 +2465,18 @@ export default function AdminDashboardPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Quotations Pagination */}
+            <AdminPagination
+              currentPage={quotationsPage}
+              totalItems={filteredQuotations.length}
+              itemsPerPage={quotationsPerPage}
+              onPageChange={setQuotationsPage}
+              onItemsPerPageChange={(n) => {
+                setQuotationsPerPage(n);
+                setQuotationsPage(1);
+              }}
+            />
           </div>
         </div>
       )}
@@ -2273,40 +2488,40 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           {/* Top Metrics Row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">إجمالي طلبات الاستشارة</span>
-              <div className="text-3xl font-black text-slate-900 mt-1">{consultations.length}</div>
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>إجمالي طلبات الاستشارة</span>
+              <div className={`text-3xl font-black mt-1 ${textTitle}`}>{consultations.length}</div>
               <span className="text-[11px] text-slate-400 mt-1 block">من الموقع ومحادثات الواتساب</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">معاينات ميدانية (المنصورة)</span>
-              <div className="text-3xl font-black text-emerald-600 mt-1">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>معاينات ميدانية (المنصورة)</span>
+              <div className="text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1">
                 {consultations.filter((c) => c.consultType === "mansoura").length}
               </div>
-              <span className="text-[11px] text-emerald-700 font-medium mt-1 block">زيارات وفحص خامات مجاني</span>
+              <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-1 block">زيارات وفحص خامات مجاني</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">ميتنج فيديو أونلاين</span>
-              <div className="text-3xl font-black text-blue-600 mt-1">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>ميتنج فيديو أونلاين</span>
+              <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mt-1">
                 {consultations.filter((c) => c.consultType === "online").length}
               </div>
-              <span className="text-[11px] text-blue-700 font-medium mt-1 block">للمحافظات وخارج مصر</span>
+              <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-1 block">للمحافظات وخارج مصر</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">طلبات جديدة للمتابعة</span>
-              <div className="text-3xl font-black text-amber-600 mt-1">
+            <div className={`${cardCls} p-5 rounded-2xl border`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>طلبات جديدة للمتابعة</span>
+              <div className="text-3xl font-black text-amber-600 dark:text-amber-400 mt-1">
                 {consultations.filter((c) => c.status === "new").length}
               </div>
-              <span className="text-[11px] text-amber-700 font-medium mt-1 block">تتطلب اتصال أو رسالة تأكيد</span>
+              <span className="text-[11px] text-amber-600 dark:text-amber-400 font-medium mt-1 block">تتطلب اتصال أو رسالة تأكيد</span>
             </div>
           </div>
 
           {/* Table Container */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-            <div className="p-4 sm:p-5 border-b border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
+            <div className={`p-4 sm:p-5 border-b flex flex-col sm:flex-row items-center justify-between gap-4 ${borderSep}`}>
               <div className="relative w-full sm:w-96">
                 <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                 <input
@@ -2314,7 +2529,7 @@ export default function AdminDashboardPage() {
                   placeholder="ابحث بالاسم، الهاتف، العنوان، نوع المكان..."
                   value={consultationSearch}
                   onChange={(e) => setConsultationSearch(e.target.value)}
-                  className="w-full pl-4 pr-10 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#8B6E45]"
+                  className={`w-full pl-4 pr-10 py-2 rounded-xl border text-xs sm:text-sm focus:outline-none ${inputCls}`}
                 />
               </div>
 
@@ -2322,9 +2537,9 @@ export default function AdminDashboardPage() {
                 <button
                   onClick={loadConsultations}
                   disabled={consultationsLoading}
-                  className="px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-1.5"
+                  className={`px-3.5 py-2 rounded-xl border text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer ${chipCls}`}
                 >
-                  <RefreshCw size={13} className={consultationsLoading ? "animate-spin text-[#8B6E45]" : ""} />
+                  <RefreshCw size={13} className={consultationsLoading ? "animate-spin text-cyan-500" : ""} />
                   <span>تحديث البيانات</span>
                 </button>
               </div>
@@ -2333,7 +2548,7 @@ export default function AdminDashboardPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-right border-collapse">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs font-bold">
+                  <tr className={`border-b text-xs font-bold ${thCls}`}>
                     <th className="px-6 py-4">العميل والتواصل</th>
                     <th className="px-6 py-4">نوع الاستشارة</th>
                     <th className="px-6 py-4">العنوان بالتفصيل</th>
@@ -2343,15 +2558,15 @@ export default function AdminDashboardPage() {
                     <th className="px-6 py-4 text-center">الإجراءات المباشرة</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 text-xs">
+                <tbody className={`divide-y text-xs ${divideCls}`}>
                   {filteredConsultations.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="px-6 py-12 text-center text-slate-400">
+                      <td colSpan={7} className={`px-6 py-12 text-center ${isDark ? "text-slate-400" : "text-slate-600 font-semibold"}`}>
                         لا توجد طلبات استشارة مطابقة للبحث
                       </td>
                     </tr>
                   ) : (
-                    filteredConsultations.map((c) => {
+                    paginatedConsultations.map((c) => {
                       const waText = encodeURIComponent(
                         `أهلاً بك يا أستاذ ${c.fullName}، معك أ. محمد إسماعيل من Amazon Furniture بخصوص طلب الاستشارة والمعاينة المجانية لمساحتك (${c.spaceType}).`
                       );
@@ -2360,10 +2575,10 @@ export default function AdminDashboardPage() {
                         : "";
 
                       return (
-                        <tr key={c.id} className="hover:bg-slate-50/80 transition-colors">
+                        <tr key={c.id} className={`transition-colors ${hoverRowCls}`}>
                           <td className="px-6 py-4">
-                            <div className="font-bold text-slate-900 text-sm">{c.fullName}</div>
-                            <div className="text-xs text-slate-500 font-mono mt-0.5" dir="ltr">
+                            <div className={`font-bold text-sm ${textTitle}`}>{c.fullName}</div>
+                            <div className={`text-xs font-mono mt-0.5 ${textMuted}`} dir="ltr">
                               {c.phone}
                             </div>
                             <span className="text-[11px] text-slate-400 block mt-0.5">
@@ -2373,23 +2588,29 @@ export default function AdminDashboardPage() {
 
                           <td className="px-6 py-4">
                             {c.consultType === "mansoura" ? (
-                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                              <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${
+                                isDark ? "bg-emerald-950/60 text-emerald-300 border-emerald-500/40" : "bg-emerald-100 text-emerald-800 border-emerald-200"
+                              }`}>
                                 <MapPin size={12} />
                                 <span>معاينة بالمنصورة 📍</span>
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
+                              <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${
+                                isDark ? "bg-blue-950/60 text-blue-300 border-blue-500/40" : "bg-blue-100 text-blue-800 border-blue-200"
+                              }`}>
                                 <span>ميتنج أونلاين 💻</span>
                               </span>
                             )}
                           </td>
 
                           <td className="px-6 py-4 max-w-xs">
-                            <div className="font-medium text-slate-800 text-xs leading-relaxed">
+                            <div className={`font-medium text-xs leading-relaxed ${isDark ? "text-slate-200" : "text-slate-800"}`}>
                               {c.address || "لم يحدد عنواناً تفصيلياً"}
                             </div>
                             {c.notes && (
-                              <div className="text-[11px] text-slate-500 mt-1 bg-slate-100 p-1.5 rounded-lg">
+                              <div className={`text-[11px] mt-1 p-1.5 rounded-lg border ${
+                                isDark ? "bg-slate-800/80 text-slate-300 border-slate-700" : "bg-slate-100 text-slate-700 border-slate-200"
+                              }`}>
                                 💡 {c.notes}
                               </div>
                             )}
@@ -2401,10 +2622,12 @@ export default function AdminDashboardPage() {
                                 href={c.googleMapsUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-bold text-xs transition-colors border border-red-200"
+                                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold text-xs transition-colors border ${
+                                  isDark ? "bg-red-950/60 hover:bg-red-900/60 text-red-300 border-red-500/40" : "bg-red-50 hover:bg-red-100 text-red-700 border-red-200"
+                                }`}
                                 title="فتح اللوكيشن على خرائط جوجل"
                               >
-                                <Navigation size={13} className="text-red-600" />
+                                <Navigation size={13} className="text-red-500" />
                                 <span>فتح اللوكيشن 🗺️</span>
                               </a>
                             ) : (
@@ -2413,9 +2636,9 @@ export default function AdminDashboardPage() {
                           </td>
 
                           <td className="px-6 py-4">
-                            <div className="font-bold text-slate-800 text-xs">{c.spaceType}</div>
-                            <div className="text-slate-500 text-[11px] mt-0.5 flex items-center gap-1">
-                              <Clock size={11} className="text-accent" />
+                            <div className={`font-bold text-xs ${isDark ? "text-slate-200" : "text-slate-800"}`}>{c.spaceType}</div>
+                            <div className={`text-[11px] mt-0.5 flex items-center gap-1 ${textMuted}`}>
+                              <Clock size={11} className="text-cyan-500" />
                               <span>{c.preferredTime}</span>
                             </div>
                           </td>
@@ -2431,21 +2654,21 @@ export default function AdminDashboardPage() {
                               }
                               className={`text-xs font-bold px-3 py-1.5 rounded-xl border cursor-pointer focus:outline-none ${
                                 c.status === "new"
-                                  ? "bg-amber-50 text-amber-800 border-amber-300"
+                                  ? isDark ? "bg-amber-950/60 text-amber-300 border-amber-500/40" : "bg-amber-50 text-amber-800 border-amber-300"
                                   : c.status === "contacted"
-                                  ? "bg-blue-50 text-blue-800 border-blue-300"
+                                  ? isDark ? "bg-blue-950/60 text-blue-300 border-blue-500/40" : "bg-blue-50 text-blue-800 border-blue-300"
                                   : c.status === "scheduled"
-                                  ? "bg-purple-50 text-purple-800 border-purple-300"
+                                  ? isDark ? "bg-purple-950/60 text-purple-300 border-purple-500/40" : "bg-purple-50 text-purple-800 border-purple-300"
                                   : c.status === "completed"
-                                  ? "bg-emerald-50 text-emerald-800 border-emerald-300"
-                                  : "bg-slate-100 text-slate-600 border-slate-300"
+                                  ? isDark ? "bg-emerald-950/60 text-emerald-300 border-emerald-500/40" : "bg-emerald-50 text-emerald-800 border-emerald-300"
+                                  : isDark ? "bg-slate-800 text-slate-300 border-slate-700" : "bg-slate-100 text-slate-600 border-slate-300"
                               }`}
                             >
-                              <option value="new">جديد (بانتظار التواصل)</option>
-                              <option value="contacted">تم التواصل هاتفياً</option>
-                              <option value="scheduled">تم جدولة الموعد</option>
-                              <option value="completed">تمت المعاينة بنجاح</option>
-                              <option value="cancelled">ملغي</option>
+                              <option value="new" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>جديد (بانتظار التواصل)</option>
+                              <option value="contacted" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>تم التواصل هاتفياً</option>
+                              <option value="scheduled" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>تم جدولة الموعد</option>
+                              <option value="completed" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>تمت المعاينة بنجاح</option>
+                              <option value="cancelled" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>ملغي</option>
                             </select>
                           </td>
 
@@ -2456,7 +2679,9 @@ export default function AdminDashboardPage() {
                                   href={waCustomerUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors shadow-xs"
+                                  className={`p-2 rounded-xl transition-colors shadow-xs ${
+                                    isDark ? "bg-emerald-950/60 text-emerald-400 hover:bg-emerald-900/60" : "bg-emerald-50 hover:bg-emerald-100 text-emerald-700"
+                                  }`}
                                   title="مراسلة العميل واتساب"
                                 >
                                   <MessageCircle size={15} />
@@ -2466,7 +2691,9 @@ export default function AdminDashboardPage() {
                               {c.phone && (
                                 <a
                                   href={`tel:${c.phone}`}
-                                  className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors shadow-xs"
+                                  className={`p-2 rounded-xl transition-colors shadow-xs ${
+                                    isDark ? "bg-slate-800 text-slate-300 hover:bg-slate-700" : "bg-slate-100 hover:bg-slate-200 text-slate-700"
+                                  }`}
                                   title="اتصال هاتفي مباشر"
                                 >
                                   <Phone size={15} />
@@ -2481,6 +2708,18 @@ export default function AdminDashboardPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Consultations Pagination */}
+            <AdminPagination
+              currentPage={consultationsPage}
+              totalItems={filteredConsultations.length}
+              itemsPerPage={consultationsPerPage}
+              onPageChange={setConsultationsPage}
+              onItemsPerPageChange={(n) => {
+                setConsultationsPerPage(n);
+                setConsultationsPage(1);
+              }}
+            />
           </div>
         </div>
       )}
@@ -2492,32 +2731,32 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           {/* Top Operational Metrics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">معدل ارتداد المرتجعات</span>
-              <div className="text-3xl font-black text-emerald-600 mt-1">1.6%</div>
-              <span className="text-[11px] text-emerald-700 font-medium mt-1 block">أقل من معدل السوق (8%)</span>
+            <div className={`p-5 rounded-2xl border shadow-xs transition-colors ${subcardCls}`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>معدل ارتداد المرتجعات</span>
+              <div className="text-3xl font-black text-emerald-500 mt-1">1.6%</div>
+              <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-1 block">أقل من معدل السوق (8%)</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">متوسط زمن التصنيع (Lead Time)</span>
-              <div className="text-3xl font-black text-slate-900 mt-1">7.4 <span className="text-sm font-normal text-slate-500">أيام</span></div>
-              <span className="text-[11px] text-slate-400 mt-1 block">بين تأكيد العربون والجاهزية</span>
+            <div className={`p-5 rounded-2xl border shadow-xs transition-colors ${subcardCls}`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>متوسط زمن التصنيع (Lead Time)</span>
+              <div className={`text-3xl font-black mt-1 ${textTitle}`}>7.4 <span className={`text-sm font-normal ${textMuted}`}>أيام</span></div>
+              <span className={`text-[11px] mt-1 block ${textMuted}`}>بين تأكيد العربون والجاهزية</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">طلبات تتطلب فني تركيب</span>
-              <div className="text-3xl font-black text-[#8B6E45] mt-1">94%</div>
-              <span className="text-[11px] text-slate-400 mt-1 block">تغطيها فرق التركيب المجانية</span>
+            <div className={`p-5 rounded-2xl border shadow-xs transition-colors ${subcardCls}`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>طلبات تتطلب فني تركيب</span>
+              <div className="text-3xl font-black text-amber-500 mt-1">94%</div>
+              <span className={`text-[11px] mt-1 block ${textMuted}`}>تغطيها فرق التركيب المجانية</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-              <span className="text-xs text-slate-500 font-bold block">متوسط قيمة الأوردر (AOV)</span>
-              <div className="text-2xl font-black text-slate-900 mt-1">
+            <div className={`p-5 rounded-2xl border shadow-xs transition-colors ${subcardCls}`}>
+              <span className={`text-xs font-bold block ${textMuted}`}>متوسط قيمة الأوردر (AOV)</span>
+              <div className={`text-2xl font-black mt-1 ${textTitle}`}>
                 {orders.length > 0
                   ? formatPrice(Math.round(orders.reduce((sum, o) => sum + (o.total || 0), 0) / orders.length))
                   : "0 ج.م"}
               </div>
-              <span className="text-[11px] text-purple-700 font-medium mt-1 block">نمو +18% هذا الموسم</span>
+              <span className="text-[11px] text-purple-600 dark:text-purple-400 font-medium mt-1 block">نمو +18% هذا الموسم</span>
             </div>
           </div>
 
@@ -2560,10 +2799,10 @@ export default function AdminDashboardPage() {
           {/* Analytics Visual Breakdown Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Best Selling Materials */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-              <h4 className="font-bold text-slate-900 text-base flex items-center justify-between">
+            <div className={`p-6 rounded-2xl border shadow-xs space-y-4 transition-colors ${subcardCls}`}>
+              <h4 className={`font-bold text-base flex items-center justify-between ${textTitle}`}>
                 <span>🌲 الخامات والأخشاب الأكثر طلباً</span>
-                <span className="text-xs text-slate-500">حسب إجمالي المبيعات</span>
+                <span className={`text-xs ${textMuted}`}>حسب إجمالي المبيعات</span>
               </h4>
 
               <div className="space-y-3">
@@ -2573,11 +2812,11 @@ export default function AdminDashboardPage() {
                   { name: "خشب أرو أمريكي فاخر", percentage: 10, color: "bg-emerald-600" },
                 ].map((item, i) => (
                   <div key={i} className="space-y-1">
-                    <div className="flex justify-between text-xs font-bold text-slate-800">
+                    <div className={`flex justify-between text-xs font-bold ${textTitle}`}>
                       <span>{item.name}</span>
                       <span>{item.percentage}%</span>
                     </div>
-                    <div className="h-2.5 rounded-full bg-slate-100 overflow-hidden">
+                    <div className={`h-2.5 rounded-full overflow-hidden ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
                       <div className={`h-full ${item.color} rounded-full`} style={{ width: `${item.percentage}%` }} />
                     </div>
                   </div>
@@ -2586,25 +2825,25 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Geographic Distribution */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-              <h4 className="font-bold text-slate-900 text-base flex items-center justify-between">
+            <div className={`p-6 rounded-2xl border shadow-xs space-y-4 transition-colors ${subcardCls}`}>
+              <h4 className={`font-bold text-base flex items-center justify-between ${textTitle}`}>
                 <span>📍 التوزيع الجغرافي للطلبات (المحافظات)</span>
-                <span className="text-xs text-slate-500">خريطة المبيعات</span>
+                <span className={`text-xs ${textMuted}`}>خريطة المبيعات</span>
               </h4>
 
               <div className="space-y-3">
                 {[
                   { region: "القاهرة الكبرى (التجمع الخامس، الشيخ زايد، المعادي)", percentage: 44, color: "bg-purple-600" },
-                  { region: "المنصورة ومحافظة الدقهلية (المعرض والمصنع)", percentage: 36, color: "bg-[#8B6E45]" },
+                  { region: "المنصورة ومحافظة الدقهلية (المعرض والمصنع)", percentage: 36, color: "bg-amber-600" },
                   { region: "الإسكندرية والساحل الشمالي", percentage: 14, color: "bg-sky-600" },
                   { region: "باقي محافظات الدلتا والصعيد", percentage: 6, color: "bg-slate-500" },
                 ].map((item, i) => (
                   <div key={i} className="space-y-1">
-                    <div className="flex justify-between text-xs font-bold text-slate-800">
+                    <div className={`flex justify-between text-xs font-bold ${textTitle}`}>
                       <span>{item.region}</span>
                       <span>{item.percentage}%</span>
                     </div>
-                    <div className="h-2.5 rounded-full bg-slate-100 overflow-hidden">
+                    <div className={`h-2.5 rounded-full overflow-hidden ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
                       <div className={`h-full ${item.color} rounded-full`} style={{ width: `${item.percentage}%` }} />
                     </div>
                   </div>
@@ -2621,24 +2860,24 @@ export default function AdminDashboardPage() {
       {activeTab === "emails" && (
         <div className="space-y-6">
           {/* Email Search */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className={`${panelCls} p-4 rounded-2xl border flex items-center gap-3`}>
             <div className="relative flex-1">
               <input
                 type="text"
                 value={emailSearch}
                 onChange={(e) => setEmailSearch(e.target.value)}
                 placeholder="بحث بالمستلم، الإيميل، أو موضوع الرسالة..."
-                className="w-full pl-4 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#C5A880]"
+                className={`w-full pl-4 pr-10 py-2.5 rounded-xl border text-sm focus:outline-none ${inputCls}`}
               />
               <Search size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
             </div>
           </div>
 
           {/* Emails Table */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+          <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
               <table className="w-full text-start text-sm">
-                <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 text-xs font-bold uppercase tracking-wider">
+                <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">نوع الإشعار</th>
                     <th className="px-6 py-3.5 text-start">المستلم والإيميل</th>
@@ -2647,33 +2886,37 @@ export default function AdminDashboardPage() {
                     <th className="px-6 py-3.5 text-center">معاينة الرسالة</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className={`divide-y ${divideCls}`}>
                   {emailsLoading ? (
                     <tr>
                       <td colSpan={5} className="text-center py-12 text-slate-400">
-                        <RefreshCw size={24} className="mx-auto mb-2 animate-spin text-[#C5A880]" />
-                        <p className="font-semibold text-slate-600">جاري تحميل سجل الإيميلات...</p>
+                        <RefreshCw size={24} className="mx-auto mb-2 animate-spin text-cyan-500" />
+                        <p className={`font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>جاري تحميل سجل الإيميلات...</p>
                       </td>
                     </tr>
                   ) : filteredEmails.length === 0 ? (
                     <tr>
                       <td colSpan={5} className="text-center py-12 text-slate-400">
-                        <Mail size={36} className="mx-auto mb-2 opacity-40" />
-                        <p className="font-semibold text-slate-600">لا توجد إيميلات مسجلة بعد</p>
+                        <Mail size={36} className="mx-auto mb-2 opacity-40 text-cyan-500" />
+                        <p className={`font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>لا توجد إيميلات مسجلة بعد</p>
                       </td>
                     </tr>
                   ) : (
-                    filteredEmails.map((email) => (
-                      <tr key={email.id} className="hover:bg-slate-50/80 transition-colors">
+                    paginatedEmails.map((email) => (
+                      <tr key={email.id} className={`transition-colors ${hoverRowCls}`}>
                         {/* Type */}
                         <td className="px-6 py-4">
                           {email.type === "WELCOME" ? (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#C5A880]/15 text-[#8B6E45] border border-[#C5A880]/30">
+                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${
+                              isDark ? "bg-amber-950/60 text-amber-300 border-amber-500/40" : "bg-[#C5A880]/15 text-[#8B6E45] border border-[#C5A880]/30"
+                            }`}>
                               <Sparkles size={12} />
                               <span>ترحيب عميل VIP</span>
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${
+                              isDark ? "bg-blue-950/60 text-blue-300 border-blue-500/40" : "bg-blue-50 text-blue-700 border-blue-200"
+                            }`}>
                               <ShoppingBag size={12} />
                               <span>تأكيد طلب #{email.orderId || ""}</span>
                             </span>
@@ -2682,24 +2925,24 @@ export default function AdminDashboardPage() {
 
                         {/* Recipient */}
                         <td className="px-6 py-4">
-                          <span className="font-bold text-slate-900 text-sm block">
+                          <span className={`font-bold text-sm block ${textTitle}`}>
                             {email.recipientName}
                           </span>
-                          <span className="text-xs text-slate-500 font-mono">
+                          <span className={`text-xs font-mono ${textMuted}`}>
                             {email.to}
                           </span>
                         </td>
 
                         {/* Subject */}
                         <td className="px-6 py-4">
-                          <span className="font-medium text-slate-800 text-xs line-clamp-1">
+                          <span className={`font-medium text-xs line-clamp-1 ${isDark ? "text-slate-200" : "text-slate-800"}`}>
                             {email.subject}
                           </span>
                         </td>
 
                         {/* Date */}
                         <td className="px-6 py-4">
-                          <span className="text-xs text-slate-500 flex items-center gap-1">
+                          <span className={`text-xs flex items-center gap-1 ${textMuted}`}>
                             <Clock size={12} />
                             <span>
                               {email.date
@@ -2719,7 +2962,11 @@ export default function AdminDashboardPage() {
                         <td className="px-6 py-4 text-center">
                           <button
                             onClick={() => setPreviewEmail(email)}
-                            className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-colors flex items-center gap-1.5 mx-auto"
+                            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 mx-auto cursor-pointer border ${
+                              isDark
+                                ? "bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700"
+                                : "bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-200 shadow-2xs"
+                            }`}
                           >
                             <Eye size={13} />
                             <span>معاينة الإيميل</span>
@@ -2731,6 +2978,18 @@ export default function AdminDashboardPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Emails Pagination */}
+            <AdminPagination
+              currentPage={emailsPage}
+              totalItems={filteredEmails.length}
+              itemsPerPage={emailsPerPage}
+              onPageChange={setEmailsPage}
+              onItemsPerPageChange={(n) => {
+                setEmailsPerPage(n);
+                setEmailsPage(1);
+              }}
+            />
           </div>
         </div>
       )}
@@ -2822,234 +3081,248 @@ export default function AdminDashboardPage() {
                         <p className="font-semibold">جاري تحميل طلبات التفصيل...</p>
                       </td>
                     </tr>
-                  ) : customOrders.length === 0 ? (
+                  ) : filteredCustomOrders.length === 0 ? (
                     <tr>
                       <td colSpan={8} className="text-center py-12 text-slate-400">
-                        <Ruler size={36} className="mx-auto mb-2 opacity-40" />
-                        <p className="font-semibold">لا توجد طلبات تفصيل مسجلة بعد</p>
+                        <Ruler size={36} className="mx-auto mb-2 opacity-40 text-cyan-500" />
+                        <p className={`font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>لا توجد طلبات تفصيل مسجلة بعد</p>
                       </td>
                     </tr>
                   ) : (
-                    customOrders
-                      .filter((c) => {
-                        const q = customOrderSearch.toLowerCase();
-                        return (
-                          c.customerName?.toLowerCase().includes(q) ||
-                          c.customerPhone?.includes(q) ||
-                          c.furnitureType?.toLowerCase().includes(q) ||
-                          c.city?.toLowerCase().includes(q)
-                        );
-                      })
-                      .map((order) => {
-                        const fullImg = order.referenceImage;
-                        const whatsappMsg = `مرحباً أستاذ ${order.customerName}، بخصوص طلبك لتفصيل (${order.furnitureType}) رقم #${order.id} عبر Amazon Furniture، قمنا بدراسة المقاسات والخامات ونود إفادتك بالتفاصيل والتكلفة.`;
-                        const whatsappUrl = `https://wa.me/2${order.customerPhone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(whatsappMsg)}`;
+                    paginatedCustomOrders.map((order) => {
+                      const fullImg = order.referenceImage;
+                      const whatsappMsg = `مرحباً أستاذ ${order.customerName}، بخصوص طلبك لتفصيل (${order.furnitureType}) رقم #${order.id} عبر Amazon Furniture، قمنا بدراسة المقاسات والخامات ونود إفادتك بالتفاصيل والتكلفة.`;
+                      const whatsappUrl = `https://wa.me/2${(order.customerPhone || "").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(whatsappMsg)}`;
 
-                        return (
-                          <tr key={order.id} className="hover:bg-slate-500/5 transition-colors">
-                            {/* Customer */}
-                            <td className="px-5 py-4">
-                              <span className={`font-bold text-sm block ${textTitle}`}>
-                                {order.customerName}
+                      return (
+                        <tr key={order.id} className={`transition-colors ${hoverRowCls}`}>
+                          {/* Customer */}
+                          <td className="px-5 py-4">
+                            <span className={`font-bold text-sm block ${textTitle}`}>
+                              {order.customerName}
+                            </span>
+                            <span className={`text-xs font-mono ${textMuted}`} dir="ltr">
+                              📞 {order.customerPhone}
+                            </span>
+                            {order.city && (
+                              <span className={`block text-[11px] mt-0.5 ${textMuted}`}>
+                                📍 {order.city}
                               </span>
-                              <span className="text-xs text-slate-400 font-mono" dir="ltr">
-                                📞 {order.customerPhone}
-                              </span>
-                              {order.city && (
-                                <span className="block text-[11px] text-slate-500 mt-0.5">
-                                  📍 {order.city}
+                            )}
+                            <span className="text-[10px] text-slate-400 block mt-1">
+                              كود: #{order.id}
+                            </span>
+                          </td>
+
+                          {/* Furniture Type */}
+                          <td className="px-5 py-4">
+                            <span className={`font-extrabold text-xs px-2.5 py-1 rounded-lg inline-block border ${
+                              isDark ? "bg-amber-950/60 text-amber-300 border-amber-500/40" : "bg-amber-50 text-amber-900 border-amber-200"
+                            }`}>
+                              {order.furnitureType}
+                            </span>
+                          </td>
+
+                          {/* Dimensions */}
+                          <td className="px-5 py-4">
+                            <div className="space-y-0.5 font-mono text-[11px]">
+                              {order.dimensions?.length && (
+                                <div>
+                                  <span className="text-slate-400">طول: </span>
+                                  <strong className={textTitle}>{order.dimensions.length}</strong>
+                                </div>
+                              )}
+                              {order.dimensions?.width && (
+                                <div>
+                                  <span className="text-slate-400">عرض/عمق: </span>
+                                  <strong className={textTitle}>{order.dimensions.width}</strong>
+                                </div>
+                              )}
+                              {order.dimensions?.height && (
+                                <div>
+                                  <span className="text-slate-400">ارتفاع: </span>
+                                  <strong className={textTitle}>{order.dimensions.height}</strong>
+                                </div>
+                              )}
+                              {order.dimensions?.shape && (
+                                <span className={`inline-block text-[10px] px-1.5 py-0.5 rounded border ${
+                                  isDark ? "bg-slate-800 text-slate-300 border-slate-700" : "bg-slate-100 text-slate-600 border-slate-200"
+                                }`}>
+                                  {order.dimensions.shape === "straight" ? "مستقيم" : order.dimensions.shape === "l_shape" ? "حرف L" : order.dimensions.shape}
                                 </span>
                               )}
-                              <span className="text-[10px] text-slate-400 block mt-1">
-                                كود: #{order.id}
-                              </span>
-                            </td>
+                            </div>
+                          </td>
 
-                            {/* Furniture Type */}
-                            <td className="px-5 py-4">
-                              <span className="font-extrabold text-xs text-accent-dark bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-lg inline-block">
-                                {order.furnitureType}
-                              </span>
-                            </td>
-
-                            {/* Dimensions */}
-                            <td className="px-5 py-4">
-                              <div className="space-y-0.5 font-mono text-[11px]">
-                                {order.dimensions?.length && (
-                                  <div>
-                                    <span className="text-slate-400">طول: </span>
-                                    <strong className={textTitle}>{order.dimensions.length}</strong>
-                                  </div>
-                                )}
-                                {order.dimensions?.width && (
-                                  <div>
-                                    <span className="text-slate-400">عرض/عمق: </span>
-                                    <strong className={textTitle}>{order.dimensions.width}</strong>
-                                  </div>
-                                )}
-                                {order.dimensions?.height && (
-                                  <div>
-                                    <span className="text-slate-400">ارتفاع: </span>
-                                    <strong className={textTitle}>{order.dimensions.height}</strong>
-                                  </div>
-                                )}
-                                {order.dimensions?.shape && (
-                                  <span className="inline-block text-[10px] text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">
-                                    {order.dimensions.shape === "straight" ? "مستقيم" : order.dimensions.shape === "l_shape" ? "حرف L" : order.dimensions.shape}
-                                  </span>
-                                )}
-                              </div>
-                            </td>
-
-                            {/* Reference Image */}
-                            <td className="px-5 py-4 text-center">
-                              {fullImg ? (
-                                <div className="inline-flex flex-col items-center gap-1">
-                                  <div
-                                    onClick={() => setViewingCustomOrder(order)}
-                                    className="w-12 h-12 rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-slate-100 cursor-pointer hover:opacity-80 transition-opacity"
-                                  >
-                                    <img
-                                      src={fullImg}
-                                      alt="Design Ref"
-                                      className="w-full h-full object-cover"
-                                    />
-                                  </div>
-                                  <button
-                                    type="button"
-                                    onClick={() => setViewingCustomOrder(order)}
-                                    className="text-[10px] text-accent font-bold hover:underline cursor-pointer"
-                                  >
-                                    معاينة وتكبير
-                                  </button>
-                                </div>
-                              ) : (
-                                <span className="text-[11px] text-slate-400">لا توجد صورة</span>
-                              )}
-                            </td>
-
-                            {/* Materials & Notes */}
-                            <td className="px-5 py-4 max-w-xs">
-                              {order.preferredMaterial && (
-                                <div className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">
-                                  🪵 {order.preferredMaterial}
-                                </div>
-                              )}
-                              {order.preferredColor && (
-                                <div className="text-[11px] text-slate-600 dark:text-slate-400">
-                                  🎨 {order.preferredColor}
-                                </div>
-                              )}
-                              {order.notes && (
-                                <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">
-                                  📝 {order.notes}
-                                </p>
-                              )}
-                            </td>
-
-                            {/* Quote Price */}
-                            <td className="px-5 py-4 text-center">
-                              {editingPriceOrder?.id === order.id ? (
-                                <div className="flex items-center gap-1 justify-center">
-                                  <input
-                                    type="number"
-                                    value={newQuotePrice}
-                                    onChange={(e) => setNewQuotePrice(e.target.value)}
-                                    placeholder="السعر بالجنيه"
-                                    className="w-24 px-2 py-1 text-xs border rounded-lg outline-none bg-white dark:bg-slate-900"
+                          {/* Reference Image */}
+                          <td className="px-5 py-4 text-center">
+                            {fullImg ? (
+                              <div className="inline-flex flex-col items-center gap-1">
+                                <div
+                                  onClick={() => setViewingCustomOrder(order)}
+                                  className={`w-12 h-12 rounded-xl overflow-hidden border cursor-pointer hover:opacity-80 transition-opacity ${
+                                    isDark ? "border-slate-700 bg-slate-800" : "border-slate-300 bg-slate-100"
+                                  }`}
+                                >
+                                  <img
+                                    src={fullImg}
+                                    alt="Design Ref"
+                                    className="w-full h-full object-cover"
                                   />
-                                  <button
-                                    onClick={() => handleUpdateCustomOrderPrice(order.id, Number(newQuotePrice))}
-                                    className="px-2 py-1 rounded bg-emerald-600 text-white font-bold text-xs"
-                                  >
-                                    حفظ
-                                  </button>
-                                  <button
-                                    onClick={() => setEditingPriceOrder(null)}
-                                    className="px-1.5 py-1 text-xs text-slate-400"
-                                  >
-                                    إلغاء
-                                  </button>
                                 </div>
-                              ) : (
-                                <div>
-                                  <span className="font-extrabold text-sm text-amber-600 block">
-                                    {order.quotePrice ? formatPrice(order.quotePrice) : "لم يُحدد بعد"}
-                                  </span>
-                                  <button
-                                    onClick={() => {
-                                      setEditingPriceOrder(order);
-                                      setNewQuotePrice(String(order.quotePrice || ""));
-                                    }}
-                                    className="text-[10px] text-slate-400 hover:text-accent underline cursor-pointer mt-0.5"
-                                  >
-                                    {order.quotePrice ? "تعديل السعر" : "+ تحديد سعر"}
-                                  </button>
-                                </div>
-                              )}
-                            </td>
-
-                            {/* Status */}
-                            <td className="px-5 py-4 text-center">
-                              <select
-                                value={order.status}
-                                onChange={(e) =>
-                                  handleUpdateCustomOrderStatus(
-                                    order.id,
-                                    e.target.value as CustomOrder["status"]
-                                  )
-                                }
-                                className="px-2.5 py-1 rounded-xl border text-[11px] font-bold bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 outline-none cursor-pointer"
-                              >
-                                <option value="new">🆕 جديد</option>
-                                <option value="under_review">🔍 قيد المراجعة</option>
-                                <option value="quoted">💰 تم إرسال السعر</option>
-                                <option value="agreed">🤝 تم الاتفاق</option>
-                                <option value="in_production">⚙️ في الورشة</option>
-                                <option value="completed">✅ تم التسليم</option>
-                                <option value="cancelled">❌ ملغي</option>
-                              </select>
-                            </td>
-
-                            {/* Actions */}
-                            <td className="px-5 py-4 text-center">
-                              <div className="flex items-center justify-center gap-1.5">
                                 <button
                                   type="button"
                                   onClick={() => setViewingCustomOrder(order)}
-                                  className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
-                                  title="معاينة كافة التفاصيل والصورة"
+                                  className="text-[10px] text-cyan-500 font-bold hover:underline cursor-pointer"
                                 >
-                                  <Eye size={15} />
-                                </button>
-
-                                <a
-                                  href={whatsappUrl}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="p-1.5 rounded-lg bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#25D366] transition-colors"
-                                  title="مراسلة العميل بالواتساب فوراً"
-                                >
-                                  <MessageCircle size={15} />
-                                </a>
-
-                                <button
-                                  type="button"
-                                  onClick={() => handleDeleteCustomOrder(order.id)}
-                                  className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-500/15 transition-colors cursor-pointer"
-                                  title="حذف الطلب"
-                                >
-                                  <Trash2 size={15} />
+                                  معاينة وتكبير
                                 </button>
                               </div>
-                            </td>
-                          </tr>
-                        );
-                      })
+                            ) : (
+                              <span className="text-[11px] text-slate-400">لا توجد صورة</span>
+                            )}
+                          </td>
+
+                          {/* Materials & Notes */}
+                          <td className="px-5 py-4 max-w-xs">
+                            {order.preferredMaterial && (
+                              <div className={`text-[11px] font-semibold ${isDark ? "text-slate-300" : "text-slate-700"}`}>
+                                🪵 {order.preferredMaterial}
+                              </div>
+                            )}
+                            {order.preferredColor && (
+                              <div className={`text-[11px] ${textMuted}`}>
+                                🎨 {order.preferredColor}
+                              </div>
+                            )}
+                            {order.notes && (
+                              <p className={`text-[11px] line-clamp-2 mt-1 ${textMuted}`}>
+                                📝 {order.notes}
+                              </p>
+                            )}
+                          </td>
+
+                          {/* Quote Price */}
+                          <td className="px-5 py-4 text-center">
+                            {editingPriceOrder?.id === order.id ? (
+                              <div className="flex items-center gap-1 justify-center">
+                                <input
+                                  type="number"
+                                  value={newQuotePrice}
+                                  onChange={(e) => setNewQuotePrice(e.target.value)}
+                                  placeholder="السعر بالجنيه"
+                                  className={`w-24 px-2 py-1 text-xs border rounded-lg outline-none ${inputCls}`}
+                                />
+                                <button
+                                  onClick={() => handleUpdateCustomOrderPrice(order.id, Number(newQuotePrice))}
+                                  className="px-2 py-1 rounded bg-emerald-600 text-white font-bold text-xs cursor-pointer"
+                                >
+                                  حفظ
+                                </button>
+                                <button
+                                  onClick={() => setEditingPriceOrder(null)}
+                                  className="px-1.5 py-1 text-xs text-slate-400 cursor-pointer"
+                                >
+                                  إلغاء
+                                </button>
+                              </div>
+                            ) : (
+                              <div>
+                                <span className="font-extrabold text-sm text-amber-600 dark:text-amber-400 block">
+                                  {order.quotePrice ? formatPrice(order.quotePrice) : "لم يُحدد بعد"}
+                                </span>
+                                <button
+                                  onClick={() => {
+                                    setEditingPriceOrder(order);
+                                    setNewQuotePrice(String(order.quotePrice || ""));
+                                  }}
+                                  className="text-[10px] text-slate-400 hover:text-cyan-500 underline cursor-pointer mt-0.5"
+                                >
+                                  {order.quotePrice ? "تعديل السعر" : "+ تحديد سعر"}
+                                </button>
+                              </div>
+                            )}
+                          </td>
+
+                          {/* Status */}
+                          <td className="px-5 py-4 text-center">
+                            <select
+                              value={order.status}
+                              onChange={(e) =>
+                                handleUpdateCustomOrderStatus(
+                                  order.id,
+                                  e.target.value as CustomOrder["status"]
+                                )
+                              }
+                              className={`px-2.5 py-1 rounded-xl border text-[11px] font-bold outline-none cursor-pointer ${
+                                isDark
+                                  ? "bg-[#151922] text-slate-200 border-slate-700"
+                                  : "bg-white text-slate-900 border-slate-300 shadow-2xs"
+                              }`}
+                            >
+                              <option value="new" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>🆕 جديد</option>
+                              <option value="under_review" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>🔍 قيد المراجعة</option>
+                              <option value="quoted" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>💰 تم إرسال السعر</option>
+                              <option value="agreed" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>🤝 تم الاتفاق</option>
+                              <option value="in_production" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>⚙️ في الورشة</option>
+                              <option value="completed" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>✅ تم التسليم</option>
+                              <option value="cancelled" className={isDark ? "bg-[#151922] text-white" : "bg-white text-slate-900"}>❌ ملغي</option>
+                            </select>
+                          </td>
+
+                          {/* Actions */}
+                          <td className="px-5 py-4 text-center">
+                            <div className="flex items-center justify-center gap-1.5">
+                              <button
+                                type="button"
+                                onClick={() => setViewingCustomOrder(order)}
+                                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                                  isDark ? "bg-slate-800 hover:bg-slate-700 text-slate-300" : "bg-slate-100 hover:bg-slate-200 text-slate-700"
+                                }`}
+                                title="معاينة كافة التفاصيل والصورة"
+                              >
+                                <Eye size={15} />
+                              </button>
+
+                              <a
+                                href={whatsappUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="p-1.5 rounded-lg bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#25D366] transition-colors"
+                                title="مراسلة العميل بالواتساب فوراً"
+                              >
+                                <MessageCircle size={15} />
+                              </a>
+
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteCustomOrder(order.id)}
+                                className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-500/15 transition-colors cursor-pointer"
+                                title="حذف الطلب"
+                              >
+                                <Trash2 size={15} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
                   )}
                 </tbody>
               </table>
             </div>
+
+            {/* Custom Orders Pagination */}
+            <AdminPagination
+              currentPage={customOrdersPage}
+              totalItems={filteredCustomOrders.length}
+              itemsPerPage={customOrdersPerPage}
+              onPageChange={setCustomOrdersPage}
+              onItemsPerPageChange={(n) => {
+                setCustomOrdersPerPage(n);
+                setCustomOrdersPage(1);
+              }}
+            />
           </div>
         </div>
       )}
@@ -3082,25 +3355,25 @@ export default function AdminDashboardPage() {
       {/* Email Preview Modal */}
       {previewEmail && (
         <div className="fixed inset-0 z-[260] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+          <div className={`rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl border max-h-[90vh] flex flex-col ${cardCls}`}>
+            <div className={`flex items-center justify-between pb-3 border-b ${borderSep}`}>
               <div>
-                <span className="text-xs font-bold text-[#8B6E45] block">
+                <span className="text-xs font-bold text-cyan-500 block">
                   معاينة الإيميل المرسل للعميل
                 </span>
-                <h3 className="text-base font-bold text-slate-900 mt-0.5">
+                <h3 className={`text-base font-bold mt-0.5 ${textTitle}`}>
                   {previewEmail.subject}
                 </h3>
               </div>
               <button
                 onClick={() => setPreviewEmail(null)}
-                className="p-2 text-slate-400 hover:text-slate-700 rounded-lg"
+                className={`p-2 rounded-lg transition-colors ${textMuted} hover:${textTitle}`}
               >
                 <X size={20} />
               </button>
             </div>
 
-            <div className="bg-slate-50 p-3 rounded-xl text-xs space-y-1 text-slate-600">
+            <div className={`p-3 rounded-xl text-xs space-y-1 ${subcardCls}`}>
               <div><strong>إلى:</strong> {previewEmail.recipientName} &lt;{previewEmail.to}&gt;</div>
               <div><strong>من:</strong> Amazon Furniture VIP &lt;vip@amazonfurniture.com&gt;</div>
               <div>
@@ -3111,14 +3384,14 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto border border-slate-200 rounded-xl p-4 bg-white">
+            <div className={`flex-1 overflow-y-auto border rounded-xl p-4 ${isDark ? "bg-[#0f1219] border-slate-800 text-slate-100" : "bg-white border-slate-200 text-slate-900"}`}>
               {previewEmail.htmlContent ? (
                 <div
                   dangerouslySetInnerHTML={{ __html: previewEmail.htmlContent }}
-                  className="prose prose-sm max-w-none"
+                  className="prose prose-sm max-w-none dark:prose-invert"
                 />
               ) : (
-                <p className="text-sm text-slate-700">{previewEmail.subject}</p>
+                <p className="text-sm">{previewEmail.subject}</p>
               )}
             </div>
 
@@ -3132,19 +3405,19 @@ export default function AdminDashboardPage() {
       {/* Delete Confirmation Modal */}
       {deleteConfirmOpen && productToDelete && (
         <div className="fixed inset-0 z-[250] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-slate-200">
-            <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto">
+          <div className={`rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border ${cardCls}`}>
+            <div className="w-12 h-12 rounded-2xl bg-red-500/15 text-red-500 flex items-center justify-center mx-auto border border-red-500/30">
               <AlertTriangle size={26} />
             </div>
 
             <div className="text-center">
-              <h3 className="text-lg font-bold text-slate-900">
+              <h3 className={`text-lg font-bold ${textTitle}`}>
                 تأكيد حذف المنتج
               </h3>
-              <p className="text-sm text-slate-500 mt-1">
-                هل أنت متأكد من حذف <strong>&quot;{productToDelete.name}&quot;</strong> نهائياً من المتجر؟
+              <p className={`text-sm mt-1 ${textMuted}`}>
+                هل أنت متأكد من حذف <strong className={textTitle}>&quot;{productToDelete.name}&quot;</strong> نهائياً من المتجر؟
               </p>
-              <p className="text-xs text-red-600 mt-2">
+              <p className="text-xs text-red-500 font-bold mt-2">
                 لن يتمكن العملاء من رؤيته أو طلبه مجدداً.
               </p>
             </div>
@@ -3164,7 +3437,7 @@ export default function AdminDashboardPage() {
               <button
                 onClick={handleConfirmDelete}
                 disabled={deleting}
-                className="flex-1 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm transition-colors shadow-sm disabled:opacity-50"
+                className="flex-1 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm transition-colors shadow-sm disabled:opacity-50 cursor-pointer"
               >
                 {deleting ? "جاري الحذف..." : "نعم، احذف المنتج"}
               </button>
@@ -3325,19 +3598,19 @@ export default function AdminDashboardPage() {
 
       {/* Payment Receipt Inspection Modal */}
       {viewingReceiptOrder && viewingReceiptOrder.paymentDetails?.receiptImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs">
-          <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
+          <div className={`relative w-full max-w-lg rounded-2xl shadow-2xl border overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in duration-150 ${cardCls}`}>
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50/80">
+            <div className={`flex items-center justify-between px-5 py-4 border-b ${borderSep}`}>
               <div className="flex items-center gap-2">
-                <span className="p-2 rounded-xl bg-amber-100 text-amber-800">
+                <span className="p-2 rounded-xl bg-amber-500/15 text-amber-500 border border-amber-500/30">
                   <CreditCard size={18} />
                 </span>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-base">
+                  <h3 className={`font-bold text-base ${textTitle}`}>
                     إيصال التحويل البنكي / المحفظة
                   </h3>
-                  <span className="text-xs text-slate-500 font-mono">
+                  <span className={`text-xs font-mono ${textMuted}`}>
                     طلب #{viewingReceiptOrder.id} • {viewingReceiptOrder.customerName}
                   </span>
                 </div>
@@ -3345,7 +3618,7 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={() => setViewingReceiptOrder(null)}
-                className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 rounded-xl transition-colors cursor-pointer"
+                className={`p-1.5 rounded-xl transition-colors cursor-pointer ${textMuted} hover:${textTitle}`}
               >
                 <X size={20} />
               </button>
@@ -3353,10 +3626,10 @@ export default function AdminDashboardPage() {
 
             {/* Content: Details & Full Image */}
             <div className="p-5 overflow-y-auto space-y-4">
-              <div className="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+              <div className={`grid grid-cols-2 gap-2 text-xs p-3 rounded-xl border ${subcardCls}`}>
                 <div>
-                  <span className="text-slate-500 block text-[11px]">طريقة الدفع:</span>
-                  <strong className="text-slate-900 font-bold">
+                  <span className={`block text-[11px] ${textMuted}`}>طريقة الدفع:</span>
+                  <strong className={`font-bold ${textTitle}`}>
                     {viewingReceiptOrder.paymentMethod === "instapay"
                       ? "إنستاباي (InstaPay)"
                       : viewingReceiptOrder.paymentMethod === "wallet"
@@ -3365,23 +3638,23 @@ export default function AdminDashboardPage() {
                   </strong>
                 </div>
                 <div>
-                  <span className="text-slate-500 block text-[11px]">إجمالي الفاتورة:</span>
-                  <strong className="text-amber-700 font-extrabold text-sm">
+                  <span className={`block text-[11px] ${textMuted}`}>إجمالي الفاتورة:</span>
+                  <strong className="text-amber-500 font-extrabold text-sm">
                     {formatPrice(viewingReceiptOrder.total)}
                   </strong>
                 </div>
                 {viewingReceiptOrder.paymentDetails.transactionRef && (
-                  <div className="col-span-2 pt-1 border-t border-slate-200">
-                    <span className="text-slate-500 text-[11px]">المرجع / اسم المحول: </span>
-                    <strong className="text-slate-900 font-mono">
+                  <div className={`col-span-2 pt-1 border-t ${borderSep}`}>
+                    <span className={`text-[11px] ${textMuted}`}>المرجع / اسم المحول: </span>
+                    <strong className={`font-mono ${textTitle}`}>
                       {viewingReceiptOrder.paymentDetails.transactionRef}
                     </strong>
                   </div>
                 )}
                 {viewingReceiptOrder.paymentDetails.walletPhone && (
-                  <div className="col-span-2 pt-1 border-t border-slate-200">
-                    <span className="text-slate-500 text-[11px]">رقم المحفظة المحول منها: </span>
-                    <strong className="text-slate-900 font-mono" dir="ltr">
+                  <div className={`col-span-2 pt-1 border-t ${borderSep}`}>
+                    <span className={`text-[11px] ${textMuted}`}>رقم المحفظة المحول منها: </span>
+                    <strong className={`font-mono ${textTitle}`} dir="ltr">
                       {viewingReceiptOrder.paymentDetails.walletPhone}
                     </strong>
                   </div>
@@ -3389,7 +3662,7 @@ export default function AdminDashboardPage() {
               </div>
 
               {/* Receipt Image Display */}
-              <div className="rounded-xl overflow-hidden border border-slate-200 bg-slate-100 relative max-h-[50vh] flex items-center justify-center p-1">
+              <div className={`rounded-xl overflow-hidden border relative max-h-[50vh] flex items-center justify-center p-1 ${isDark ? "bg-[#0b0e14] border-slate-800" : "bg-slate-100 border-slate-200"}`}>
                 <img
                   src={viewingReceiptOrder.paymentDetails.receiptImage}
                   alt={`Receipt for order ${viewingReceiptOrder.id}`}
@@ -3402,7 +3675,7 @@ export default function AdminDashboardPage() {
                   href={viewingReceiptOrder.paymentDetails.receiptImage}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 text-accent font-bold hover:underline"
+                  className="inline-flex items-center gap-1.5 text-cyan-500 hover:text-cyan-400 font-bold hover:underline"
                 >
                   <ExternalLink size={14} />
                   <span>فتح الصورة بحجمها الكامل في نافذة جديدة</span>
@@ -3411,7 +3684,7 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Footer with Actions */}
-            <div className="flex items-center justify-between px-5 py-3.5 bg-slate-50 border-t border-slate-100 gap-3">
+            <div className={`flex items-center justify-between px-5 py-3.5 border-t gap-3 ${borderSep} ${isDark ? "bg-[#10141d]" : "bg-slate-50"}`}>
               <button
                 type="button"
                 onClick={async () => {
@@ -3430,7 +3703,7 @@ export default function AdminDashboardPage() {
                     addToast("حدث خطأ أثناء اعتماد الطلب", "error");
                   }
                 }}
-                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
               >
                 <CheckCircle2 size={15} />
                 <span>اعتماد الدفع وتأكيد الطلب</span>
@@ -3439,7 +3712,9 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={() => setViewingReceiptOrder(null)}
-                className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs transition-colors cursor-pointer"
+                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
+                  isDark ? "bg-slate-800 hover:bg-slate-700 text-slate-300" : "bg-slate-200 hover:bg-slate-300 text-slate-700"
+                }`}
               >
                 إغلاق
               </button>
