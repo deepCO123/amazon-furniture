@@ -183,7 +183,10 @@ export default function Footer() {
                 title={t.chatWhatsApp}
               >
                 <MessageCircle size={14} className="shrink-0" />
-                <span>واتساب مباشر: <strong dir="ltr">+20 109 1084863</strong></span>
+                <span>
+                  {language === "en" ? "Direct WhatsApp: " : "واتساب مباشر: "}
+                  <strong dir="ltr">+20 109 1084863</strong>
+                </span>
               </a>
 
               <a
@@ -194,7 +197,11 @@ export default function Footer() {
                 title={t.openInMaps}
               >
                 <MapPin size={14} className="shrink-0 text-[#C58B45]" />
-                <span className="underline underline-offset-2">المعرض والمصنع: المنصورة، مصر</span>
+                <span className="underline underline-offset-2">
+                  {language === "en"
+                    ? "Showroom & Factory: Mansoura, Egypt"
+                    : "المعرض والمصنع: المنصورة، مصر"}
+                </span>
               </a>
 
               <a
@@ -246,7 +253,7 @@ export default function Footer() {
 
           {/* Column 3: Quick Links & Policies (2 cols) */}
           <div className="lg:col-span-2">
-            <MobileAccordion title="روابط هامة">
+            <MobileAccordion title={language === "en" ? "Important Links" : "روابط هامة"}>
               <ul className="space-y-2">
                 {currentLinks.quickLinks.map((link) => (
                   <li key={link.label}>
@@ -307,7 +314,11 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-md border border-white/10">
                 <Shield size={12} className="text-[#C58B45]" />
-                <span>ضمان 10 سنوات معتمد</span>
+                <span>
+                  {language === "en"
+                    ? "10-Year Certified Warranty"
+                    : "ضمان 10 سنوات معتمد"}
+                </span>
               </div>
             </div>
           </div>
@@ -318,28 +329,21 @@ export default function Footer() {
       <div className="border-t border-white/10 dark:border-white/5 bg-[#141211] dark:bg-[#07090E]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
           {/* Payment Methods */}
-          <div className="flex items-center gap-2 text-xs text-white/60">
-            <span className="text-[11px] font-semibold text-white/40">طرق الدفع:</span>
-            {/* Visa */}
-            <span className="px-2 py-0.5 rounded bg-white text-[#1A1F71] font-black text-[10px] tracking-wider">
-              VISA
-            </span>
-            {/* Mastercard */}
-            <span className="px-2 py-0.5 rounded bg-[#252525] text-white font-bold text-[10px] flex items-center gap-1">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#EB001B] inline-block -mr-1" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#F79E1B] inline-block" />
-            </span>
-            {/* InstaPay */}
-            <span className="px-2 py-0.5 rounded bg-[#5A287F] text-white font-bold text-[10px]">
-              InstaPay
-            </span>
-            {/* Fawry */}
-            <span className="px-2 py-0.5 rounded bg-[#FECE00] text-black font-extrabold text-[10px]">
-              Fawry
+          <div className="flex flex-wrap items-center gap-2 text-xs text-white/60">
+            <span className="text-[11px] font-semibold text-white/40">
+              {language === "en" ? "Payment Methods:" : "طرق الدفع:"}
             </span>
             {/* Cash on delivery */}
-            <span className="px-2 py-0.5 rounded bg-white/10 text-white text-[10px] font-medium">
-              الدفع عند الاستلام
+            <span className="px-2.5 py-1 rounded-md bg-emerald-950/40 text-emerald-300 border border-emerald-800/40 text-[10px] font-bold">
+              {language === "en" ? "Cash on Delivery" : "الدفع عند الاستلام"}
+            </span>
+            {/* InstaPay */}
+            <span className="px-2.5 py-1 rounded-md bg-[#5A287F] text-white font-bold text-[10px] shadow-2xs">
+              ⚡ InstaPay Egypt
+            </span>
+            {/* Vodafone Cash */}
+            <span className="px-2.5 py-1 rounded-md bg-[#E60000] text-white font-bold text-[10px] shadow-2xs">
+              📱 {language === "en" ? "Vodafone Cash & Wallets" : "فودافون كاش والمحافظ"}
             </span>
           </div>
 

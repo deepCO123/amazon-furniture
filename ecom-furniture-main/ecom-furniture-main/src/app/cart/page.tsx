@@ -269,11 +269,19 @@ export default function CartPage() {
                 {isFreeShipping ? (
                   <span className="text-emerald-700 font-bold flex items-center gap-1.5">
                     <Truck size={14} className="text-emerald-600" />
-                    <span>مؤهل للشحن المجاني لجميع المحافظات! ✓</span>
+                    <span>{isEn ? "Eligible for Free Nationwide Delivery! ✓" : "مؤهل للشحن المجاني لجميع المحافظات! ✓"}</span>
                   </span>
                 ) : (
                   <span className="text-muted block text-[11px]">
-                    أضف منتجات بـ <strong className="text-accent-dark">{formatPrice(FREE_SHIPPING_THRESHOLD - total)}</strong> للحصول على <strong>شحن مجاني بالكامل!</strong>
+                    {isEn ? (
+                      <>
+                        Add <strong className="text-accent-dark">{formatPrice(FREE_SHIPPING_THRESHOLD - total)}</strong> more for <strong>100% FREE delivery!</strong>
+                      </>
+                    ) : (
+                      <>
+                        أضف منتجات بـ <strong className="text-accent-dark">{formatPrice(FREE_SHIPPING_THRESHOLD - total)}</strong> للحصول على <strong>شحن مجاني بالكامل!</strong>
+                      </>
+                    )}
                   </span>
                 )}
               </div>
@@ -289,7 +297,7 @@ export default function CartPage() {
                     <button
                       onClick={handleRemoveCoupon}
                       className="p-1 text-emerald-600 hover:text-emerald-900 rounded cursor-pointer"
-                      title="إلغاء الكوبون"
+                      title={isEn ? "Remove coupon" : "إلغاء الكوبون"}
                     >
                       <X size={14} />
                     </button>
@@ -298,7 +306,7 @@ export default function CartPage() {
                   <form onSubmit={handleApplyCoupon} className="space-y-1.5">
                     <label className="block text-xs font-bold text-primary flex items-center gap-1">
                       <Tag size={12} className="text-accent" />
-                      <span>كوبون الخصم:</span>
+                      <span>{isEn ? "Discount Coupon:" : "كوبون الخصم:"}</span>
                     </label>
                     <div className="flex gap-1.5">
                       <input
@@ -312,7 +320,7 @@ export default function CartPage() {
                         type="submit"
                         className="px-3 py-1.5 bg-accent hover:bg-accent-dark text-white rounded-lg text-xs font-bold transition-colors cursor-pointer"
                       >
-                        تطبيق
+                        {isEn ? "Apply" : "تطبيق"}
                       </button>
                     </div>
                     {couponFeedback && (
@@ -336,7 +344,7 @@ export default function CartPage() {
 
                 {couponDiscount > 0 && (
                   <div className="flex justify-between text-emerald-600 text-xs font-bold">
-                    <span>خصم الكوبون</span>
+                    <span>{isEn ? "Coupon Discount" : "خصم الكوبون"}</span>
                     <span>-{formatPrice(couponDiscount)}</span>
                   </div>
                 )}
@@ -359,7 +367,9 @@ export default function CartPage() {
                     {isEn ? "Shipping & Delivery" : "مصاريف الشحن"}
                   </span>
                   <span className="font-semibold text-amber-800 bg-white px-2 py-0.5 rounded shadow-xs text-[11px]">
-                    {isFreeShipping ? "شحن مجاني ✓" : "يُحدد بصفحة الدفع"}
+                    {isFreeShipping
+                      ? (isEn ? "Free Shipping ✓" : "شحن مجاني ✓")
+                      : (isEn ? "Calculated at checkout" : "يُحدد بصفحة الدفع")}
                   </span>
                 </div>
 

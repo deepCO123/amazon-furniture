@@ -36,6 +36,7 @@ import {
   Phone,
   Mail,
   Download,
+  CheckCircle2,
 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
@@ -65,7 +66,7 @@ type PaymentMethod = "cod" | "instapay" | "wallet";
 
 export default function CheckoutPage() {
   const { items, getTotal, clearCart } = useCartStore();
-  const { user, addOrder } = useAuthStore();
+  const { user, addOrder, checkSession } = useAuthStore();
   const { language } = useLanguageStore();
   const isEn = language === "en";
 
@@ -120,6 +121,19 @@ export default function CheckoutPage() {
       city: "cairo",
     },
   });
+
+  // Auto-detect returning from Google OAuth gateway
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("auth") === "google_success") {
+        checkSession().then(() => {
+          const newUrl = window.location.pathname;
+          window.history.replaceState({}, "", newUrl);
+        });
+      }
+    }
+  }, [checkSession]);
 
   // Sync user info into form if user logs in
   useEffect(() => {
@@ -575,7 +589,7 @@ ${itemsListText}
             {/* Official Printable Invoice & Warranty Document */}
             <div
               id="printable-invoice"
-              className="printable-invoice-sheet bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl text-slate-900"
+              className="printable-invoice-sheet keep-white bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl text-slate-900"
             >
               {/* 1. Header with Brand Identity */}
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-6 border-b-2 border-slate-900">
@@ -936,21 +950,55 @@ ${itemsListText}
                       </div>
                     </div>
 
-                    {!user && (
-                      <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-[#C5A880]/15 to-transparent border border-[#C5A880]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div>
-                          <div className="flex items-center gap-1.5 text-xs font-bold text-[#8B6E45]">
-                            <Sparkles size={14} />
-                            <span>تسجيل وتوثيق كعميل VIP</span>
+                    {!user ? (
+                      <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent dark:from-[#C58B45]/20 dark:via-[#C58B45]/10 dark:to-transparent border border-[#C5A880]/40 dark:border-[#C5A880]/30 shadow-xs">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-400 flex items-center justify-center">
+                                <Sparkles size={13} />
+                              </span>
+                              <h3 className="text-xs sm:text-sm font-extrabold text-primary dark:text-[#E8D4B0]">
+                                {isEn ? "Fast 1-Click Google Sign-In (VIP Checkout)" : "تسجيل دخول وتوثيق فوري بحساب Google (عملاء VIP)"}
+                              </h3>
+                            </div>
+                            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg">
+                              {isEn
+                                ? "Sign in with Google to automatically fill your details, link order tracking, and receive the official 10-year warranty certificate."
+                                : "سجل بضغطة واحدة لتعبئة بياناتك تلقائياً وربط تتبع الشحن واستلام شهادة الضمان والفاتورة على بريدك الإلكتروني."}
+                            </p>
                           </div>
-                          <p className="text-xs text-slate-600 mt-0.5">
-                            سجل دخول بضغطة واحدة بحساب Google لتوثيق أوردراتك واستلام إشعار الترحيب والفاتورة على بريدك.
-                          </p>
+                          <div className="shrink-0 w-full md:w-auto">
+                            <GoogleAuthButton
+                              className="w-full md:w-auto px-6 py-3 shadow-md hover:shadow-lg"
+                              text={isEn ? "Continue with Google" : "المتابعة السريعة بحساب Google"}
+                              returnTo="/checkout"
+                            />
+                          </div>
                         </div>
-                        <GoogleAuthButton
-                          className="shrink-0"
-                          text="دخول سريع بـ Google"
-                        />
+                      </div>
+                    ) : (
+                      <div className="mb-6 p-3.5 sm:p-4 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 flex items-center justify-center shrink-0">
+                            <CheckCircle2 size={18} />
+                          </div>
+                          <div>
+                            <span className="text-[11px] text-emerald-800 dark:text-emerald-400 font-bold block">
+                              {isEn ? "Verified VIP Account Active ✓" : "حساب العميل موثق ومفعل ✓"}
+                            </span>
+                            <span className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">
+                              {user.name} ({user.email})
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <GoogleAuthButton
+                            className="text-xs py-2 px-3 bg-white/80 dark:bg-slate-800"
+                            text={isEn ? "Switch Google Account" : "تبديل حساب Google"}
+                            returnTo="/checkout"
+                          />
+                        </div>
                       </div>
                     )}
 
@@ -990,7 +1038,7 @@ ${itemsListText}
                         {/* Egyptian Governorate Dynamic Select */}
                         <div>
                           <label className="block text-sm font-semibold text-primary mb-1.5">
-                            {isEn ? "Governorate" : "المحافظة (حساب الشحن الفوري)"}
+                            {isEn ? "Governorate (Instant Shipping Rate)" : "المحافظة (حساب الشحن الفوري)"}
                           </label>
                           <select
                             value={selectedGovernorate}
@@ -1002,7 +1050,10 @@ ${itemsListText}
                           >
                             {EGYPT_GOVERNORATES.map((g) => (
                               <option key={g.id} value={g.id}>
-                                {g.nameAr} {total >= FREE_SHIPPING_THRESHOLD ? "(شحن مجاني ✓)" : `(${g.cost} ج - ${g.deliveryDays})`}
+                                {isEn ? g.nameEn : g.nameAr}{" "}
+                                {total >= FREE_SHIPPING_THRESHOLD
+                                  ? (isEn ? "(Free Shipping ✓)" : "(شحن مجاني ✓)")
+                                  : `(${g.cost} EGP - ${isEn ? g.deliveryDays.replace("أيام عمل", "business days") : g.deliveryDays})`}
                               </option>
                             ))}
                           </select>
@@ -1169,11 +1220,11 @@ ${itemsListText}
                             animate={{ opacity: 1, height: "auto" }}
                             className="mt-4 pt-3 border-t border-indigo-100 text-xs space-y-3"
                           >
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-white p-3 rounded-lg border border-indigo-100">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-white dark:bg-[#151D2A] p-3 rounded-lg border border-indigo-100 dark:border-indigo-900/40">
                               <div className="flex items-center justify-between">
                                 <div>
-                                  <span className="text-muted block text-[10px]">عنوان الدفع اللحظي (IPA):</span>
-                                  <span className="font-mono font-bold text-slate-900">amazonfurniture@instapay</span>
+                                  <span className="text-muted block text-[10px]">{isEn ? "Instant Payment Address (IPA):" : "عنوان الدفع اللحظي (IPA):"}</span>
+                                  <span className="font-mono font-bold text-slate-900 dark:text-white">amazonfurniture@instapay</span>
                                 </div>
                                 <button
                                   type="button"
@@ -1181,17 +1232,17 @@ ${itemsListText}
                                     e.stopPropagation();
                                     copyToClipboard("amazonfurniture@instapay", "ipa");
                                   }}
-                                  className="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded cursor-pointer"
-                                  title="نسخ"
+                                  className="p-1.5 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 rounded cursor-pointer"
+                                  title={isEn ? "Copy" : "نسخ"}
                                 >
                                   {copiedField === "ipa" ? <CheckCheck size={16} /> : <Copy size={16} />}
                                 </button>
                               </div>
 
-                              <div className="flex items-center justify-between border-t sm:border-t-0 sm:border-s border-indigo-100 pt-2 sm:pt-0 sm:ps-3">
+                              <div className="flex items-center justify-between border-t sm:border-t-0 sm:border-s border-indigo-100 dark:border-indigo-900/40 pt-2 sm:pt-0 sm:ps-3">
                                 <div>
-                                  <span className="text-muted block text-[10px]">رقم الهاتف المرتبط:</span>
-                                  <span className="font-mono font-bold text-slate-900" dir="ltr">01091084863</span>
+                                  <span className="text-muted block text-[10px]">{isEn ? "Linked Phone Number:" : "رقم الهاتف المرتبط:"}</span>
+                                  <span className="font-mono font-bold text-slate-900 dark:text-white" dir="ltr">01091084863</span>
                                 </div>
                                 <button
                                   type="button"
@@ -1199,8 +1250,8 @@ ${itemsListText}
                                     e.stopPropagation();
                                     copyToClipboard("01091084863", "instapay-phone");
                                   }}
-                                  className="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded cursor-pointer"
-                                  title="نسخ"
+                                  className="p-1.5 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 rounded cursor-pointer"
+                                  title={isEn ? "Copy" : "نسخ"}
                                 >
                                   {copiedField === "instapay-phone" ? <CheckCheck size={16} /> : <Copy size={16} />}
                                 </button>
@@ -1343,10 +1394,10 @@ ${itemsListText}
                             animate={{ opacity: 1, height: "auto" }}
                             className="mt-4 pt-3 border-t border-red-100 text-xs space-y-3"
                           >
-                            <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-red-100">
+                            <div className="flex items-center justify-between bg-white dark:bg-[#151D2A] p-3 rounded-lg border border-red-100 dark:border-red-900/40">
                               <div>
-                                <span className="text-muted block text-[10px]">رقم محفظة كاش المعتمد للمعرض:</span>
-                                <span className="font-mono font-bold text-slate-900 text-sm" dir="ltr">01091084863</span>
+                                <span className="text-muted block text-[10px]">{isEn ? "Official Showroom Wallet Number:" : "رقم محفظة كاش المعتمد للمعرض:"}</span>
+                                <span className="font-mono font-bold text-slate-900 dark:text-white text-sm" dir="ltr">01091084863</span>
                               </div>
                               <button
                                 type="button"
@@ -1354,10 +1405,10 @@ ${itemsListText}
                                   e.stopPropagation();
                                   copyToClipboard("01091084863", "wallet-phone");
                                 }}
-                                className="px-2.5 py-1 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg flex items-center gap-1 cursor-pointer"
+                                className="px-2.5 py-1 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/60 rounded-lg flex items-center gap-1 cursor-pointer"
                               >
                                 {copiedField === "wallet-phone" ? <CheckCheck size={14} /> : <Copy size={14} />}
-                                <span>{copiedField === "wallet-phone" ? "تم النسخ" : "نسخ الرقم"}</span>
+                                <span>{copiedField === "wallet-phone" ? (isEn ? "Copied" : "تم النسخ") : (isEn ? "Copy Number" : "نسخ الرقم")}</span>
                               </button>
                             </div>
 
@@ -1460,23 +1511,23 @@ ${itemsListText}
                       </div>
                       <div className="space-y-1.5 text-xs">
                         <div className="flex justify-between text-muted">
-                          <span>المجموع الفرعي:</span>
+                          <span>{isEn ? "Subtotal:" : "المجموع الفرعي:"}</span>
                           <span className="font-semibold text-primary">{formatPrice(total)}</span>
                         </div>
                         {couponDiscount > 0 && (
                           <div className="flex justify-between text-emerald-600 font-semibold">
-                            <span>خصم الكوبون:</span>
+                            <span>{isEn ? "Coupon Discount:" : "خصم الكوبون:"}</span>
                             <span>-{formatPrice(couponDiscount)}</span>
                           </div>
                         )}
                         <div className="flex justify-between text-muted">
-                          <span>تكلفة الشحن ({shippingInfo.governorateName}):</span>
+                          <span>{isEn ? `Shipping (${shippingInfo.governorateNameEn || shippingInfo.governorateName}):` : `تكلفة الشحن (${shippingInfo.governorateName}):`}</span>
                           <span className={shippingCost === 0 ? "font-bold text-emerald-600" : "font-semibold text-primary"}>
-                            {shippingCost === 0 ? "مجاني ✓" : formatPrice(shippingCost)}
+                            {shippingCost === 0 ? (isEn ? "Free ✓" : "مجاني ✓") : formatPrice(shippingCost)}
                           </span>
                         </div>
                         <div className="flex justify-between text-base font-extrabold text-primary pt-2 border-t border-surface-dark">
-                          <span>المبلغ الإجمالي للدفع:</span>
+                          <span>{isEn ? "Total Amount:" : "المبلغ الإجمالي للدفع:"}</span>
                           <span className="text-accent-dark">{formatPrice(grandTotal)}</span>
                         </div>
                       </div>
@@ -1541,8 +1592,8 @@ ${itemsListText}
                           {item.color && `• ${item.color}`}
                         </p>
                         {item.curtainType && (
-                          <span className="inline-block text-[10px] font-bold text-[#8B6E45] bg-[#C5A880]/15 px-2 py-0.5 rounded mt-0.5">
-                            النوع: {item.curtainType}
+                          <span className="inline-block text-[10px] font-bold text-[#8B6E45] dark:text-[#DFC79C] bg-[#C5A880]/15 px-2 py-0.5 rounded mt-0.5">
+                            {isEn ? "Type:" : "النوع:"} {item.curtainType}
                           </span>
                         )}
                         <p className="font-bold text-accent-dark text-xs mt-0.5">
@@ -1556,15 +1607,15 @@ ${itemsListText}
                 {/* Promo Code Coupon Input Box */}
                 <div className="mb-4 pt-3 border-t border-surface-dark">
                   {appliedCoupon ? (
-                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs text-emerald-800">
+                    <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40 flex items-center justify-between text-xs text-emerald-800 dark:text-emerald-300">
                       <div className="flex items-center gap-1.5 font-bold">
                         <Tag size={14} className="text-emerald-600" />
-                        <span>كوبون: {appliedCoupon.code} (-{formatPrice(couponDiscount)})</span>
+                        <span>{isEn ? "Coupon:" : "كوبون:"} {appliedCoupon.code} (-{formatPrice(couponDiscount)})</span>
                       </div>
                       <button
                         onClick={handleRemoveCoupon}
                         className="p-1 text-emerald-600 hover:text-emerald-900 rounded"
-                        title="إلغاء الكوبون"
+                        title={isEn ? "Remove coupon" : "إلغاء الكوبون"}
                       >
                         <X size={14} />
                       </button>
@@ -1573,21 +1624,21 @@ ${itemsListText}
                     <form onSubmit={handleApplyCoupon} className="space-y-2">
                       <label className="block text-xs font-bold text-primary flex items-center gap-1">
                         <Tag size={12} className="text-accent" />
-                        <span>هل لديك كوبون خصم؟</span>
+                        <span>{isEn ? "Have a discount coupon?" : "هل لديك كوبون خصم؟"}</span>
                       </label>
                       <div className="flex gap-2">
                         <input
                           type="text"
-                          placeholder="مثال: WELCOME10"
+                          placeholder={isEn ? "e.g. WELCOME10" : "مثال: WELCOME10"}
                           value={couponCodeInput}
                           onChange={(e) => setCouponCodeInput(e.target.value.toUpperCase())}
-                          className="flex-1 px-3 py-1.5 text-xs rounded-lg border border-surface-dark uppercase focus:ring-1 focus:ring-accent outline-none"
+                          className="flex-1 px-3 py-1.5 text-xs rounded-lg border border-surface-dark bg-white dark:bg-[#151A24] text-primary uppercase focus:ring-1 focus:ring-accent outline-none"
                         />
                         <button
                           type="submit"
                           className="px-3 py-1.5 bg-accent hover:bg-accent-dark text-white rounded-lg text-xs font-bold transition-colors cursor-pointer"
                         >
-                          تطبيق
+                          {isEn ? "Apply" : "تطبيق"}
                         </button>
                       </div>
                       {couponFeedback && (
@@ -1612,36 +1663,36 @@ ${itemsListText}
 
                   {couponDiscount > 0 && (
                     <div className="flex justify-between text-emerald-600 text-xs font-bold">
-                      <span>خصم الكوبون</span>
+                      <span>{isEn ? "Coupon Discount" : "خصم الكوبون"}</span>
                       <span>-{formatPrice(couponDiscount)}</span>
                     </div>
                   )}
 
                   {/* Assembly - 100% Free */}
-                  <div className="flex items-center justify-between text-xs bg-emerald-50/80 border border-emerald-100 px-2.5 py-1.5 rounded-lg">
-                    <span className="flex items-center gap-1.5 font-medium text-emerald-900">
+                  <div className="flex items-center justify-between text-xs bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-800/40 px-2.5 py-1.5 rounded-lg">
+                    <span className="flex items-center gap-1.5 font-medium text-emerald-900 dark:text-emerald-300">
                       <Wrench size={13} className="text-emerald-600 shrink-0" />
                       {isEn ? "Installation & Assembly" : "التركيب والمعاينة"}
                     </span>
-                    <span className="font-bold text-emerald-700 bg-white px-2 py-0.5 rounded shadow-xs text-[11px]">
+                    <span className="font-bold text-emerald-700 bg-white dark:bg-emerald-900/50 dark:text-emerald-200 px-2 py-0.5 rounded shadow-xs text-[11px]">
                       {isEn ? "100% Free ✓" : "مجاناً بالكامل ✓"}
                     </span>
                   </div>
 
                   {/* Shipping Rate Dynamic */}
-                  <div className="flex items-center justify-between text-xs bg-slate-50 border border-slate-200 px-2.5 py-1.5 rounded-lg">
-                    <span className="flex items-center gap-1.5 font-medium text-slate-800">
+                  <div className="flex items-center justify-between text-xs bg-slate-50 dark:bg-[#0D121B] border border-slate-200 dark:border-slate-800 px-2.5 py-1.5 rounded-lg">
+                    <span className="flex items-center gap-1.5 font-medium text-slate-800 dark:text-slate-200">
                       <Truck size={13} className="text-accent shrink-0" />
-                      <span>شحن ({shippingInfo.governorateName}):</span>
+                      <span>{isEn ? `Shipping (${shippingInfo.governorateNameEn || shippingInfo.governorateName}):` : `شحن (${shippingInfo.governorateName}):`}</span>
                     </span>
                     <span
                       className={`font-bold px-2 py-0.5 rounded text-[11px] ${
                         shippingInfo.isFree
-                          ? "bg-emerald-100 text-emerald-800"
-                          : "bg-white text-slate-800 shadow-xs"
+                          ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-200"
+                          : "bg-white dark:bg-[#151A24] text-slate-800 dark:text-slate-200 shadow-xs"
                       }`}
                     >
-                      {shippingInfo.isFree ? "مجاني ✓" : formatPrice(shippingCost)}
+                      {shippingInfo.isFree ? (isEn ? "Free ✓" : "مجاني ✓") : formatPrice(shippingCost)}
                     </span>
                   </div>
 
@@ -1649,7 +1700,7 @@ ${itemsListText}
                     <div>
                       <span className="font-bold text-base block">{isEn ? "Final Total" : "إجمالي الفاتورة"}</span>
                       <span className="text-[10px] text-muted block">
-                        (شامل المنتجات والشحن والتركيب)
+                        {isEn ? "(Includes items, shipping & free assembly)" : "(شامل المنتجات والشحن والتركيب)"}
                       </span>
                     </div>
                     <span className="font-extrabold text-xl text-accent-dark">

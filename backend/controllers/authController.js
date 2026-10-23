@@ -347,4 +347,6 @@ module.exports = {
   logout,
   getMe,
   googleCallback,
+  attachTokenCookie,
 };
+

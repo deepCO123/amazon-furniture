@@ -31,8 +31,8 @@ export default function WhatsAppButton() {
         target="_blank"
         rel="noopener noreferrer"
         className="relative flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110 cursor-pointer min-w-[48px] min-h-[48px]"
-        title="تواصل عبر واتساب"
-        aria-label="WhatsApp Contact"
+        title={t.whatsappHelp}
+        aria-label={t.whatsappHelp}
       >
         {/* Pulsing subtle ring */}
         <span className="absolute -inset-1 rounded-full bg-[#25D366]/30 animate-ping pointer-events-none" />
@@ -42,7 +42,7 @@ export default function WhatsAppButton() {
 
         {/* Clean subtle hover tooltip */}
         <span className="absolute left-full ml-3 px-2.5 py-1 bg-[#292321] dark:bg-[#1E2536] text-white text-xs font-bold rounded-lg shadow-md border border-transparent dark:border-[#2D3748] opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap hidden sm:inline-block">
-          تواصل عبر واتساب
+          {t.whatsappHelp}
         </span>
       </a>
     </motion.aside>

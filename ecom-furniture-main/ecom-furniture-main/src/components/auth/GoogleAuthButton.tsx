@@ -3,24 +3,34 @@
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { apiClient } from "@/lib/apiClient";
+import { useLanguageStore } from "@/store/languageStore";
 
 interface GoogleAuthButtonProps {
   onSuccess?: () => void;
   className?: string;
   text?: string;
+  returnTo?: string;
 }
 
 export default function GoogleAuthButton({
   className = "",
-  text = "المتابعة السريعة بواسطة Google",
+  text,
+  returnTo,
 }: GoogleAuthButtonProps) {
   const [loading, setLoading] = useState(false);
+  const { language } = useLanguageStore();
+  const isEn = language === "en";
+
+  const defaultText = isEn
+    ? "Fast Sign-in with Google"
+    : "المتابعة السريعة بواسطة Google";
 
   const handleGoogleLogin = () => {
     setLoading(true);
-    // Redirect browser to Express backend Google OAuth gateway
-    // Express will redirect to accounts.google.com, handle callback, set JWT cookie, and return to frontend
-    window.location.href = apiClient.getGoogleAuthUrl();
+    const target = returnTo || (typeof window !== "undefined" ? window.location.pathname : "/");
+    const baseUrl = apiClient.getGoogleAuthUrl();
+    const separator = baseUrl.includes("?") ? "&" : "?";
+    window.location.href = `${baseUrl}${separator}returnTo=${encodeURIComponent(target)}`;
   };
 
   return (
@@ -28,7 +38,7 @@ export default function GoogleAuthButton({
       type="button"
       onClick={handleGoogleLogin}
       disabled={loading}
-      className={`w-full py-3 px-4 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-3 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed ${className}`}
+      className={`py-3 px-5 rounded-xl border border-slate-300 dark:border-[#2D3748] bg-white dark:bg-[#1A2230] hover:bg-slate-50 dark:hover:bg-[#232B3C] text-slate-800 dark:text-white font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-3 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed ${className}`}
     >
       {loading ? (
         <Loader2 className="w-5 h-5 animate-spin text-[#C5A880]" />
@@ -52,7 +62,7 @@ export default function GoogleAuthButton({
           />
         </svg>
       )}
-      <span>{loading ? "جاري التحويل إلى Google..." : text}</span>
+      <span>{loading ? (isEn ? "Connecting to Google..." : "جاري التحويل إلى Google...") : (text || defaultText)}</span>
     </button>
   );
 }

@@ -42,6 +42,7 @@ export function getShippingRate(governorateIdOrName: string, cartTotal: number):
   isFree: boolean;
   deliveryDays: string;
   governorateName: string;
+  governorateNameEn: string;
 } {
   const norm = (governorateIdOrName || "").trim().toLowerCase();
   const gov = EGYPT_GOVERNORATES.find(
@@ -58,5 +59,6 @@ export function getShippingRate(governorateIdOrName: string, cartTotal: number):
     isFree,
     deliveryDays: gov.deliveryDays,
     governorateName: gov.nameAr,
+    governorateNameEn: gov.nameEn,
   };
 }

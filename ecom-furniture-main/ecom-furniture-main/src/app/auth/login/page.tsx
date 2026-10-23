@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/store/authStore";
+import { useLanguageStore } from "@/store/languageStore";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import AnimatedSection from "@/components/ui/AnimatedSection";
@@ -30,6 +31,9 @@ type LoginForm = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const login = useAuthStore((s) => s.login);
+  const { language } = useLanguageStore();
+  const isEn = language === "en";
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -54,7 +58,12 @@ export default function LoginPage() {
         router.push("/");
       }
     } else {
-      setError(result.message || "بيانات الدخول غير صحيحة. تأكد من البريد وكلمة المرور.");
+      setError(
+        result.message ||
+          (isEn
+            ? "Invalid login credentials. Please check your email and password."
+            : "بيانات الدخول غير صحيحة. تأكد من البريد وكلمة المرور.")
+      );
     }
     setLoading(false);
   };
@@ -62,7 +71,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-surface flex items-center justify-center py-12 px-4">
       <AnimatedSection className="w-full max-w-md">
-        <div className="bg-white rounded-2xl p-8 border border-surface-dark shadow-sm">
+        <div className="bg-white dark:bg-[#151D2A] rounded-2xl p-8 border border-surface-dark shadow-sm">
           <div className="text-center mb-6">
             <Link href="/" className="inline-flex flex-col items-center gap-2 mb-4 group" aria-label="AMAZON">
               <Image
@@ -74,22 +83,28 @@ export default function LoginPage() {
                 priority
               />
             </Link>
-            <h1 className="text-2xl font-bold text-primary">تسجيل الدخول / Sign In</h1>
-            <p className="text-muted mt-1 text-sm">سجل دخولك لحسابك في AMAZON (عملاء أو مسؤولين)</p>
+            <h1 className="text-2xl font-bold text-primary">
+              {isEn ? "Sign In" : "تسجيل الدخول"}
+            </h1>
+            <p className="text-muted mt-1 text-sm">
+              {isEn
+                ? "Sign in to your AMAZON account (Customers & Admins)"
+                : "سجل دخولك لحسابك في AMAZON (عملاء أو مسؤولين)"}
+            </p>
           </div>
 
           {/* Google 1-Click Login Button */}
           <div className="mb-6">
             <GoogleAuthButton
-              text="تسجيل الدخول السريع بـ Google"
+              text={isEn ? "Sign in with Google" : "تسجيل الدخول السريع بـ Google"}
               onSuccess={() => router.push("/")}
             />
             <div className="relative my-6 text-center">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-surface-dark" />
               </div>
-              <span className="relative px-3 bg-white text-xs text-muted uppercase font-semibold">
-                أو بالبريد وكلمة المرور
+              <span className="relative px-3 bg-white dark:bg-[#151D2A] text-xs text-muted uppercase font-semibold">
+                {isEn ? "Or with email and password" : "أو بالبريد وكلمة المرور"}
               </span>
             </div>
           </div>
@@ -99,22 +114,22 @@ export default function LoginPage() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-danger"
+                className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 rounded-lg text-sm text-danger"
               >
                 {error}
               </motion.div>
             )}
 
             <Input
-              label="البريد الإلكتروني / Email"
+              label={isEn ? "Email Address" : "البريد الإلكتروني"}
               type="text"
-              placeholder="client@amazonfurniture.eg أو admin"
+              placeholder={isEn ? "client@amazonfurniture.eg or admin" : "client@amazonfurniture.eg أو admin"}
               error={errors.email?.message}
               {...register("email")}
             />
 
             <Input
-              label="كلمة المرور / Password"
+              label={isEn ? "Password" : "كلمة المرور"}
               type="password"
               placeholder="••••••••"
               error={errors.password?.message}
@@ -122,13 +137,13 @@ export default function LoginPage() {
             />
 
             <Button type="submit" size="lg" className="w-full font-bold" loading={loading}>
-              تسجيل الدخول / Sign In
+              {isEn ? "Sign In" : "تسجيل الدخول"}
             </Button>
           </form>
 
           {/* Quick Admin Demo Fill Shortcut */}
-          <div className="mt-4 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs flex items-center justify-between text-slate-600">
-            <span className="text-[11px]">هل أنت مسؤول النظام؟</span>
+          <div className="mt-4 p-2.5 bg-slate-50 dark:bg-[#0D121B] border border-slate-200 dark:border-slate-800 rounded-xl text-xs flex items-center justify-between text-slate-600 dark:text-slate-300">
+            <span className="text-[11px]">{isEn ? "System Administrator?" : "هل أنت مسؤول النظام؟"}</span>
             <button
               type="button"
               onClick={() => {
@@ -138,18 +153,18 @@ export default function LoginPage() {
               }}
               className="text-[#C58B45] hover:text-[#93662a] font-bold text-[11px] underline cursor-pointer"
             >
-              تعبئة بيانات الأدمن تلقائياً ⚡
+              {isEn ? "Autofill Admin Credentials ⚡" : "تعبئة بيانات الأدمن تلقائياً ⚡"}
             </button>
           </div>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-muted">
-              ليس لديك حساب؟{" "}
+              {isEn ? "Don't have an account? " : "ليس لديك حساب؟ "}
               <Link
                 href="/auth/register"
                 className="text-accent hover:text-accent-dark font-bold underline"
               >
-                إنشاء حساب جديد
+                {isEn ? "Create new account" : "إنشاء حساب جديد"}
               </Link>
             </p>
           </div>
@@ -158,4 +173,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

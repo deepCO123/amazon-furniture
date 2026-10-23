@@ -436,7 +436,7 @@ export default function Navbar() {
               className="flex items-center gap-1.5 text-[#C58B45] hover:text-[#B07836] font-black text-xs sm:text-sm whitespace-nowrap transition-colors shrink-0"
             >
               <Sparkles size={14} className="text-[#C58B45]" />
-              <span>تسوق حسب التصنيف</span>
+              <span>{language === "en" ? "Shop by Category" : "تسوق حسب التصنيف"}</span>
               <ChevronDown size={13} />
             </Link>
 
@@ -489,7 +489,11 @@ export default function Navbar() {
                   className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm py-3 rounded-xl shadow-md"
                 >
                   <Ruler size={17} />
-                  <span>شوف مساحتك قبل التنفيذ (استشارة مجانية بالمنصورة)</span>
+                  <span>
+                    {language === "en"
+                      ? "Free 3D Design Consultation & Site Visit"
+                      : "شوف مساحتك قبل التنفيذ (استشارة مجانية بالمنصورة)"}
+                  </span>
                 </Link>
 
                 {/* Core Store Navigation Pages */}
@@ -499,7 +503,7 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className="p-3 rounded-xl bg-slate-50 dark:bg-[#181E2B] hover:bg-slate-100 dark:hover:bg-[#1F2737] text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-center gap-1.5 border border-slate-200/60 dark:border-[#232B3C]"
                   >
-                    <span>🛍️ جميع المعروضات</span>
+                    <span>{language === "en" ? "🛍️ All Products" : "🛍️ جميع المعروضات"}</span>
                   </Link>
 
                   <Link
@@ -507,7 +511,7 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className="p-3 rounded-xl bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/40 text-xs font-bold text-red-700 dark:text-red-400 flex items-center justify-center gap-1.5 border border-red-200/60 dark:border-red-900/40"
                   >
-                    <span>🔥 عروض الخصومات</span>
+                    <span>{language === "en" ? "🔥 Sale Offers" : "🔥 عروض الخصومات"}</span>
                   </Link>
 
                   <Link
@@ -515,7 +519,7 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className="p-3 rounded-xl bg-slate-50 dark:bg-[#181E2B] hover:bg-slate-100 dark:hover:bg-[#1F2737] text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-center gap-1.5 border border-slate-200/60 dark:border-[#232B3C]"
                   >
-                    <span>📦 تتبع طلباتي</span>
+                    <span>{language === "en" ? "📦 Track Orders" : "📦 تتبع طلباتي"}</span>
                   </Link>
 
                   <Link
@@ -523,7 +527,11 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className="p-3 rounded-xl bg-slate-50 dark:bg-[#181E2B] hover:bg-slate-100 dark:hover:bg-[#1F2737] text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-center gap-1.5 border border-slate-200/60 dark:border-[#232B3C]"
                   >
-                    <span>🛒 سلة المشتريات ({hydrated ? itemCount : 0})</span>
+                    <span>
+                      {language === "en"
+                        ? `🛒 Cart (${hydrated ? itemCount : 0})`
+                        : `🛒 سلة المشتريات (${hydrated ? itemCount : 0})`}
+                    </span>
                   </Link>
 
                   <Link
@@ -531,7 +539,7 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className="p-3 rounded-xl bg-slate-50 dark:bg-[#181E2B] hover:bg-slate-100 dark:hover:bg-[#1F2737] text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-center gap-1.5 border border-slate-200/60 dark:border-[#232B3C]"
                   >
-                    <span>🏢 عن المصنع والمعرض</span>
+                    <span>{language === "en" ? "🏢 About Factory" : "🏢 عن المصنع والمعرض"}</span>
                   </Link>
 
                   <Link
@@ -539,13 +547,15 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className="p-3 rounded-xl bg-slate-50 dark:bg-[#181E2B] hover:bg-slate-100 dark:hover:bg-[#1F2737] text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-center gap-1.5 border border-slate-200/60 dark:border-[#232B3C]"
                   >
-                    <span>📍 فروعنا بالمنصورة</span>
+                    <span>{language === "en" ? "📍 Showroom & Factory" : "📍 فروعنا بالمنصورة"}</span>
                   </Link>
                 </div>
 
                 {/* Categories List */}
                 <div className="pt-2 pb-1 border-t border-gray-100 dark:border-[#232B3C]">
-                  <p className="text-xs font-bold text-gray-400 dark:text-gray-500 mb-2">أقسام الأثاث المتخصصة</p>
+                  <p className="text-xs font-bold text-gray-400 dark:text-gray-500 mb-2">
+                    {language === "en" ? "Furniture Categories" : "أقسام الأثاث المتخصصة"}
+                  </p>
                   <div className="grid grid-cols-2 gap-1.5">
                     {secondaryNavLinks.map((link) => (
                       <Link
@@ -572,7 +582,9 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className="font-bold text-primary dark:text-white hover:text-amber-700 dark:hover:text-[#C58B45]"
                   >
-                    {user ? `👤 مرحباً، ${user.name}` : "تسجيل الدخول / إنشاء حساب"}
+                    {user
+                      ? (language === "en" ? `👤 Welcome, ${user.name}` : `👤 مرحباً، ${user.name}`)
+                      : (language === "en" ? "Login / Register" : "تسجيل الدخول / إنشاء حساب")}
                   </Link>
 
                   <Link
@@ -580,7 +592,7 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className="font-bold text-slate-500 dark:text-slate-300 hover:text-primary dark:hover:text-white bg-slate-100 dark:bg-[#181E2B] px-2.5 py-1 rounded-md"
                   >
-                    لوحة الإدارة ⚙️
+                    {language === "en" ? "Admin Dashboard ⚙️" : "لوحة الإدارة ⚙️"}
                   </Link>
                 </div>
 
@@ -592,7 +604,11 @@ export default function Navbar() {
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white font-bold text-xs py-2.5 rounded-xl shadow-xs"
                   >
-                    <span>واتساب خدمة العملاء (+20 109 1084863)</span>
+                    <span>
+                      {language === "en"
+                        ? "Customer Support WhatsApp (+20 109 1084863)"
+                        : "واتساب خدمة العملاء (+20 109 1084863)"}
+                    </span>
                   </a>
                 </div>
 
