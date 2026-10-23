@@ -70,6 +70,9 @@ export const useAdminAuthStore = create<AdminAuthState>()(
           // Clear local state even if backend call fails
         }
         set({ isAuthenticated: false, user: null });
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("woodcraft-auth");
+        }
       },
 
       checkSession: async () => {

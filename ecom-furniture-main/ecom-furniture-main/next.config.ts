@@ -12,6 +12,15 @@ const nextConfig: NextConfig = {
     "localhost:3000",
     "127.0.0.1:3000",
   ],
+  async redirects() {
+    return [
+      {
+        source: "/admin/login",
+        destination: "/auth/login",
+        permanent: true,
+      },
+    ];
+  },
   // Proxy ALL /api/* requests to Express backend — eliminates CORS
   // and makes the frontend a pure UI layer with zero filesystem I/O
   async rewrites() {

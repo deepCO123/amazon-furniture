@@ -10,24 +10,20 @@ import {
   CheckCircle2,
   Clock,
   ShieldCheck,
-  RotateCcw,
   MessageCircle,
   AlertCircle,
   Hammer,
   Check,
-  Send,
-  X,
 } from "lucide-react";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { formatPrice } from "@/lib/utils";
-import type { Order, ReturnRequest, CartItem } from "@/types";
+import type { Order } from "@/types";
 
 interface TrackResponse {
   success: boolean;
   order: Order;
-  returns: ReturnRequest[];
 }
 
 const STAGES = [
@@ -63,14 +59,6 @@ export default function OrderTrackingPage() {
   const [error, setError] = useState<string | null>(null);
   const [trackData, setTrackData] = useState<TrackResponse | null>(null);
 
-  // Return Request Modal State
-  const [returnModalOpen, setReturnModalOpen] = useState(false);
-  const [selectedProductForReturn, setSelectedProductForReturn] = useState<CartItem | null>(null);
-  const [returnReason, setReturnReason] = useState<ReturnRequest["reason"]>("factory_defect");
-  const [returnDetails, setReturnDetails] = useState("");
-  const [submittingReturn, setSubmittingReturn] = useState(false);
-  const [returnSuccessMsg, setReturnSuccessMsg] = useState<string | null>(null);
-
   const handleTrack = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!orderIdInput.trim() || !phoneInput.trim()) {
@@ -102,55 +90,6 @@ export default function OrderTrackingPage() {
       setError("حدث خطأ في الاتصال بالخادم. يرجى المحاولة بعد قليل.");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleSubmitReturn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!trackData || !selectedProductForReturn) return;
-
-    setSubmittingReturn(true);
-    try {
-      const res = await fetch("/api/returns", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderId: trackData.order.id,
-          customerName: trackData.order.customerName,
-          customerPhone: trackData.order.customerPhone || phoneInput,
-          productName: selectedProductForReturn.product?.name || "قطعة أثاث",
-          productId: selectedProductForReturn.product?.id || "",
-          price: selectedProductForReturn.product?.price || 0,
-          reason: returnReason,
-          reasonDetails: returnDetails,
-        }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        setReturnSuccessMsg("تم تسجيل طلب الاسترجاع/الصيانة بنجاح! سيتم التواصل معك خلال 24 ساعة من فريق الجودة.");
-        // Refresh tracking data
-        const refreshRes = await fetch("/api/orders/track", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ orderId: trackData.order.id, phone: phoneInput.trim() }),
-        });
-        if (refreshRes.ok) {
-          const fresh = await refreshRes.json();
-          setTrackData(fresh);
-        }
-        setTimeout(() => {
-          setReturnModalOpen(false);
-          setReturnSuccessMsg(null);
-          setReturnDetails("");
-        }, 3000);
-      } else {
-        alert(data.error || "حدث خطأ أثناء تقديم الطلب.");
-      }
-    } catch {
-      alert("حدث خطأ في الاتصال بالخادم.");
-    } finally {
-      setSubmittingReturn(false);
     }
   };
 
@@ -375,134 +314,14 @@ export default function OrderTrackingPage() {
                           </span>
                         </div>
                       </div>
-
-                      {/* Request Return Button for Delivered / Received Items */}
-                      <button
-                        onClick={() => {
-                          setSelectedProductForReturn(it);
-                          setReturnModalOpen(true);
-                        }}
-                        className="px-3.5 py-1.5 rounded-xl border border-slate-300 hover:border-accent text-slate-700 hover:text-accent-dark text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
-                      >
-                        <RotateCcw size={14} />
-                        <span>طلب استرجاع أو صيانة</span>
-                      </button>
                     </div>
                   ))}
                 </div>
               </div>
-
-              {/* Previous Returns History for this Order */}
-              {trackData.returns && trackData.returns.length > 0 && (
-                <div className="bg-white rounded-3xl p-6 border border-surface-dark shadow-sm">
-                  <h3 className="font-bold text-sm text-primary mb-3 flex items-center gap-2">
-                    <RotateCcw size={16} className="text-accent" />
-                    <span>سجل طلبات الاسترجاع والصيانة المسجلة لهذا الطلب:</span>
-                  </h3>
-                  <div className="space-y-2.5">
-                    {trackData.returns.map((ret) => (
-                      <div key={ret.id} className="p-3.5 rounded-xl bg-surface border border-surface-dark flex items-center justify-between text-xs">
-                        <div>
-                          <span className="font-mono font-bold text-primary block">#{ret.id} - {ret.productName}</span>
-                          <span className="text-muted text-[11px]">السبب: {ret.reason} {ret.reasonDetails && `(${ret.reasonDetails})`}</span>
-                        </div>
-                        <span className="font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-800">
-                          {ret.status === "pending_review" ? "قيد المراجعة الفنية" : ret.status === "inspection_approved" ? "تمت الموافقة والفحص" : ret.status}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-
-      {/* Return Request Modal */}
-      {returnModalOpen && selectedProductForReturn && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-surface-dark shadow-2xl relative text-start">
-            <button
-              onClick={() => setReturnModalOpen(false)}
-              className="absolute top-5 left-5 p-2 text-muted hover:text-primary rounded-full"
-            >
-              <X size={18} />
-            </button>
-
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-accent/15 text-accent-dark flex items-center justify-center shrink-0">
-                <RotateCcw size={20} />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg text-primary">طلب استرجاع أو صيانة ضمان</h3>
-                <p className="text-xs text-muted">للطلب رقم #{trackData?.order.id}</p>
-              </div>
-            </div>
-
-            {returnSuccessMsg ? (
-              <div className="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs text-center space-y-2">
-                <CheckCircle2 size={36} className="mx-auto text-emerald-600" />
-                <p className="font-bold text-sm">{returnSuccessMsg}</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmitReturn} className="space-y-4">
-                <div className="p-3 bg-surface rounded-xl border border-surface-dark text-xs">
-                  <span className="text-muted block text-[10px]">القطعة المحددة:</span>
-                  <strong className="text-primary font-bold text-sm">{selectedProductForReturn.product?.name}</strong>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-primary mb-1.5">سبب طلب الإرجاع أو الفحص:</label>
-                  <select
-                    value={returnReason}
-                    onChange={(e) => setReturnReason(e.target.value as ReturnRequest["reason"])}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-dark text-xs focus:ring-2 focus:ring-accent outline-none bg-white"
-                  >
-                    <option value="factory_defect">عيب صناعة أو تشطيب (يشمله الضمان)</option>
-                    <option value="size_mismatch">المقاس غير متطابق مع الغرفة</option>
-                    <option value="color_mismatch">اختلاف درجة لون القماش أو الدهان</option>
-                    <option value="shipping_damage">تلف أو خدش أثناء النقل والشحن</option>
-                    <option value="customer_remorse">رغبة في التبديل بقطعة أخرى</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-primary mb-1.5">تفاصيل إضافية أو وصف المشكلة:</label>
-                  <textarea
-                    rows={3}
-                    placeholder="اكتب أي تفاصيل توضيحية لمعاينة الفني..."
-                    value={returnDetails}
-                    onChange={(e) => setReturnDetails(e.target.value)}
-                    className="w-full px-3.5 py-2 rounded-xl border border-surface-dark text-xs focus:ring-2 focus:ring-accent outline-none resize-none"
-                    required
-                  />
-                </div>
-
-                <div className="pt-2 flex items-center justify-end gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setReturnModalOpen(false)}
-                  >
-                    إلغاء
-                  </Button>
-                  <Button
-                    type="submit"
-                    size="sm"
-                    disabled={submittingReturn}
-                    className="font-bold flex items-center gap-1.5"
-                  >
-                    <Send size={14} />
-                    <span>{submittingReturn ? "جاري الإرسال..." : "إرسال طلب الفحص"}</span>
-                  </Button>
-                </div>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

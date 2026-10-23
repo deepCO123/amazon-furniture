@@ -467,4 +467,30 @@ router.delete('/', verifyToken, checkRole('admin'), async (req, res) => {
   }
 });
 
+// ─── 5. تحميل أو معاينة فاتورة الـ PDF الرسمية وعقد الضمان ──────────
+router.get('/:id/invoice', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const cleanId = String(id).toUpperCase().replace('#', '');
+    const orders = await jsonCache.read('orders.json', []);
+    const order = orders.find((o) => {
+      const oId = String(o.id || '').toUpperCase().replace('#', '');
+      return oId === cleanId;
+    });
+
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    const pdfBuffer = await generateInvoiceBuffer(order);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `inline; filename="Amazon-Furniture-Invoice-${cleanId}.pdf"`);
+    res.send(pdfBuffer);
+  } catch (err) {
+    console.error('GET /api/orders/:id/invoice error:', err.message);
+    res.status(500).json({ error: 'Failed to generate invoice PDF' });
+  }
+});
+
 module.exports = router;
+

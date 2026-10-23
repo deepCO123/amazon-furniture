@@ -851,3 +851,59 @@ svg {
   max-width: 100%;
 }
 
+/* ── 3. High-Quality Printable Invoice Styles ── */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 8mm 8mm 8mm;
+  }
+
+  html, body {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+    font-size: 11pt !important;
+    line-height: 1.35 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Automatically hide website navigation, footer, floating buttons, toasts */
+  header,
+  footer,
+  nav,
+  aside,
+  .print-hidden,
+  .print\:hidden,
+  [data-print-hidden="true"],
+  .fixed,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Print container must be full width, clean, without shadows */
+  .printable-invoice-container {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #FFFFFF !important;
+    page-break-after: avoid !important;
+  }
+
+  .printable-invoice-sheet {
+    box-shadow: none !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 8px !important;
+    margin: 0 auto !important;
+    padding: 16px !important;
+    background: #FFFFFF !important;
+  }
+}
+

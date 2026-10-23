@@ -20,17 +20,22 @@ import {
   CreditCard,
   Smartphone,
   Banknote,
-  QrCode,
   Copy,
   CheckCheck,
   Printer,
-  Lock,
   Zap,
   Tag,
   X,
   UploadCloud,
   Trash2,
   Eye,
+  FileText,
+  Award,
+  Calendar,
+  MapPin,
+  Phone,
+  Mail,
+  Download,
 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
@@ -56,7 +61,7 @@ const checkoutSchema = z.object({
 });
 
 type CheckoutForm = z.infer<typeof checkoutSchema>;
-type PaymentMethod = "cod" | "instapay" | "wallet" | "card" | "fawry";
+type PaymentMethod = "cod" | "instapay" | "wallet";
 
 export default function CheckoutPage() {
   const { items, getTotal, clearCart } = useCartStore();
@@ -69,6 +74,7 @@ export default function CheckoutPage() {
   const [createdOrderId, setCreatedOrderId] = useState<string>("");
   const [createdWhatsappUrl, setCreatedWhatsappUrl] = useState<string>("");
   const [submittingOrder, setSubmittingOrder] = useState(false);
+  const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
 
   // Governorate & Shipping Calculation State
   const [selectedGovernorate, setSelectedGovernorate] = useState<string>("cairo");
@@ -79,16 +85,11 @@ export default function CheckoutPage() {
   const [couponDiscount, setCouponDiscount] = useState<number>(0);
   const [couponFeedback, setCouponFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
-  // Payment State
+  // Payment State (COD, InstaPay Egypt, Mobile Wallets)
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cod");
   const [transactionRef, setTransactionRef] = useState("");
   const [senderPhone, setSenderPhone] = useState("");
-  const [cardHolder, setCardHolder] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardExpiry, setCardExpiry] = useState("");
-  const [cardCvv, setCardCvv] = useState("");
   const [copiedField, setCopiedField] = useState<string | null>(null);
-  const [fawryCode] = useState(() => `FAW-${Math.floor(10000000 + Math.random() * 90000000)}`);
   
   // Payment Receipt Upload State (for InstaPay and Vodafone Cash)
   const [receiptImage, setReceiptImage] = useState<string>("");
@@ -218,10 +219,8 @@ export default function CheckoutPage() {
         return isEn ? "InstaPay Egypt" : "إنستاباي (InstaPay)";
       case "wallet":
         return isEn ? "Mobile Wallet / Vodafone Cash" : "فودافون كاش / محفظة محمول";
-      case "card":
-        return isEn ? "Credit / Debit Card (Paymob)" : "بطاقة بنكية (Paymob)";
-      case "fawry":
-        return isEn ? "Fawry Pay" : "فوري باي (Fawry)";
+      default:
+        return isEn ? "Cash on Delivery" : "الدفع عند الاستلام";
     }
   };
 
@@ -258,15 +257,13 @@ export default function CheckoutPage() {
     const customerEmail = customerData.email || user?.email || "customer@amazonfurniture.com";
 
     // Payment details construction
-    const paymentStatus: NonNullable<Order["paymentStatus"]> = paymentMethod === "card" ? "paid" : "pending";
+    const paymentStatus: NonNullable<Order["paymentStatus"]> = "pending";
     const paymentDetailsPayload: NonNullable<Order["paymentDetails"]> = {};
     if (paymentMethod === "instapay" && transactionRef) paymentDetailsPayload.transactionRef = transactionRef;
     if (paymentMethod === "wallet" && senderPhone) paymentDetailsPayload.walletPhone = senderPhone;
     if ((paymentMethod === "instapay" || paymentMethod === "wallet") && receiptImage) {
       paymentDetailsPayload.receiptImage = receiptImage;
     }
-    if (paymentMethod === "fawry") paymentDetailsPayload.fawryCode = fawryCode;
-    if (paymentMethod === "card") paymentDetailsPayload.paidAt = new Date().toISOString();
 
     setConfirmedPaymentInfo({
       method: paymentMethod,
@@ -290,10 +287,6 @@ export default function CheckoutPage() {
         const fullReceiptUrl = receiptImage.startsWith("http") ? receiptImage : `${origin}${receiptImage}`;
         paymentMetaText += `📸 *صورة إيصال التحويل:* ${fullReceiptUrl}\n`;
       }
-    } else if (paymentMethod === "card") {
-      paymentMetaText += `🔒 *الدفع بالفيزا:* تم الدفع بنجاح عبر بوابة Paymob مشفرة\n`;
-    } else if (paymentMethod === "fawry") {
-      paymentMetaText += `🔢 *كود فوري المرجعي:* ${fawryCode} (كود خدمة: 788)\n`;
     } else {
       paymentMetaText += `💵 *الدفع عند الاستلام:* كاش بعد المعاينة والفحص\n`;
     }
@@ -329,6 +322,14 @@ ${itemsListText}
     const whatsappUrl = `https://wa.me/201091084863?text=${encoded}`;
     setCreatedWhatsappUrl(whatsappUrl);
 
+    // Snapshot order items before clearing cart so invoice retains all details
+    const orderedItems = items.map((it) => ({
+      product: { ...it.product },
+      quantity: it.quantity,
+      color: it.color,
+      curtainType: it.curtainType,
+    }));
+
     // Post to Server API with shipping & coupon discount
     try {
       await fetch("/api/orders", {
@@ -340,12 +341,7 @@ ${itemsListText}
           customerName: customerData.fullName,
           customerEmail,
           customerPhone: customerData.phone,
-          items: items.map((it) => ({
-            product: it.product,
-            quantity: it.quantity,
-            color: it.color,
-            curtainType: it.curtainType,
-          })),
+          items: orderedItems,
           subtotal: total,
           shippingCost,
           discount: couponDiscount,
@@ -376,13 +372,20 @@ ${itemsListText}
       console.error("Failed to sync order to server API:", err);
     }
 
-    // Save order in local user store
+    // Save order in local user store and completed state for official invoice & print
     const order: Order = {
       id: orderId,
-      items: [...items],
+      items: orderedItems,
       total: grandTotal,
+      subtotal: total,
+      shippingCost,
+      discount: couponDiscount,
+      couponCode: appliedCoupon?.code || null,
       status: "under_review",
       date: new Date().toISOString(),
+      customerName: customerData.fullName,
+      customerEmail,
+      customerPhone: customerData.phone,
       shippingAddress: {
         firstName: customerData.fullName,
         lastName: "",
@@ -398,6 +401,7 @@ ${itemsListText}
       paymentDetails: paymentDetailsPayload,
     };
 
+    setCompletedOrder(order);
     addOrder(order);
     clearCart();
     setSubmittingOrder(false);
@@ -513,205 +517,396 @@ ${itemsListText}
           ))}
         </div>
 
-        {/* Step 3: Success Confirmation & Official Receipt */}
+        {/* Step 3: Success Confirmation & Official Luxury Invoice & Warranty Sheet */}
         {currentStep === 3 ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-10 border border-surface-dark shadow-xl text-start"
-          >
-            <div className="text-center mb-6">
-              <div className="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-200">
-                <Check size={40} className="stroke-[3]" />
+          <div className="w-full max-w-4xl mx-auto space-y-6 text-start">
+            {/* Celebratory Message & Quick Actions (Hidden in Print) */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-3xl p-6 sm:p-8 border border-surface-dark shadow-sm text-center print:hidden"
+            >
+              <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 border border-emerald-200">
+                <Check size={36} className="stroke-[3]" />
               </div>
               <span className="text-xs uppercase tracking-widest text-emerald-700 font-bold bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                {isEn ? "Order Received & Invoiced" : "تم استلام الطلب وتجهيز الفاتورة"}
+                {isEn ? "Order Confirmed & Invoiced" : "تم تأكيد طلبك وإصدار الفاتورة الرسمية"}
               </span>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-primary mt-3 mb-1">
-                {isEn ? "Thank you for your order!" : "شكراً لثقتكم في Amazon Furniture!"}
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-primary mt-2 mb-1">
+                {isEn ? "Thank you for your trust in Amazon Furniture!" : "شكراً لثقتكم الغالية في Amazon Furniture!"}
               </h1>
-              <p className="text-muted text-xs sm:text-sm max-w-md mx-auto">
+              <p className="text-muted text-xs sm:text-sm max-w-xl mx-auto">
                 {isEn
-                  ? `Your official order #${createdOrderId} has been registered with a 10-year warranty certificate.`
-                  : `تم تسجيل طلبك رقم #${createdOrderId} بنجاح مع إصدار شهادة الضمان لمدة 10 سنوات.`}
+                  ? `Your official order #${completedOrder?.id || createdOrderId} has been registered with a 10-year natural wood warranty certificate.`
+                  : `تم تسجيل طلبك رقم #${completedOrder?.id || createdOrderId} بنجاح وحجز القطع بالمخزن مع إصدار شهادة الضمان المعتمد لمدة 10 سنوات.`}
               </p>
-            </div>
 
-            {/* Official Invoice Summary Box */}
-            <div className="bg-surface rounded-2xl p-5 border border-surface-dark space-y-4 mb-6">
-              <div className="flex items-center justify-between pb-3 border-b border-surface-dark text-xs sm:text-sm">
-                <span className="text-muted">{isEn ? "Order Number:" : "رقم الطلب:"}</span>
-                <span className="font-mono font-bold text-primary text-base">#{createdOrderId}</span>
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6 pt-4 border-t border-surface-dark">
+                <button
+                  type="button"
+                  onClick={() => typeof window !== "undefined" && window.print()}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl shadow-md transition-all text-sm cursor-pointer"
+                >
+                  <Printer size={18} />
+                  <span>{isEn ? "Print / Save PDF Invoice" : "طباعة / تحميل الفاتورة الرسمية PDF"}</span>
+                </button>
+
+                {createdWhatsappUrl && (
+                  <a
+                    href={createdWhatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold rounded-xl shadow-md transition-all text-sm cursor-pointer"
+                  >
+                    <MessageCircle size={18} />
+                    <span>{isEn ? "Confirm via WhatsApp" : "تأكيد واستفسار عبر واتساب"}</span>
+                  </a>
+                )}
+
+                <Link href="/track" className="w-full sm:w-auto">
+                  <Button variant="outline" size="lg" className="w-full text-sm">
+                    {isEn ? "Track Order & Warranty" : "تتبع حالة الطلب والضمان"}
+                  </Button>
+                </Link>
               </div>
+            </motion.div>
 
-              <div className="flex items-center justify-between pb-3 border-b border-surface-dark text-xs sm:text-sm">
-                <span className="text-muted">{isEn ? "Selected Payment Gateway:" : "طريقة الدفع المحددة:"}</span>
-                <div className="text-end">
-                  <span className="font-bold text-primary block">
-                    {confirmedPaymentInfo ? getPaymentMethodLabel(confirmedPaymentInfo.method) : "الدفع عند الاستلام"}
-                  </span>
-                  <span className="text-[11px] text-emerald-600 font-semibold">
-                    {confirmedPaymentInfo?.method === "card"
-                      ? "مدفوع بالبطاقة (معتمد Paymob)"
-                      : confirmedPaymentInfo?.method === "cod"
-                      ? "سداد نقدي عند المعاينة والاستلام"
-                      : "بانتظار مطابقة التحويل"}
-                  </span>
-                </div>
-              </div>
-
-              {/* Specific Payment Gateway Reference Box */}
-              {confirmedPaymentInfo?.method === "instapay" && (
-                <div className="bg-indigo-50/70 border border-indigo-200 rounded-xl p-3.5 text-xs text-indigo-950 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold flex items-center gap-1.5 text-indigo-800">
-                      <Zap size={14} className="text-indigo-600" />
-                      عنوان الدفع اللحظي (IPA):
-                    </span>
-                    <span className="font-mono font-bold">amazonfurniture@instapay</span>
-                  </div>
-                  {confirmedPaymentInfo.details?.transactionRef && (
-                    <div className="flex items-center justify-between pt-1 border-t border-indigo-100">
-                      <span className="text-muted">مرجع التحويل المسجل:</span>
-                      <span className="font-mono font-bold">{confirmedPaymentInfo.details.transactionRef}</span>
+            {/* Official Printable Invoice & Warranty Document */}
+            <div
+              id="printable-invoice"
+              className="printable-invoice-sheet bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl text-slate-900"
+            >
+              {/* 1. Header with Brand Identity */}
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-6 border-b-2 border-slate-900">
+                <div className="space-y-1 text-start">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-slate-900 text-[#C5A880] flex items-center justify-center font-black text-xl shadow-sm">
+                      AF
                     </div>
-                  )}
-                  {confirmedPaymentInfo.details?.receiptImage && (
-                    <div className="flex items-center justify-between pt-2 border-t border-indigo-100">
-                      <span className="text-muted flex items-center gap-1 font-semibold text-emerald-700">
-                        <CheckCheck size={13} className="text-emerald-600" />
-                        إيصال الدفع المرفق:
+                    <div>
+                      <h2 className="text-2xl font-black text-slate-900 tracking-tight leading-none">
+                        AMAZON
+                      </h2>
+                      <span className="text-[10px] tracking-widest font-bold text-[#C58B45] block mt-0.5 uppercase">
+                        Premium Living Solutions
                       </span>
-                      <a
-                        href={confirmedPaymentInfo.details.receiptImage}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-indigo-600 underline font-bold hover:text-indigo-800 flex items-center gap-1"
-                      >
-                        <Eye size={12} />
-                        معاينة الصورة
-                      </a>
                     </div>
-                  )}
-                </div>
-              )}
-
-              {confirmedPaymentInfo?.method === "wallet" && (
-                <div className="bg-red-50/70 border border-red-200 rounded-xl p-3.5 text-xs text-red-950 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold flex items-center gap-1.5 text-red-800">
-                      <Smartphone size={14} className="text-red-600" />
-                      رقم محفظة المعرض:
-                    </span>
-                    <span className="font-mono font-bold" dir="ltr">01091084863</span>
                   </div>
-                  {confirmedPaymentInfo.details?.walletPhone && (
-                    <div className="flex items-center justify-between pt-1 border-t border-red-100">
-                      <span className="text-muted">المحفظة المحول منها:</span>
-                      <span className="font-mono font-bold" dir="ltr">{confirmedPaymentInfo.details.walletPhone}</span>
-                    </div>
-                  )}
-                  {confirmedPaymentInfo.details?.receiptImage && (
-                    <div className="flex items-center justify-between pt-2 border-t border-red-100">
-                      <span className="text-muted flex items-center gap-1 font-semibold text-emerald-700">
-                        <CheckCheck size={13} className="text-emerald-600" />
-                        إيصال الدفع المرفق:
-                      </span>
-                      <a
-                        href={confirmedPaymentInfo.details.receiptImage}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-red-600 underline font-bold hover:text-red-800 flex items-center gap-1"
-                      >
-                        <Eye size={12} />
-                        معاينة الصورة
-                      </a>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {confirmedPaymentInfo?.method === "fawry" && (
-                <div className="bg-amber-50/80 border border-amber-200 rounded-xl p-3.5 text-xs text-amber-950 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold flex items-center gap-1.5 text-amber-900">
-                      <QrCode size={16} className="text-amber-600" />
-                      كود فوري المرجعي للدفع:
-                    </span>
-                    <span className="font-mono font-extrabold text-sm text-amber-900 bg-white px-2 py-0.5 rounded border border-amber-200">
-                      {fawryCode}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-amber-800 leading-relaxed">
-                    توجه لأي منفذ فوري أو عبر تطبيق MyFawry، اختر خدمة <strong>788 (مدفوعات أثاث)</strong> وأدخل الكود أعلاه خلال 48 ساعة.
+                  <p className="text-xs text-slate-600 font-semibold pt-1">
+                    المتجر الرسمي للأثاث الفاخر وحلول المعيشة العصرية
+                  </p>
+                  <p className="text-[11px] text-slate-500">
+                    سجل تجاري: 48921 • بطاقة ضريبية: 712-840-921
+                  </p>
+                  <p className="text-[11px] text-slate-500">
+                    المصانع: المنطقة الصناعية بدمياط الجديدة • المعرض: طلخا الرئيسي، المنصورة
                   </p>
                 </div>
-              )}
 
-              {/* Recipient Details */}
-              {customerData && (
-                <div className="pt-2 text-xs text-muted space-y-1">
-                  <div className="flex justify-between">
-                    <span>{isEn ? "Customer:" : "المستلم:"}</span>
-                    <span className="font-bold text-primary">{customerData.fullName}</span>
+                <div className="text-start sm:text-end space-y-1.5 shrink-0 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                  <div className="inline-block px-3 py-1 bg-slate-900 text-[#C5A880] text-xs font-black rounded-lg uppercase tracking-wider mb-1">
+                    فاتورة رسمية وعقد ضمان
                   </div>
-                  <div className="flex justify-between">
-                    <span>{isEn ? "Delivery Governorate:" : "المحافظة ووقت التوصيل:"}</span>
-                    <span className="font-semibold text-primary">{shippingInfo.governorateName} ({shippingInfo.deliveryDays})</span>
+                  <div className="text-xs text-slate-600">
+                    رقم الفاتورة:{" "}
+                    <strong className="text-slate-950 font-mono text-sm font-black">
+                      #{completedOrder?.id || createdOrderId}
+                    </strong>
                   </div>
-                  <div className="flex justify-between">
-                    <span>{isEn ? "Address:" : "العنوان:"}</span>
-                    <span className="font-semibold text-primary">{customerData.address}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>{isEn ? "Shipping Fee:" : "مصاريف الشحن:"}</span>
-                    <span className="font-semibold text-emerald-600">
-                      {shippingInfo.isFree ? "مجاناً بالكامل ✓" : formatPrice(shippingCost)}
+                  <div className="text-xs text-slate-600">
+                    تاريخ الطلب:{" "}
+                    <span className="font-semibold text-slate-800">
+                      {new Date(completedOrder?.date || Date.now()).toLocaleDateString("ar-EG", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </span>
                   </div>
+                  <div className="text-xs text-slate-600">
+                    حالة الطلب:{" "}
+                    <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-block">
+                      معتمد ومسجل بالورشة ✓
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 2. Customer & Delivery & Payment Summary */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-6 border-b border-slate-200 text-xs">
+                {/* Customer & Delivery Box */}
+                <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-2">
+                  <div className="flex items-center gap-1.5 font-bold text-slate-900 pb-1.5 border-b border-slate-200 text-sm">
+                    <User size={16} className="text-[#C58B45]" />
+                    <span>بيانات العميل ومكان التوصيل:</span>
+                  </div>
+                  <div className="space-y-1 text-slate-700">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">اسم العميل:</span>
+                      <strong className="text-slate-900">
+                        {completedOrder?.customerName || customerData?.fullName || user?.name || "عميل Amazon الموقر"}
+                      </strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">رقم الهاتف:</span>
+                      <strong className="text-slate-900 font-mono" dir="ltr">
+                        {completedOrder?.customerPhone || customerData?.phone || user?.phone || "—"}
+                      </strong>
+                    </div>
+                    {customerData?.email && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-500">البريد الإلكتروني:</span>
+                        <span className="text-slate-800">{customerData.email}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">المحافظة:</span>
+                      <strong className="text-slate-900">{shippingInfo.governorateName} ({shippingInfo.deliveryDays})</strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">العنوان التفصيلي:</span>
+                      <span className="text-slate-800 font-medium text-end max-w-[200px] truncate">
+                        {completedOrder?.shippingAddress?.address || customerData?.address}
+                      </span>
+                    </div>
+                    {customerData?.notes && (
+                      <div className="flex justify-between pt-1 border-t border-slate-200 text-[11px]">
+                        <span className="text-slate-500">ملاحظات العميل:</span>
+                        <span className="text-slate-800 italic">{customerData.notes}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Payment Gateway Details Box */}
+                <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-2">
+                  <div className="flex items-center gap-1.5 font-bold text-slate-900 pb-1.5 border-b border-slate-200 text-sm">
+                    <CreditCard size={16} className="text-[#C58B45]" />
+                    <span>طريقة السداد وتفاصيل الدفع:</span>
+                  </div>
+                  <div className="space-y-1.5 text-slate-700">
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-500">طريقة الدفع:</span>
+                      <span className="font-bold text-slate-950 px-2 py-0.5 rounded bg-white border border-slate-300">
+                        {confirmedPaymentInfo ? getPaymentMethodLabel(confirmedPaymentInfo.method) : "الدفع عند الاستلام"}
+                      </span>
+                    </div>
+
+                    {confirmedPaymentInfo?.method === "instapay" && (
+                      <div className="p-2.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-950 space-y-1">
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">عنوان IPA المعتمد:</span>
+                          <span className="font-mono font-bold">amazonfurniture@instapay</span>
+                        </div>
+                        {confirmedPaymentInfo.details?.transactionRef && (
+                          <div className="flex justify-between">
+                            <span className="text-slate-600">المرجع المسجل:</span>
+                            <span className="font-mono font-bold">{confirmedPaymentInfo.details.transactionRef}</span>
+                          </div>
+                        )}
+                        {confirmedPaymentInfo.details?.receiptImage && (
+                          <div className="flex justify-between items-center pt-1 text-[11px] text-emerald-700 font-bold">
+                            <span>صورة الإيصال:</span>
+                            <span className="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">مرفقة مع الطلب ✓</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {confirmedPaymentInfo?.method === "wallet" && (
+                      <div className="p-2.5 rounded-xl bg-red-50 border border-red-200 text-red-950 space-y-1">
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">محفظة المعرض:</span>
+                          <span className="font-mono font-bold" dir="ltr">01091084863</span>
+                        </div>
+                        {confirmedPaymentInfo.details?.walletPhone && (
+                          <div className="flex justify-between">
+                            <span className="text-slate-600">المحفظة المحول منها:</span>
+                            <span className="font-mono font-bold" dir="ltr">{confirmedPaymentInfo.details.walletPhone}</span>
+                          </div>
+                        )}
+                        {confirmedPaymentInfo.details?.receiptImage && (
+                          <div className="flex justify-between items-center pt-1 text-[11px] text-emerald-700 font-bold">
+                            <span>صورة الإيصال:</span>
+                            <span className="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">مرفقة مع الطلب ✓</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {(!confirmedPaymentInfo || confirmedPaymentInfo?.method === "cod") && (
+                      <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 space-y-0.5">
+                        <span className="font-bold block">💵 سداد نقدي عند المعاينة والاستلام</span>
+                        <p className="text-[11px] text-emerald-800">
+                          يتم دفع المبلغ نقداً لمندوب الشحن بعد معاينة الأثاث والتركيب والتأكد من مطابقته للمواصفات.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* 3. Itemized Products Table */}
+              <div className="py-6">
+                <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <FileText size={16} className="text-[#C58B45]" />
+                    <span>القطع والمنتجات المطلوبة (Order Items):</span>
+                  </span>
+                  <span className="text-xs text-slate-500 font-normal">
+                    إجمالي الأصناف: {(completedOrder?.items || items).length} قطع
+                  </span>
+                </h3>
+
+                <div className="overflow-x-auto rounded-xl border border-slate-200">
+                  <table className="w-full text-xs text-start border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900 text-white font-bold">
+                        <th className="py-3 px-3 text-center w-10">#</th>
+                        <th className="py-3 px-3 text-start">المنتج ومواصفات التشطيب</th>
+                        <th className="py-3 px-3 text-center w-16">الكمية</th>
+                        <th className="py-3 px-3 text-end w-28">سعر الوحدة</th>
+                        <th className="py-3 px-3 text-end w-32">الإجمالي</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      {((completedOrder?.items && completedOrder.items.length > 0) ? completedOrder.items : items).map((it, idx) => {
+                        const lineTotal = (it.product?.price || 0) * it.quantity;
+                        const rowImg = it.product?.images?.[0] || "/placeholder.jpg";
+                        return (
+                          <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}>
+                            <td className="py-3 px-3 text-center font-bold text-slate-500">
+                              {idx + 1}
+                            </td>
+                            <td className="py-3 px-3">
+                              <div className="flex items-center gap-3">
+                                <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+                                  <Image
+                                    src={rowImg}
+                                    alt={it.product?.name || "قطعة أثاث"}
+                                    fill
+                                    className="object-cover"
+                                  />
+                                </div>
+                                <div>
+                                  <h4 className="font-bold text-slate-900 text-xs sm:text-sm">
+                                    {it.product?.name || "قطعة أثاث فاخرة"}
+                                  </h4>
+                                  <div className="text-[11px] text-slate-500 flex flex-wrap gap-2 mt-0.5">
+                                    {it.color && (
+                                      <span className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">
+                                        اللون: {it.color}
+                                      </span>
+                                    )}
+                                    {it.curtainType && (
+                                      <span className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">
+                                        نوع الستارة: {it.curtainType}
+                                      </span>
+                                    )}
+                                    <span className="text-[#8B6E45]">
+                                      • خشب زان روماني طبيعي 100%
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-3 px-3 text-center font-bold text-slate-900">
+                              {it.quantity}
+                            </td>
+                            <td className="py-3 px-3 text-end font-semibold text-slate-700 font-mono">
+                              {formatPrice(it.product?.price || 0)}
+                            </td>
+                            <td className="py-3 px-3 text-end font-bold text-slate-950 font-mono text-sm">
+                              {formatPrice(lineTotal)}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* 4. Financial Totals Breakdown */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 pt-2 pb-6 border-b border-slate-200">
+                <div className="text-xs text-slate-500 space-y-1 max-w-sm">
+                  <p className="font-bold text-slate-800">ملاحظات التوريد والتركيب:</p>
+                  <p>• كافة الأسعار أعلاه تشمل المعاينة، الرفع المساحي والتركيب الفني المعتمد مجاناً.</p>
+                  <p>• يتم فحص وتجربة جميع القطع بحضور مندوب الجودة قبل توقيع إيصال الاستلام.</p>
+                </div>
+
+                <div className="w-full sm:w-80 bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2 text-xs">
+                  <div className="flex justify-between text-slate-600">
+                    <span>مجموع المنتجات (Subtotal):</span>
+                    <span className="font-bold text-slate-900 font-mono">
+                      {formatPrice(completedOrder?.subtotal || total)}
+                    </span>
+                  </div>
+
                   {appliedCoupon && (
                     <div className="flex justify-between text-emerald-700 font-bold">
                       <span>خصم الكوبون ({appliedCoupon.code}):</span>
-                      <span>-{formatPrice(couponDiscount)}</span>
+                      <span className="font-mono">-{formatPrice(couponDiscount)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between pt-1 border-t border-surface-dark">
-                    <span className="font-bold text-primary">{isEn ? "Final Total:" : "إجمالي الفاتورة النهائي:"}</span>
-                    <span className="font-extrabold text-accent-dark text-base">{formatPrice(grandTotal)}</span>
+
+                  <div className="flex justify-between text-slate-600">
+                    <span>مصاريف الشحن والتوصيل:</span>
+                    <span className="font-bold text-emerald-700 font-mono">
+                      {shippingInfo.isFree ? "مجاناً بالكامل ✓" : formatPrice(shippingCost)}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between text-slate-600">
+                    <span>التركيب والمعاينة الفنية:</span>
+                    <span className="font-bold text-emerald-700">مجاناً بالكامل ✓ (0 ج.م)</span>
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2.5 border-t-2 border-slate-900 text-sm">
+                    <span className="font-black text-slate-900">إجمالي الفاتورة النهائي:</span>
+                    <span className="font-black text-lg text-[#C58B45] font-mono">
+                      {formatPrice(completedOrder?.total || grandTotal)}
+                    </span>
                   </div>
                 </div>
-              )}
+              </div>
+
+              {/* 5. Official 10-Year Warranty Certificate Banner */}
+              <div className="mt-6 p-5 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50/60 border-2 border-amber-300 space-y-2 text-start">
+                <div className="flex items-center gap-2 text-amber-950 font-black text-sm">
+                  <ShieldCheck size={20} className="text-amber-700 shrink-0" />
+                  <span>شهادة الضمان المعتمد لمدة 10 سنوات (10-Year Official Wood Warranty)</span>
+                </div>
+                <p className="text-xs text-amber-900 leading-relaxed">
+                  تضمن شركة <strong>Amazon Furniture</strong> الهيكل الخشبي المصنع بنسبة 100% من أخشاب الزان الروماني الأحمر الطبيعي ضد التقوس، التصدع، السوس، أو عيوب التصنيع لمدة <strong>عشر (10) سنوات متتالية</strong> من تاريخ التسليم، مع ضمان استبدال فوري 3 سنوات للميكانيزمات والسحّابات الهيدروليكية وصيانة مجانية.
+                </p>
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[11px] text-amber-900/80 border-t border-amber-200">
+                  <span>الخط الساخن لخدمة العملاء والضمان: <strong>01091084863</strong></span>
+                  <span>رقم الضمان: <strong>WAR-{completedOrder?.id || createdOrderId}</strong></span>
+                </div>
+              </div>
+
+              {/* 6. Signatures and Official Quality Seal */}
+              <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <div className="text-center sm:text-start">
+                  <span className="font-bold text-slate-800 block">إدارة الجودة والفحص الفني</span>
+                  <span className="text-[11px] text-slate-500">معتمد بموجب معايير فحص الأخشاب الطبيعية</span>
+                </div>
+
+                <div className="w-20 h-20 rounded-full border-2 border-dashed border-[#C58B45] flex flex-col items-center justify-center text-center p-1 text-[#8B6E45] rotate-[-5deg]">
+                  <Award size={20} />
+                  <span className="text-[9px] font-black leading-tight mt-0.5">AMAZON QC</span>
+                  <span className="text-[8px] font-bold">ضمان 10 سنوات</span>
+                </div>
+
+                <div className="text-center sm:text-end">
+                  <span className="font-bold text-slate-800 block">المدير العام / المسؤول التنفيذي</span>
+                  <span className="text-[11px] font-serif text-slate-700 italic">أ. محمد إسماعيل</span>
+                </div>
+              </div>
             </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center gap-3">
-              {createdWhatsappUrl && (
-                <a
-                  href={createdWhatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold rounded-xl shadow-md transition-all text-sm cursor-pointer"
-                >
-                  <MessageCircle size={18} />
-                  <span>{isEn ? "Confirm via WhatsApp" : "تأكيد الطلب عبر واتساب"}</span>
-                </a>
-              )}
-
-              <button
-                onClick={() => typeof window !== "undefined" && window.print()}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl transition-all text-sm cursor-pointer border border-slate-300"
-              >
-                <Printer size={18} />
-                <span>{isEn ? "Print Invoice" : "طباعة الفاتورة"}</span>
-              </button>
-
-              <Link href="/track" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className="w-full text-sm">
-                  تتبع الطلب والضمان
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
+          </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             {/* Main Form or Payment Step */}
@@ -865,8 +1060,8 @@ ${itemsListText}
                         </h2>
                         <p className="text-xs text-muted">
                           {isEn
-                            ? "Local Egyptian payments supported (InstaPay, Wallets, Cards, Fawry, COD)"
-                            : "مدعوم كافة بوابات الدفع المحلية المصرية مع أعلى معايير التشفير والأمان"}
+                            ? "Cash on Delivery, Instant InstaPay Egypt, and Mobile Cash Wallets supported"
+                            : "مدعوم الدفع نقداً عند الاستلام، إنستاباي اللحظي (InstaPay)، ومحافظ كاش (فودافون/أورانج/اتصالات/WE)"}
                         </p>
                       </div>
                     </div>
@@ -886,7 +1081,7 @@ ${itemsListText}
                       </button>
                     </div>
 
-                    {/* 5 Payment Methods Selector */}
+                    {/* 3 Payment Methods Selector */}
                     <div className="space-y-3 mb-6">
                       {/* 1. Cash on Delivery (COD) */}
                       <label
@@ -1252,164 +1447,6 @@ ${itemsListText}
                                 </p>
                               )}
                             </div>
-                          </motion.div>
-                        )}
-                      </label>
-
-                      {/* 4. Credit / Debit Cards (Paymob 3D Secure) */}
-                      <label
-                        onClick={() => setPaymentMethod("card")}
-                        className={`block rounded-xl p-4 border-2 transition-all cursor-pointer ${
-                          paymentMethod === "card"
-                            ? "border-blue-500 bg-blue-50/40 shadow-xs"
-                            : "border-surface-dark hover:border-slate-300 bg-white"
-                        }`}
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex items-center gap-3">
-                            <input
-                              type="radio"
-                              name="paymentMethod"
-                              checked={paymentMethod === "card"}
-                              onChange={() => setPaymentMethod("card")}
-                              className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                            />
-                            <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0">
-                              <CreditCard size={22} />
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <span className="font-bold text-primary text-sm">
-                                  {isEn ? "Credit / Debit Card (Paymob)" : "البطاقات البنكية (Visa / MasterCard / ميزة)"}
-                                </span>
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 flex items-center gap-1">
-                                  <Lock size={10} />
-                                  <span>256-bit SSL</span>
-                                </span>
-                              </div>
-                              <p className="text-xs text-muted mt-0.5">
-                                {isEn
-                                  ? "Secure online payment powered by Paymob Gateway with 3D Secure OTP"
-                                  : "بوابة Paymob المعتمدة المشفرة مع توثيق OTP البنكي"}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Expandable Details for Card */}
-                        {paymentMethod === "card" && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            className="mt-4 pt-3 border-t border-blue-100 text-xs space-y-3"
-                          >
-                            <Input
-                              label={isEn ? "Cardholder Name" : "اسم حامل البطاقة (كما هو مدون على الكارت)"}
-                              placeholder="MOHAMED AHMED"
-                              value={cardHolder}
-                              onChange={(e) => setCardHolder(e.target.value)}
-                            />
-
-                            <Input
-                              label={isEn ? "Card Number" : "رقم البطاقة (16 رقماً)"}
-                              placeholder="•••• •••• •••• ••••"
-                              maxLength={19}
-                              value={cardNumber}
-                              onChange={(e) => setCardNumber(e.target.value)}
-                            />
-
-                            <div className="grid grid-cols-2 gap-3">
-                              <Input
-                                label={isEn ? "Expiry Date" : "تاريخ الصلاحية"}
-                                placeholder="MM/YY"
-                                maxLength={5}
-                                value={cardExpiry}
-                                onChange={(e) => setCardExpiry(e.target.value)}
-                              />
-                              <Input
-                                label={isEn ? "Security Code (CVV)" : "رمز الأمان (CVV)"}
-                                placeholder="•••"
-                                maxLength={4}
-                                type="password"
-                                value={cardCvv}
-                                onChange={(e) => setCardCvv(e.target.value)}
-                              />
-                            </div>
-
-                            <div className="flex items-center gap-2 text-[11px] text-blue-800 bg-blue-100/60 p-2.5 rounded-lg">
-                              <ShieldCheck size={16} className="text-blue-600 shrink-0" />
-                              <span>بيانات بطاقتك مشفرة ولا يتم تخزينها أبداً على الخادم، وتتم المعالجة عبر بوابة Paymob المصرفية.</span>
-                            </div>
-                          </motion.div>
-                        )}
-                      </label>
-
-                      {/* 5. Fawry Pay */}
-                      <label
-                        onClick={() => setPaymentMethod("fawry")}
-                        className={`block rounded-xl p-4 border-2 transition-all cursor-pointer ${
-                          paymentMethod === "fawry"
-                            ? "border-amber-500 bg-amber-50/40 shadow-xs"
-                            : "border-surface-dark hover:border-slate-300 bg-white"
-                        }`}
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex items-center gap-3">
-                            <input
-                              type="radio"
-                              name="paymentMethod"
-                              checked={paymentMethod === "fawry"}
-                              onChange={() => setPaymentMethod("fawry")}
-                              className="w-4 h-4 text-amber-600 focus:ring-amber-500"
-                            />
-                            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
-                              <QrCode size={22} />
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <span className="font-bold text-primary text-sm">
-                                  {isEn ? "Fawry Pay" : "فوري باي (Fawry Pay)"}
-                                </span>
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900">
-                                  {isEn ? "+150,000 Outlets" : "أكثر من 150 ألف نقطة"}
-                                </span>
-                              </div>
-                              <p className="text-xs text-muted mt-0.5">
-                                {isEn
-                                  ? "Pay in cash at any kiosk, pharmacy, supermarket, or via MyFawry app"
-                                  : "ادفع نقداً برقم الخدمة في أي محل أو كشك به ماكينة فوري أو تطبيق MyFawry"}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Expandable Details for Fawry */}
-                        {paymentMethod === "fawry" && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            className="mt-4 pt-3 border-t border-amber-100 text-xs space-y-2.5"
-                          >
-                            <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-amber-200">
-                              <div>
-                                <span className="text-muted block text-[10px]">كود الدفع المرجعي الصادر لطلبك:</span>
-                                <span className="font-mono font-extrabold text-amber-900 text-sm">{fawryCode}</span>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  copyToClipboard(fawryCode, "fawry-code");
-                                }}
-                                className="px-2.5 py-1 text-xs font-semibold text-amber-800 bg-amber-50 hover:bg-amber-100 rounded-lg flex items-center gap-1 cursor-pointer"
-                              >
-                                {copiedField === "fawry-code" ? <CheckCheck size={14} /> : <Copy size={14} />}
-                                <span>{copiedField === "fawry-code" ? "تم النسخ" : "نسخ الكود"}</span>
-                              </button>
-                            </div>
-                            <p className="text-[11px] text-amber-800">
-                              • كود الخدمة في ماكينات فوري: <strong>788 (مدفوعات أثاث)</strong> | الصلاحية: 48 ساعة.
-                            </p>
                           </motion.div>
                         )}
                       </label>

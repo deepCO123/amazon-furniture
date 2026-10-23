@@ -48,10 +48,6 @@ export default function AdminLayout({
     );
   }
 
-  // If on login page, render child without layout
-  if (pathname === "/admin/login") {
-    return <>{children}</>;
-  }
 
   // Auth Guard
   if (!isAuthenticated) {

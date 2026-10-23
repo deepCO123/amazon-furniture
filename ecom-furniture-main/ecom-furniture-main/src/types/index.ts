@@ -87,6 +87,10 @@ export interface Order {
   customerPhone?: string;
   items: CartItem[];
   total: number;
+  subtotal?: number;
+  shippingCost?: number;
+  discount?: number;
+  couponCode?: string | null;
   status: OrderStatus;
   date: string;
   shippingAddress: ShippingAddress;

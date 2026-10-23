@@ -9,6 +9,15 @@ const path = require('path');
 const fs = require('fs');
 
 /**
+ * دالة مساعدة لضمان عدم انهيار PDFKit في حال وجود حروف عربية مع خط Helvetica الافتراضي
+ */
+function sanitizeText(str, fallback = 'N/A') {
+  if (!str) return fallback;
+  const clean = String(str).replace(/[^\x20-\x7E]/g, ' ').replace(/\s+/g, ' ').trim();
+  return clean || fallback;
+}
+
+/**
  * توليد ملف PDF للفاتورة وإرجاعه كـ Buffer في الذاكرة
  * @param {Object} order - كائن الطلب الكامل
  * @returns {Promise<Buffer>}
@@ -101,9 +110,10 @@ function generateInvoiceBuffer(order) {
         .font('Helvetica-Bold')
         .text('CUSTOMER DETAILS', leftCol + 15, sectionY + 12);
 
-      const customerName = order.customerName || order.shippingAddress?.firstName || 'Valued Client';
-      const customerPhone = order.customerPhone || order.shippingAddress?.phone || 'N/A';
-      const customerEmail = order.customerEmail || order.shippingAddress?.email || 'N/A';
+      const rawName = order.customerName || order.shippingAddress?.firstName || '';
+      const customerName = sanitizeText(rawName, 'Valued Client (VIP)');
+      const customerPhone = sanitizeText(order.customerPhone || order.shippingAddress?.phone, 'N/A');
+      const customerEmail = sanitizeText(order.customerEmail || order.shippingAddress?.email, 'N/A');
 
       doc
         .fontSize(9)
@@ -125,8 +135,8 @@ function generateInvoiceBuffer(order) {
         .font('Helvetica-Bold')
         .text('SHIPPING & INSTALLATION', rightCol + 15, sectionY + 12);
 
-      const city = order.shippingAddress?.city || 'Mansoura / Cairo';
-      const address = order.shippingAddress?.address || 'Direct Showroom Delivery';
+      const city = sanitizeText(order.shippingAddress?.city, 'Cairo / Mansoura');
+      const address = sanitizeText(order.shippingAddress?.address, 'Direct Showroom Delivery');
 
       doc
         .fontSize(9)
@@ -157,7 +167,8 @@ function generateInvoiceBuffer(order) {
 
       items.forEach((item, index) => {
         const prod = item.product || {};
-        const title = prod.name || item.name || `Furniture Piece #${index + 1}`;
+        const rawTitle = prod.nameEn || prod.name || item.name || '';
+        const title = sanitizeText(rawTitle, `Luxury Furniture Piece #${index + 1}`);
         const qty = item.quantity || 1;
         const unitPrice = Number(prod.price || item.price || 0);
         const lineTotal = qty * unitPrice;
