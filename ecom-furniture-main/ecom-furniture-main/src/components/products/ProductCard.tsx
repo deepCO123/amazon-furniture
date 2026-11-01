@@ -119,7 +119,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
       <div
         data-card="product"
         onClick={handleCardClick}
-      onMouseEnter={() => router.prefetch(/products/)}
+      onMouseEnter={() => router.prefetch(`/products/${product.slug}`)}
         className="product-card group bg-white rounded-2xl border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
       >
         <div className="flex flex-col sm:flex-row items-stretch">
@@ -239,7 +239,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
     <div
       data-card="product"
       onClick={handleCardClick}
-      onMouseEnter={() => router.prefetch(/products/)}
+      onMouseEnter={() => router.prefetch(`/products/${product.slug}`)}
       className="product-card group bg-white rounded-xl sm:rounded-3xl p-2.5 sm:p-4 border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative flex flex-col justify-between h-full cursor-pointer"
     >
       <div>

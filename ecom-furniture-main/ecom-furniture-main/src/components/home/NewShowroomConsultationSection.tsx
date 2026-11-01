@@ -72,6 +72,8 @@ export default function NewShowroomConsultationSection() {
           name: "",
           phone: "",
           email: "",
+          company: "",
+          dimensions: "",
           consultationType: "تصميم داخلي 3D",
           notes: "",
         });
