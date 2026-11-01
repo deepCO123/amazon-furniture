@@ -1,5 +1,195 @@
 [
   {
+    "id": "prod_leather_chair_vintage_brown_green",
+    "name": "كرسي مديرين ظهر متوسط جلد بني فينتيدج مع شبك زيتي - كود LC-905",
+    "code": "LC-905",
+    "sku": "LC-905",
+    "slug": "vintage-brown-green-executive-chair",
+    "description": "كرسي مكاتب فخم بإطلالة كلاسيكية مبتكرة تجمع بين الجلد البني الفينتيدج (Vintage Brown) والشبك الزيتي الملكي (Olive Green). تصميم ظهر متوسط مريح جداً لطاولات الاجتماعات والمكاتب التنفيذية، قاعدة هيدروليكية ناعمة الارتفاع والدوران 360 درجة، ومساند يد منحوتة تمنح دعم مريح لليدين.",
+    "price": 4600,
+    "originalPrice": 5800,
+    "images": [
+      "/products/leather-chairs/chair-executive-vintage-brown-green.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد بني فينتيدج عالي الجودة + شبك إرجونوميك زيتي + قاعدة ألمونيوم كروم",
+    "color": "بني كلاسيكي مع زيتي ملكي وألمونيوم",
+    "dimensions": {
+      "width": 60,
+      "height": 108,
+      "depth": 60
+    },
+    "weight": 18,
+    "stockQuantity": 11,
+    "returnCount": 0,
+    "totalSold": 2,
+    "rating": 4.8,
+    "reviewCount": 23,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "فينتيدج",
+      "بني",
+      "زيتي",
+      "اجتماعات"
+    ],
+    "createdAt": "2026-11-01T18:23:49.781Z",
+    "updatedAt": "2026-11-01T18:23:49.781Z"
+  },
+  {
+    "id": "prod_leather_chair_hybrid_mesh_black",
+    "name": "كرسي تنفيذي هجين ظهر عالي (جلد طبيعي + شبك إرجونوميك) - كود LC-904",
+    "code": "LC-904",
+    "sku": "LC-904",
+    "slug": "hybrid-leather-mesh-executive-chair",
+    "description": "الجمع المثالي بين فخامة الجلد التنفيذي وانتعاش الشبك الطبي المتنفس. يتميز بقاعدة وفريم خارجي ومسند رأس مكسو بالجلد الأسود الفاخر، مع منطقة ظهر وسطى من الشبك الكوري الطبي عالي المرونة لمنع التعرق في جلسات العمل الطويلة، ومساند يد طائرة (Wing Armrests) منجدة بالجلد.",
+    "price": 4850,
+    "originalPrice": 6100,
+    "images": [
+      "/products/leather-chairs/chair-hybrid-leather-mesh-black.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد مايكروفايبر + شبك كوري مهوى + قاعدة ألمونيوم سبائكي",
+    "color": "أسود فاحم مكسو بالجلد والشباك الفضي",
+    "dimensions": {
+      "width": 64,
+      "height": 126,
+      "depth": 64
+    },
+    "weight": 19,
+    "stockQuantity": 14,
+    "returnCount": 0,
+    "totalSold": 5,
+    "rating": 4.9,
+    "reviewCount": 27,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "هجين",
+      "شبك طبي",
+      "تنفيذي",
+      "راحة"
+    ],
+    "createdAt": "2026-11-01T18:23:49.781Z",
+    "updatedAt": "2026-11-01T18:23:49.781Z"
+  },
+  {
+    "id": "prod_leather_chair_cognac_camel",
+    "name": "كرسي تنفيذي مودرن جلد كوناك جملي فاخر بتصميم أوروبي - كود LC-903",
+    "code": "LC-903",
+    "sku": "LC-903",
+    "slug": "modern-cognac-camel-leather-chair",
+    "description": "تصميم أوروبي مينيماليزم فاخر بلون الكوناك الجملي الدافئ، يدمج بين حداثة الشكل والراحة الطبية. الشاسية مصبوب بانحناء هندسي يتوافق تماماً مع العمود الفقري، مع مساند يد مدمجة بنعومة فائقة، هيدروليك كوري فئة Class 4 معتمد، وقاعدة ألمونيوم مصقولة مضادة للصدأ.",
+    "price": 5200,
+    "originalPrice": 6500,
+    "images": [
+      "/products/leather-chairs/chair-executive-cognac-camel.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد جملي ناعم الملمس + فوم مصبوب حرارياً + قاعدة نجمية ألمونيوم",
+    "color": "كوناك جملي (Cognac / Camel Saddle) مع قاعدة كروم",
+    "dimensions": {
+      "width": 62,
+      "height": 124,
+      "depth": 62
+    },
+    "weight": 20,
+    "stockQuantity": 10,
+    "returnCount": 0,
+    "totalSold": 3,
+    "rating": 5,
+    "reviewCount": 31,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "جملي",
+      "كوناك",
+      "مودرن",
+      "أوروبي"
+    ],
+    "createdAt": "2026-11-01T18:23:49.781Z",
+    "updatedAt": "2026-11-01T18:23:49.781Z"
+  },
+  {
+    "id": "prod_leather_chair_presidential_black",
+    "name": "كرسي رئاسي تنفيذي ظهر عالي جلد أسود ملكي فخم - كود LC-902",
+    "code": "LC-902",
+    "sku": "LC-902",
+    "slug": "presidential-black-leather-chair",
+    "description": "كرسي مكتب رئاسي يمنح فخامة واستقراراً استثنائياً للمديرين وأصحاب القرار. تنجيد كامل من الجلد الأسود الفاخر المقاوم للتآكل مع حشوة إسفنجية كثيفة ميموري فوم عالية المرونة، مسند رأس مجنح لدعم الرقبة بالكامل أثناء العمل الطويل، مساند يد متصلة مبطنة، وقاعدة خماسية من الألمونيوم الثقيل مع عجلات سيليكون صامتة.",
+    "price": 5800,
+    "originalPrice": 7200,
+    "images": [
+      "/products/leather-chairs/chair-presidential-black-leather.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد PU تنفيذي فائق النعومة + إسفنج كثافة 45 كجم/م3 + قاعدة ألمونيوم صلبة",
+    "color": "أسود ملكي كربوني مع قاعدة كروم",
+    "dimensions": {
+      "width": 66,
+      "height": 132,
+      "depth": 68
+    },
+    "weight": 24,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 6,
+    "rating": 4.9,
+    "reviewCount": 48,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "رئاسي",
+      "مديرين",
+      "أسود",
+      "هيدروليك"
+    ],
+    "createdAt": "2026-11-01T18:23:49.781Z",
+    "updatedAt": "2026-11-01T18:23:49.781Z"
+  },
+  {
+    "id": "prod_leather_chair_grey_ribbed",
+    "name": "كرسي مديرين تنفيذي ظهر عالي جلد رمادي سماوي مضلع - كود LC-901",
+    "code": "LC-901",
+    "sku": "LC-901",
+    "slug": "executive-grey-ribbed-leather-chair",
+    "description": "كرسي إداري فاخر للمكاتب الرئاسية والمديرين، مصنوع من جلد مايكروفايبر إيطالي فاخر بلون رمادي سماوي أنيق بتضليع طولي كابيتونيه يدعم فقرات الظهر. مزود بمساند أذرع من الألمونيوم المصقول (كروم) مبطنة بالجلد، شاسيه نجمي من سبائك الألمونيوم، وماكينة هيدروليك متعددة الأوضاع لتثبيت زاوية الميل مع ممتص صدمات هيدروليكي.",
+    "price": 5450,
+    "originalPrice": 6800,
+    "images": [
+      "/products/leather-chairs/chair-executive-grey-ribbed.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد مايكروفايبر إيطالي فخم + شاسيه وقاعدة ألمونيوم مصقول نيكل كروم",
+    "color": "رمادي سماوي (Ice Grey) مع نيكل كروم فضي",
+    "dimensions": {
+      "width": 64,
+      "height": 128,
+      "depth": 65
+    },
+    "weight": 22,
+    "stockQuantity": 12,
+    "returnCount": 0,
+    "totalSold": 4,
+    "rating": 5,
+    "reviewCount": 36,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "مديرين",
+      "تنفيذي",
+      "ألمونيوم",
+      "كابيتونيه"
+    ],
+    "createdAt": "2026-11-01T18:23:49.779Z",
+    "updatedAt": "2026-11-01T18:23:49.781Z"
+  },
+  {
     "id": "prod_workstation_loop_screens",
     "name": "محطة عمل مكتبية ثنائية/رباعية بشاسيه مقفل وفواصل خصوصية صوتية",
     "code": "AF-WS-LP02",
