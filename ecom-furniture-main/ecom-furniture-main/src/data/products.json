@@ -1,5 +1,201 @@
 [
   {
+    "id": "prod_workstation_loop_screens",
+    "name": "محطة عمل مكتبية ثنائية/رباعية بشاسيه مقفل وفواصل خصوصية صوتية",
+    "code": "AF-WS-LP02",
+    "sku": "AF-WS-LP02",
+    "slug": "workstation-loop-frame-acoustic-screens",
+    "description": "منظومة عمل جماعية متطورة للشركات وبيئات العمل المفتوحة، توفر لكل موظف مساحة مريحة ومستقلة مع بارتشن قماشي برتقالي معالج لامتصاص الصدى، وشاسيه حديد سفلي موحد يضمن أقصى متانة وثبات حتى مع الاستخدام الشاق اليومي.",
+    "price": 12800,
+    "originalPrice": 15900,
+    "images": [
+      "/products/desks/workstation-loop-screens.jpg",
+      "/products/desks/desk-specs-components.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "شاسيه حديدي Loop متصل + أسطح خشبية ميلامين ناصعة + ألواح فايبر صوتية منجدة",
+    "color": "سطح أبيض ناصع مع فواصل برتقالية وشاسيه أسود",
+    "dimensions": {
+      "width": 240,
+      "height": 105,
+      "depth": 120
+    },
+    "weight": 88,
+    "stockQuantity": 11,
+    "returnCount": 0,
+    "totalSold": 4,
+    "rating": 5,
+    "reviewCount": 25,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "workstation",
+      "خلايا عمل",
+      "فواصل صوتية",
+      "Rock Steel"
+    ],
+    "createdAt": "2026-11-01T17:58:19.701Z",
+    "updatedAt": "2026-11-01T17:58:19.701Z"
+  },
+  {
+    "id": "prod_desk_executive_loop_credenza",
+    "name": "مكتب مديرين تنفيذي مودرن مع سايد تخزين معلق وشاسيه حديد مغلق",
+    "code": "AF-DSK-EX02",
+    "sku": "AF-DSK-EX02",
+    "slug": "executive-loop-desk-hanging-credenza",
+    "description": "تحفة إدارية راقية للمديرين والشركات، يجمع بين الدفء الخشبي لدرجة الجوزي والهيبة العصرية للشاسيه المعدني المغلق. يتميز بوحدة سايد تخزين معلقة بقوائم ستيل، وبانيل أمامي خشبي ممتد، مع صينية تنظيم كابلات داخلية توفر سطحاً خالياً تماماً من الفوضى.",
+    "price": 9600,
+    "originalPrice": 12500,
+    "images": [
+      "/products/desks/desk-executive-loop-credenza.jpg",
+      "/products/desks/desk-specs-components.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "خشب جوزي تكس تشر 34 مم + شاسيه حديد معالج حرارياً + ميكانيزمات سوفت كلوز",
+    "color": "بني جوزي كلاسيك مع شاسيه أسود كربوني",
+    "dimensions": {
+      "width": 190,
+      "height": 76,
+      "depth": 90
+    },
+    "weight": 72,
+    "stockQuantity": 8,
+    "returnCount": 0,
+    "totalSold": 3,
+    "rating": 4.9,
+    "reviewCount": 52,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "مديرين",
+      "تنفيذي",
+      "سايد جانبي",
+      "أثاث شركات"
+    ],
+    "createdAt": "2026-11-01T17:58:19.701Z",
+    "updatedAt": "2026-11-01T17:58:19.701Z"
+  },
+  {
+    "id": "prod_desk_loop_metal_white",
+    "name": "مكتب عمل مودرن بساتر معدني مخرم (Modesty Panel) وشاسيه مقفل",
+    "code": "AF-DSK-LP",
+    "sku": "AF-DSK-LP",
+    "slug": "modern-office-desk-loop-frame-modesty",
+    "description": "مكتب إداري عصري متميز بشاسيه معدني مقفل (Loop Leg) مصنوع من الحديد الصلب المفرغ والمدهون بفرن بودرة إلكتروستاتيك، مزود بساتر أمامي معدني مخرم (Modesty Panel) لتوفير الخصوصية الكاملة، وفتحتين علويتين لتمرير كابلات اللابتوب والشاشات بكل تنظيم.",
+    "price": 5450,
+    "originalPrice": 6900,
+    "images": [
+      "/products/desks/desk-loop-metal-white-modesty.jpg",
+      "/products/desks/desk-specs-components.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "شاسيه حديد علب 5×2.5 سم إلكتروستاتيك + قرصة خشب ميلامين أبيض مضاد للبكتيريا",
+    "color": "قرصة بيضاء ثلجية مع شاسيه وساتر أسود مطفي",
+    "dimensions": {
+      "width": 140,
+      "height": 75,
+      "depth": 70
+    },
+    "weight": 38,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 6,
+    "rating": 4.8,
+    "reviewCount": 38,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "مودرن",
+      "ساتر معدني",
+      "Loop Frame",
+      "شركات"
+    ],
+    "createdAt": "2026-11-01T17:58:19.701Z",
+    "updatedAt": "2026-11-01T17:58:19.701Z"
+  },
+  {
+    "id": "prod_conference_rocksteel_walnut",
+    "name": "طاولة اجتماعات كبرى Rock Steel خشب جوزي وشاسيه مائل مع منافذ كابلات",
+    "code": "AF-CONF-RS",
+    "sku": "AF-CONF-RS",
+    "slug": "rock-steel-executive-conference-table",
+    "description": "طاولة قاعات اجتماعات ومؤتمرات كبرى من فئة Rock Steel التنفيذية، تتسع من 8 إلى 10 مقاعد، مصممة بأرجل معدنية مائلة تمنح راحة كاملة لأقدام الجالسين، مع علب تمديدات كهربائية وData مدمجة بسطح خشب جوزي فخم معالج ضد الحرارة والبصمات.",
+    "price": 15800,
+    "originalPrice": 19500,
+    "images": [
+      "/products/desks/conference-rocksteel-walnut.jpg",
+      "/products/desks/desk-specs-components.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "شاسيه حديد Rock Steel مصبوب + سطح خشب جوزي إسباني سماكة 36 مم",
+    "color": "خشب جوزي غني مع قوائم رمادية غامقة (Anthracite)",
+    "dimensions": {
+      "width": 260,
+      "height": 76,
+      "depth": 120
+    },
+    "weight": 95,
+    "stockQuantity": 5,
+    "returnCount": 0,
+    "totalSold": 2,
+    "rating": 5,
+    "reviewCount": 29,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "طاولات اجتماعات",
+      "Rock Steel",
+      "مؤتمرات",
+      "قاعات"
+    ],
+    "createdAt": "2026-11-01T17:58:19.701Z",
+    "updatedAt": "2026-11-01T17:58:19.701Z"
+  },
+  {
+    "id": "prod_executive_lshape_credenza",
+    "name": "مكتب تنفيذي زاوية L-Shape مع وحدة تخزين جانبية وأدراج ذكية",
+    "code": "AF-DSK-L01",
+    "sku": "AF-DSK-L01",
+    "slug": "executive-l-shape-desk-credenza",
+    "description": "مكتب تنفيذي متكامل بتصميم حرف L يوفر مساحة عمل واسعة، مزود بوحدة سايد جانبية (Side Credenza) تحتوي على أدراج تخزين عميقة، درفة سرية، وأرفف لحفظ الملفات والطابعات. السطح مصنوع من خشب ميلامين HPL مستورد ملمسي مقاوم للخدوش والسوائل، مع شاسيه وقوائم معدنية صلبة مطلية إلكتروستاتيك ومخرج كابلات مدمج.",
+    "price": 8900,
+    "originalPrice": 11200,
+    "images": [
+      "/products/desks/desk-lshape-credenza-executive.jpg",
+      "/products/desks/desk-specs-components.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "خشب ميلامين HPL عالي الكثافة + شاسيه حديد إلكتروستاتيك + إكسسوارات هيدروليك بلوم",
+    "color": "بني جوزي داكن تكس تشر مع أرجل سوداء مطفية",
+    "dimensions": {
+      "width": 180,
+      "height": 76,
+      "depth": 140
+    },
+    "weight": 68,
+    "stockQuantity": 9,
+    "returnCount": 0,
+    "totalSold": 5,
+    "rating": 4.9,
+    "reviewCount": 41,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "L-Shape",
+      "مكاتب زاوية",
+      "تنفيذي",
+      "مديرين",
+      "وحدة تخزين"
+    ],
+    "createdAt": "2026-11-01T17:58:19.691Z",
+    "updatedAt": "2026-11-01T17:58:19.701Z"
+  },
+  {
     "id": "prod_executive_aframe_desk",
     "name": "مكتب مدير تنفيذي مودرن بقوائم A-Frame وسطح خشب جوزي طبيعي",
     "code": "AF-DSK-02",
