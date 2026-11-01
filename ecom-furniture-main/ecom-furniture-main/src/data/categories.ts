@@ -37,7 +37,7 @@ export const categories: Category[] = [
     id: "5",
     name: "مكاتب",
     slug: "office-desks",
-    image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=600",
+    image: "/products/desks/desk-executive-metal-leg.jpg",
     description: "مكاتب مديرين وموظفين خشب ميلامين وزان بتصميمات عصرية راقية",
     productCount: 3,
   },

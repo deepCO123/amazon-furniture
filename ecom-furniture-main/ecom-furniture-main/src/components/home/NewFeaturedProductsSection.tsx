@@ -32,12 +32,12 @@ const featuredProductsList: FeaturedProductItem[] = [
     category: "غرف نوم",
   },
   {
-    id: "prod-desk-minimal",
-    slug: "modern-office-desk",
-    name: "مكتب مودرن",
-    price: 2700,
+    id: "prod_executive_metal_leg_desk",
+    slug: "modern-executive-desk-metal-legs",
+    name: "مكتب تنفيذي مودرن بقوائم هندسية",
+    price: 6850,
     rating: 5,
-    image: "/redesign/prod-desk.png",
+    image: "/products/desks/desk-executive-metal-leg.jpg",
     category: "مكاتب",
   },
   {

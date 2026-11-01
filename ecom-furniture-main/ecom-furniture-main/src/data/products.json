@@ -1,5 +1,161 @@
 [
   {
+    "id": "prod_executive_aframe_desk",
+    "name": "مكتب مدير تنفيذي مودرن بقوائم A-Frame وسطح خشب جوزي طبيعي",
+    "code": "AF-DSK-02",
+    "sku": "AF-DSK-02",
+    "slug": "executive-aframe-manager-desk",
+    "description": "مكتب مدير عصري بقوائم مائلة A-Frame من الحديد الصلب المصبوب وسطح خشب جوزي طبيعي معالج بأعلى دقة، يمنح المكتب هيبة تنفيذية وأناقة أوروبية مع مخارج سرية للكابلات.",
+    "price": 7200,
+    "originalPrice": 9000,
+    "images": [
+      "/products/desks/desk-executive-aframe-walnut.jpg",
+      "/products/desks/desk-specs-components.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "قوائم حديد صلب A-Frame + خشب جوزي عالي الجودة",
+    "color": "خشب جوزي غامق مع أرجل سوداء مطفية",
+    "dimensions": {
+      "width": 180,
+      "height": 75,
+      "depth": 85
+    },
+    "weight": 52,
+    "stockQuantity": 10,
+    "returnCount": 0,
+    "totalSold": 4,
+    "rating": 4.8,
+    "reviewCount": 27,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "مديرين",
+      "A-Frame",
+      "خشب جوزي"
+    ],
+    "createdAt": "2026-11-01T17:54:02.282Z",
+    "updatedAt": "2026-11-01T17:54:02.282Z"
+  },
+  {
+    "id": "prod_conference_meeting_table_wood",
+    "name": "طاولة اجتماعات ومؤتمرات كبرى خشب جوزي فاخر بقوائم معدنية",
+    "code": "AF-CONF-08",
+    "sku": "AF-CONF-08",
+    "slug": "executive-conference-meeting-table",
+    "description": "طاولة اجتماعات كبرى وقاعة مؤتمرات تتسع لـ 8 إلى 10 أفراد بتصميم مودرن فخم، سطح خشب جوزي تكس تشر تركي مقاوم للبقع والحرارة، مزودة بصناديق توصيل كابلات هيدروليكية مدمجة وقوائم معدنية مزدوجة لأعلى ثبات.",
+    "price": 14500,
+    "originalPrice": 17800,
+    "images": [
+      "/products/desks/conference-meeting-desk.jpg",
+      "/products/desks/desk-specs-components.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "خشب جوزي عالي الكثافة + شاسيه حديد هندسي دبل",
+    "color": "بني جوزي تكس تشر مع شاسيه أسود",
+    "dimensions": {
+      "width": 240,
+      "height": 76,
+      "depth": 120
+    },
+    "weight": 85,
+    "stockQuantity": 6,
+    "returnCount": 0,
+    "totalSold": 1,
+    "rating": 4.9,
+    "reviewCount": 22,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "طاولات اجتماعات",
+      "مؤتمرات",
+      "قاعات",
+      "تنفيذي"
+    ],
+    "createdAt": "2026-11-01T17:54:02.282Z",
+    "updatedAt": "2026-11-01T17:54:02.282Z"
+  },
+  {
+    "id": "prod_workstation_4person_screens",
+    "name": "محطة عمل مكتبية رباعية (Workstation 4-Person) مع فواصل صوتية",
+    "code": "AF-WS-04",
+    "sku": "AF-WS-04",
+    "slug": "workstation-4-person-acoustic-screens",
+    "description": "خلية عمل متكاملة لأربعة موظفين بتصميم هندسي راقٍ يجمع بين الخصوصية والتواصل، مزودة بقواطع صوتية قماشية برتقالية عازلة للضوضاء، مجاري كابلات كهربائية ونت مدمجة، وشاسيه حديد قوي للشركات الكبرى والمقرات الإدارية.",
+    "price": 18900,
+    "originalPrice": 23500,
+    "images": [
+      "/products/desks/workstation-4-screens.jpg",
+      "/products/desks/desk-specs-components.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "شاسيه معدني مقوى + أسطح خشبية ميلامين مضادة للاحتكاك + فواصل قماشية صوتية",
+    "color": "سطح أبيض رخامي مع فواصل برتقالية وشاسيه أسود إلكتروستاتيك",
+    "dimensions": {
+      "width": 280,
+      "height": 105,
+      "depth": 140
+    },
+    "weight": 120,
+    "stockQuantity": 8,
+    "returnCount": 0,
+    "totalSold": 2,
+    "rating": 5,
+    "reviewCount": 18,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "خلايا عمل",
+      "workstation",
+      "شركات",
+      "فواصل صوتية"
+    ],
+    "createdAt": "2026-11-01T17:54:02.282Z",
+    "updatedAt": "2026-11-01T17:54:02.282Z"
+  },
+  {
+    "id": "prod_executive_metal_leg_desk",
+    "name": "مكتب تنفيذي مودرن بقوائم معدنية هندسية ومخرج كابلات ذكي",
+    "code": "AF-DSK-01",
+    "sku": "AF-DSK-01",
+    "slug": "modern-executive-desk-metal-legs",
+    "description": "مكتب تنفيذي وإداري عصري متميز بقوائم معدنية هندسية بزوايا انسيابية مطلية إلكتروستاتيك، سطح خشبي ملمسي عالي المقاومة للخدش، بانيل خصوصية معدني مخرم (Modesty Panel)، وفتحة كابلات داخلية مدمجة (Top Access) لتنظيم بيئة العمل بكل احترافية.",
+    "price": 6850,
+    "originalPrice": 8500,
+    "images": [
+      "/products/desks/desk-executive-metal-leg.jpg",
+      "/products/desks/desk-specs-components.jpg",
+      "/products/desks/desk-executive-aframe-walnut.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "شاسيه حديد معالج إلكتروستاتيك + سطح خشب HPL مستورد عالي المقاومة",
+    "color": "شاسيه أسود RAL 9005 / رمادي 7012 - سطح خشب جوزي / أرو فاتح / أبيض",
+    "dimensions": {
+      "width": 160,
+      "height": 75,
+      "depth": 80
+    },
+    "weight": 48,
+    "stockQuantity": 14,
+    "returnCount": 0,
+    "totalSold": 3,
+    "rating": 4.9,
+    "reviewCount": 34,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "مديرين",
+      "شاسيه معدني",
+      "تجهيز شركات",
+      "مودرن"
+    ],
+    "createdAt": "2026-11-01T17:54:02.271Z",
+    "updatedAt": "2026-11-01T17:54:02.282Z"
+  },
+  {
     "id": "prod_1789668044779",
     "name": "كرسي المدير",
     "code": "AF-prod_1789668044779",
