@@ -9,8 +9,7 @@ interface HeroSlide {
   id: string;
   image: string;
   badge: string;
-  title1: string;
-  title2: string;
+  title: string;
   subtitle: string;
   primaryCtaText: string;
   primaryCtaLink: string;
@@ -22,9 +21,8 @@ const heroSlides: HeroSlide[] = [
   {
     id: "executive-office",
     image: "/redesign/office-executive-suite.jpg",
-    badge: "🏢 تجهيز الشركات والمقرات التنفيذية",
-    title1: "نصمم بيئة عمل تلهم الإنجاز",
-    title2: "حلول أثاث مكتبي متكاملة للشركات والمديرين",
+    badge: "✨ حلول أثاث مكتبي متكاملة للشركات والمديرين",
+    title: "نصمم بيئة عمل تلهم الإنجاز",
     subtitle: "تجهيز وتنفيذ أرقى المكاتب التنفيذية، كراسي شبك طبية هيدروليكية، ومحطات عمل كبرى بأرقى المعايير الهندسية مع ضمان 10 سنوات.",
     primaryCtaText: "اطلب معاينة مجانية",
     primaryCtaLink: "#consultation",
@@ -32,27 +30,26 @@ const heroSlides: HeroSlide[] = [
     secondaryCtaLink: `/products?category=${encodeURIComponent("مكاتب")}`,
   },
   {
-    id: "luxury-living",
-    image: "/redesign/hero-living-room-clean.jpg",
-    badge: "أثاث عصري بجودة عالية وتفصيل خاص",
-    title1: "أقوى عروض وتخفيضات",
-    title2: "أثاث لمنزلك ومكتبك الفاخر",
-    subtitle: "تصميمات عصرية تناسب جميع الأذواق مع أفضل الأسعار وضمان معتمد 10 سنوات على كافة المنتجات.",
-    primaryCtaText: "تسوق العروض الآن",
-    primaryCtaLink: "/products",
-    secondaryCtaText: "استكشف تشكيلة 2026",
-    secondaryCtaLink: "/products?tag=sale",
+    id: "modern-workstations",
+    image: "/redesign/office-meeting-lounge.jpg",
+    badge: "🏢 قاعات اجتماعات ومحطات عمل ذكية",
+    title: "فخامة وأناقة عصرية تليق بنجاحك",
+    subtitle: "مكاتب تنفيذية، قاعات اجتماعات مجهزة، وكراسي هيدروليكية معتمدة تدعم الإنتاجية وتمنحك بيئة عمل متكاملة.",
+    primaryCtaText: "اطلب معاينة مجانية",
+    primaryCtaLink: "#consultation",
+    secondaryCtaText: "استكشف محطات العمل",
+    secondaryCtaLink: `/products?category=${encodeURIComponent("مكاتب")}`,
   },
 ];
 
 export default function NewHeroSection() {
   const [current, setCurrent] = useState(0);
 
-  // Auto-advance slides every 6.5 seconds
+  // Auto-advance slides every 7 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % heroSlides.length);
-    }, 6500);
+    }, 7000);
     return () => clearInterval(timer);
   }, []);
 
@@ -65,8 +62,8 @@ export default function NewHeroSection() {
     <section className="relative w-full overflow-hidden bg-[#FAF7F2] dark:bg-[#120E0B]">
       <div className="max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-5">
         {/* Main Banner Container */}
-        <div className="relative rounded-3xl overflow-hidden min-h-[380px] sm:min-h-[440px] md:min-h-[480px] lg:min-h-[520px] shadow-sm border border-[#EBE2D7] dark:border-[#33251C]">
-          {/* Background Images with smooth fade */}
+        <div className="relative rounded-3xl overflow-hidden min-h-[420px] sm:min-h-[460px] md:min-h-[500px] lg:min-h-[540px] shadow-sm border border-[#EBE2D7] dark:border-[#33251C]">
+          {/* Background Images: Corporate Executive Office Interioirs only */}
           {heroSlides.map((s, idx) => (
             <div
               key={s.id}
@@ -76,96 +73,106 @@ export default function NewHeroSection() {
             >
               <Image
                 src={s.image}
-                alt={s.title1}
+                alt={s.title}
                 fill
                 priority={idx === 0}
                 className="object-cover object-center"
                 sizes="(max-width: 1440px) 100vw, 1440px"
               />
-
             </div>
           ))}
 
           {/* Banner Inner Content */}
-          <div className="relative z-10 w-full h-full min-h-[380px] sm:min-h-[440px] md:min-h-[480px] lg:min-h-[520px] flex flex-col justify-between p-4 sm:p-7 lg:p-10">
+          <div className="relative z-10 w-full h-full min-h-[420px] sm:min-h-[460px] md:min-h-[500px] lg:min-h-[540px] flex flex-col justify-between p-4 sm:p-7 lg:p-10">
             {/* Top / Main Row: In RTL, child 1 is on the RIGHT, child 2 is on the LEFT */}
             <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-6 w-full my-auto">
-              {/* 1. RIGHT SIDE: Arabic Typography & Dual CTAs inside Glassmorphism Card */}
-              <div className="w-full lg:max-w-2xl text-right flex flex-col items-start order-1 bg-[#1F2421]/80 backdrop-blur-md rounded-2xl p-5 sm:p-7 lg:p-8 border border-white/15 shadow-2xl">
-                {/* Top Badge: Warm Amber Gold with Icon */}
-                <div className="inline-flex items-center gap-2 bg-[#C59B63]/25 backdrop-blur-xs text-[#F5DEB3] text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full border border-[#C59B63]/50 mb-3 sm:mb-4 shadow-sm animate-fade-in">
+              {/* 1. RIGHT SIDE: Transparent Glassmorphism Container */}
+              <div
+                style={{
+                  backgroundColor: "rgba(18, 22, 25, 0.48)",
+                  backdropFilter: "blur(14px) saturate(160%)",
+                  WebkitBackdropFilter: "blur(14px) saturate(160%)",
+                }}
+                className="w-full lg:max-w-2xl text-right flex flex-col items-start order-1 rounded-[24px] p-6 sm:p-8 md:p-10 lg:p-11 border border-white/[0.14] shadow-[0_20px_40px_rgba(0,0,0,0.22)] transition-all duration-300"
+              >
+                {/* Top Badge: Pill with semi-transparent background and gold-amber accent border */}
+                <div className="inline-flex items-center gap-2 bg-[#C59B63]/20 backdrop-blur-sm text-[#F5DEB3] text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full border border-[#C59B63]/45 mb-3 sm:mb-4 shadow-xs">
                   <Sparkles className="w-3.5 h-3.5 text-[#C59B63]" />
                   <span>{slide.badge}</span>
                 </div>
 
-                {/* Main Heading */}
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-black text-white leading-[1.25] tracking-tight mb-2 sm:mb-3 drop-shadow-md">
-                  <span className="block">{slide.title1}</span>
-                  <span className="block text-[#E8D4B0] text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-bold mt-1">
-                    {slide.title2}
-                  </span>
+                {/* Main Headline: Large, Bold, Crisp White */}
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-black text-white leading-[1.25] tracking-tight mb-3 drop-shadow-md">
+                  {slide.title}
                 </h1>
 
-                {/* Subtitle */}
-                <p className="text-xs sm:text-sm md:text-base text-white/90 font-medium max-w-xl mb-5 sm:mb-6 leading-relaxed drop-shadow-xs">
+                {/* Sub-headline / Core Description */}
+                <p className="text-xs sm:text-sm md:text-base text-white/95 font-medium max-w-xl mb-6 sm:mb-7 leading-relaxed drop-shadow-xs">
                   {slide.subtitle}
                 </p>
 
-                {/* Dual CTA Buttons Group */}
+                {/* Action Buttons (CTAs) */}
                 <div className="flex flex-wrap items-center gap-3 sm:gap-4 w-full sm:w-auto">
-                  {/* Primary CTA Button: Amber Gold #C59B63 */}
+                  {/* Primary CTA: Warm Executive Camel/Gold */}
                   <Link
                     href={slide.primaryCtaLink}
                     prefetch={true}
-                    className="inline-flex items-center justify-center gap-2.5 bg-[#C59B63] hover:bg-[#D4A373] active:scale-95 text-[#1F2421] font-black text-xs sm:text-sm px-6 sm:px-8 py-3 sm:py-3.5 rounded-full shadow-lg transition-all duration-200 group flex-1 sm:flex-initial"
+                    className="inline-flex items-center justify-center gap-2.5 bg-[#C59B63] hover:bg-[#B28852] active:scale-95 text-white font-black text-xs sm:text-sm px-6 sm:px-8 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 group flex-1 sm:flex-initial"
                   >
                     <span>{slide.primaryCtaText}</span>
                     <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                   </Link>
 
-                  {/* Secondary CTA Button: Clean White Glass Pill */}
+                  {/* Secondary CTA: Frosted Glass / Ghost Button */}
                   <Link
                     href={slide.secondaryCtaLink}
                     prefetch={true}
-                    className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 active:scale-95 text-white border border-white/25 font-bold text-xs sm:text-sm px-5 sm:px-6 py-3 sm:py-3.5 rounded-full shadow-sm backdrop-blur-xs transition-all duration-200 flex-1 sm:flex-initial"
+                    className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 active:scale-95 text-white border border-white/25 font-bold text-xs sm:text-sm px-5 sm:px-6 py-3.5 rounded-xl backdrop-blur-sm transition-all duration-200 flex-1 sm:flex-initial"
                   >
                     <span>{slide.secondaryCtaText}</span>
                   </Link>
                 </div>
               </div>
 
-              {/* 2. LEFT SIDE: Frosted Glassmorphism Trust Box (Child 2 in RTL = Left Side) */}
-              <div className="hidden md:flex flex-col gap-4 bg-white/20 backdrop-blur-md rounded-2xl p-5 border border-white/35 text-white shadow-xl max-w-[210px] order-2">
+              {/* 2. LEFT SIDE: Matching Ultra-light Glassmorphism Feature Badges */}
+              <div
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.14)",
+                  backdropFilter: "blur(14px) saturate(140%)",
+                  WebkitBackdropFilter: "blur(14px) saturate(140%)",
+                }}
+                className="hidden md:flex flex-col gap-4 rounded-2xl p-5 border border-white/25 text-white shadow-xl max-w-[215px] order-2"
+              >
                 {/* Item 1: Shipping */}
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/25 flex items-center justify-center shrink-0 border border-white/40">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0 border border-white/30">
                     <Truck className="w-5 h-5 text-white" strokeWidth={1.8} />
                   </div>
                   <div className="text-right">
                     <div className="text-xs font-bold leading-tight">شحن سريع</div>
-                    <div className="text-[10px] text-white/85">لكل المحافظات</div>
+                    <div className="text-[10px] text-white/90">لكل المحافظات</div>
                   </div>
                 </div>
 
                 {/* Item 2: Secure Payment */}
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/25 flex items-center justify-center shrink-0 border border-white/40">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0 border border-white/30">
                     <ShieldCheck className="w-5 h-5 text-white" strokeWidth={1.8} />
                   </div>
                   <div className="text-right">
                     <div className="text-xs font-bold leading-tight">دفع آمن</div>
-                    <div className="text-[10px] text-white/85">ومتعدد الطرق</div>
+                    <div className="text-[10px] text-white/90">ومتعدد الطرق</div>
                   </div>
                 </div>
 
                 {/* Item 3: Support */}
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/25 flex items-center justify-center shrink-0 border border-white/40">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0 border border-white/30">
                     <Headphones className="w-5 h-5 text-white" strokeWidth={1.8} />
                   </div>
                   <div className="text-right">
                     <div className="text-xs font-bold leading-tight">دعم فني</div>
-                    <div className="text-[10px] text-white/85">24/7</div>
+                    <div className="text-[10px] text-white/90">24/7</div>
                   </div>
                 </div>
               </div>
@@ -173,13 +180,13 @@ export default function NewHeroSection() {
 
             {/* Bottom Controls Row: Dots in Center, Arrows on Left */}
             <div className="flex items-center justify-between w-full pt-4">
-              {/* Left Arrows */}
+              {/* Left Navigation Arrows */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={prevSlide}
                   aria-label="Previous Slide"
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/45 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-xs border border-white/20 transition-all cursor-pointer active:scale-90"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center backdrop-blur-sm border border-white/20 transition-all cursor-pointer active:scale-90"
                 >
                   <ArrowRight className="w-4 h-4" />
                 </button>
@@ -187,7 +194,7 @@ export default function NewHeroSection() {
                   type="button"
                   onClick={nextSlide}
                   aria-label="Next Slide"
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/45 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-xs border border-white/20 transition-all cursor-pointer active:scale-90"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center backdrop-blur-sm border border-white/20 transition-all cursor-pointer active:scale-90"
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </button>
