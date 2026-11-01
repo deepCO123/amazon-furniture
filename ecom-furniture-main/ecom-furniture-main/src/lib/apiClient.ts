@@ -89,16 +89,23 @@ class ApiClient {
   // ─── Auth Endpoints ───────────────────────────────────
 
   async customerLogin(email: string, password: string, name?: string) {
-    return this.request<{
+    const res = await this.request<{
       id: string;
       name: string;
       email: string;
       role: string;
       isNew?: boolean;
+      token?: string;
     }>("/api/auth/customer-login", {
       method: "POST",
       body: JSON.stringify({ email, password, name }),
     });
+
+    if (res.success && res.token && typeof window !== "undefined") {
+      localStorage.setItem("amazon_token", String(res.token));
+    }
+
+    return res;
   }
 
   async customerRegister(
@@ -121,15 +128,22 @@ class ApiClient {
   }
 
   async adminLogin(email: string, password: string) {
-    return this.request<{
+    const res = await this.request<{
       id: string;
       name: string;
       email: string;
       role: string;
+      token?: string;
     }>("/api/auth/admin-login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
+
+    if (res.success && res.token && typeof window !== "undefined") {
+      localStorage.setItem("amazon_token", String(res.token));
+    }
+
+    return res;
   }
 
   async logout() {

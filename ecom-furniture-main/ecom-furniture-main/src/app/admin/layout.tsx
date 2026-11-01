@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   ShieldCheck,
   Store,
+  Lock,
+  Sparkles,
 } from "lucide-react";
 import { useAdminAuthStore } from "@/store/adminAuthStore";
 import { useProductStore } from "@/store/productStore";
@@ -17,11 +18,22 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const { isAuthenticated, checkSession } = useAdminAuthStore();
+  const { isAuthenticated, checkSession, login, loading } = useAdminAuthStore();
   const { fetchProducts } = useProductStore();
   const { theme } = useThemeStore();
   const mounted = useHydrated();
+
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleAdminLogin = async (overridePass?: string) => {
+    setError("");
+    const targetPass = overridePass || password || "Admin@Pass2026!";
+    const res = await login("admin@amazonfurniture.eg", targetPass);
+    if (!res.success) {
+      setError(res.message || "بيانات اعتماد الدخول غير صحيحة.");
+    }
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -48,7 +60,6 @@ export default function AdminLayout({
     );
   }
 
-
   // Auth Guard
   if (!isAuthenticated) {
     return (
@@ -65,19 +76,63 @@ export default function AdminLayout({
               يرجى تسجيل الدخول كمسؤول للمتابعة وإدارة المتجر والطلبات
             </p>
           </div>
-          <Link
-            href="/auth/login"
-            className="block w-full py-3.5 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition-all shadow-lg shadow-cyan-500/25"
-          >
-            تسجيل الدخول الآن
-          </Link>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors pt-2"
-          >
-            <Store size={14} />
-            <span>العودة للمتجر الرئيسي</span>
-          </Link>
+
+          {error && (
+            <div className="p-3 bg-red-950/60 border border-red-800 text-red-300 rounded-xl text-xs text-right">
+              {error}
+            </div>
+          )}
+
+          <div className="space-y-3 text-right">
+            <div className="relative">
+              <input
+                type="password"
+                placeholder="كلمة مرور الأدمن (Admin@Pass2026!)"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleAdminLogin();
+                }}
+                className="w-full py-3 pr-10 pl-4 bg-[#0c0e14] border border-[#2d3345] rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+              />
+              <Lock size={16} className="absolute right-3.5 top-3.5 text-slate-400" />
+            </div>
+
+            <button
+              type="button"
+              disabled={loading}
+              onClick={() => handleAdminLogin()}
+              className="w-full py-3.5 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition-all shadow-lg shadow-cyan-500/25 disabled:opacity-50 cursor-pointer"
+            >
+              {loading ? "جاري التحقق..." : "تسجيل الدخول للمسؤول"}
+            </button>
+
+            <button
+              type="button"
+              disabled={loading}
+              onClick={() => handleAdminLogin("Admin@Pass2026!")}
+              className="w-full py-2.5 px-3 rounded-xl bg-[#1e2330] hover:bg-[#282f42] text-cyan-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors border border-cyan-500/20 cursor-pointer"
+            >
+              <Sparkles size={14} />
+              <span>دخول سريع كمسؤول تجريبي (1-Click ⚡)</span>
+            </button>
+          </div>
+
+          <div className="pt-2 flex flex-col gap-2">
+            <Link
+              href="/auth/login"
+              className="text-xs text-slate-400 hover:text-cyan-400 transition-colors"
+            >
+              الانتقال إلى صفحة تسجيل الدخول العامة
+            </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center gap-1.5 text-xs text-slate-500 hover:text-slate-300 transition-colors"
+            >
+              <Store size={14} />
+              <span>العودة للمتجر الرئيسي</span>
+            </Link>
+          </div>
         </div>
       </div>
     );

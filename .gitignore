@@ -43,3 +43,10 @@ next-env.d.ts
 Thumbs.db
 .vscode/
 .idea/
+
+# Backups & Temporary
+**/backups/
+backups/
+**/scratch/
+scratch/
+

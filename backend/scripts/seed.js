@@ -112,7 +112,7 @@ async function seedDatabase() {
         email: adminEmail,
         role: 'admin',
         provider: 'email',
-        passwordHash: '$2a$10$ffXck6x.FV/wNXMF/bS74OlZic1JK1GC7q4QdFb9TErZGzPf9Ty.W', // Admin@Pass2026!
+        passwordHash: '$2a$10$Oi2dCmwY8fGZej3i4uy9XuZJ6NCbDlFIASFSrt91/YXufzZUTIbpe', // Admin@Pass2026!
         ordersCount: 0,
         totalSpent: 0,
       });

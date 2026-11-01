@@ -500,14 +500,50 @@ export default function AdminDashboardPage() {
   }, [consultations, consultationSearch]);
 
   // Reset pagination to page 1 when search or filters change
-  useEffect(() => { setProductsPage(1); }, [searchQuery, selectedCategory, stockFilter]);
-  useEffect(() => { setCustomersPage(1); }, [customerSearch]);
-  useEffect(() => { setOrdersPage(1); }, [orderSearch]);
-  useEffect(() => { setReturnsPage(1); }, [returnSearch]);
-  useEffect(() => { setQuotationsPage(1); }, [quotationSearch]);
-  useEffect(() => { setConsultationsPage(1); }, [consultationSearch]);
-  useEffect(() => { setEmailsPage(1); }, [emailSearch]);
-  useEffect(() => { setCustomOrdersPage(1); }, [customOrderSearch]);
+  const [prevFilters, setPrevFilters] = useState({
+    products: "",
+    customers: "",
+    orders: "",
+    returns: "",
+    quotations: "",
+    consultations: "",
+    emails: "",
+    customOrders: "",
+  });
+
+  const curProdFilter = `${searchQuery}_${selectedCategory}_${stockFilter}`;
+  if (prevFilters.products !== curProdFilter) {
+    setPrevFilters((p) => ({ ...p, products: curProdFilter }));
+    setProductsPage(1);
+  }
+  if (prevFilters.customers !== customerSearch) {
+    setPrevFilters((p) => ({ ...p, customers: customerSearch }));
+    setCustomersPage(1);
+  }
+  if (prevFilters.orders !== orderSearch) {
+    setPrevFilters((p) => ({ ...p, orders: orderSearch }));
+    setOrdersPage(1);
+  }
+  if (prevFilters.returns !== returnSearch) {
+    setPrevFilters((p) => ({ ...p, returns: returnSearch }));
+    setReturnsPage(1);
+  }
+  if (prevFilters.quotations !== quotationSearch) {
+    setPrevFilters((p) => ({ ...p, quotations: quotationSearch }));
+    setQuotationsPage(1);
+  }
+  if (prevFilters.consultations !== consultationSearch) {
+    setPrevFilters((p) => ({ ...p, consultations: consultationSearch }));
+    setConsultationsPage(1);
+  }
+  if (prevFilters.emails !== emailSearch) {
+    setPrevFilters((p) => ({ ...p, emails: emailSearch }));
+    setEmailsPage(1);
+  }
+  if (prevFilters.customOrders !== customOrderSearch) {
+    setPrevFilters((p) => ({ ...p, customOrders: customOrderSearch }));
+    setCustomOrdersPage(1);
+  }
 
   // Filtered Custom Orders Memo
   const filteredCustomOrders = useMemo(() => {

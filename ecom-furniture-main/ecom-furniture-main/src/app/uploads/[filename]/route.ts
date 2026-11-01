@@ -15,7 +15,7 @@ const MIME_TYPES: Record<string, string> = {
 
 export async function GET(
   request: NextRequest,
-  context: { params: Promise<{ filename: string }> | { filename: string } }
+  context: { params: Promise<{ filename: string }> }
 ) {
   try {
     const resolvedParams = await Promise.resolve(context.params);

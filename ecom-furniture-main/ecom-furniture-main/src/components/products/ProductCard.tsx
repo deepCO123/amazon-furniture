@@ -63,12 +63,14 @@ export default function ProductCard({
     const text = isEn
       ? `Hello, I would like to order this item from Amazon Furniture:
 *Product:* ${product.name}
+*SKU:* ${product.code || `AMZ-${product.id.slice(-4).toUpperCase()}`}
 *Price:* ${formatPrice(product.price)}
 ${fullImgUrl ? `*Image:* ${fullImgUrl}\n` : ""}*Link:* ${getProductUrl(product.slug)}
 
 Please confirm order details and free delivery.`
       : `مرحباً، أود شراء هذا المنتج من متجر Amazon Furniture:
 *المنتج:* ${product.name}
+*كود المنتج (SKU):* ${product.code || `AMZ-${product.id.slice(-4).toUpperCase()}`}
 *السعر:* ${formatPrice(product.price)}
 ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط المنتج:* ${getProductUrl(product.slug)}
 
@@ -117,6 +119,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
       <div
         data-card="product"
         onClick={handleCardClick}
+      onMouseEnter={() => router.prefetch(/products/)}
         className="product-card group bg-white rounded-2xl border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
       >
         <div className="flex flex-col sm:flex-row items-stretch">
@@ -215,7 +218,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
 
                 <button
                   onClick={handleAddToCart}
-                  className="h-10 px-4 rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] dark:bg-[#C58B45] dark:hover:bg-[#B37A38] text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
+                  className="h-10 px-4 rounded-xl bg-[#1F2421] hover:bg-[#C59B63] dark:bg-[#C58B45] dark:hover:bg-[#B37A38] text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
                   title={isEn ? "Add to Cart" : "إضافة للسلة"}
                 >
                   <ShoppingBag size={16} />
@@ -236,6 +239,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
     <div
       data-card="product"
       onClick={handleCardClick}
+      onMouseEnter={() => router.prefetch(/products/)}
       className="product-card group bg-white rounded-xl sm:rounded-3xl p-2.5 sm:p-4 border border-[#E8E0D5] overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative flex flex-col justify-between h-full cursor-pointer"
     >
       <div>
@@ -357,7 +361,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
 
         <button
           onClick={handleAddToCart}
-          className="min-w-[36px] min-h-[36px] sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] dark:bg-[#C58B45] dark:hover:bg-[#B37A38] text-white flex items-center justify-center transition-colors shadow-2xs shrink-0 cursor-pointer"
+          className="min-w-[36px] min-h-[36px] sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-[#1F2421] hover:bg-[#C59B63] dark:bg-[#C58B45] dark:hover:bg-[#B37A38] text-white flex items-center justify-center transition-colors shadow-2xs shrink-0 cursor-pointer"
           title={isEn ? "Add to Cart" : "أضف للسلة"}
           aria-label="Add to Cart"
         >

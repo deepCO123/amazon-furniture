@@ -12,7 +12,11 @@ import {
   Heart,
   ChevronDown,
   Ruler,
-  Sparkles,
+  Search,
+  LayoutGrid,
+  Phone,
+  MapPin,
+  MessageCircle,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
@@ -64,17 +68,38 @@ export default function Navbar() {
     highlight?: boolean;
   }
 
-  // Secondary dark bar navigation links (Centered Features Bar)
+  // Strictly organized corporate & executive office solutions menu matching architecture
   const secondaryNavLinks: NavLinkItem[] = [
-    { href: "/custom-order", label: t.customOrderLink, hasBadge: true, badge: t.customBadge, highlight: true },
-    { href: "/products?tag=sale", label: t.saleOffersLink, hasBadge: true, badge: t.newBadgeText },
-    { href: "/products?category=كراسي شبك", label: t.meshChairsLink },
-    { href: "/products?category=كراسي طبية", label: t.medicalChairsLink },
-    { href: "/products?category=ترابيزة تليفزيون", label: t.tvTablesLink },
-    { href: "/products?category=ستائر مكتبية", label: t.officeCurtainsLink },
-    { href: "/products?category=مكاتب", label: t.desksLink },
-    { href: "/products?category=انتريهات", label: t.livingSetsLink },
-    { href: "/products?category=كراسي جلد", label: t.leatherChairsLink },
+    {
+      href: "/products?category=" + encodeURIComponent("مكاتب"),
+      label: language === "en" ? "Executive Desks & Workstations" : "مكاتب تنفيذية ومحطات عمل",
+      hasBadge: true,
+      badge: "VIP",
+    },
+    {
+      href: "/products?category=" + encodeURIComponent("كراسي طبية"),
+      label: language === "en" ? "Ergonomic & Mesh Chairs" : "كراسي طبية وشبكية مريحة",
+      hasBadge: true,
+      badge: "الأكثر طلباً",
+    },
+    {
+      href: "/products?category=" + encodeURIComponent("كراسي جلد"),
+      label: language === "en" ? "Luxury Leather Chairs" : "كراسي جلد فاخرة للمديرين",
+    },
+    {
+      href: "/products?category=" + encodeURIComponent("ستائر مكتبية"),
+      label: language === "en" ? "Office Blinds & Curtains" : "ستائر مكتبية وموتورايزد",
+    },
+    {
+      href: "/products?category=" + encodeURIComponent("انتريهات"),
+      label: language === "en" ? "Reception & Waiting Lounge" : "كاونترات استقبال وأثاث انتظار",
+    },
+    {
+      href: "/custom-order",
+      label: language === "en" ? "Custom Sizing & 3D Consultation" : "تفصيل حسب المقاسات واستشارات 3D",
+      hasBadge: true,
+      badge: "مجاناً",
+    },
   ];
 
   // Filtered search results
@@ -134,30 +159,44 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 left-0 right-0 z-40 bg-white shadow-xs border-b border-[#E8E0D5]">
-        {/* ── 1. Primary Brown Sub-Bar (#6B4F3A with #C58B45 Gold Hover) ─────────────── */}
-        <div className="bg-[#6B4F3A] text-white text-xs py-1.5 px-4 border-b border-[#83644D]">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            {/* Social Media Icons (Left) */}
-            <div className="flex items-center gap-3 text-white/90">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#C58B45] transition-colors" title="Facebook">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      <header className="sticky top-0 left-0 right-0 z-40 bg-white shadow-xs border-b border-[#CCD0CF]">
+        {/* ── 1. Top Hotline & Showroom Bar (Executive Corporate Styling #1F2421 / Gold) ─────────────── */}
+        <div className="bg-[#1F2421] text-white text-xs py-1.5 px-4 border-b border-[#2D3430]">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 text-[11px] sm:text-xs">
+            {/* Showroom Address & Hotline (Right side in RTL) */}
+            <div className="flex items-center gap-3 sm:gap-6 font-semibold">
+              <a
+                href="tel:01012345678"
+                className="flex items-center gap-1.5 text-white/95 hover:text-[#C59B63] transition-colors"
+                title="الخط الساخن والمبيعات"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#C59B63]" />
+                <span dir="ltr" className="font-bold">01012345678</span>
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#C58B45] transition-colors" title="Instagram">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-              </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#C58B45] transition-colors" title="YouTube">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><polygon points="10 15 15 12 10 9 10 15" fill="currentColor"/></svg>
-              </a>
-              <span className="text-white/30 hidden sm:inline">|</span>
-              <LanguageSwitcher />
-              <ThemeToggle variant="minimal" />
+
+              <span className="text-white/20 hidden md:inline">|</span>
+
+              <div className="hidden sm:flex items-center gap-1.5 text-white/80">
+                <MapPin className="w-3.5 h-3.5 text-[#C59B63]" />
+                <span>المنصورة - حي الجامعة بجوار كلية الهندسة</span>
+              </div>
             </div>
 
-            {/* Quick Links (Right) */}
-            <div className="flex items-center gap-4 sm:gap-6 text-[11px] sm:text-xs font-bold text-white/90">
-              <Link href="/about" className="hover:text-[#C58B45] transition-colors">من نحن</Link>
-              <Link href="/contact" className="hover:text-[#C58B45] transition-colors">تواصل معنا</Link>
+            {/* WhatsApp Quick Consultation & Tools (Left side in RTL) */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              <a
+                href="https://wa.me/201012345678?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D9%84%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%20%D9%85%D9%83%D8%AA%D8%A8%20%D8%A3%D9%88%20%D8%B4%D8%B1%D9%83%D8%A9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#4ADE80] px-2.5 py-0.5 rounded-full font-bold transition-all border border-[#25D366]/40"
+              >
+                <MessageCircle className="w-3 h-3 text-[#25D366]" />
+                <span>استشارة واتساب فورية</span>
+              </a>
+
+              <span className="text-white/20 hidden sm:inline">|</span>
+              <LanguageSwitcher />
+              <ThemeToggle variant="minimal" />
             </div>
           </div>
         </div>
@@ -189,14 +228,15 @@ export default function Navbar() {
             <div ref={searchRef} className="flex-1 min-w-0 max-w-2xl relative hidden md:block">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex items-center rounded-full border border-[#E8E0D5] dark:border-[#2C3549] hover:border-[#C58B45] focus-within:border-[#C58B45] bg-white dark:bg-[#151A24] p-1 pl-1 pr-2.5 shadow-2xs transition-colors"
+                className="flex items-center rounded-full border border-[#E8E0D5] dark:border-[#2C3549] hover:border-[#253745] focus-within:border-[#11212D] bg-white dark:bg-[#151A24] p-1 pl-1 pr-2.5 shadow-2xs transition-colors"
               >
                 {/* Search Button */}
                 <button
                   type="submit"
-                  className="bg-[#C58B45] hover:bg-[#B07836] text-white font-bold text-xs sm:text-sm px-5 py-1.5 rounded-full transition-colors shrink-0 cursor-pointer shadow-xs"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1F2421] hover:bg-[#C59B63] text-white flex items-center justify-center transition-colors shrink-0 cursor-pointer shadow-xs"
+                  aria-label={t.searchBtn}
                 >
-                  {t.searchBtn}
+                  <Search className="w-4 h-4" />
                 </button>
 
                 {/* Search Input */}
@@ -301,6 +341,7 @@ export default function Navbar() {
               {/* User Account */}
               <Link
                 href={user ? "/profile" : "/auth/login"}
+                prefetch={true}
                 className="p-1 text-gray-800 dark:text-slate-200 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1"
                 title={user ? `${t.myAccount} (${user.name})` : t.login}
               >
@@ -315,11 +356,12 @@ export default function Navbar() {
               {/* Wishlist */}
               <Link
                 href="/wishlist"
+                prefetch={true}
                 className="relative p-1 text-gray-800 dark:text-slate-200 hover:text-black dark:hover:text-white transition-colors"
                 title={t.wishlist}
               >
                 <Heart size={24} strokeWidth={1.8} />
-                <span className="absolute -top-1.5 -right-1.5 bg-black dark:bg-[#C58B45] text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
+                <span className="absolute -top-1.5 -right-1.5 bg-black dark:bg-[#B93832] text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
                   {hydrated ? wishlistItems.length : 0}
                 </span>
               </Link>
@@ -327,12 +369,13 @@ export default function Navbar() {
               {/* Cart - Always Visible */}
               <Link
                 href="/cart"
+                prefetch={true}
                 className="relative min-w-[44px] min-h-[44px] flex items-center justify-center p-2 text-gray-800 dark:text-slate-200 hover:text-black dark:hover:text-white transition-colors"
                 title={t.cart}
                 aria-label={t.cart}
               >
                 <ShoppingBag size={24} strokeWidth={1.8} />
-                <span className="absolute top-1 end-1 bg-black dark:bg-[#C58B45] text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
+                <span className="absolute top-1 end-1 bg-black dark:bg-[#253745] text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold">
                   {hydrated ? itemCount : 0}
                 </span>
               </Link>
@@ -352,7 +395,7 @@ export default function Navbar() {
           {/* Mobile Search input for small screens */}
           <div className="mt-2.5 md:hidden relative">
             <form onSubmit={handleSearchSubmit} className="flex rounded-full border border-gray-300 dark:border-[#2C3549] p-1 bg-white dark:bg-[#151A24] overflow-hidden shadow-xs">
-              <button type="submit" className="bg-black dark:bg-[#C58B45] text-white px-4 py-1.5 rounded-full font-bold text-xs">
+              <button type="submit" className="bg-black dark:bg-[#253745] text-white px-4 py-1.5 rounded-full font-bold text-xs">
                 {t.searchBtn}
               </button>
               <input
@@ -428,14 +471,15 @@ export default function Navbar() {
         </div>
 
         {/* ── 3. SofaZone Category Navigation Row (White with Golden Header & Carets) ──────── */}
-        <nav className="bg-white dark:bg-[#151A24] text-[#292321] dark:text-[#F5F6F8] border-t border-b border-[#E8E0D5] dark:border-[#232B3C] shadow-2xs overflow-x-auto no-scrollbar scroll-smooth">
+        <nav className="bg-white dark:bg-[#151A24] text-[#292321] dark:text-[#F5F6F8] border-t border-b border-[#EDE6DD] dark:border-[#38261A] shadow-2xs overflow-x-auto no-scrollbar scroll-smooth">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-11 gap-4 sm:gap-6 min-w-max">
             {/* Right: "تسوق حسب التصنيف" */}
             <Link
               href="/products"
-              className="flex items-center gap-1.5 text-[#C58B45] hover:text-[#B07836] font-black text-xs sm:text-sm whitespace-nowrap transition-colors shrink-0"
+              prefetch={true}
+              className="flex items-center gap-1.5 text-[#1F2421] dark:text-[#C59B63] hover:text-[#C59B63] font-black text-xs sm:text-sm whitespace-nowrap transition-colors shrink-0"
             >
-              <Sparkles size={14} className="text-[#C58B45]" />
+              <LayoutGrid size={15} className="text-[#C59B63]" />
               <span>{language === "en" ? "Shop by Category" : "تسوق حسب التصنيف"}</span>
               <ChevronDown size={13} />
             </Link>
@@ -446,14 +490,21 @@ export default function Navbar() {
             <div className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
               {secondaryNavLinks.map((link) => (
                 <Link
-                  key={link.href}
+                  key={`${link.href}-${link.label}`}
                   href={link.href}
-                  className="group relative py-1 text-xs sm:text-[13px] font-black text-[#292321] dark:text-[#F5F6F8] tracking-wide hover:text-[#C58B45] dark:hover:text-[#C58B45] transition-all flex items-center gap-1 whitespace-nowrap shrink-0"
+                  prefetch={true}
+                  className="group relative py-1 text-xs sm:text-[13px] font-black text-[#1F2421] dark:text-[#F8F9FA] tracking-wide hover:text-[#C59B63] dark:hover:text-[#C59B63] transition-all flex items-center gap-1 whitespace-nowrap shrink-0"
                 >
                   <span>{link.label}</span>
-                  <ChevronDown size={11} className="text-[#74685E] dark:text-[#A7B0C0] group-hover:text-[#C58B45] transition-colors" />
+                  <ChevronDown size={11} className="text-[#74685E] dark:text-[#A7B0C0] group-hover:text-[#C59B63] transition-colors" />
                   {link.hasBadge && (
-                    <span className="bg-[#B93832] text-white text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-xs">
+                    <span
+                      className={`text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-2xs text-white ${
+                        link.badge === "VIP" || link.badge === "الأكثر طلباً"
+                          ? "bg-[#C59B63]"
+                          : "bg-[#1F2421]"
+                      }`}
+                    >
                       {link.badge}
                     </span>
                   )}
@@ -580,7 +631,7 @@ export default function Navbar() {
                   <Link
                     href="/auth/login"
                     onClick={() => setIsOpen(false)}
-                    className="font-bold text-primary dark:text-white hover:text-amber-700 dark:hover:text-[#C58B45]"
+                    className="font-bold text-primary dark:text-white hover:text-amber-700 dark:hover:text-[#E8D4B0]"
                   >
                     {user
                       ? (language === "en" ? `👤 Welcome, ${user.name}` : `👤 مرحباً، ${user.name}`)

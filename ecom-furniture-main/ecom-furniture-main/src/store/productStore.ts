@@ -12,7 +12,7 @@ interface ProductState {
   loading: boolean;
   error: string | null;
   lastFetched: number | null;
-  fetchProducts: () => Promise<void>;
+  fetchProducts: (force?: boolean) => Promise<void>;
   addProduct: (product: Partial<Product>) => Promise<Product>;
   updateProduct: (id: string, updates: Partial<Product>) => Promise<Product>;
   deleteProduct: (id: string) => Promise<boolean>;
@@ -29,11 +29,19 @@ export const useProductStore = create<ProductState>()((set, get) => ({
   error: null,
   lastFetched: null,
 
-  fetchProducts: async () => {
-    set({ loading: true, error: null });
+  fetchProducts: async (force = false) => {
+    const state = get();
+    // High-performance Stale-While-Revalidate: Instant page navigation without blocking
+    if (!force && state.products.length > 0 && state.lastFetched && Date.now() - state.lastFetched < 180_000) {
+      return;
+    }
+    // Only show loading state on initial cold start if no products exist in RAM
+    if (state.products.length === 0) {
+      set({ loading: true, error: null });
+    }
     try {
       const data = await apiClient.getProducts();
-      if (Array.isArray(data)) {
+      if (Array.isArray(data) && data.length > 0) {
         set({ products: data, loading: false, lastFetched: Date.now() });
       } else {
         set({ loading: false });

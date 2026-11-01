@@ -27,6 +27,7 @@ const {
   corsConfig,
   apiLimiter,
   sanitizeData,
+  isOriginAllowed,
 } = require('./middlewares/security');
 
 // استدعاء الراوترات المتخصصة
@@ -59,13 +60,7 @@ const PORT = process.env.PORT || 5000;
 const io = new Server(server, {
   cors: {
     origin: (origin, callback) => {
-      if (
-        !origin ||
-        origin === (process.env.CLIENT_URL || 'http://localhost:3000') ||
-        origin === 'http://localhost:3000' ||
-        origin === 'http://127.0.0.1:3000' ||
-        origin.endsWith('.trycloudflare.com')
-      ) {
+      if (isOriginAllowed(origin)) {
         return callback(null, true);
       }
       return callback(new Error('CORS violation'));

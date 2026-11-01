@@ -1,10 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+/* === Luxury Arabic Typography Engine: Instant Paint & Zero FOUT === */
+@font-face {
+  font-family: 'Cairo';
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url('/fonts/cairo-arabic.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+FB50-FDFF, U+FE70-FEFC;
+}
+
+@font-face {
+  font-family: 'Cairo';
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url('/fonts/cairo-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --font-cairo: 'Cairo', 'Tajawal', system-ui, -apple-system, sans-serif;
+}
+
 
 @custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
 
+html, body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 * {
-  font-family: 'Cairo', var(--font-cairo), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-cairo), 'Cairo', 'Tajawal', system-ui, -apple-system, sans-serif;
   scrollbar-width: thin;
   scrollbar-color: #C4A77D #F0EBE3;
 }
@@ -24,7 +53,7 @@
 [dir="rtl"] p,
 [dir="rtl"] span,
 [dir="rtl"] a {
-  font-family: 'Cairo', var(--font-cairo), system-ui, -apple-system, sans-serif !important;
+  font-family: var(--font-cairo), 'Cairo', 'Tajawal', system-ui, -apple-system, sans-serif !important;
 }
 
 /* Professional Cairo font typography for Admin Dashboard */
@@ -45,20 +74,20 @@
 .admin-dashboard tr,
 .admin-dashboard td,
 .admin-dashboard th {
-  font-family: 'Cairo', var(--font-cairo), system-ui, -apple-system, sans-serif !important;
+  font-family: var(--font-cairo), 'Cairo', 'Tajawal', system-ui, -apple-system, sans-serif !important;
   letter-spacing: 0px !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 @theme inline {
-  --color-primary: #6B4F3A;
-  --color-primary-light: #83644D;
-  --color-primary-dark: #573E2D;
-  --color-accent: #C58B45;
+  --color-primary: #1F2421;
+  --color-primary-light: #2C3530;
+  --color-primary-dark: #141816;
+  --color-accent: #C59B63;
   --color-accent-light: #D9A466;
   --color-accent-dark: #A57132;
-  --color-surface: #F8F5F0;
+  --color-surface: #F8F9FA;
   --color-surface-dark: #E8D8C3;
   --color-muted: #74685E;
   --color-success: #16A34A;
@@ -70,23 +99,23 @@
 
 :root {
   /* ── 1. Storefront Design System Tokens ── */
-  --background: #F8F5F0;
+  --background: #F8F9FA;
   --foreground: #292321;
-  --color-surface: #F8F5F0;
+  --color-surface: #F8F9FA;
   --color-surface-dark: #E8D8C3;
-  --color-primary: #6B4F3A;
+  --color-primary: #1F2421;
   --color-muted: #74685E;
-  --color-accent: #C58B45;
+  --color-accent: #C59B63;
   --color-accent-light: #D9A466;
   --color-accent-dark: #A57132;
   --color-border: #E8E0D5;
   --color-danger: #B93832;
 
-  --sf-bg: #F8F5F0;
+  --sf-bg: #F8F9FA;
   --sf-card: #FFFFFF;
   --sf-beige-light: #E8D8C3;
-  --sf-brown-primary: #6B4F3A;
-  --sf-gold: #C58B45;
+  --sf-brown-primary: #1F2421;
+  --sf-gold: #C59B63;
   --sf-text: #292321;
   --sf-text-secondary: #74685E;
   --sf-border: #E8E0D5;
@@ -210,7 +239,7 @@
   --color-secondary: #A7B0C0;
   --color-muted: #A7B0C0;
   --color-border: #232B3C;
-  --color-accent: #C58B45;
+  --color-accent: #C59B63;
   --color-accent-light: #DFC79C;
   --color-accent-dark: #9E7D48;
   --color-input: #151A24;
@@ -220,7 +249,7 @@
   --sf-card: #151A24;
   --sf-beige-light: #1F2737;
   --sf-brown-primary: #E8D4B0;
-  --sf-gold: #C58B45;
+  --sf-gold: #C59B63;
   --sf-text: #F5F6F8;
   --sf-text-secondary: #A7B0C0;
   --sf-border: #232B3C;

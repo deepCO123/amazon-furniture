@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Cairo } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -12,12 +11,9 @@ import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import Analytics from "@/components/analytics/Analytics";
 import ProductInitializer from "@/components/layout/ProductInitializer";
 
-const cairo = Cairo({
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-cairo",
-  display: "swap",
-});
+// Cairo is loaded directly via Google Fonts CDN in <head> and globals.css
+// to ensure zero build-time network failure and 100% reliable cross-device rendering.
+const cairo = { variable: "" };
 
 // TODO: Update this to your actual production domain before going live
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://amazonfurniture.eg";
@@ -123,6 +119,15 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link rel="canonical" href={siteUrl} />
+        {/* Preload High-Definition Local Arabic Fonts for Instant First Paint */}
+        <link rel="preload" href="/fonts/cairo-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/cairo-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap"
+          rel="stylesheet"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

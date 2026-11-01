@@ -51,4 +51,10 @@ const productSchema = new mongoose.Schema(
   }
 );
 
+// فهارس البحث والتصفية المتقدمة لـ MongoDB Atlas
+productSchema.index({ name: 'text', description: 'text', category: 'text' });
+productSchema.index({ category: 1, inStock: 1 });
+productSchema.index({ price: 1 });
+productSchema.index({ featured: -1, createdAt: -1 });
+
 module.exports = mongoose.models.Product || mongoose.model('Product', productSchema);

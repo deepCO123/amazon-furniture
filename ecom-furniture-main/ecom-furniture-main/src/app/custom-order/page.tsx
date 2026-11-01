@@ -110,8 +110,9 @@ export default function CustomOrderPage() {
       }
 
       setReferenceImage(data.url);
-    } catch (err: any) {
-      setUploadError(err.message || (isEn ? "Error uploading image" : "حدث خطأ أثناء رفع الصورة"));
+    } catch (err) {
+      const errMsg = err instanceof Error ? err.message : null;
+      setUploadError(errMsg || (isEn ? "Error uploading image" : "حدث خطأ أثناء رفع الصورة"));
     } finally {
       setUploadingImage(false);
     }
@@ -148,12 +149,8 @@ export default function CustomOrderPage() {
         address: address.trim() || undefined,
       };
 
-      const response = await apiClient.post<{ success: boolean; data: CustomOrder }>(
-        "/custom-orders",
-        payload
-      );
-
-      const savedOrder = response.data;
+      const response = await apiClient.createCustomOrder(payload as unknown as Partial<CustomOrder>);
+      const savedOrder = response.customOrder;
       const orderId = savedOrder?.id || "ORD-" + Math.floor(100000 + Math.random() * 900000);
 
       const whatsappText = isEn

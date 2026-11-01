@@ -66,6 +66,24 @@ export default function ProductDetailPage({
         ];
 
   const [selectedCurtainType, setSelectedCurtainType] = useState(availableCurtainTypes[0]);
+  const [selectedMaterial, setSelectedMaterial] = useState("شبك طبي معتمد (Breathable Mesh)");
+  const [selectedDimension, setSelectedDimension] = useState("160×80 سم");
+  const [selectedGovernorate, setSelectedGovernorate] = useState("الدقهلية (المنصورة)");
+
+  const materialsList = [
+    { id: "mesh", name: "شبك طبي معتمد (Breathable Mesh)", badge: "الأكثر راحة" },
+    { id: "leather", name: "جلد طبيعي فاخر (Genuine Leather)", badge: "تنفيذي VIP" },
+    { id: "linen", name: "كتان إسباني معالج (Fabric Linen)", badge: "مقاوم للبقع" },
+  ];
+
+  const dimensionsList = ["120×60 سم", "140×70 سم", "160×80 سم", "180×90 سم"];
+
+  const governorateShipping: Record<string, { time: string; cost: string }> = {
+    "الدقهلية (المنصورة)": { time: "خلال 24 ساعة (نفس اليوم)", cost: "شحن مجاني بالكامل" },
+    "القاهرة الكبرى والجيزة": { time: "خلال 24 - 48 ساعة", cost: "شحن وتركيب مجاني" },
+    "الإسكندرية والوجه البحري": { time: "خلال 48 - 72 ساعة", cost: "شحن مجاني" },
+    "محافظات القناة والصعيد": { time: "خلال 3 - 5 أيام", cost: "شحن آمن مع المعاينة" },
+  };
   const [selectedImage, setSelectedImage] = useState(0);
   const [showTechnicalSketch, setShowTechnicalSketch] = useState(false);
   const [added, setAdded] = useState(false);
@@ -76,7 +94,7 @@ export default function ProductDetailPage({
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F8F5F0] dark:bg-[#0B0E14]">
         <div className="text-center p-8 bg-white dark:bg-[#151A24] border border-transparent dark:border-[#232B3C] rounded-2xl shadow-xl max-w-md">
-          <h1 className="text-2xl font-black text-[#6B4F3A] dark:text-[#E8D4B0] mb-3">
+          <h1 className="text-2xl font-black text-[#1F2421] dark:text-[#E8D4B0] mb-3">
             {isEn ? "Product Not Found" : "عفواً، المنتج غير موجود"}
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
@@ -84,7 +102,7 @@ export default function ProductDetailPage({
           </p>
           <Link
             href="/products"
-            className="inline-block bg-[#6B4F3A] dark:bg-[#C58B45] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-[#573E2D] dark:hover:bg-[#b07837] transition-colors"
+            className="inline-block bg-[#1F2421] dark:bg-[#C58B45] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-[#2C342F] dark:hover:bg-[#b07837] transition-colors"
           >
             {isEn ? "Back to Shop" : "العودة إلى المعرض"}
           </Link>
@@ -177,7 +195,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
             )}
 
             {/* Product Title */}
-            <h1 className="text-2xl sm:text-3xl lg:text-3xl font-black text-[#6B4F3A] dark:text-[#E8D4B0] leading-tight tracking-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-3xl font-black text-[#1F2421] dark:text-[#E8D4B0] leading-tight tracking-tight">
               {product.name}
             </h1>
 
@@ -230,7 +248,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
             {isCurtain && (
               <div className="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/40 my-3">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-black text-[#6B4F3A] dark:text-[#E8D4B0]">
+                  <label className="text-xs font-black text-[#1F2421] dark:text-[#E8D4B0]">
                     نوع الستارة المطلوب:
                   </label>
                   <span className="text-[11px] text-[#C58B45] font-bold">
@@ -245,7 +263,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                       onClick={() => setSelectedCurtainType(type)}
                       className={`p-2 rounded-lg border text-xs font-bold text-start transition-all ${
                         selectedCurtainType === type
-                          ? "bg-[#6B4F3A] dark:bg-[#C58B45] text-white border-[#6B4F3A] dark:border-[#C58B45] shadow-xs"
+                          ? "bg-[#1F2421] dark:bg-[#C58B45] text-white border-[#6B4F3A] dark:border-[#C58B45] shadow-xs"
                           : "bg-white dark:bg-[#1A2230] text-gray-700 dark:text-gray-200 border-gray-200 dark:border-[#2D3748] hover:border-[#C58B45]"
                       }`}
                     >
@@ -255,6 +273,91 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                 </div>
               </div>
             )}
+
+            {/* ── Material & Upholstery Swatches Selector ── */}
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-[#1A2230] border border-gray-200 dark:border-[#2D3748] shadow-xs space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-black text-[#1F2421] dark:text-[#E8D4B0]">
+                  خامة التنجيد / الهيكل:
+                </label>
+                <span className="text-[11px] text-[#C59B63] font-bold">
+                  {selectedMaterial}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                {materialsList.map((mat) => (
+                  <button
+                    key={mat.id}
+                    type="button"
+                    onClick={() => setSelectedMaterial(mat.name)}
+                    className={`p-2.5 rounded-xl border text-xs font-bold text-center transition-all cursor-pointer ${
+                      selectedMaterial === mat.name
+                        ? "bg-[#1F2421] text-white border-[#1F2421] shadow-xs"
+                        : "bg-gray-50 dark:bg-[#151A24] text-gray-700 dark:text-gray-300 border-gray-200 dark:border-[#2D3748] hover:border-[#C59B63]"
+                    }`}
+                  >
+                    <span className="block truncate">{mat.name.split(" ")[0]} {mat.name.split(" ")[1]}</span>
+                    <span className="text-[9px] text-[#C59B63] block mt-0.5">{mat.badge}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Dimension Selector ── */}
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-[#1A2230] border border-gray-200 dark:border-[#2D3748] shadow-xs space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-black text-[#1F2421] dark:text-[#E8D4B0]">
+                  المقاس المطلوب:
+                </label>
+                <span className="text-[11px] text-[#C59B63] font-mono font-bold">
+                  {selectedDimension}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {dimensionsList.map((dim) => (
+                  <button
+                    key={dim}
+                    type="button"
+                    onClick={() => setSelectedDimension(dim)}
+                    className={`py-2 px-1 rounded-xl border text-xs font-mono font-bold text-center transition-all cursor-pointer ${
+                      selectedDimension === dim
+                        ? "bg-[#C59B63] text-white border-[#C59B63] shadow-xs"
+                        : "bg-gray-50 dark:bg-[#151A24] text-gray-700 dark:text-gray-300 border-gray-200 dark:border-[#2D3748] hover:border-[#C59B63]"
+                    }`}
+                  >
+                    {dim}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Estimated Delivery Timeline Calculator by Governorate ── */}
+            <div className="p-3.5 rounded-2xl bg-amber-50/70 dark:bg-[#1A2230] border border-[#C59B63]/30 shadow-xs space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-black text-[#1F2421] dark:text-[#E8D4B0] flex items-center gap-1.5">
+                  <span>🚚 حاسبة مدة وتكلفة الشحن حسب المحافظة:</span>
+                </label>
+              </div>
+              <select
+                value={selectedGovernorate}
+                onChange={(e) => setSelectedGovernorate(e.target.value)}
+                className="w-full bg-white dark:bg-[#151A24] border border-gray-200 dark:border-[#2D3748] rounded-xl text-xs font-bold p-2.5 outline-none cursor-pointer text-gray-800 dark:text-gray-100"
+              >
+                {Object.keys(governorateShipping).map((gov) => (
+                  <option key={gov} value={gov}>
+                    {gov}
+                  </option>
+                ))}
+              </select>
+              <div className="flex items-center justify-between text-xs pt-1 border-t border-[#C59B63]/20">
+                <span className="font-bold text-gray-700 dark:text-gray-300">
+                  ⏱️ موعد التوصيل: <strong className="text-[#1F2421] dark:text-white">{governorateShipping[selectedGovernorate]?.time}</strong>
+                </span>
+                <span className="font-bold text-emerald-700 dark:text-emerald-400">
+                  {governorateShipping[selectedGovernorate]?.cost}
+                </span>
+              </div>
+            </div>
 
             {/* ── 3. SofaZone Specifications Table (Image 1 & 2 Style) ──── */}
             <div className="border border-gray-200 dark:border-[#232B3C] rounded-xl overflow-hidden shadow-xs bg-white dark:bg-[#151A24] text-xs">
@@ -323,7 +426,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
               </button>
               <button
                 onClick={handleAddToCart}
-                className="w-full sm:flex-1 py-3.5 px-6 rounded-xl bg-[#6B4F3A] hover:bg-[#573E2D] text-white font-black text-sm shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2 min-h-[44px]"
+                className="w-full sm:flex-1 py-3.5 px-6 rounded-xl bg-[#1F2421] hover:bg-[#2C342F] text-white font-black text-sm shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2 min-h-[44px]"
               >
                 <ShoppingBag size={18} />
                 <span>{added ? "تمت الإضافة للسلة! ✓" : "أضف إلى السلة"}</span>
@@ -369,7 +472,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                 }`}
                 title="مخطط المقاسات والأبعاد"
               >
-                <Ruler size={20} className="text-[#6B4F3A] dark:text-[#C58B45] mb-1" />
+                <Ruler size={20} className="text-[#1F2421] dark:text-[#C58B45] mb-1" />
                 <span className="text-[10px] font-black text-gray-700 dark:text-gray-300">الأبعاد CM</span>
               </button>
             </div>
@@ -399,11 +502,11 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                 <div className="w-full h-full flex flex-col items-center justify-center py-6 text-center animate-fadeIn relative">
                   <div className="relative w-64 h-72 border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-xl flex flex-col items-center justify-center p-4 bg-gray-50/80 dark:bg-[#1A2230]/80">
                     {/* Width dimension marker */}
-                    <div className="absolute -top-6 inset-x-0 flex items-center justify-center text-xs font-mono font-black text-[#6B4F3A] dark:text-[#E8D4B0]">
+                    <div className="absolute -top-6 inset-x-0 flex items-center justify-center text-xs font-mono font-black text-[#1F2421] dark:text-[#E8D4B0]">
                       ◀─── {product.dimensions?.width || 80} CM ───▶
                     </div>
                     {/* Height dimension marker */}
-                    <div className="absolute -right-10 inset-y-0 flex items-center justify-center -rotate-90 text-xs font-mono font-black text-[#6B4F3A] dark:text-[#E8D4B0] whitespace-nowrap">
+                    <div className="absolute -right-10 inset-y-0 flex items-center justify-center -rotate-90 text-xs font-mono font-black text-[#1F2421] dark:text-[#E8D4B0] whitespace-nowrap">
                       ◀─── {product.dimensions?.height || 110} CM ───▶
                     </div>
                     {/* Depth dimension marker */}
@@ -419,7 +522,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
                     />
 
                     <div className="relative z-10 bg-white/90 dark:bg-[#151A24]/90 backdrop-blur-xs p-3 rounded-xl border border-gray-200 dark:border-[#232B3C] text-xs shadow-sm">
-                      <p className="font-black text-[#6B4F3A] dark:text-[#E8D4B0] mb-1">المخطط الهندسي للمقاسات</p>
+                      <p className="font-black text-[#1F2421] dark:text-[#E8D4B0] mb-1">المخطط الهندسي للمقاسات</p>
                       <p className="font-mono text-gray-600 dark:text-gray-400">
                         {product.dimensions?.width || 80}W × {product.dimensions?.depth || 40}D × {product.dimensions?.height || 110}H CM
                       </p>
@@ -468,7 +571,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
 
         {/* ── 5. Product Description & Factory Guarantees ───────────────── */}
         <div className="mt-12 bg-white dark:bg-[#151A24] rounded-3xl p-6 sm:p-10 border border-gray-200/80 dark:border-[#232B3C] shadow-xs">
-          <h3 className="text-xl font-black text-[#6B4F3A] dark:text-[#E8D4B0] mb-4">
+          <h3 className="text-xl font-black text-[#1F2421] dark:text-[#E8D4B0] mb-4">
             تفاصيل ومميزات القطعة
           </h3>
           <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed max-w-4xl mb-6">
@@ -476,15 +579,15 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-gray-100 dark:border-[#232B3C]">
             <div className="p-4 rounded-2xl bg-stone-50 dark:bg-[#1A2230] border border-stone-200/70 dark:border-[#2D3748]">
-              <h4 className="font-black text-[#6B4F3A] dark:text-[#E8D4B0] text-sm mb-1">خشب زان أحمر ومواد مطابقة للمواصفات</h4>
+              <h4 className="font-black text-[#1F2421] dark:text-[#E8D4B0] text-sm mb-1">خشب زان أحمر ومواد مطابقة للمواصفات</h4>
               <p className="text-xs text-gray-500 dark:text-gray-400">تم اختيار الخامات والميكانيزمات المقاومة للإجهاد لتدوم أطول فترة ممكنة.</p>
             </div>
             <div className="p-4 rounded-2xl bg-stone-50 dark:bg-[#1A2230] border border-stone-200/70 dark:border-[#2D3748]">
-              <h4 className="font-black text-[#6B4F3A] dark:text-[#E8D4B0] text-sm mb-1">شحن وتركيب مجاني</h4>
+              <h4 className="font-black text-[#1F2421] dark:text-[#E8D4B0] text-sm mb-1">شحن وتركيب مجاني</h4>
               <p className="text-xs text-gray-500 dark:text-gray-400">فريق فني متخصص يقوم بالمعاينة والتركيب الفوري لضمان أعلى مستوى من الرضا.</p>
             </div>
             <div className="p-4 rounded-2xl bg-stone-50 dark:bg-[#1A2230] border border-stone-200/70 dark:border-[#2D3748]">
-              <h4 className="font-black text-[#6B4F3A] dark:text-[#E8D4B0] text-sm mb-1">خدمة ما بعد البيع وضمان حقيقي</h4>
+              <h4 className="font-black text-[#1F2421] dark:text-[#E8D4B0] text-sm mb-1">خدمة ما بعد البيع وضمان حقيقي</h4>
               <p className="text-xs text-gray-500 dark:text-gray-400">فريق الدعم الفني متاح دائماً عبر الواتساب والمصنع لمتابعة أي استفسار.</p>
             </div>
           </div>
@@ -494,7 +597,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
         {related.length > 0 && (
           <div className="mt-14">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl sm:text-2xl font-black text-[#6B4F3A] dark:text-[#E8D4B0]">
+              <h3 className="text-xl sm:text-2xl font-black text-[#1F2421] dark:text-[#E8D4B0]">
                 منتجات أخرى من قسم {product.category}
               </h3>
               <Link
@@ -527,7 +630,7 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
             </button>
             <button
               onClick={handleAddToCart}
-              className="flex-1 sm:flex-none bg-[#6B4F3A] hover:bg-[#573E2D] dark:bg-[#C58B45] dark:hover:bg-[#B37A38] text-white font-black text-xs sm:text-sm px-3 sm:px-7 py-2.5 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-1.5 min-h-[44px]"
+              className="flex-1 sm:flex-none bg-[#1F2421] hover:bg-[#2C342F] dark:bg-[#C58B45] dark:hover:bg-[#B37A38] text-white font-black text-xs sm:text-sm px-3 sm:px-7 py-2.5 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-1.5 min-h-[44px]"
             >
               <ShoppingBag size={16} />
               <span>{added ? "تمت الإضافة!" : "أضف للسلة"}</span>

@@ -12,6 +12,35 @@ const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 
 // 1. إعدادات Helmet لتأمين الـ HTTP Headers
+const getConnectSrc = () => {
+  const sources = [
+    "'self'",
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3002",
+    "http://localhost:5173",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001",
+    "http://127.0.0.1:3002",
+    "http://127.0.0.1:5173",
+    "ws://localhost:*",
+    "ws://127.0.0.1:*",
+    "https://*.trycloudflare.com",
+    "wss://*.trycloudflare.com",
+  ];
+
+  if (process.env.CLIENT_URL) {
+    process.env.CLIENT_URL.split(',').forEach((url) => {
+      const trimmed = url.trim();
+      if (trimmed && !sources.includes(trimmed)) {
+        sources.push(trimmed);
+      }
+    });
+  }
+
+  return sources;
+};
+
 const helmetConfig = helmet({
   contentSecurityPolicy: {
     directives: {
@@ -19,7 +48,7 @@ const helmetConfig = helmet({
       scriptSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", process.env.CLIENT_URL || "http://localhost:3000"],
+      connectSrc: getConnectSrc(),
     },
   },
   crossOriginEmbedderPolicy: false,
@@ -36,18 +65,57 @@ const helmetConfig = helmet({
   },
 });
 
-// 2. إعدادات CORS الصارمة لدومين الفرونت إند المعتمد فقط
-const allowedOrigin = process.env.CLIENT_URL || "http://localhost:3000";
+// دالة التحقق من النطاقات المسموح بها لـ CORS
+const isOriginAllowed = (origin) => {
+  // السماح بالطلبات الداخلية بدون Origin (مثل Server-to-Server أو أداة cURL)
+  if (!origin) return true;
+
+  const rawClientUrls = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : [];
+  const configuredOrigins = rawClientUrls
+    .map((url) => url.trim().replace(/\/$/, ''))
+    .filter(Boolean);
+
+  if (process.env.CLIENT_URL) {
+    configuredOrigins.push(process.env.CLIENT_URL.trim());
+  }
+
+  const defaultOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:3002',
+    'http://localhost:5173',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3001',
+    'http://127.0.0.1:3002',
+    'http://127.0.0.1:5173',
+  ];
+
+  const allowedOriginsSet = new Set([...configuredOrigins, ...defaultOrigins]);
+
+  if (allowedOriginsSet.has(origin)) {
+    return true;
+  }
+
+  // السماح بنطاقات Cloudflare Tunnel
+  if (origin.endsWith('.trycloudflare.com')) {
+    return true;
+  }
+
+  // في بيئة التطوير، السماح بأي بورت محلي على localhost أو 127.0.0.1
+  if (process.env.NODE_ENV !== 'production') {
+    const isLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+    if (isLocalhost) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+// 2. إعدادات CORS لدومين الفرونت إند والتطوير المحلي
 const corsConfig = cors({
   origin: (origin, callback) => {
-    // السماح بالطلبات الداخلية بدون Origin (مثل Server-to-Server أو أدوات الاختبار)
-    if (!origin) return callback(null, true);
-    if (
-      origin === allowedOrigin ||
-      origin === 'http://localhost:3000' ||
-      origin === 'http://127.0.0.1:3000' ||
-      origin.endsWith('.trycloudflare.com')
-    ) {
+    if (isOriginAllowed(origin)) {
       return callback(null, true);
     }
     return callback(new Error(`CORS policy violation: origin ${origin} is strictly not allowed.`));
@@ -120,4 +188,5 @@ module.exports = {
   apiLimiter,
   authLimiter,
   sanitizeData,
+  isOriginAllowed,
 };

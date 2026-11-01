@@ -123,9 +123,11 @@ export default function ReturnsIntelligencePage() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // Reset page to 1 whenever search or filter changes
-  useEffect(() => {
+  const [prevSearchFilter, setPrevSearchFilter] = useState({ searchTerm: "", filterRisk: "all" });
+  if (prevSearchFilter.searchTerm !== searchTerm || prevSearchFilter.filterRisk !== filterRisk) {
+    setPrevSearchFilter({ searchTerm, filterRisk });
     setCurrentPage(1);
-  }, [searchTerm, filterRisk]);
+  }
 
   // التحقق من صلاحية الجلسة
   useEffect(() => {

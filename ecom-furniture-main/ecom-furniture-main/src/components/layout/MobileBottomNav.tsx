@@ -70,7 +70,7 @@ export default function MobileBottomNav() {
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={item.href} prefetch={true}
               className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all relative ${
                 item.highlight
                   ? "text-amber-700 dark:text-amber-400 font-bold"

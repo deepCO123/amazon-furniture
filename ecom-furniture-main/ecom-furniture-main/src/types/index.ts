@@ -209,15 +209,19 @@ export interface CustomOrder {
   id: string;
   customerName: string;
   customerPhone: string;
+  fullName?: string;
+  phone?: string;
   customerEmail?: string;
   city?: string;
   address?: string;
   furnitureType: string;
+  shape?: string;
   dimensions?: {
     length?: string;
     width?: string;
     height?: string;
     shape?: string;
+    unit?: string;
   };
   preferredMaterial?: string;
   preferredColor?: string;

@@ -28,14 +28,8 @@ import {
   X,
   UploadCloud,
   Trash2,
-  Eye,
   FileText,
   Award,
-  Calendar,
-  MapPin,
-  Phone,
-  Mail,
-  Download,
   CheckCircle2,
 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
@@ -631,11 +625,13 @@ ${itemsListText}
                   <div className="text-xs text-slate-600">
                     تاريخ الطلب:{" "}
                     <span className="font-semibold text-slate-800">
-                      {new Date(completedOrder?.date || Date.now()).toLocaleDateString("ar-EG", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
+                      {completedOrder?.date
+  ? new Date(completedOrder.date).toLocaleDateString("ar-EG", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  : "اليوم"}
                     </span>
                   </div>
                   <div className="text-xs text-slate-600">
