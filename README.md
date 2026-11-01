@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://ecom-furniture-kohl.vercel.app" target="_blank">
+  <a href="https://amazon-furniture.vercel.app" target="_blank">
     <img src="https://img.shields.io/badge/Demo-Live%20Store-2E7D32?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" />
   </a>
   <img src="https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js 16" />
@@ -38,7 +38,7 @@ Amazon Furniture is a modern online furniture store that combines:
 
 ## Live Demo
 
-- Website: https://ecom-furniture-kohl.vercel.app
+- Website: https://amazon-furniture.vercel.app
 - Repository: https://github.com/deepCO123/amazon-furniture
 
 ## Features
