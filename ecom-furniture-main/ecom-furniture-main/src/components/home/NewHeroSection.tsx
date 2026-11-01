@@ -63,7 +63,7 @@ export default function NewHeroSection() {
       <div className="max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-5">
         {/* Main Banner Container */}
         <div className="relative rounded-3xl overflow-hidden min-h-[420px] sm:min-h-[460px] md:min-h-[500px] lg:min-h-[540px] shadow-sm border border-[#EBE2D7] dark:border-[#33251C]">
-          {/* Background Images: Corporate Executive Office Interioirs only */}
+          {/* Background Images: Corporate Executive Office Interiors */}
           {heroSlides.map((s, idx) => (
             <div
               key={s.id}
@@ -79,35 +79,30 @@ export default function NewHeroSection() {
                 className="object-cover object-center"
                 sizes="(max-width: 1440px) 100vw, 1440px"
               />
+              {/* Natural Smooth Vignette: High contrast for RTL text without any box */}
+              <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-black/45 to-transparent pointer-events-none" />
             </div>
           ))}
 
           {/* Banner Inner Content */}
-          <div className="relative z-10 w-full h-full min-h-[420px] sm:min-h-[460px] md:min-h-[500px] lg:min-h-[540px] flex flex-col justify-between p-4 sm:p-7 lg:p-10">
+          <div className="relative z-10 w-full h-full min-h-[420px] sm:min-h-[460px] md:min-h-[500px] lg:min-h-[540px] flex flex-col justify-between p-5 sm:p-8 lg:p-12">
             {/* Top / Main Row: In RTL, child 1 is on the RIGHT, child 2 is on the LEFT */}
             <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-6 w-full my-auto">
-              {/* 1. RIGHT SIDE: Transparent Glassmorphism Container */}
-              <div
-                style={{
-                  backgroundColor: "rgba(18, 22, 25, 0.48)",
-                  backdropFilter: "blur(14px) saturate(160%)",
-                  WebkitBackdropFilter: "blur(14px) saturate(160%)",
-                }}
-                className="w-full lg:max-w-2xl text-right flex flex-col items-start order-1 rounded-[24px] p-6 sm:p-8 md:p-10 lg:p-11 border border-white/[0.14] shadow-[0_20px_40px_rgba(0,0,0,0.22)] transition-all duration-300"
-              >
-                {/* Top Badge: Pill with semi-transparent background and gold-amber accent border */}
-                <div className="inline-flex items-center gap-2 bg-[#C59B63]/20 backdrop-blur-sm text-[#F5DEB3] text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full border border-[#C59B63]/45 mb-3 sm:mb-4 shadow-xs">
+              {/* 1. RIGHT SIDE: Clean Floating Typography (NO BOX CONTAINER) */}
+              <div className="w-full lg:max-w-2xl text-right flex flex-col items-start order-1">
+                {/* Top Badge: Pill badge with subtle gold accent */}
+                <div className="inline-flex items-center gap-2 bg-[#C59B63]/25 backdrop-blur-sm text-[#F5DEB3] text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full border border-[#C59B63]/50 mb-3 sm:mb-4 shadow-sm">
                   <Sparkles className="w-3.5 h-3.5 text-[#C59B63]" />
                   <span>{slide.badge}</span>
                 </div>
 
                 {/* Main Headline: Large, Bold, Crisp White */}
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-black text-white leading-[1.25] tracking-tight mb-3 drop-shadow-md">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[44px] font-black text-white leading-[1.25] tracking-tight mb-3 drop-shadow-md">
                   {slide.title}
                 </h1>
 
                 {/* Sub-headline / Core Description */}
-                <p className="text-xs sm:text-sm md:text-base text-white/95 font-medium max-w-xl mb-6 sm:mb-7 leading-relaxed drop-shadow-xs">
+                <p className="text-xs sm:text-sm md:text-base text-white/95 font-medium max-w-xl mb-6 sm:mb-7 leading-relaxed drop-shadow-sm">
                   {slide.subtitle}
                 </p>
 
@@ -117,7 +112,7 @@ export default function NewHeroSection() {
                   <Link
                     href={slide.primaryCtaLink}
                     prefetch={true}
-                    className="inline-flex items-center justify-center gap-2.5 bg-[#C59B63] hover:bg-[#B28852] active:scale-95 text-white font-black text-xs sm:text-sm px-6 sm:px-8 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 group flex-1 sm:flex-initial"
+                    className="inline-flex items-center justify-center gap-2.5 bg-[#C59B63] hover:bg-[#B28852] active:scale-95 text-white font-black text-xs sm:text-sm px-7 sm:px-8 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 group flex-1 sm:flex-initial"
                   >
                     <span>{slide.primaryCtaText}</span>
                     <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
@@ -127,7 +122,7 @@ export default function NewHeroSection() {
                   <Link
                     href={slide.secondaryCtaLink}
                     prefetch={true}
-                    className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 active:scale-95 text-white border border-white/25 font-bold text-xs sm:text-sm px-5 sm:px-6 py-3.5 rounded-xl backdrop-blur-sm transition-all duration-200 flex-1 sm:flex-initial"
+                    className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 active:scale-95 text-white border border-white/30 font-bold text-xs sm:text-sm px-6 sm:px-7 py-3.5 rounded-xl backdrop-blur-sm transition-all duration-200 flex-1 sm:flex-initial"
                   >
                     <span>{slide.secondaryCtaText}</span>
                   </Link>
@@ -137,7 +132,7 @@ export default function NewHeroSection() {
               {/* 2. LEFT SIDE: Matching Ultra-light Glassmorphism Feature Badges */}
               <div
                 style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.14)",
+                  backgroundColor: "rgba(255, 255, 255, 0.12)",
                   backdropFilter: "blur(14px) saturate(140%)",
                   WebkitBackdropFilter: "blur(14px) saturate(140%)",
                 }}
