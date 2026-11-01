@@ -1,5 +1,195 @@
 [
   {
+    "id": "prod_leather_chair_creamy_beige_double",
+    "name": "كرسي رئاسي مبطن دبل جلد بيج كريمي فاخر مع وسادة جلوس مزدوجة - كود LC-910",
+    "code": "LC-910",
+    "sku": "LC-910",
+    "slug": "luxury-creamy-beige-double-cushion-chair",
+    "description": "قمة الراحة والفخامة الكلاسيكية مع وسادة جلوس دبل مضاعفة ونظام تضليع عمودي فخم. مكسو بالجلد البيج الكريمي الفاخر عالي النعومة، مزود بمساند يد مقوسة ناعمة التبطين وقوس كرومي متصل، مسند رأس سميك، وقاعدة ألمونيوم ثقيلة مخصصة للأوزان العالية والاستخدام الطويل.",
+    "price": 6200,
+    "originalPrice": 7800,
+    "images": [
+      "/products/leather-chairs/chair-beige-creamy-double-cushion.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد إيطالي بيج كريمي + طبقتين فوم ميموري دبل + قاعدة ألمونيوم مقواة",
+    "color": "بيج كريمي (Creamy Beige) مع نيكل كروم لامع",
+    "dimensions": {
+      "width": 68,
+      "height": 134,
+      "depth": 70
+    },
+    "weight": 26,
+    "stockQuantity": 10,
+    "returnCount": 0,
+    "totalSold": 7,
+    "rating": 5,
+    "reviewCount": 56,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "بيج",
+      "كريمي",
+      "دبل وسادة",
+      "رئاسي"
+    ],
+    "createdAt": "2026-11-01T18:29:47.900Z",
+    "updatedAt": "2026-11-01T18:29:47.900Z"
+  },
+  {
+    "id": "prod_leather_chair_royal_navy",
+    "name": "كرسي مديرين ملكي جلد أزرق كحلي رويال بتصميم باكت مريح - كود LC-909",
+    "code": "LC-909",
+    "sku": "LC-909",
+    "slug": "royal-navy-blue-executive-chair",
+    "description": "قطعة استثنائية بلون أزرق كحلي ملكي (Royal Navy) يمنح فخامة لا تقاوم لغرف الاجتماعات ومكاتب كبار الشخصيات. تنجيد كامل متصل من المقعد والمساند على شكل باكت مريح يحتضن الجسم، جلد ناعم ومضاد للبقع، شاسيه دبل، وميكانيزم ميل متوازن لأعلى درجات الراحة.",
+    "price": 5750,
+    "originalPrice": 7300,
+    "images": [
+      "/products/leather-chairs/chair-royal-navy-blue-leather.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد مايكروفايبر كحلي فاخر + فوم سوبر سوفت + قاعدة ألمونيوم",
+    "color": "كحلي ملكي (Royal Navy Blue) مع قاعدة كروم",
+    "dimensions": {
+      "width": 65,
+      "height": 118,
+      "depth": 65
+    },
+    "weight": 22,
+    "stockQuantity": 8,
+    "returnCount": 0,
+    "totalSold": 2,
+    "rating": 5,
+    "reviewCount": 42,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "كحلي",
+      "رويال",
+      "ملكي",
+      "باكت"
+    ],
+    "createdAt": "2026-11-01T18:29:47.900Z",
+    "updatedAt": "2026-11-01T18:29:47.900Z"
+  },
+  {
+    "id": "prod_leather_chair_cognac_tarm",
+    "name": "كرسي عمل تنفيذي مودرن جلد جملي بمساند T-Arm إسكندنافي - كود LC-908",
+    "code": "LC-908",
+    "sku": "LC-908",
+    "slug": "scandinavian-cognac-tarm-leather-chair",
+    "description": "كرسي إداري بتصميم إسكندنافي أنيق وعملي، يدمج بين نعومة الجلد الجملي الفاخر وخفة الخطوط العصرية. مزود بمساند يد T-Arm مريحة بزاوية 90 درجة لتخفيف الضغط عن الكتفين، ظهر مرتفع منحنٍ يدعم استقامة الجلوس، وقاعدة خماسية من الألمونيوم المصقول.",
+    "price": 4950,
+    "originalPrice": 6200,
+    "images": [
+      "/products/leather-chairs/chair-cognac-tarm-modern.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد PU طبي الملمس + مساند T-Arm معالجة + قاعدة ألمونيوم",
+    "color": "جملي كلاسيك (Cognac Brown) مع مساند سوداء وقاعدة كروم",
+    "dimensions": {
+      "width": 62,
+      "height": 122,
+      "depth": 60
+    },
+    "weight": 19,
+    "stockQuantity": 16,
+    "returnCount": 0,
+    "totalSold": 5,
+    "rating": 4.8,
+    "reviewCount": 24,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "إسكندنافي",
+      "جملي",
+      "T-Arm",
+      "مكاتب"
+    ],
+    "createdAt": "2026-11-01T18:29:47.900Z",
+    "updatedAt": "2026-11-01T18:29:47.900Z"
+  },
+  {
+    "id": "prod_leather_chair_tan_caramel",
+    "name": "كرسي مكتب تنفيذي تان كراميل بجوانب مجنحة ومساند كروم بيضاوية - كود LC-907",
+    "code": "LC-907",
+    "sku": "LC-907",
+    "slug": "caramel-tan-executive-leather-chair",
+    "description": "إبداع تصميمي يجمع بين لون التان الكراميل الدافئ والخطوط المريحة هندسياً. يتميز بمساند جانبية مجنحة داعمة للفقرات القطنية، مساند أذرع بيضاوية ناعمة مرتكزة على سيقان كرومية أنيقة، وميكانيزم متطور للتحكم في مرونة الميلان وارتفاع المقعد.",
+    "price": 5350,
+    "originalPrice": 6700,
+    "images": [
+      "/products/leather-chairs/chair-tan-caramel-executive.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد كراميل ناعم مضاد للخدش + شاسيه وقاعدة ألمونيوم صلبة",
+    "color": "تان كراميل (Caramel Tan) مع كروم فضي",
+    "dimensions": {
+      "width": 64,
+      "height": 126,
+      "depth": 64
+    },
+    "weight": 21,
+    "stockQuantity": 14,
+    "returnCount": 0,
+    "totalSold": 4,
+    "rating": 4.9,
+    "reviewCount": 29,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "كراميل",
+      "تان",
+      "مودرن",
+      "مريح"
+    ],
+    "createdAt": "2026-11-01T18:29:47.900Z",
+    "updatedAt": "2026-11-01T18:29:47.900Z"
+  },
+  {
+    "id": "prod_leather_chair_terracotta_saddle",
+    "name": "كرسي مديرين تنفيذي ظهر عالي جلد هافان تيراكوتا فاخر - كود LC-906",
+    "code": "LC-906",
+    "sku": "LC-906",
+    "slug": "executive-terracotta-saddle-leather-chair",
+    "description": "كرسي تنفيذي فاخر بلون الهافان التيراكوتا الإيطالي المتميز، يمنح هيبة وأناقة دافئة للمكاتب التنفيذية. يتميز بتصميم ظهر عالي مدعم بمسند رأس مجنح عريض لتوفير أقصى استرخاء للرقبة، انحناء جانبي مريح يدعم الجذع، وقاعدة نجمية من سبائك الألمونيوم مع هيدروليك هيفي ديوتي متعدد درجات الميل.",
+    "price": 5600,
+    "originalPrice": 7100,
+    "images": [
+      "/products/leather-chairs/chair-terracotta-highback-saddle.jpg"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد مايكروفايبر هافان إيطالي + فوم مقولب عالي الكثافة + قاعدة ألمونيوم",
+    "color": "هافان تيراكوتا (Terracotta Saddle) مع نيكل كروم",
+    "dimensions": {
+      "width": 65,
+      "height": 130,
+      "depth": 65
+    },
+    "weight": 23,
+    "stockQuantity": 12,
+    "returnCount": 0,
+    "totalSold": 3,
+    "rating": 5,
+    "reviewCount": 33,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "هافان",
+      "تيراكوتا",
+      "مديرين",
+      "تنفيذي"
+    ],
+    "createdAt": "2026-11-01T18:29:47.891Z",
+    "updatedAt": "2026-11-01T18:29:47.900Z"
+  },
+  {
     "id": "prod_leather_chair_vintage_brown_green",
     "name": "كرسي مديرين ظهر متوسط جلد بني فينتيدج مع شبك زيتي - كود LC-905",
     "code": "LC-905",
