@@ -41,8 +41,10 @@ export default function Navbar() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [query, setQuery] = useState("");
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  const [showCategoryMenu, setShowCategoryMenu] = useState(false);
 
   const searchRef = useRef<HTMLDivElement>(null);
+  const categoryRef = useRef<HTMLDivElement>(null);
   const hydrated = useHydrated();
   const itemCount = useCartStore((s) => s.getItemCount());
   const wishlistItems = useWishlistStore((s) => s.items);
@@ -72,34 +74,45 @@ export default function Navbar() {
   const secondaryNavLinks: NavLinkItem[] = [
     {
       href: "/products?category=" + encodeURIComponent("مكاتب"),
-      label: language === "en" ? "Executive Desks & Workstations" : "مكاتب تنفيذية ومحطات عمل",
+      label: language === "en" ? "Executive Desks" : "مكاتب تنفيذية",
       hasBadge: true,
       badge: "VIP",
     },
     {
       href: "/products?category=" + encodeURIComponent("كراسي طبية"),
-      label: language === "en" ? "Ergonomic & Mesh Chairs" : "كراسي طبية وشبكية مريحة",
+      label: language === "en" ? "Ergonomic Chairs" : "كراسي شبك طبية",
       hasBadge: true,
       badge: "الأكثر طلباً",
     },
     {
       href: "/products?category=" + encodeURIComponent("كراسي جلد"),
-      label: language === "en" ? "Luxury Leather Chairs" : "كراسي جلد فاخرة للمديرين",
+      label: language === "en" ? "Manager Leather Chairs" : "كراسي جلد للمديرين",
     },
     {
       href: "/products?category=" + encodeURIComponent("ستائر مكتبية"),
-      label: language === "en" ? "Office Blinds & Curtains" : "ستائر مكتبية وموتورايزد",
+      label: language === "en" ? "Office Blinds" : "ستائر مكتبية",
     },
     {
       href: "/products?category=" + encodeURIComponent("انتريهات"),
-      label: language === "en" ? "Reception & Waiting Lounge" : "كاونترات استقبال وأثاث انتظار",
+      label: language === "en" ? "Reception Lounge" : "أثاث استقبال وانتظار",
     },
     {
       href: "/custom-order",
-      label: language === "en" ? "Custom Sizing & 3D Consultation" : "تفصيل حسب المقاسات واستشارات 3D",
+      label: language === "en" ? "Custom Sizing 3D" : "تفصيل مقاسات 3D",
       hasBadge: true,
       badge: "مجاناً",
     },
+  ];
+
+  const allCategoriesList = [
+    { name: "مكاتب تنفيذية ومحطات عمل", category: "مكاتب", count: "12 منتج" },
+    { name: "كراسي طبية وشبكية إرجونوميك", category: "كراسي طبية", count: "18 منتج" },
+    { name: "كراسي جلد فاخرة للمديرين", category: "كراسي جلد", count: "14 منتج" },
+    { name: "ستائر مكتبية عازلة وموتورايزد", category: "ستائر مكتبية", count: "8 منتجات" },
+    { name: "كاونترات استقبال وأثاث انتظار", category: "انتريهات", count: "10 منتجات" },
+    { name: "دواليب ووحدات حفظ ملفات", category: "دواليب", count: "9 منتجات" },
+    { name: "ركن واستراحات مكاتب", category: "ركن", count: "11 منتج" },
+    { name: "كراسي استرخاء ليزي بوي", category: "ليزي بوي", count: "6 منتجات" },
   ];
 
   // Filtered search results
@@ -138,11 +151,15 @@ export default function Navbar() {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setShowSearchDropdown(false);
       }
+      if (categoryRef.current && !categoryRef.current.contains(e.target as Node)) {
+        setShowCategoryMenu(false);
+      }
     };
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setIsOpen(false);
         setShowSearchDropdown(false);
+        setShowCategoryMenu(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -470,39 +487,73 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── 3. SofaZone Category Navigation Row (White with Golden Header & Carets) ──────── */}
-        <nav className="bg-white dark:bg-[#151A24] text-[#292321] dark:text-[#F5F6F8] border-t border-b border-[#EDE6DD] dark:border-[#38261A] shadow-2xs overflow-x-auto no-scrollbar scroll-smooth">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-11 gap-4 sm:gap-6 min-w-max">
-            {/* Right: "تسوق حسب التصنيف" */}
-            <Link
-              href="/products"
-              prefetch={true}
-              className="flex items-center gap-1.5 text-[#1F2421] dark:text-[#C59B63] hover:text-[#C59B63] font-black text-xs sm:text-sm whitespace-nowrap transition-colors shrink-0"
-            >
-              <LayoutGrid size={15} className="text-[#C59B63]" />
-              <span>{language === "en" ? "Shop by Category" : "تسوق حسب التصنيف"}</span>
-              <ChevronDown size={13} />
-            </Link>
+        {/* ── 3. Category Navigation Row with Direct Buy Links & All Categories Dropdown ──────── */}
+        <nav className="bg-white dark:bg-[#151A24] text-[#292321] dark:text-[#F5F6F8] border-t border-b border-[#EDE6DD] dark:border-[#38261A] shadow-2xs relative z-30">
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between h-11 gap-2 sm:gap-4 overflow-x-auto no-scrollbar scroll-smooth">
+            {/* Right: "تسوق حسب التصنيف" with Dropdown */}
+            <div ref={categoryRef} className="relative shrink-0">
+              <button
+                type="button"
+                onClick={() => setShowCategoryMenu(!showCategoryMenu)}
+                className="flex items-center gap-1.5 text-[#1F2421] dark:text-[#C59B63] hover:text-[#C59B63] font-black text-xs sm:text-[13px] whitespace-nowrap transition-colors px-2.5 py-1 rounded-lg hover:bg-[#FAF4ED] dark:hover:bg-[#1E2536] cursor-pointer"
+              >
+                <LayoutGrid size={15} className="text-[#C59B63]" />
+                <span>{language === "en" ? "Shop by Category" : "تسوق حسب التصنيف"}</span>
+                <ChevronDown size={13} className={`transition-transform duration-200 text-[#C59B63] ${showCategoryMenu ? "rotate-180" : ""}`} />
+              </button>
 
-            <div className="h-4 w-px bg-[#E8E0D5] dark:bg-[#232B3C] shrink-0" />
+              {/* All Categories Dropdown Menu */}
+              <AnimatePresence>
+                {showCategoryMenu && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute top-full mt-2 right-0 w-72 bg-white dark:bg-[#1A202C] rounded-2xl shadow-2xl border border-[#E8DEC8] dark:border-[#38261A] p-2 z-50 overflow-hidden"
+                  >
+                    <div className="text-[11px] font-bold text-[#8C7A6B] dark:text-[#A7B0C0] px-3 py-1.5 border-b border-gray-100 dark:border-gray-800">
+                      اختر القسم للشراء والتسوق المباشر:
+                    </div>
+                    <div className="py-1">
+                      {allCategoriesList.map((cat) => (
+                        <Link
+                          key={cat.category}
+                          href={`/products?category=${encodeURIComponent(cat.category)}`}
+                          prefetch={true}
+                          onClick={() => setShowCategoryMenu(false)}
+                          className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-[#1F2421] dark:text-[#F0EBE5] hover:bg-[#FAF4ED] dark:hover:bg-[#252E3E] hover:text-[#C59B63] transition-colors"
+                        >
+                          <span>{cat.name}</span>
+                          <span className="text-[10px] text-gray-400 font-normal">{cat.count}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
-            {/* Center: Category Links with Carets */}
-            <div className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+            <div className="h-4 w-px bg-[#E8E0D5] dark:bg-[#232B3C] shrink-0 hidden sm:block" />
+
+            {/* Center / Left: Category Direct Links without confusing fake chevrons */}
+            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 flex-1 justify-end sm:justify-start">
               {secondaryNavLinks.map((link) => (
                 <Link
                   key={`${link.href}-${link.label}`}
                   href={link.href}
                   prefetch={true}
-                  className="group relative py-1 text-xs sm:text-[13px] font-black text-[#1F2421] dark:text-[#F8F9FA] tracking-wide hover:text-[#C59B63] dark:hover:text-[#C59B63] transition-all flex items-center gap-1 whitespace-nowrap shrink-0"
+                  className="group py-1 px-2 sm:px-2.5 rounded-lg text-xs sm:text-[13px] font-black text-[#1F2421] dark:text-[#F8F9FA] tracking-wide hover:text-[#C59B63] hover:bg-[#FAF4ED] dark:hover:bg-[#1E2536] transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0"
                 >
                   <span>{link.label}</span>
-                  <ChevronDown size={11} className="text-[#74685E] dark:text-[#A7B0C0] group-hover:text-[#C59B63] transition-colors" />
                   {link.hasBadge && (
                     <span
-                      className={`text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-2xs text-white ${
-                        link.badge === "VIP" || link.badge === "الأكثر طلباً"
-                          ? "bg-[#C59B63]"
-                          : "bg-[#1F2421]"
+                      className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md shadow-2xs ${
+                        link.badge === "VIP"
+                          ? "bg-[#1F2421] text-[#E8D4B0] border border-[#C59B63]/60"
+                          : link.badge === "الأكثر طلباً"
+                          ? "bg-[#B93832] text-white"
+                          : "bg-[#2B8A3E] text-white"
                       }`}
                     >
                       {link.badge}
