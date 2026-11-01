@@ -42,6 +42,7 @@ import {
   LogOut,
   FileSpreadsheet,
   Ruler,
+  Menu,
 } from "lucide-react";
 import { useAdminAuthStore } from "@/store/adminAuthStore";
 import { useProductStore } from "@/store/productStore";
@@ -691,6 +692,20 @@ export default function AdminDashboardPage() {
     await updateStockQuantity(p.id, newQty);
     showNotification(`تم تحديث مخزون "${p.name}" إلى: ${newQty} قطعة.`);
   };
+  const navTabs = [
+    { id: "products" as AdminTab, label: "المنتجات والمخزون", shortLabel: "المنتجات", icon: Package, count: products.length },
+    { id: "orders" as AdminTab, label: "الطلبات والتصنيع", shortLabel: "الطلبات", icon: ShoppingBag, count: orders.length },
+    { id: "custom_orders" as AdminTab, label: "طلبات التفصيل بالمقاسات", shortLabel: "التفصيل", icon: Ruler, count: customOrders.length },
+    { id: "customers" as AdminTab, label: "العملاء (CRM)", shortLabel: "العملاء", icon: Users, count: customers.length },
+    { id: "consultations" as AdminTab, label: "الاستشارات واللوكيشن", shortLabel: "الاستشارات", icon: Calendar, count: consultations.length },
+    { id: "quotations" as AdminTab, label: "عروض الأسعار B2B", shortLabel: "عروض الأسعار", icon: FileText, count: quotations.length },
+    { id: "returns" as AdminTab, label: "المرتجعات وفحص الجودة", shortLabel: "المرتجعات", icon: RotateCcw, count: returns.length },
+    { id: "analytics" as AdminTab, label: "تحليلات الأثاث والـ Feed", shortLabel: "التحليلات", icon: BarChart3 },
+    { id: "emails" as AdminTab, label: "سجل الإيميلات", shortLabel: "الإيميلات", icon: Mail, count: emails.length },
+  ];
+  const currentTabObj = navTabs.find((t) => t.id === activeTab) || navTabs[0];
+  const CurrentTabIcon = currentTabObj.icon;
+
 
   return (
     <div className={`admin-dashboard flex flex-col lg:flex-row min-h-screen font-sans selection:bg-cyan-500 selection:text-black transition-colors duration-200 ${
@@ -707,8 +722,230 @@ export default function AdminDashboardPage() {
       {/* Desktop spacer to preserve layout flow while sidebar is fixed */}
       <div className="hidden lg:block lg:w-64 xl:w-72 shrink-0" aria-hidden="true" />
 
-      {/* ── 1. Right Sidebar (100% Fixed to Viewport, Never Scrolls Away) ── */}
-      <aside className={`w-full lg:fixed lg:top-0 lg:right-0 lg:w-64 xl:w-72 lg:h-screen lg:max-h-screen shrink-0 border-b lg:border-b-0 lg:border-s p-4 lg:p-5 flex flex-col justify-between z-40 transition-colors duration-200 ${panelCls}`}>
+      {/* ── Mobile Sticky Top App Bar (Sleek, Compact & Responsive) ── */}
+      <header className={`lg:hidden sticky top-0 z-40 w-full border-b backdrop-blur-md px-3.5 py-2.5 flex items-center justify-between transition-colors shadow-xs ${panelCls} ${borderSep}`}>
+        {/* Brand & Active Tab Pill */}
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="relative w-8 h-8 rounded-lg overflow-hidden shadow-xs border border-[#c98d74]/40 bg-[#171B24] shrink-0 p-0.5">
+            <Image src="/logo/amazon-mark-color.svg" alt="AMAZON" fill className="object-contain" />
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className={`font-black text-xs ${textTitle}`}>AMAZON</span>
+              <span className="text-[10px] text-cyan-400 font-bold bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md flex items-center gap-1 truncate">
+                <CurrentTabIcon size={11} className="shrink-0" />
+                <span className="truncate">{currentTabObj.shortLabel}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions & Hamburger Drawer Toggle */}
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={handleOpenCreate}
+            className="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-black text-xs flex items-center gap-1 shadow-md shadow-cyan-500/20 cursor-pointer"
+            title="إضافة منتج جديد"
+          >
+            <Plus size={14} strokeWidth={2.5} />
+            <span className="text-[11px] font-bold">منتج +</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMobileNavOpen(true)}
+            className="p-2 rounded-xl border border-slate-700 text-slate-200 hover:text-white bg-slate-800/80 flex items-center justify-center transition-all cursor-pointer relative"
+            aria-label="فتح قائمة أقسام لوحة التحكم"
+          >
+            <Menu size={18} />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-400 border-2 border-slate-900 animate-pulse" />
+          </button>
+        </div>
+      </header>
+
+      {/* ── Mobile Horizontal Quick Tabs Ribbon (1-Tap Fast Swiping) ── */}
+      <div className={`lg:hidden sticky top-[53px] z-30 w-full border-b backdrop-blur-md px-2.5 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar transition-colors ${panelCls} ${borderSep}`}>
+        {navTabs.map((tab) => {
+          const isActive = activeTab === tab.id;
+          const TabIcon = tab.icon;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
+                isActive
+                  ? isDark
+                    ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs font-black"
+                    : "bg-cyan-100 text-cyan-900 border border-cyan-300 shadow-xs font-black"
+                  : isDark
+                    ? "text-slate-400 hover:text-slate-200 bg-[#161B26]/60 border border-transparent"
+                    : "text-slate-600 hover:text-slate-900 bg-slate-100/80 border border-transparent"
+              }`}
+            >
+              <TabIcon size={13} className={isActive ? "text-cyan-400" : isDark ? "text-slate-400" : "text-slate-500"} />
+              <span>{tab.shortLabel}</span>
+              {tab.count !== undefined && (
+                <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-black ${
+                  isActive
+                    ? isDark ? "bg-cyan-400/20 text-cyan-200" : "bg-cyan-200 text-cyan-900"
+                    : isDark ? "bg-slate-800 text-slate-400" : "bg-slate-200 text-slate-600"
+                }`}>
+                  {tab.count}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ── Mobile Slide-Over Drawer Modal ── */}
+      {mobileNavOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex justify-end">
+          {/* Backdrop overlay */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity animate-fade-in"
+            onClick={() => setMobileNavOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Drawer content sliding in from right in RTL */}
+          <div className={`relative z-10 w-72 sm:w-80 max-w-[85vw] h-full shadow-2xl flex flex-col justify-between p-4 overflow-y-auto ${panelCls} border-s ${borderSep} animate-slide-left`}>
+            <div className="flex flex-col flex-1 min-h-0">
+              {/* Header */}
+              <div className={`flex items-center justify-between pb-3.5 border-b mb-3 shrink-0 ${borderSep}`}>
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="relative w-9 h-9 rounded-xl overflow-hidden shadow-md border border-[#c98d74]/40 bg-[#171B24] shrink-0 p-1">
+                    <Image src="/logo/amazon-mark-color.svg" alt="AMAZON" fill className="object-contain" />
+                  </div>
+                  <div>
+                    <h2 className={`font-black text-sm ${textTitle}`}>لوحة التحكم AMAZON</h2>
+                    <p className={`text-[10px] ${textMuted}`}>إدارة المتجر والأقسام</p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setMobileNavOpen(false)}
+                  className="p-1.5 rounded-xl border border-slate-700 text-slate-300 hover:text-white bg-slate-800/80 cursor-pointer"
+                  aria-label="إغلاق القائمة"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Drawer Navigation items */}
+              <nav className="space-y-1 overflow-y-auto no-scrollbar flex-1 pe-0.5">
+                {navTabs.map((tab) => {
+                  const isActive = activeTab === tab.id;
+                  const Icon = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => {
+                        setActiveTab(tab.id);
+                        setMobileNavOpen(false);
+                      }}
+                      className={`w-full text-right px-3 py-2.5 rounded-xl font-bold text-xs flex items-center justify-between transition-all cursor-pointer min-h-[42px] ${
+                        isActive
+                          ? isDark
+                            ? "bg-[#182a3d] text-cyan-400 border border-cyan-500/30 shadow-md shadow-cyan-950/40 font-black"
+                            : "bg-cyan-50 text-cyan-800 border border-cyan-300 shadow-xs font-black"
+                          : isDark
+                            ? "text-slate-400 hover:text-slate-100 hover:bg-[#181C26] border border-transparent"
+                            : "text-slate-600 hover:text-slate-950 hover:bg-slate-100 border border-transparent"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icon size={16} className={isActive ? "text-cyan-500" : isDark ? "text-slate-400" : "text-slate-500"} />
+                        <span>{tab.label}</span>
+                      </div>
+                      {tab.count !== undefined && (
+                        <span
+                          className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                            isActive
+                              ? isDark
+                                ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                                : "bg-cyan-100 text-cyan-800 border border-cyan-200"
+                              : isDark
+                                ? "bg-[#1B202C] text-slate-400"
+                                : "bg-slate-100 text-slate-600"
+                          }`}
+                        >
+                          {tab.count}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+
+                {/* AI Returns Intelligence link in drawer */}
+                <div className="pt-2">
+                  <Link
+                    href="/admin/returns-intelligence"
+                    onClick={() => setMobileNavOpen(false)}
+                    className={`w-full text-right px-3 py-2.5 rounded-xl font-bold text-xs flex items-center justify-between transition-all cursor-pointer min-h-[42px] ${
+                      isDark
+                        ? "bg-gradient-to-r from-amber-500/15 via-red-500/10 to-transparent text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 shadow-xs"
+                        : "bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 shadow-xs"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <ShieldAlert size={16} className="text-amber-400 shrink-0" />
+                      <span className="font-black">ذكاء المرتجعات &amp; المخزون</span>
+                    </div>
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                      AI Pro
+                    </span>
+                  </Link>
+                </div>
+              </nav>
+            </div>
+
+            {/* Drawer Footer Actions */}
+            <div className={`pt-3 border-t space-y-2 mt-2 shrink-0 ${borderSep}`}>
+              <ThemeToggle variant="sidebar" />
+
+              <button
+                onClick={() => {
+                  setMobileNavOpen(false);
+                  handleOpenCreate();
+                }}
+                className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-md shadow-cyan-500/25 transition-all cursor-pointer"
+              >
+                <Plus size={16} strokeWidth={2.5} />
+                <span>إضافة منتج جديد +</span>
+              </button>
+
+              <Link
+                href="/"
+                target="_blank"
+                className={`w-full py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors ${
+                  isDark
+                    ? "bg-[#171B24] hover:bg-[#1E2330] text-slate-300 hover:text-white"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-950 border border-slate-200"
+                }`}
+              >
+                <ExternalLink size={14} />
+                <span>معاينة المتجر ↗</span>
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className={`w-full py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                  isDark ? "text-red-400 hover:bg-red-500/10 hover:text-red-300" : "text-red-600 hover:bg-red-50 hover:text-red-700"
+                }`}
+              >
+                <LogOut size={14} />
+                <span>تسجيل الخروج</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── 1. Desktop Right Sidebar (100% Fixed to Viewport on Desktop) ── */}
+      <aside className={`hidden lg:flex lg:fixed lg:top-0 lg:right-0 lg:w-64 xl:w-72 lg:h-screen lg:max-h-screen shrink-0 border-s p-4 lg:p-5 flex-col justify-between z-40 transition-colors duration-200 ${panelCls}`}>
         <div className="flex flex-col flex-1 min-h-0">
           {/* Brand header */}
           <div className={`flex items-center justify-between pb-4 border-b mb-3 shrink-0 ${borderSep}`}>
@@ -724,32 +961,11 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
             </div>
-
-            {/* Mobile menu toggle */}
-            <button
-              type="button"
-              onClick={() => setMobileNavOpen(!mobileNavOpen)}
-              className="lg:hidden px-3 py-1.5 rounded-xl border border-slate-700 text-slate-200 hover:text-white bg-slate-800/80 flex items-center gap-1.5 text-xs font-bold transition-all min-h-[38px]"
-              aria-label="تبديل قائمة لوحة التحكم"
-            >
-              <span>{mobileNavOpen ? "إغلاق" : "الأقسام"}</span>
-              <span className="text-sm font-mono">{mobileNavOpen ? "✕" : "☰"}</span>
-            </button>
           </div>
 
           {/* Navigation Items (Scrollable internally with no-scrollbar if viewport is short) */}
-          <nav className={`space-y-1 overflow-y-auto no-scrollbar flex-1 pe-0.5 ${mobileNavOpen ? "block" : "hidden lg:block"}`}>
-            {[
-              { id: "products", label: "المنتجات والمخزون", icon: Package, count: products.length },
-              { id: "orders", label: "الطلبات والتصنيع", icon: ShoppingBag, count: orders.length },
-              { id: "custom_orders", label: "طلبات التفصيل والمقاسات", icon: Ruler, count: customOrders.length },
-              { id: "customers", label: "العملاء (CRM)", icon: Users, count: customers.length },
-              { id: "consultations", label: "الاستشارات واللوكيشن", icon: Calendar, count: consultations.length },
-              { id: "quotations", label: "عروض الأسعار B2B", icon: FileText, count: quotations.length },
-              { id: "returns", label: "المرتجعات وفحص الجودة", icon: RotateCcw, count: returns.length },
-              { id: "analytics", label: "تحليلات الأثاث والـ Feed", icon: BarChart3 },
-              { id: "emails", label: "سجل الإيميلات", icon: Mail, count: emails.length },
-            ].map((tab) => {
+          <nav className="space-y-1 overflow-y-auto no-scrollbar flex-1 pe-0.5">
+            {navTabs.map((tab) => {
               const isActive = activeTab === tab.id;
               const Icon = tab.icon;
               return (
@@ -815,8 +1031,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Sidebar Footer Actions (Firmly Pinned in Viewport at all times) */}
-        <div className={`pt-3 border-t space-y-2 mt-2 shrink-0 ${borderSep} ${mobileNavOpen ? "block" : "hidden lg:block"}`}>
-          {/* Dark / Light Mode Switcher */}
+        <div className={`pt-3 border-t space-y-2 mt-2 shrink-0 ${borderSep}`}>
           <ThemeToggle variant="sidebar" />
 
           <button
@@ -853,7 +1068,7 @@ export default function AdminDashboardPage() {
       </aside>
 
       {/* ── 2. Main Content Area (To the left of Sidebar in RTL) ── */}
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 max-w-[1600px] w-full mx-auto overflow-x-hidden">
+      <main className="flex-1 p-3 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 max-w-[1600px] w-full mx-auto overflow-x-hidden">
         {/* Top Header Row matching the user screenshot */}
         <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border rounded-2xl p-4 sm:p-5 shadow-lg transition-colors ${panelCls}`}>
           {/* Right: Section title & live radar icon */}
@@ -901,17 +1116,17 @@ export default function AdminDashboardPage() {
               title="رفع كل المنتجات دفعة واحدة من ملف Excel أو CSV"
             >
               <FileSpreadsheet size={15} strokeWidth={2.5} />
-              <span>رفع المنتجات دفعة واحدة (Excel / CSV) ⚡</span>
+              <span className="hidden sm:inline">رفع المنتجات دفعة واحدة (Excel / CSV) ⚡</span><span className="sm:hidden">استيراد Excel ⚡</span>
             </button>
 
             {/* "مدى الحياة (Lifetime)" selector pill matching screenshot */}
-            <div className={`flex items-center gap-1.5 border px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${chipCls}`}>
+            <div className={`hidden md:flex items-center gap-1.5 border px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${chipCls}`}>
               <Calendar size={13} className="text-cyan-500" />
               <span>مدى الحياة (Lifetime)</span>
             </div>
 
             {/* User Profile avatar */}
-            <div className={`flex items-center gap-2 border px-3 py-1.5 rounded-xl text-xs transition-colors ${chipCls}`}>
+            <div className={`hidden sm:flex items-center gap-2 border px-3 py-1.5 rounded-xl text-xs transition-colors ${chipCls}`}>
               <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-600 to-blue-500 text-white flex items-center justify-center font-bold text-xs shadow-xs">
                 M
               </div>
@@ -939,7 +1154,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* ── 3. The 4 Metric Cards Row (Connected 100% to Live Real Store Data) ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
           {/* Card 1: إجمالي الإيرادات والمبيعات الفعلية */}
           <div className={`border rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden group transition-all ${
             isDark ? "bg-[#12151D] border-[#1F2433] hover:border-[#2D354A]" : "bg-white border-slate-200 shadow-sm hover:border-slate-300"
@@ -1190,11 +1405,11 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Category filter */}
-            <div className="flex items-center gap-2 w-full md:w-auto">
+            <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full md:w-auto">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className={`w-full md:w-44 px-3 py-2.5 rounded-xl border text-sm focus:outline-none focus:border-cyan-500 transition-colors ${inputCls}`}
+                className={`col-span-1 sm:w-40 px-3 py-2.5 rounded-xl border text-sm focus:outline-none focus:border-cyan-500 transition-colors ${inputCls}`}
               >
                 <option value="ALL">جميع الأقسام</option>
                 {categories.map((c) => (
@@ -1220,7 +1435,7 @@ export default function AdminDashboardPage() {
               <button
                 id="bulk-import-btn"
                 onClick={() => setImportModalOpen(true)}
-                className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-black whitespace-nowrap transition-colors cursor-pointer shadow-xs ${
+                className={`col-span-2 sm:w-auto flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-black whitespace-nowrap transition-colors cursor-pointer shadow-xs ${
                   isDark
                     ? "bg-emerald-950/60 border-emerald-500/40 text-emerald-300 hover:bg-emerald-900/60 hover:border-emerald-400"
                     : "bg-emerald-50 border-emerald-300 text-emerald-800 hover:bg-emerald-100"
@@ -1236,7 +1451,7 @@ export default function AdminDashboardPage() {
           {/* Products Table with Live Stock */}
           <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
-              <table className="w-full text-start text-sm">
+              <table className="w-full min-w-[680px] text-start text-sm">
                 <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">المنتج والصورة</th>
@@ -1593,7 +1808,7 @@ export default function AdminDashboardPage() {
           {/* Customers Table */}
           <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
-              <table className="w-full text-start text-sm">
+              <table className="w-full min-w-[680px] text-start text-sm">
                 <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">العميل</th>
@@ -1783,7 +1998,7 @@ export default function AdminDashboardPage() {
           {/* Orders Table */}
           <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
-              <table className="w-full text-start text-sm">
+              <table className="w-full min-w-[680px] text-start text-sm">
                 <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">رقم وتاريخ الطلب</th>
@@ -2126,7 +2341,7 @@ export default function AdminDashboardPage() {
           {/* Table */}
           <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
-              <table className="w-full text-start text-sm">
+              <table className="w-full min-w-[680px] text-start text-sm">
                 <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">رقم المرتجع والأوردر</th>
@@ -2383,7 +2598,7 @@ export default function AdminDashboardPage() {
           {/* Quotations Table */}
           <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
-              <table className="w-full text-start text-sm">
+              <table className="w-full min-w-[680px] text-start text-sm">
                 <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">رقم وتاريخ العرض</th>
@@ -2912,7 +3127,7 @@ export default function AdminDashboardPage() {
           {/* Emails Table */}
           <div className={`rounded-2xl border shadow-sm overflow-hidden transition-colors ${subcardCls}`}>
             <div className="overflow-x-auto">
-              <table className="w-full text-start text-sm">
+              <table className="w-full min-w-[680px] text-start text-sm">
                 <thead className={`border-b text-xs font-bold uppercase tracking-wider transition-colors ${thCls}`}>
                   <tr>
                     <th className="px-6 py-3.5 text-start">نوع الإشعار</th>
