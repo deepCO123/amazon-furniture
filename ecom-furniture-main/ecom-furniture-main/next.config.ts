@@ -30,7 +30,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     const isProd = process.env.NODE_ENV === "production";
     const isVercel = Boolean(process.env.VERCEL);
-    const configuredBackend = process.env.NEXT_PUBLIC_BACKEND_URL?.trim();
+    const configuredBackend = (process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL)?.trim();
 
     if (isProd && !configuredBackend) {
       console.warn(

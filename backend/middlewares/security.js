@@ -27,6 +27,8 @@ const getConnectSrc = () => {
     "ws://127.0.0.1:*",
     "https://*.trycloudflare.com",
     "wss://*.trycloudflare.com",
+    "https://*.vercel.app",
+    "wss://*.vercel.app",
   ];
 
   if (process.env.CLIENT_URL) {
@@ -96,8 +98,8 @@ const isOriginAllowed = (origin) => {
     return true;
   }
 
-  // السماح بنطاقات Cloudflare Tunnel
-  if (origin.endsWith('.trycloudflare.com')) {
+  // السماح بنطاقات Cloudflare Tunnel و Vercel Deployments
+  if (origin.endsWith('.trycloudflare.com') || origin.endsWith('.vercel.app')) {
     return true;
   }
 

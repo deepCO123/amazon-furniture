@@ -62,7 +62,9 @@ export function useAdminSocket(onNewOrder?: (order: NewOrderEventPayload) => voi
   const addToast = useToastStore((s) => s.addToast);
 
   useEffect(() => {
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+    const backendUrl =
+      process.env.NEXT_PUBLIC_BACKEND_URL ||
+      (typeof window !== "undefined" ? window.location.origin : "http://localhost:5000");
 
     // إنشاء اتصال Socket.io مع إرسال الكوكيز (HttpOnly) للمصادقة في admin_room
     const socketClient = io(backendUrl, {
