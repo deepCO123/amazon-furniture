@@ -26,7 +26,7 @@ const deliveredItems: DeliveredItem[] = [
     mediaUrl: "/delivered/videos/delivered-video-1.mp4",
     poster: "/delivered/delivered-executive-walnut-desk.jpg",
     title: "جولة حية بعد التركيب الفعلي في مقر شركة وتجهيز المكاتب",
-    location: "المنصورة — حي الجامعة",
+    location: "المنصورة — ش سامية الجمل تقاطع أحمد ماهر",
     customer: "فيديو تسليم واقعي",
     testimonial: "فيديو يوضح متانة تشطيب الخشب وتناسق الكراسي الهيدروليكية في بيئة العمل بعد التركيب المباشر.",
     rating: 5,
