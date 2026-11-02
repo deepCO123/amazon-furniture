@@ -13,7 +13,8 @@ const { verifyToken, checkRole } = require('../middlewares/auth');
 const { Customer, Order, Product, Coupon } = require('../models');
 const jsonCache = require('../services/jsonCache');
 const { generateInvoiceBuffer } = require('../services/invoiceService');
-const { sendOrderConfirmationWithInvoice } = require('../services/emailService');
+const { sendOrderConfirmationWithInvoice, sendAdminOrderNotification } = require('../services/emailService');
+const whatsappService = require('../services/whatsappService');
 const { validateCouponLogic } = require('./couponRoutes');
 
 // ─── 1. جلب كافة الطلبات (للأدمن فقط) ───────────────────────
@@ -377,8 +378,12 @@ router.post('/', async (req, res) => {
 
       // إرسال الإيميل مع الفاتورة المرفقة وعقد الضمان لـ 10 سنوات
       await sendOrderConfirmationWithInvoice(newOrder, pdfBuffer);
-      console.log(`[Order Processing] Official PDF Invoice & Warranty generated for order #${orderId}`);
-    } catch (invoiceErr) {
+      console.log(`[Order Processing] Customer invoice & warranty emailed for order #${orderId}`);
+      // إرسال إشعار فوري لبريد الإدارة بتفاصيل الطلب الجديد
+      await sendAdminOrderNotification(newOrder);
+      // إرسال إشعار عبر خدمة الواتساب
+      await whatsappService.sendOrderConfirmation(newOrder);
+          } catch (invoiceErr) {
       console.warn('[PDF Invoicing & Email Notice]', invoiceErr.message);
     }
   });

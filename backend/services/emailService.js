@@ -200,7 +200,130 @@ const sendOrderConfirmationWithInvoice = async (order, pdfBuffer) => {
   }
 };
 
+
+/**
+ * دالة إرسال تنبيه فوري لإدارة المتجر بطلب جديد
+ * @param {Object} order - كائن الطلب
+ */
+const sendAdminOrderNotification = async (order) => {
+  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.EMAIL_USER || 'khaledeldeep900@gmail.com';
+  const isMockOrTest =
+    process.env.NODE_ENV === 'test' ||
+    !process.env.EMAIL_PASS ||
+    process.env.EMAIL_PASS.startsWith('mock_');
+
+  if (isMockOrTest) {
+    return { success: true, messageId: `mock-admin-${Date.now()}` };
+  }
+
+  const itemsListHtml = (order.items || [])
+    .map(
+      (it) => `
+      <tr style="border-bottom: 1px solid #334155;">
+        <td style="padding: 10px; color: #f8fafc;">${it.product?.name || 'قطعة أثاث'}</td>
+        <td style="padding: 10px; color: #94a3b8; text-align: center;">${it.quantity || 1}</td>
+        <td style="padding: 10px; color: #38bdf8; text-align: left;">${Number(it.product?.price || 0).toLocaleString()} ج.م</td>
+      </tr>
+    `
+    )
+    .join('');
+
+  const shipping = order.shippingAddress || {};
+  const clientUrl = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',')[0] : 'https://amazon-furniture.vercel.app';
+  const adminDashboardUrl = `${clientUrl}/admin`;
+
+  const mailOptions = {
+    from: process.env.EMAIL_FROM || '"AMAZON Notifier" <support@amazonfurniture.eg>',
+    to: adminEmail,
+    subject: `🔔 طلب جديد #${order.id} — إجمالي ${Number(order.total || 0).toLocaleString()} ج.م من ${order.customerName || 'عميل'}`,
+    html: `
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; margin: 0; padding: 0; direction: rtl; }
+          .container { max-width: 650px; margin: 30px auto; background-color: #1e293b; border-radius: 16px; overflow: hidden; border: 1px solid #334155; color: #f8fafc; }
+          .header { background: linear-gradient(135deg, #090d16 0%, #1e293b 100%); padding: 30px 24px; text-align: center; border-bottom: 3px solid #f59e0b; }
+          .header h1 { color: #f59e0b; margin: 0; font-size: 22px; }
+          .content { padding: 30px 24px; }
+          .badge { display: inline-block; background: #064e3b; color: #34d399; font-size: 13px; font-weight: bold; padding: 6px 16px; border-radius: 30px; margin-bottom: 20px; }
+          .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+          .info-table td { padding: 8px 12px; border-bottom: 1px solid #334155; font-size: 14px; }
+          .btn { display: inline-block; background: #c98d74; color: #ffffff !important; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 20px; }
+          .footer { background-color: #0f172a; padding: 20px; text-align: center; font-size: 12px; color: #64748b; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>AMAZON FURNITURE — إشعار طلب جديد</h1>
+            <p style="color: #94a3b8; margin: 5px 0 0 0;">ورد طلب شراء جديد عبر المتجر الإلكتروني</p>
+          </div>
+          <div class="content">
+            <span class="badge">رقم الطلب: #${order.id}</span>
+
+            <h3 style="color: #e2e8f0; margin-top: 10px;">بيانات العميل:</h3>
+            <table class="info-table">
+              <tr><td style="color:#94a3b8; width: 30%;">الاسم:</td><td><strong>${order.customerName || 'غير محدد'}</strong></td></tr>
+              <tr><td style="color:#94a3b8;">الهاتف:</td><td><a href="tel:${order.customerPhone}" style="color:#38bdf8;">${order.customerPhone || 'غير متوفر'}</a> (<a href="https://wa.me/${String(order.customerPhone).replace(/[^0-9]/g, '')}" style="color:#34d399;">واتساب</a>)</td></tr>
+              <tr><td style="color:#94a3b8;">الإيميل:</td><td>${order.customerEmail || 'غير متوفر'}</td></tr>
+              <tr><td style="color:#94a3b8;">المحافظة:</td><td>${shipping.city || 'غير محدد'}</td></tr>
+              <tr><td style="color:#94a3b8;">العنوان بالتفصيل:</td><td>${shipping.address || 'غير محدد'}</td></tr>
+              ${order.notes ? `<tr><td style="color:#94a3b8;">ملاحظات:</td><td>${order.notes}</td></tr>` : ''}
+            </table>
+
+            <h3 style="color: #e2e8f0;">تفاصيل المنتجات:</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
+              <thead>
+                <tr style="background-color: #0f172a; color: #94a3b8;">
+                  <th style="padding: 10px; text-align: right;">المنتج</th>
+                  <th style="padding: 10px; text-align: center;">الكمية</th>
+                  <th style="padding: 10px; text-align: left;">السعر</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${itemsListHtml}
+              </tbody>
+            </table>
+
+            <div style="background-color: #0f172a; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+              <table style="width: 100%; font-size: 15px;">
+                <tr><td>المجموع الفرعي:</td><td align="left">${Number(order.subtotal || 0).toLocaleString()} ج.م</td></tr>
+                ${order.discount ? `<tr><td style="color: #34d399;">خصم الكوبون:</td><td align="left" style="color: #34d399;">-${Number(order.discount).toLocaleString()} ج.م</td></tr>` : ''}
+                <tr><td>الشحن والتوصيل:</td><td align="left">${Number(order.shippingCost || 0) === 0 ? 'مجاناً' : Number(order.shippingCost).toLocaleString() + ' ج.م'}</td></tr>
+                <tr style="border-top: 1px solid #334155; font-size: 18px; font-weight: bold; color: #f59e0b;">
+                  <td style="padding-top: 10px;">الإجمالي الكلي:</td>
+                  <td align="left" style="padding-top: 10px;">${Number(order.total || 0).toLocaleString()} ج.م</td>
+                </tr>
+              </table>
+            </div>
+
+            <center>
+              <a href="${adminDashboardUrl}" class="btn">فتح لوحة التحكم ومتابعة الطلب</a>
+            </center>
+          </div>
+          <div class="footer">
+            نظام إدارة متجر Amazon Furniture الإلكتروني • المنصورة، مصر
+          </div>
+        </div>
+      </body>
+      </html>
+    `,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`[Email Service] Admin notification dispatched to ${adminEmail} | MessageId: ${info.messageId}`);
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error(`[Email Service Notice] Admin email error: ${error.message}`);
+    return { success: false, error: error.message };
+  }
+};
+
 module.exports = {
   sendWelcomeEmail,
   sendOrderConfirmationWithInvoice,
+  sendAdminOrderNotification,
 };
