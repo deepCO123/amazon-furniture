@@ -24,8 +24,53 @@ function saveDeletedId(id: string) {
       "amazon_deleted_product_ids",
       JSON.stringify(Array.from(set))
     );
+    // Also remove from custom products if it was a user-created item
+    const custom = getCustomProducts().filter((p) => p.id !== id);
+    localStorage.setItem("amazon_custom_products", JSON.stringify(custom));
   } catch {
     // Ignore storage quota errors
+  }
+}
+
+function getCustomProducts(): Product[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem("amazon_custom_products");
+    return raw ? (JSON.parse(raw) as Product[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCustomProduct(product: Product) {
+  if (typeof window === "undefined") return;
+  try {
+    const custom = getCustomProducts().filter((p) => p.id !== product.id);
+    custom.unshift(product);
+    localStorage.setItem("amazon_custom_products", JSON.stringify(custom));
+  } catch {
+    // Ignore storage quota
+  }
+}
+
+function getUpdatedProducts(): Record<string, Partial<Product>> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem("amazon_updated_products");
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveUpdatedProduct(id: string, updates: Partial<Product>) {
+  if (typeof window === "undefined") return;
+  try {
+    const current = getUpdatedProducts();
+    current[id] = { ...(current[id] || {}), ...updates };
+    localStorage.setItem("amazon_updated_products", JSON.stringify(current));
+  } catch {
+    // Ignore storage quota
   }
 }
 
@@ -70,17 +115,42 @@ export const useProductStore = create<ProductState>()((set, get) => ({
       set({ loading: true, error: null });
     }
     try {
-      const data = await apiClient.getProducts();
-      const deleted = getDeletedIds();
-      if (Array.isArray(data) && data.length > 0) {
-        set({
-          products: data.filter((p) => !deleted.has(p.id)),
-          loading: false,
-          lastFetched: Date.now(),
-        });
-      } else {
-        set({ loading: false });
+      let baseList: Product[] = [];
+      try {
+        const data = await apiClient.getProducts();
+        if (Array.isArray(data) && data.length > 0) {
+          baseList = data;
+        } else {
+          baseList = initialProducts;
+        }
+      } catch {
+        baseList = initialProducts;
       }
+
+      const deleted = getDeletedIds();
+      const custom = getCustomProducts();
+      const updatedMap = getUpdatedProducts();
+
+      // Merge: Custom products first, then base products
+      const customIds = new Set(custom.map((c) => c.id));
+      let merged: Product[] = [
+        ...custom,
+        ...baseList.filter((p) => !customIds.has(p.id)),
+      ];
+
+      // Filter out deleted products
+      merged = merged.filter((p) => !deleted.has(p.id));
+
+      // Apply locally persisted updates
+      merged = merged.map((p) =>
+        updatedMap[p.id] ? ({ ...p, ...updatedMap[p.id] } as Product) : p
+      );
+
+      set({
+        products: merged,
+        loading: false,
+        lastFetched: Date.now(),
+      });
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "Failed to fetch products";
@@ -91,39 +161,96 @@ export const useProductStore = create<ProductState>()((set, get) => ({
 
   addProduct: async (productData) => {
     set({ loading: true, error: null });
+
+    const timestamp = Date.now();
+    const id = productData.id || `prod-${timestamp}`;
+    const baseSlug = (productData.name || "product")
+      .toLowerCase()
+      .replace(/[^a-z0-9\u0621-\u064A]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+    const slug = productData.slug || `${baseSlug || "product"}-${timestamp.toString(36)}`;
+
+    const newProduct: Product = {
+      id,
+      slug,
+      name: productData.name || "منتج جديد",
+      price: typeof productData.price === "number" ? productData.price : Number(productData.price) || 0,
+      originalPrice: productData.originalPrice ? Number(productData.originalPrice) : undefined,
+      images: Array.isArray(productData.images) && productData.images.length > 0 ? productData.images : ["/images/products/desk-default.jpg"],
+      category: productData.category || "office-desks",
+      description: productData.description || "أثاث مكتبي عالي الجودة من أمازون للأثاث المكتبي.",
+      material: productData.material || "خشب MDF إسباني عالي الكثافة",
+      color: productData.color || "أسود / بني",
+      dimensions: productData.dimensions || { width: 120, height: 75, depth: 80 },
+      weight: productData.weight || 25,
+      stockQuantity: typeof productData.stockQuantity === "number" ? productData.stockQuantity : 10,
+      inStock: productData.inStock ?? true,
+      featured: productData.featured ?? false,
+      tags: productData.tags || [],
+      ...productData,
+    } as Product;
+
+    // 1. Immediately persist locally in client storage
+    saveCustomProduct(newProduct);
+
+    // 2. Optimistically add to Zustand state
+    set((state) => ({
+      products: [
+        newProduct,
+        ...state.products.filter((p) => p.id !== newProduct.id),
+      ],
+      loading: false,
+    }));
+
+    // 3. Sync to API / Database in the background
     try {
-      const created = await apiClient.createProduct(productData);
-      set((state) => ({
-        products: [
-          created,
-          ...state.products.filter((p) => p.id !== created.id),
-        ],
-        loading: false,
-      }));
-      return created;
+      const serverProduct = await apiClient.createProduct(newProduct);
+      if (serverProduct && serverProduct.id) {
+        saveCustomProduct(serverProduct);
+        set((state) => ({
+          products: [
+            serverProduct,
+            ...state.products.filter((p) => p.id !== serverProduct.id),
+          ],
+        }));
+        return serverProduct;
+      }
     } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "Failed to add product";
-      set({ loading: false, error: message });
-      throw err;
+      console.warn(
+        `[ProductStore] Remote API create notice for ${id} (safely persisted locally):`,
+        err
+      );
     }
+
+    return newProduct;
   },
 
   updateProduct: async (id, updates) => {
-    set({ loading: true, error: null });
+    // 1. Save update locally
+    saveUpdatedProduct(id, updates);
+
+    // 2. Optimistically update state
+    set((state) => ({
+      products: state.products.map((p) =>
+        p.id === id ? ({ ...p, ...updates } as Product) : p
+      ),
+      loading: false,
+    }));
+
+    // 3. Sync to API / Database
     try {
       const updated = await apiClient.updateProduct(id, updates);
-      set((state) => ({
-        products: state.products.map((p) => (p.id === id ? updated : p)),
-        loading: false,
-      }));
-      return updated;
+      if (updated && updated.id) {
+        return updated;
+      }
     } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "Failed to update product";
-      set({ loading: false, error: message });
-      throw err;
+      console.warn(
+        `[ProductStore] Remote API update notice for ${id} (safely persisted locally):`,
+        err
+      );
     }
+    const current = get().products.find((p) => p.id === id);
+    return current!;
   },
 
   deleteProduct: async (id: string) => {

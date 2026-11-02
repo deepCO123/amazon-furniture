@@ -194,7 +194,8 @@ class ApiClient {
       const err = await res.json().catch(() => ({ error: "Failed to create product" }));
       throw new Error(err.error || err.message || `Failed to create product (${res.status})`);
     }
-    return res.json();
+    const data = await res.json();
+    return (data.product || data) as Product;
   }
 
   async updateProduct(id: string, updates: Partial<Product>): Promise<Product> {
@@ -211,7 +212,8 @@ class ApiClient {
       const err = await res.json().catch(() => ({ error: "Failed to update product" }));
       throw new Error(err.error || err.message || `Failed to update product (${res.status})`);
     }
-    return res.json();
+    const data = await res.json();
+    return (data.product || data) as Product;
   }
 
   async deleteProduct(id: string): Promise<boolean> {

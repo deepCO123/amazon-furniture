@@ -253,6 +253,11 @@ export default function ProductModal({
       if (product?.id) {
         payload.id = product.id;
         payload.slug = product.slug;
+      } else {
+        const timestamp = Date.now();
+        payload.id = "prod-" + timestamp;
+        const baseSlug = name.trim().toLowerCase().replace(/[^a-z0-9\u0621-\u064A]+/g, "-").replace(/^-+|-+$/g, "");
+        payload.slug = (baseSlug || "product") + "-" + timestamp.toString(36);
       }
 
       await onSave(payload);
