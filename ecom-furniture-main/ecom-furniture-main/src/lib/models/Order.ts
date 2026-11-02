@@ -50,3 +50,4 @@ const OrderSchema = new Schema(
 
 export const OrderModel =
   mongoose.models.Order || mongoose.model<IOrder>("Order", OrderSchema);
+

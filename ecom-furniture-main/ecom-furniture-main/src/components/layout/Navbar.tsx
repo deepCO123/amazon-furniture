@@ -195,7 +195,7 @@ export default function Navbar() {
 
               <div className="hidden sm:flex items-center gap-1.5 text-white/80">
                 <MapPin className="w-3.5 h-3.5 text-[#C59B63]" />
-                <span>المنصورة - حي الجامعة بجوار كلية الهندسة</span>
+                <span>المنصورة - ش سامية الجمل تقاطع أحمد ماهر (أمازون للأثاث المكتبي)</span>
               </div>
             </div>
 

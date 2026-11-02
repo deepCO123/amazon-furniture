@@ -139,7 +139,7 @@ export default function NewShowroomConsultationSection() {
               {/* Address & Working Hours Details */}
               <div className="space-y-2.5 mb-5 text-xs sm:text-[13px] font-semibold text-white/95 text-right">
                 <div className="flex items-center justify-end gap-2.5 bg-white/5 p-2 rounded-xl border border-white/5">
-                  <span className="leading-snug">العنوان: المنصورة - شارع الجامعة بجوار كلية الهندسة</span>
+                  <span className="leading-snug">العنوان: المنصورة - ش سامية الجمل تقاطع أحمد ماهر (أمازون للأثاث المكتبي)</span>
                   <MapPin className="w-4 h-4 text-[#E8D4B0] shrink-0" />
                 </div>
                 <div className="flex items-center justify-end gap-2.5 bg-white/5 p-2 rounded-xl border border-white/5">
@@ -400,7 +400,7 @@ export default function NewShowroomConsultationSection() {
                   معرض متكامل من طابقين يضم أكثر من 500 موديل
                 </h4>
                 <p className="text-xs text-white/80 max-w-md">
-                  المنصورة - شارع الجامعة بجوار كلية الهندسة • يومياً من 10 صباحاً وحتى 10 مساءً
+                  المنصورة - ش سامية الجمل تقاطع أحمد ماهر (أمازون للأثاث المكتبي) • يومياً من 10 صباحاً وحتى 10 مساءً
                 </p>
               </div>
             </div>

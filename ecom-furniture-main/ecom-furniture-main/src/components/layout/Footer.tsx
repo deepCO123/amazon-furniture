@@ -147,7 +147,7 @@ export default function Footer() {
                   </a>
                 </li>
                 <li className="flex items-center justify-end gap-2">
-                  <span>المنصورة - حي الجامعة بجوار كلية الهندسة</span>
+                  <span>المنصورة - ش سامية الجمل تقاطع أحمد ماهر (أمازون للأثاث المكتبي)</span>
                   <MapPin className="w-3.5 h-3.5 text-[#C59B63] shrink-0" />
                 </li>
                 <li className="flex items-center justify-end gap-2 pt-1 border-t border-white/10 text-[#E8D4B0]">

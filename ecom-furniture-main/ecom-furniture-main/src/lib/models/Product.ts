@@ -60,3 +60,4 @@ const ProductSchema = new Schema(
 
 export const ProductModel =
   mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);
+
