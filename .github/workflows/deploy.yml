@@ -1,10 +1,12 @@
 name: 🚀 Production VPS Deployment (Manual Trigger)
 
 on:
-  workflow_dispatch: # يتم التشغيل يدوياً فقط عند رغبتك بالضغط على Run Workflow من واجهة GitHub
-  # push:
-  #   branches:
-  #     - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment Environment'
+        required: true
+        default: 'production'
 
 concurrency:
   group: production-deploy
@@ -14,10 +16,21 @@ jobs:
   deploy:
     name: 🌐 Deploy to Ubuntu VPS
     runs-on: ubuntu-latest
-    if: "${{ secrets.SSH_HOST != '' }}" # يتم التخطي بأمان في حال عدم إدخال الـ Secrets
 
     steps:
+      - name: 🔍 Check SSH Configuration
+        id: check_ssh
+        run: |
+          if [ -z "${{ secrets.SSH_HOST }}" ]; then
+            echo "configured=false" >> $GITHUB_OUTPUT
+            echo "⚠️ [Notice] SSH_HOST secret is not configured in this repository."
+            echo "ℹ️ Deployment step will be skipped safely without failure."
+          else
+            echo "configured=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: 🔐 Execute Remote Deployment via SSH
+        if: steps.check_ssh.outputs.configured == 'true'
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -30,27 +43,25 @@ jobs:
             echo "========================================================"
             echo "🚀 بدء عملية النشر لسيرفر الإنتاج..."
             echo "========================================================"
-
-            # 1. الانتقال إلى مسار المشروع على السيرفر
             cd /var/www/amazon-furniture || exit 1
             echo "📁 المسار الحالي: $(pwd)"
-
-            # 2. سحب أحدث نسخة من الكود المصدري من فرع main
             echo "📥 جاري سحب أحدث التحديثات من GitHub..."
             git fetch origin main
             git reset --hard origin/main
-
-            # 3. إعادة بناء وتشغيل حاويات Docker في الخلفية
             echo "🐳 جاري إعادة بناء وتشغيل الحاويات (Docker Compose)..."
             docker compose up -d --build
-
-            # 4. تنظيف الصور القديمة غير المستخدمة لتوفير مساحة القرص
             echo "🧹 تنظيف الصور المؤقتة..."
             docker image prune -f
-
-            # 5. فحص وتأكيد حالة الحاويات
             echo "========================================================"
             echo "✅ حالة الحاويات بعد النشر:"
             docker compose ps
             echo "========================================================"
             echo "🎉 تم النشر بنجاح والموقع يعمل بكفاءة!"
+
+      - name: 📋 Deployment Status Summary
+        run: |
+          if [ "${{ steps.check_ssh.outputs.configured }}" = "true" ]; then
+            echo "✅ Deployment completed successfully."
+          else
+            echo "ℹ️ VPS deployment bypassed safely: To enable automated VPS deploy, add SSH_HOST, SSH_USERNAME, and SSH_PRIVATE_KEY to GitHub Repository Secrets."
+          fi

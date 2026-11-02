@@ -58,3 +58,4 @@ async function seedCoupons() {
 }
 
 seedCoupons().then(() => console.log('Done')).catch(console.error);
+

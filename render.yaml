@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: amazon-furniture-api
+    runtime: node
+    region: frankfurt
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: CLIENT_URL
+        value: https://amazon-furniture.vercel.app,https://amazonfurniture.eg
+      - key: MONGO_URI
+        value: mongodb+srv://khaledeldeep900_db_user:7fm1EH2FcU1jxPsT@amazon.dtj0jcf.mongodb.net/amazon_store?appName=amazon
+      - key: JWT_SECRET
+        value: x9mK#vL2@nPqR7sT!uW5yZ3&aB8cD1eF4gH6jM0nQ2rS5vX8yA1bC4dE7fG0hJ
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: EMAIL_SERVICE
+        value: gmail
+      - key: EMAIL_USER
+        value: khaledeldeep900@gmail.com
+      - key: EMAIL_PASS
+        value: xdap bvpu hskd vsia
+      - key: EMAIL_FROM
+        value: "Amazon Furniture <khaledeldeep900@gmail.com>"
+      - key: ADMIN_NOTIFICATION_EMAIL
+        value: khaledeldeep900@gmail.com
