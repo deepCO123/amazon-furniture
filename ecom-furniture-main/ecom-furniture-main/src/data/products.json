@@ -570,6 +570,158 @@
     "updatedAt": "2026-11-01T18:23:49.781Z"
   },
   {
+    "id": "prod_desk_black_minimalist_metal",
+    "name": "مكتب عمل أسود مينيمال بشاسيه ستيل كربوني صناعي",
+    "code": "AF-DSK-BK02",
+    "sku": "AF-DSK-BK02",
+    "slug": "minimalist-black-industrial-work-desk",
+    "description": "مكتب عمل مودرن مصمم للمحترفين بتصميم صناعي Minimalist قوي وعملي. شاسيه ستيل كربوني صلب مع قوائم مستقيمة عريضة تضمن ثباتاً فائقاً وتحمل أوزان الشاشات والمعدات، مع سطح أسود ناعم مريح لليدين وللعمل المكتبي اليومي.",
+    "price": 3400,
+    "originalPrice": 4200,
+    "images": [
+      "/products/desks/desk-black-minimalist-industrial.png"
+    ],
+    "category": "مكاتب",
+    "material": "قرصة خشب مضغوط معالج حرارياً ومقاوم للبقع + شاسيه حديد علب 4×4 سم دهان فرن إلكتروستاتيك أسود مط",
+    "color": "أسود كربوني كامل (Carbon Black)",
+    "dimensions": {
+      "width": 120,
+      "height": 75,
+      "depth": 60
+    },
+    "weight": 22,
+    "stockQuantity": 18,
+    "returnCount": 0,
+    "totalSold": 8,
+    "rating": 4.8,
+    "reviewCount": 34,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "مكتب أسود",
+      "صناعي",
+      "ستيل",
+      "مينيمال"
+    ],
+    "createdAt": "2026-11-02T11:44:36.885Z",
+    "updatedAt": "2026-11-02T11:44:36.885Z"
+  },
+  {
+    "id": "prod_desk_nordic_walnut_tapered",
+    "name": "مكتب خشبي نورديك كلاسيكي بأرجل خشب زان مسلوبة وسطح جوزي دافئ",
+    "code": "AF-DSK-WD01",
+    "sku": "AF-DSK-WD01",
+    "slug": "nordic-walnut-wood-desk-tapered-legs",
+    "description": "مكتب إسكندنافي أنيق يجسد الدفء الطبيعي لأخشاب الجوزي مع انحناءات زاوية مدروسة تعزز المتانة وتمنح لمسة جمالية دافئة. يتميز بأرجل مسلوبة من خشب الزان الطبيعي وقرصة عريضة بحواف مشطوفة بعناية لتوفير أقصى درجات الراحة أثناء ساعات العمل والدراسة الطويلة.",
+    "price": 4500,
+    "originalPrice": 5600,
+    "images": [
+      "/products/desks/desk-nordic-walnut-tapered-legs.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "قرصة خشب قشرة أرو طبيعي معالج + أرجل وقوائم خشب زان روماني أحمر مجفف مع حماية من الرطوبة",
+    "color": "خشب جوزي دافئ طبيعي (Warm Walnut)",
+    "dimensions": {
+      "width": 130,
+      "height": 76,
+      "depth": 65
+    },
+    "weight": 28,
+    "stockQuantity": 10,
+    "returnCount": 0,
+    "totalSold": 5,
+    "rating": 4.9,
+    "reviewCount": 41,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "خشب طبيعي",
+      "زان",
+      "نورديك",
+      "جوزي"
+    ],
+    "createdAt": "2026-11-02T11:44:36.885Z",
+    "updatedAt": "2026-11-02T11:44:36.885Z"
+  },
+  {
+    "id": "prod_desk_white_origami_metal",
+    "name": "مكتب مودرن أبيض ناصع بشاسيه هندسي أوريجامي مقاوم للخدش",
+    "code": "AF-DSK-WH01",
+    "sku": "AF-DSK-WH01",
+    "slug": "modern-white-desk-origami-metal-frame",
+    "description": "تصميم هندسي مستقبلي يجمع بين النقاء الأبيض والخفة البصرية الفائقة. شاسيه حديدي جانبي بتشكيل أوريجامي مائل يمنح المكتب ثباتاً مطلقاً وشكلاً معمارياً فريداً، مع سطح أبيض متين معالج ضد السوائل والحرارة. الخيار الأمثل للمساحات الحديثة وغرف العمل الإبداعية.",
+    "price": 3900,
+    "originalPrice": 4900,
+    "images": [
+      "/products/desks/desk-white-origami-metal-frame.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "خشب ميلامين أوروبي مضغوط 25 مم + شاسيه حديد هندسي دهان إلكتروستاتيك حراري مقاوم للصدأ",
+    "color": "أبيض ناصع (Pure White)",
+    "dimensions": {
+      "width": 120,
+      "height": 75,
+      "depth": 60
+    },
+    "weight": 24,
+    "stockQuantity": 15,
+    "returnCount": 0,
+    "totalSold": 6,
+    "rating": 4.8,
+    "reviewCount": 29,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "مكتب أبيض",
+      "مودرن",
+      "شاسيه حديد",
+      "أوريجامي"
+    ],
+    "createdAt": "2026-11-02T11:44:36.885Z",
+    "updatedAt": "2026-11-02T11:44:36.885Z"
+  },
+  {
+    "id": "prod_desk_black_10drawers_alex",
+    "name": "مكتب عمل تنفيذي دبل سايد أسود ملكي بـ 10 أدراج تخزين عميقة",
+    "code": "AF-DSK-BK10",
+    "sku": "AF-DSK-BK10",
+    "slug": "executive-double-pedestal-black-desk-10-drawers",
+    "description": "مكتب عمل ودراسة احترافي بتصميم دبل سايد فاخر باللون الأسود الملكي المط. مجهز بوحدتي أدراج متطابقتين (5 أدراج يمين و 5 أدراج يسار) توفر سعة تخزين هائلة لجميع الملفات والوثائق والأجهزة. سطح عريض ومقاوم للخدش والبقع مع فتحات مقابض مدمجة وانسيابية، مثالي للمديرين وصناع المحتوى ومحبي الترتيب التام.",
+    "price": 6800,
+    "originalPrice": 8500,
+    "images": [
+      "/products/desks/desk-black-double-pedestal-10drawers.jpg"
+    ],
+    "category": "مكاتب",
+    "material": "خشب إم دي إف تركي مضغوط عالي الكثافة (HDF) مع شاسيه مدعم ومجارٍ تيليسكوبية هيدروليكية صامتة",
+    "color": "أسود ملكي مط (Matte Black)",
+    "dimensions": {
+      "width": 160,
+      "height": 75,
+      "depth": 70
+    },
+    "weight": 58,
+    "stockQuantity": 12,
+    "returnCount": 0,
+    "totalSold": 4,
+    "rating": 4.9,
+    "reviewCount": 38,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "مكاتب",
+      "مكتب أسود",
+      "أدراج تخزين",
+      "تنفيذي",
+      "أثاث شركات"
+    ],
+    "createdAt": "2026-11-02T11:44:36.885Z",
+    "updatedAt": "2026-11-02T11:44:36.885Z"
+  },
+  {
     "id": "prod_workstation_loop_screens",
     "name": "محطة عمل مكتبية ثنائية/رباعية بشاسيه مقفل وفواصل خصوصية صوتية",
     "code": "AF-WS-LP02",
