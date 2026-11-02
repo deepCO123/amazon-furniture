@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Camera, MapPin, Star, ArrowLeft, Building2, Play, X } from "lucide-react";
+import { Camera, MapPin, Star, ArrowLeft, Building2, Play, X, Video, Image as ImageIcon } from "lucide-react";
 
 interface DeliveredItem {
   id: string;
-  type?: "image" | "video";
+  type: "image" | "video";
   mediaUrl: string;
   poster?: string;
   title: string;
@@ -19,6 +19,45 @@ interface DeliveredItem {
 }
 
 const deliveredItems: DeliveredItem[] = [
+  // ── 3 Real Delivery Videos (Live footage from sites) ──
+  {
+    id: "deliv-v1",
+    type: "video",
+    mediaUrl: "/delivered/videos/delivered-video-1.mp4",
+    poster: "/delivered/delivered-executive-walnut-desk.jpg",
+    title: "جولة حية بعد التركيب الفعلي في مقر شركة وتجهيز المكاتب",
+    location: "المنصورة — حي الجامعة",
+    customer: "فيديو تسليم واقعي",
+    testimonial: "فيديو يوضح متانة تشطيب الخشب وتناسق الكراسي الهيدروليكية في بيئة العمل بعد التركيب المباشر.",
+    rating: 5,
+    badge: "🎥 فيديو بعد التركيب",
+  },
+  {
+    id: "deliv-v2",
+    type: "video",
+    mediaUrl: "/delivered/videos/delivered-video-2.mp4",
+    poster: "/delivered/delivered-reception-cnc-islamic.jpg",
+    title: "معاينة تشطيب واستلام المكاتب ووحدات الأدراج الهيدروليكية",
+    location: "القاهرة — التجمع الخامس",
+    customer: "فيديو تسليم واقعي",
+    testimonial: "لقطات حية توضح سلاسة حركة المفصلات والأدراج وجودة تثبيت الشاسيهات في الموقع.",
+    rating: 5,
+    badge: "🎥 فيديو فحص الجودة",
+  },
+  {
+    id: "deliv-v3",
+    type: "video",
+    mediaUrl: "/delivered/videos/delivered-video-3.mp4",
+    poster: "/delivered/delivered-white-compact-desk-chair.jpg",
+    title: "فيديو تسليم وفرش كامل لمقر إداري ومحطات عمل موظفين",
+    location: "المنصورة — شارع الجيش",
+    customer: "فيديو تسليم واقعي",
+    testimonial: "استعراض شامل بعد اكتمال الفرش والتسليم النهائي لجميع غرف الإدارة ومحطات العمل.",
+    rating: 5,
+    badge: "🎥 فيديو تجهيز متكامل",
+  },
+
+  // ── 5 Real Delivered Photos ──
   {
     id: "deliv-1",
     type: "image",
@@ -77,14 +116,20 @@ const deliveredItems: DeliveredItem[] = [
 ];
 
 export default function NewDeliveredGallerySection() {
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [filter, setFilter] = useState<"all" | "video" | "image">("all");
+  const [selectedVideo, setSelectedVideo] = useState<{ url: string; title: string } | null>(null);
+
+  const filteredItems = deliveredItems.filter((item) => {
+    if (filter === "all") return true;
+    return item.type === filter;
+  });
 
   return (
     <section className="w-full bg-[#FAF7F2] dark:bg-[#120E0B] py-10 sm:py-16 transition-colors duration-200">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Block matching user requirement */}
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 bg-white dark:bg-[#251A13] border border-[#E8DEC8] dark:border-[#38261A] text-[#C59B63] dark:text-[#E8D4B0] text-xs font-bold px-4 py-1.5 rounded-full mb-3 shadow-2xs">
             <Building2 className="w-3.5 h-3.5" />
             <span>سابقة أعمالنا وتجهيزات المقرات والشركات</span>
@@ -101,32 +146,68 @@ export default function NewDeliveredGallerySection() {
           <p className="text-xs sm:text-sm text-[#7A6A5F] dark:text-[#A8988A] mt-2.5 font-medium leading-relaxed">
             لقطات واقعية بعد التركيب في مقرات شركاء نجاحنا بالمنصورة والقاهرة وجميع المحافظات
           </p>
+
+          {/* Filter Chips: الكل / فيديوهات / صور */}
+          <div className="flex items-center justify-center gap-2 mt-5">
+            <button
+              onClick={() => setFilter("all")}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                filter === "all"
+                  ? "bg-[#C59B63] text-white shadow-xs"
+                  : "bg-white dark:bg-[#1C1612] text-[#7A6A5F] dark:text-[#A8988A] border border-[#EDE5DA] dark:border-[#38261A] hover:border-[#C59B63]"
+              }`}
+            >
+              الكل ({deliveredItems.length})
+            </button>
+            <button
+              onClick={() => setFilter("video")}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                filter === "video"
+                  ? "bg-red-600 text-white shadow-xs"
+                  : "bg-white dark:bg-[#1C1612] text-[#7A6A5F] dark:text-[#A8988A] border border-[#EDE5DA] dark:border-[#38261A] hover:border-red-500"
+              }`}
+            >
+              <Video className="w-3.5 h-3.5" />
+              <span>فيديوهات بعد التركيب (3)</span>
+            </button>
+            <button
+              onClick={() => setFilter("image")}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                filter === "image"
+                  ? "bg-[#1F2421] text-white shadow-xs"
+                  : "bg-white dark:bg-[#1C1612] text-[#7A6A5F] dark:text-[#A8988A] border border-[#EDE5DA] dark:border-[#38261A] hover:border-[#1F2421]"
+              }`}
+            >
+              <ImageIcon className="w-3.5 h-3.5" />
+              <span>صور واقعية (5)</span>
+            </button>
+          </div>
         </div>
 
-        {/* 5 Cards Grid (Responsive & Balanced) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
-          {deliveredItems.map((item) => (
+        {/* Dynamic Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {filteredItems.map((item) => (
             <div
               key={item.id}
               className="group bg-white dark:bg-[#1C1612] rounded-3xl border border-[#EDE5DA] dark:border-[#38261A] overflow-hidden shadow-[0_2px_12px_rgba(31,36,33,0.04)] hover:shadow-[0_12px_32px_rgba(31,36,33,0.1)] hover:border-[#C59B63]/60 transition-all duration-300 flex flex-col justify-between"
             >
               {/* Media Container */}
-              <div className="relative w-full h-56 sm:h-64 overflow-hidden bg-slate-900/10">
+              <div className="relative w-full h-56 sm:h-64 overflow-hidden bg-slate-900">
                 {item.type === "video" ? (
                   <div
-                    className="relative w-full h-full cursor-pointer"
-                    onClick={() => setSelectedVideo(item.mediaUrl)}
+                    className="relative w-full h-full cursor-pointer group/video"
+                    onClick={() => setSelectedVideo({ url: item.mediaUrl, title: item.title })}
                   >
-                    <Image
-                      src={item.poster || "/redesign/showroom-facade.jpg"}
-                      alt={item.title}
-                      fill
-                      className="object-cover object-center transition-transform duration-500 group-hover:scale-108"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                    <video
+                      src={`${item.mediaUrl}#t=0.5`}
+                      preload="metadata"
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
                     />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full bg-white/90 text-slate-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                        <Play className="w-5 h-5 fill-current ml-0.5" />
+                    <div className="absolute inset-0 bg-black/40 group-hover/video:bg-black/25 flex items-center justify-center transition-colors">
+                      <div className="w-14 h-14 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-xl group-hover/video:scale-115 transition-transform">
+                        <Play className="w-6 h-6 fill-current ml-0.5" />
                       </div>
                     </div>
                   </div>
@@ -136,7 +217,7 @@ export default function NewDeliveredGallerySection() {
                     alt={item.title}
                     fill
                     className="object-cover object-center transition-transform duration-500 group-hover:scale-108"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
@@ -146,9 +227,11 @@ export default function NewDeliveredGallerySection() {
                   <span>تم التسليم بنجاح ✓</span>
                 </div>
 
-                {/* Optional category badge on top left */}
+                {/* Badge (Video vs Image) */}
                 {item.badge && (
-                  <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-md border border-white/15">
+                  <div className={`absolute top-3 left-3 text-white text-[9px] font-bold px-2 py-0.5 rounded-md border shadow-xs ${
+                    item.type === "video" ? "bg-red-600/90 border-red-400" : "bg-black/60 backdrop-blur-xs border-white/15"
+                  }`}>
                     {item.badge}
                   </div>
                 )}
@@ -163,7 +246,7 @@ export default function NewDeliveredGallerySection() {
               </div>
 
               {/* Text Body */}
-              <div className="p-4 sm:p-4.5 flex-1 flex flex-col justify-between text-right">
+              <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between text-right">
                 <div>
                   <h4 className="text-xs sm:text-sm font-black text-[#1F2421] dark:text-[#F0EBE5] leading-snug line-clamp-2 mb-2 group-hover:text-[#C59B63] transition-colors">
                     {item.title}
@@ -181,7 +264,7 @@ export default function NewDeliveredGallerySection() {
                     ))}
                   </div>
 
-                  {/* Customer Name */}
+                  {/* Customer / Tag */}
                   <span className="font-bold text-[#1F2421] dark:text-[#E8D4B0] text-[11px] truncate max-w-[140px]">
                     {item.customer}
                   </span>
@@ -202,22 +285,40 @@ export default function NewDeliveredGallerySection() {
           </Link>
         </div>
 
-        {/* Video Modal if active */}
+        {/* Full Video Modal with sound and controls */}
         {selectedVideo && (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="relative w-full max-w-3xl bg-slate-900 rounded-2xl overflow-hidden shadow-2xl">
-              <button
-                onClick={() => setSelectedVideo(null)}
-                className="absolute top-3 left-3 z-10 p-2 rounded-full bg-black/60 text-white hover:bg-black/90 cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              <video
-                src={selectedVideo}
-                controls
-                autoPlay
-                className="w-full h-auto max-h-[80vh]"
-              />
+          <div
+            className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fade-in"
+            onClick={() => setSelectedVideo(null)}
+          >
+            <div
+              className="relative w-full max-w-4xl bg-slate-950 rounded-3xl overflow-hidden shadow-2xl border border-white/10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="px-5 py-3.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                <span className="text-xs sm:text-sm font-bold text-slate-200 truncate">
+                  {selectedVideo.title}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setSelectedVideo(null)}
+                  className="p-1.5 rounded-full bg-slate-800 hover:bg-red-600 text-white transition-colors cursor-pointer"
+                  aria-label="إغلاق الفيديو"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Video Player */}
+              <div className="relative bg-black flex items-center justify-center aspect-video max-h-[75vh]">
+                <video
+                  src={selectedVideo.url}
+                  controls
+                  autoPlay
+                  className="w-full h-full max-h-[75vh] object-contain"
+                />
+              </div>
             </div>
           </div>
         )}
