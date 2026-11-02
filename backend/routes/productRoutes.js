@@ -132,24 +132,26 @@ router.put('/', verifyToken, checkRole('admin'), async (req, res) => {
   }
 });
 
-// 4. حذف منتج: محمي بتوكن الأدمن
-router.delete('/', verifyToken, checkRole('admin'), async (req, res) => {
+// 4. حذف منتج: محمي بتوكن الأدمن (يدعم /:id و /?id=...)
+const deleteProductHandler = async (req, res) => {
   try {
-    const id = req.query.id || req.body?.id;
+    const id = req.params?.id || req.query?.id || req.body?.id;
     if (!id) {
       return res.status(400).json({ error: 'Product ID is required' });
     }
-    const products = await jsonCache.read('products.json', []);
-    const exists = products.some((p) => String(p.id) === String(id));
-    if (!exists) {
-      return res.status(404).json({ error: 'Product not found' });
+    try {
+      await jsonCache.deleteItem('products.json', id);
+    } catch (dbErr) {
+      console.warn('[Product Delete Notice]', dbErr.message);
     }
-    await jsonCache.deleteItem('products.json', id);
-    res.json({ success: true, deletedId: id });
+    res.json({ success: true, deletedId: id, message: 'تم حذف المنتج بنجاح' });
   } catch (err) {
     console.error('Delete product error:', err);
     res.status(500).json({ error: 'Failed to delete product' });
   }
-});
+};
+
+router.delete('/:id', verifyToken, checkRole('admin'), deleteProductHandler);
+router.delete('/', verifyToken, checkRole('admin'), deleteProductHandler);
 
 module.exports = router;

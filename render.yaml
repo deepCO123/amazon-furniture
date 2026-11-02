@@ -32,3 +32,4 @@ services:
         value: "Amazon Furniture <khaledeldeep900@gmail.com>"
       - key: ADMIN_NOTIFICATION_EMAIL
         value: khaledeldeep900@gmail.com
+

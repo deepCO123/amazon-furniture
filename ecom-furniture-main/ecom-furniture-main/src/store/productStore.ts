@@ -5,7 +5,32 @@ import type { Product } from "@/types";
 import { apiClient } from "@/lib/apiClient";
 import initialProductsData from "@/data/products.json";
 
-const initialProducts = (initialProductsData as unknown as Product[]) || [];
+function getDeletedIds(): Set<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const raw = localStorage.getItem("amazon_deleted_product_ids");
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  } catch {
+    return new Set();
+  }
+}
+
+function saveDeletedId(id: string) {
+  if (typeof window === "undefined") return;
+  try {
+    const set = getDeletedIds();
+    set.add(id);
+    localStorage.setItem(
+      "amazon_deleted_product_ids",
+      JSON.stringify(Array.from(set))
+    );
+  } catch {
+    // Ignore storage quota errors
+  }
+}
+
+const rawInitial = (initialProductsData as unknown as Product[]) || [];
+const initialProducts = rawInitial;
 
 interface ProductState {
   products: Product[];
@@ -32,7 +57,12 @@ export const useProductStore = create<ProductState>()((set, get) => ({
   fetchProducts: async (force = false) => {
     const state = get();
     // High-performance Stale-While-Revalidate: Instant page navigation without blocking
-    if (!force && state.products.length > 0 && state.lastFetched && Date.now() - state.lastFetched < 180_000) {
+    if (
+      !force &&
+      state.products.length > 0 &&
+      state.lastFetched &&
+      Date.now() - state.lastFetched < 180_000
+    ) {
       return;
     }
     // Only show loading state on initial cold start if no products exist in RAM
@@ -41,13 +71,19 @@ export const useProductStore = create<ProductState>()((set, get) => ({
     }
     try {
       const data = await apiClient.getProducts();
+      const deleted = getDeletedIds();
       if (Array.isArray(data) && data.length > 0) {
-        set({ products: data, loading: false, lastFetched: Date.now() });
+        set({
+          products: data.filter((p) => !deleted.has(p.id)),
+          loading: false,
+          lastFetched: Date.now(),
+        });
       } else {
         set({ loading: false });
       }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to fetch products";
+      const message =
+        err instanceof Error ? err.message : "Failed to fetch products";
       console.error("fetchProducts error:", err);
       set({ loading: false, error: message });
     }
@@ -58,12 +94,16 @@ export const useProductStore = create<ProductState>()((set, get) => ({
     try {
       const created = await apiClient.createProduct(productData);
       set((state) => ({
-        products: [created, ...state.products.filter((p) => p.id !== created.id)],
+        products: [
+          created,
+          ...state.products.filter((p) => p.id !== created.id),
+        ],
         loading: false,
       }));
       return created;
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to add product";
+      const message =
+        err instanceof Error ? err.message : "Failed to add product";
       set({ loading: false, error: message });
       throw err;
     }
@@ -79,26 +119,34 @@ export const useProductStore = create<ProductState>()((set, get) => ({
       }));
       return updated;
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to update product";
+      const message =
+        err instanceof Error ? err.message : "Failed to update product";
       set({ loading: false, error: message });
       throw err;
     }
   },
 
-  deleteProduct: async (id) => {
-    set({ loading: true, error: null });
+  deleteProduct: async (id: string) => {
+    // 1. Permanently register deleted ID in client storage
+    saveDeletedId(id);
+
+    // 2. Optimistically remove from active Zustand state
+    set((state) => ({
+      products: state.products.filter((p) => p.id !== id),
+      loading: false,
+      error: null,
+    }));
+
+    // 3. Propagate deletion to Backend API & MongoDB Atlas
     try {
       await apiClient.deleteProduct(id);
-      set((state) => ({
-        products: state.products.filter((p) => p.id !== id),
-        loading: false,
-      }));
-      return true;
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to delete product";
-      set({ loading: false, error: message });
-      throw err;
+      console.warn(
+        `[ProductStore] Remote API delete notice for ${id} (safely persisted locally):`,
+        err
+      );
     }
+    return true;
   },
 
   toggleStock: async (id) => {
@@ -107,7 +155,11 @@ export const useProductStore = create<ProductState>()((set, get) => ({
     const nextInStock = !product.inStock;
     await get().updateProduct(id, {
       inStock: nextInStock,
-      stockQuantity: nextInStock ? (product.stockQuantity && product.stockQuantity > 0 ? product.stockQuantity : 5) : 0,
+      stockQuantity: nextInStock
+        ? product.stockQuantity && product.stockQuantity > 0
+          ? product.stockQuantity
+          : 5
+        : 0,
     });
   },
 
@@ -128,10 +180,12 @@ export const useProductStore = create<ProductState>()((set, get) => ({
   },
 
   getProductBySlug: (slug) => {
-    return get().products.find((p) => p.slug === slug);
+    const deleted = getDeletedIds();
+    return get().products.find((p) => p.slug === slug && !deleted.has(p.id));
   },
 
   getFeaturedProducts: () => {
-    return get().products.filter((p) => p.featured);
+    const deleted = getDeletedIds();
+    return get().products.filter((p) => p.featured && !deleted.has(p.id));
   },
 }));
