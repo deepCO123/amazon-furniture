@@ -1,5 +1,195 @@
 [
   {
+    "id": "prod_leather_chair_dark_chocolate",
+    "name": "كرسي مدير تنفيذي ظهر عالي جلد بني شوكولاتة داكن بشاسيه كروم هندسي - كود LC-915",
+    "code": "LC-915",
+    "sku": "LC-915",
+    "slug": "dark-chocolate-executive-leather-chair",
+    "description": "تصميم عصري وقور بلون الشوكولاتة الداكنة، يتناسق بروعة مع المكاتب الخشبية الجوزية والمودرن. منحنى ظهر تشريحي يوفر دعم كامل للفقرات، مساند أذرع كرومية صلبة بملمس جلدي ناعم، قاعدة خماسية ألمونيوم مصقولة مضادة للانزلاق، وهيدروليك فئة Class 4 عالي التحمل.",
+    "price": 5300,
+    "originalPrice": 6600,
+    "images": [
+      "/products/leather-chairs/chair-chocolate-brown-chrome.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد بني شوكولاتة مقاوم للبقع + ميموري فوم + قاعدة ألمونيوم",
+    "color": "بني شوكولاتة داكن مع نيكل كروم",
+    "dimensions": {
+      "width": 64,
+      "height": 128,
+      "depth": 64
+    },
+    "weight": 21,
+    "stockQuantity": 13,
+    "returnCount": 0,
+    "totalSold": 3,
+    "rating": 4.8,
+    "reviewCount": 29,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "بني",
+      "شوكولاتة",
+      "مديرين",
+      "كروم"
+    ],
+    "createdAt": "2026-11-01T18:38:28.398Z",
+    "updatedAt": "2026-11-01T18:38:28.398Z"
+  },
+  {
+    "id": "prod_leather_chair_burgundy_mahogany",
+    "name": "كرسي مكتب رئاسي كلاسيكي جلد نبيذي ماهوجني مبطن ديلوكس - كود LC-914",
+    "code": "LC-914",
+    "sku": "LC-914",
+    "slug": "classic-burgundy-mahogany-leather-chair",
+    "description": "فخامة المكاتب الكلاسيكية العريقة بلون النبيذي الماهوجني الداكن اللامع. مقعد عميق مع حشوة دبل مبطنة، مساند يد مقوسة مكسوة بالجلد على شاسيه ستيل مقوى، ومسند ظهر مرتفع يحيط بالكتفين لتوفير أقصى درجات الثقة والهيبة الرئاسية.",
+    "price": 5900,
+    "originalPrice": 7400,
+    "images": [
+      "/products/leather-chairs/chair-burgundy-classic-executive.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد فاخر ماهوجني نبيذي + إسفنج كثافة 45 كجم + قاعدة كروم دبل",
+    "color": "نبيذي ماهوجني داكن مع شاسيه وقاعدة كروم",
+    "dimensions": {
+      "width": 67,
+      "height": 130,
+      "depth": 68
+    },
+    "weight": 25,
+    "stockQuantity": 10,
+    "returnCount": 0,
+    "totalSold": 6,
+    "rating": 4.9,
+    "reviewCount": 51,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "كلاسيك",
+      "نبيذي",
+      "ماهوجني",
+      "رئاسي"
+    ],
+    "createdAt": "2026-11-01T18:38:28.398Z",
+    "updatedAt": "2026-11-01T18:38:28.398Z"
+  },
+  {
+    "id": "prod_leather_chair_tan_pleated",
+    "name": "كرسي مديرين ظهر عالي جلد جملي مع تكسيرات ناعمة ومسند رأس أسطواني - كود LC-913",
+    "code": "LC-913",
+    "sku": "LC-913",
+    "slug": "tan-pleated-headroll-executive-chair",
+    "description": "كرسي كبار المديرين التنفيذي بتفاصيل حرفية متقنة تظهر في التجعيدات الجلدية الناعمة على مسند الظهر لمنح شعور بالدفء والراحة الاستثنائية، مزود بمخدة رأس أسطوانية مدمجة تدعم فقرات العنق، مساند يد كروم بزاوية مريحة، وقاعدة ألمونيوم ثقيلة مصفحة.",
+    "price": 5650,
+    "originalPrice": 7200,
+    "images": [
+      "/products/leather-chairs/chair-tan-pleated-headroll.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد طبيعي مصنع درجة أولى جملي + حشوة فايبر فوم فاخرة + شاسيه كروم",
+    "color": "جملي عسلي (Tan Camel) مع كروم فضي",
+    "dimensions": {
+      "width": 65,
+      "height": 132,
+      "depth": 66
+    },
+    "weight": 23,
+    "stockQuantity": 11,
+    "returnCount": 0,
+    "totalSold": 5,
+    "rating": 5,
+    "reviewCount": 38,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "جملي",
+      "تكسيرات",
+      "مسند رأس",
+      "مديرين"
+    ],
+    "createdAt": "2026-11-01T18:38:28.398Z",
+    "updatedAt": "2026-11-01T18:38:28.398Z"
+  },
+  {
+    "id": "prod_leather_chair_ivory_3tier",
+    "name": "كرسي تنفيذي إيطالي مودرن جلد عاجي 3 طبقات بفريم خشب جوزي - كود LC-912",
+    "code": "LC-912",
+    "sku": "LC-912",
+    "slug": "modern-ivory-3-tier-executive-chair",
+    "description": "تحفة فنية تجمع بين النقاء العصري للجلد العاجي الفاخر (Off-White) وفخامة الفريم الخشبي الجوزي الداكن. ينقسم مسند الظهر إلى 3 وسائد أفقية مقسمة تشريحياً لدعم أعلى وأسفل الظهر والرأس بشكل منفصل، مع مساند أذرع كرومية هندسية مبطنة بالجلد.",
+    "price": 6450,
+    "originalPrice": 8100,
+    "images": [
+      "/products/leather-chairs/chair-ivory-3tier-woodtrim.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد مايكروفايبر عاجي ناعم + قشرة خشب جوزي طبيعي + قاعدة ألمونيوم مصقول",
+    "color": "أوف وايت عاجي مع إطار جوزي وقاعدة كروم",
+    "dimensions": {
+      "width": 64,
+      "height": 130,
+      "depth": 65
+    },
+    "weight": 24,
+    "stockQuantity": 9,
+    "returnCount": 0,
+    "totalSold": 3,
+    "rating": 5,
+    "reviewCount": 47,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "عاجي",
+      "إيطالي",
+      "خشب جوزي",
+      "مودرن"
+    ],
+    "createdAt": "2026-11-01T18:38:28.398Z",
+    "updatedAt": "2026-11-01T18:38:28.398Z"
+  },
+  {
+    "id": "prod_leather_chair_black_ribbed_lumbar",
+    "name": "كرسي مديرين تنفيذي ظهر عالي جلد أسود مضلع بدعم الفقرات - كود LC-911",
+    "code": "LC-911",
+    "sku": "LC-911",
+    "slug": "executive-black-ribbed-lumbar-leather-chair",
+    "description": "كرسي إداري فخم بجلد أسود مطفي مع تضليع عمودي كابيتونيه في منطقة القطنية لتوفير دعم استثنائي للعمود الفقري. مساند ذراعين عريضة مبطنة بالكامل ومدمجة مع الهيكل، قاعدة نجمية خماسية من الألمونيوم المصقول، وماكينة هيدروليكية سينكرو متعددة مستويات التثبيت.",
+    "price": 5400,
+    "originalPrice": 6700,
+    "images": [
+      "/products/leather-chairs/chair-black-ribbed-lumbar.png"
+    ],
+    "category": "كراسي جلد",
+    "material": "جلد أسود فاخر معالج ضد الاحتكاك + فوم مقولب عالي المرونة + قاعدة ألمونيوم",
+    "color": "أسود كربوني مع قاعدة نيكل كروم",
+    "dimensions": {
+      "width": 64,
+      "height": 128,
+      "depth": 64
+    },
+    "weight": 22,
+    "stockQuantity": 14,
+    "returnCount": 0,
+    "totalSold": 4,
+    "rating": 4.9,
+    "reviewCount": 35,
+    "inStock": true,
+    "featured": true,
+    "tags": [
+      "كراسي جلد",
+      "أسود",
+      "مضلع",
+      "مديرين",
+      "تنفيذي"
+    ],
+    "createdAt": "2026-11-01T18:38:28.392Z",
+    "updatedAt": "2026-11-01T18:38:28.398Z"
+  },
+  {
     "id": "prod_leather_chair_creamy_beige_double",
     "name": "كرسي رئاسي مبطن دبل جلد بيج كريمي فاخر مع وسادة جلوس مزدوجة - كود LC-910",
     "code": "LC-910",
