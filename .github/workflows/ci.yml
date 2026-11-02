@@ -33,16 +33,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: |
-            backend/package-lock.json
-            ecom-furniture-main/ecom-furniture-main/package-lock.json
 
       # ─── 1. Backend Verification ───────────────────────────
       - name: 📦 Install Backend Dependencies
         run: |
           cd backend
-          npm ci
+          npm install --no-audit --prefer-offline
 
       - name: 🛡️ Run Backend Database & Security Validation Tests
         run: |
@@ -53,7 +49,7 @@ jobs:
       - name: 📦 Install Frontend Dependencies
         run: |
           cd ecom-furniture-main/ecom-furniture-main
-          npm ci
+          npm install --no-audit --prefer-offline
 
       - name: 🏗️ Next.js Production Build (28 Pages Static Generation)
         run: |
