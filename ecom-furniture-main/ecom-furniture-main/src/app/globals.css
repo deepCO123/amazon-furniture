@@ -972,15 +972,20 @@ select:focus {
 }
 
 @keyframes categoryMarquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - 1rem));
+  }
 }
 
 .animate-category-marquee {
-  animation: categoryMarquee 38s linear infinite;
+  animation: categoryMarquee 34s linear infinite;
   will-change: transform;
 }
 
+.group\/marquee:hover .animate-category-marquee,
 .animate-category-marquee:hover,
 .animate-category-marquee:focus-within {
   animation-play-state: paused;
