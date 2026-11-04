@@ -20,7 +20,7 @@ interface FeaturedProductItem {
   category: string;
 }
 
-// Exact 5 cards from Image 1 in order (Right to Left in RTL)
+// 10 Featured products (2 rows of 5 on desktop, 5 clean rows of 2 on mobile)
 const featuredProductsList: FeaturedProductItem[] = [
   {
     id: "prod-bed-royal",
@@ -66,6 +66,51 @@ const featuredProductsList: FeaturedProductItem[] = [
     rating: 5,
     image: "/redesign/prod-sofa.png",
     category: "ركن",
+  },
+  {
+    id: "prod-coffee-corner-luxury",
+    slug: "luxury-coffee-corner-shelf",
+    name: "وحدة كوفي كورنر مودرن متكاملة",
+    price: 6200,
+    rating: 5,
+    image: "/redesign/cat-coffee-corner.png",
+    category: "كوفي كورنر",
+  },
+  {
+    id: "prod-shoe-rack-deluxe",
+    slug: "modern-wooden-shoe-rack",
+    name: "جزامة خشبية راقية للأحذية 3 أبواب",
+    price: 3950,
+    rating: 5,
+    image: "/redesign/cat-shoerack.png",
+    category: "جزامات",
+  },
+  {
+    id: "prod-tv-table-modern",
+    slug: "modern-tv-table-unit",
+    name: "ترابيزة شاشة وتليفزيون عصرية",
+    price: 4800,
+    rating: 5,
+    image: "/redesign/cat-tv-table.png",
+    category: "ترابيزة شاشه",
+  },
+  {
+    id: "prod-medical-lumbar-chair",
+    slug: "orthopedic-lumbar-chair",
+    name: "كرسي شبك طبي إرجونوميك هيدروليك",
+    price: 4200,
+    rating: 5,
+    image: "/redesign/cat-medical-chair.png",
+    category: "كراسي طبية",
+  },
+  {
+    id: "prod-leather-manager-deluxe",
+    slug: "luxury-leather-manager-chair",
+    name: "كرسي مدير تنفيذي جلد طبيعي",
+    price: 5400,
+    rating: 5,
+    image: "/redesign/cat-leather-chair.png",
+    category: "كراسي جلد",
   },
 ];
 
@@ -138,7 +183,7 @@ export default function NewFeaturedProductsSection() {
               </div>
             </div>
 
-            {/* Products Grid: 5 cards matching Image 1 */}
+            {/* Products Grid: 2 columns on mobile, 3 on sm, 4 on md, 5 on lg */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3">
               {featuredProductsList.map((prod) => {
                 const isWish = wishlistItems.some(
@@ -172,7 +217,7 @@ export default function NewFeaturedProductsSection() {
                     {/* Centered Product Image */}
                     <Link
                       href={`/products/${prod.slug}`}
-                      className="relative w-full h-28 sm:h-32 my-1 block overflow-hidden"
+                      className="relative w-full h-24 sm:h-28 md:h-32 my-1 block overflow-hidden"
                     >
                       <Image
                         src={prod.image}
@@ -237,13 +282,13 @@ export default function NewFeaturedProductsSection() {
               In RTL, the second element appears on the LEFT! */}
           <div className="lg:col-span-4 order-2 flex flex-col">
             <div className="hidden lg:block h-7 mb-4" /> {/* Spacer matching products header */}
-            <div className="relative rounded-2xl overflow-hidden h-full min-h-[220px] sm:min-h-[260px] lg:min-h-0 bg-[#241710] border border-[#523A2A]/40 shadow-sm text-white group flex items-center justify-between p-4 sm:p-5">
+            <div className="relative rounded-2xl overflow-hidden h-full min-h-[190px] sm:min-h-[260px] bg-[#241710] border border-[#523A2A]/40 shadow-sm text-white group flex items-center justify-between p-4 sm:p-5">
               {/* Right Side (in RTL): Text & CTA Button */}
               <div className="relative z-10 flex flex-col items-start justify-center pr-1 sm:pr-2 max-w-[55%]">
                 <h3 className="text-xl sm:text-2xl lg:text-[26px] font-black text-white leading-tight mb-1 drop-shadow-sm">
                   راحة أكبر
                 </h3>
-                <p className="text-xs sm:text-sm font-bold text-[#E8D4B0] mb-4 sm:mb-5 drop-shadow-xs">
+                <p className="text-xs sm:text-sm font-bold text-[#E8D4B0] mb-3 sm:mb-5 drop-shadow-xs">
                   في عملك ومنزلك
                 </p>
                 <Link
@@ -257,7 +302,7 @@ export default function NewFeaturedProductsSection() {
               </div>
 
               {/* Left Side (in RTL): Chair with Glowing Halo on Wooden Podium */}
-              <div className="relative w-36 sm:w-44 md:w-48 lg:w-48 h-36 sm:h-44 md:h-48 lg:h-48 shrink-0 flex items-center justify-center">
+              <div className="relative w-32 h-32 sm:w-44 sm:h-44 md:w-48 md:h-48 shrink-0 flex items-center justify-center">
                 <Image
                   src="/redesign/promo-chair-square.jpg"
                   alt="كرسي مريح طبي Amazon Furniture"
