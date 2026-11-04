@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { useLanguageStore } from "@/store/languageStore";
 import { getTranslation } from "@/lib/translations";
+import { trackWhatsAppClick } from "@/components/analytics/Analytics";
 
 export default function WhatsAppButton() {
   const pathname = usePathname();
@@ -33,6 +34,7 @@ export default function WhatsAppButton() {
         className="relative flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110 cursor-pointer min-w-[48px] min-h-[48px]"
         title={t.whatsappHelp}
         aria-label={t.whatsappHelp}
+        onClick={() => trackWhatsAppClick("Floating Button")}
       >
         {/* Pulsing subtle ring */}
         <span className="absolute -inset-1 rounded-full bg-[#25D366]/30 animate-ping pointer-events-none" />

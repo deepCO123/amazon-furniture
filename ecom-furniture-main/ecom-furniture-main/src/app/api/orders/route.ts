@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { OrderModel } from "@/lib/models/Order";
 
+export const runtime = "nodejs";
+
 export async function GET() {
   try {
     await connectToDatabase();
@@ -29,11 +31,43 @@ export async function POST(req: NextRequest) {
 
     const created = await OrderModel.create(newOrder);
 
+    // Non-blocking transactional email notification
+    if (created) {
+      try {
+        const origin = req.nextUrl.origin || "http://localhost:3000";
+        // 1. Email to customer
+        if (created.customerEmail) {
+          fetch(`${origin}/api/email`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              type: "order_confirmation",
+              order: created,
+              customerName: created.customerName,
+              clientEmail: created.customerEmail,
+            }),
+          }).catch((e) => console.warn("[Orders API] Customer email notice:", e));
+        }
+
+        // 2. Alert to admin
+        fetch(`${origin}/api/email`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: "admin_order_alert",
+            order: created,
+          }),
+        }).catch((e) => console.warn("[Orders API] Admin alert notice:", e));
+      } catch (emailErr) {
+        console.warn("[Orders API] Email trigger notice:", emailErr);
+      }
+    }
+
     return NextResponse.json({
       success: true,
       order: created,
       orderId,
-      message: "تم حفظ الطلب بنجاح في قاعدة البيانات السحابية",
+      message: "تم حفظ الطلب بنجاح وإرسال الإشعارات",
     });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Failed to create order";
@@ -72,4 +106,3 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
-

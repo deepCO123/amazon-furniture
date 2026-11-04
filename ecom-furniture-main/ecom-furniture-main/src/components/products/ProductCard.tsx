@@ -12,6 +12,7 @@ import { useWishlistStore } from "@/store/wishlistStore";
 import { useToastStore } from "@/components/ui/Toast";
 import { useHydrated } from "@/hooks/useHydrated";
 import { useLanguageStore } from "@/store/languageStore";
+import { trackAddToCart, trackWhatsAppClick } from "@/lib/analytics";
 
 const QuickView = lazy(() => import("./QuickView"));
 
@@ -75,6 +76,7 @@ Please confirm order details and free delivery.`
 ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط المنتج:* ${getProductUrl(product.slug)}
 
 برجاء تأكيد الطلب مع التوصيل والتركيب المجاني.`;
+    trackWhatsAppClick("Product Card", product.name);
     window.open(
       `https://wa.me/201091084863?text=${encodeURIComponent(text)}`,
       "_blank"
@@ -103,6 +105,7 @@ ${fullImgUrl ? `*صورة المنتج:* ${fullImgUrl}\n` : ""}*رابط الم�
     e.preventDefault();
     e.stopPropagation();
     addItem(product);
+    trackAddToCart(product);
     addToast(
       isEn
         ? `${product.name} added to cart ✓`

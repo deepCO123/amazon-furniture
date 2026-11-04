@@ -142,11 +142,9 @@ export function trackPurchase(orderId: string, total: number, items: CartItem[])
   // Meta Pixel
   if (typeof window.fbq === "function") {
     window.fbq("track", "Purchase", {
-      content_ids: items.map((it) => it.product?.id || "prod_item"),
-      content_type: "product",
       value: total,
       currency: "EGP",
-      num_items: items.reduce((acc, it) => acc + (it.quantity || 1), 0),
+      content_type: "product",
     });
   }
 }
@@ -168,6 +166,28 @@ export function trackLead(consultationType = "showroom_visit", details: Record<s
     window.fbq("track", "Lead", {
       content_name: consultationType,
       ...details,
+    });
+  }
+}
+
+/**
+ * تتبع النقر على محادثة الواتساب (Contact Lead)
+ */
+export function trackWhatsAppClick(source: string, itemName?: string) {
+  if (typeof window === "undefined") return;
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "contact", {
+      method: "WhatsApp",
+      event_category: "Lead",
+      event_label: itemName ? `${source}: ${itemName}` : source,
+    });
+  }
+
+  if (typeof window.fbq === "function") {
+    window.fbq("track", "Contact", {
+      content_name: itemName || source,
+      status: "WhatsApp Clicked",
     });
   }
 }
