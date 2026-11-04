@@ -971,6 +971,22 @@ select:focus {
   animation: ticker 25s linear infinite;
 }
 
+@keyframes categoryMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-category-marquee {
+  animation: categoryMarquee 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-category-marquee:hover,
+.animate-category-marquee:focus-within {
+  animation-play-state: paused;
+}
+
+
 /* ── Hero gradient shimmer text ────────────────────── */
 .hero-gradient-text {
   background: linear-gradient(

@@ -60,6 +60,8 @@ export default function Navbar() {
     { value: "مكاتب", label: t.desksLink },
     { value: "انتريهات", label: t.livingSetsLink },
     { value: "كراسي جلد", label: t.leatherChairsLink },
+    { value: "كوفي كورنر", label: language === "en" ? "Coffee Corner" : "كوفي كورنر" },
+    { value: "جزامات", label: language === "en" ? "Shoe Racks" : "جزامات" },
   ];
 
   interface NavLinkItem {
@@ -113,6 +115,9 @@ export default function Navbar() {
     { name: "دواليب ووحدات حفظ ملفات", category: "دواليب", count: "9 منتجات" },
     { name: "ركن واستراحات مكاتب", category: "ركن", count: "11 منتج" },
     { name: "كراسي استرخاء ليزي بوي", category: "ليزي بوي", count: "6 منتجات" },
+    { name: "وحدات كوفي كورنر وركن القهوة", category: "كوفي كورنر", count: "5 منتجات" },
+    { name: "جزامات مودرن وأرفف أحذية", category: "جزامات", count: "7 منتجات" },
+    { name: "ترابيزات شاشة وتليفزيون عصرية", category: "ترابيزة شاشه", count: "6 منتجات" },
   ];
 
   // Filtered search results

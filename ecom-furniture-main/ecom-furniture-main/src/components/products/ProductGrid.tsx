@@ -38,6 +38,7 @@ const ORDERED_CATEGORIES = [
   "كوفي كورنر",
   "كراسي شبك",
   "كراسي طبية",
+  "ترابيزة شاشه",
   "ترابيزة تليفزيون",
   "ترابيزات",
   "ستائر مكتبية",
@@ -127,10 +128,39 @@ export default function ProductGrid() {
     return products
       .filter((p) => {
         // Category filter - strict match or mapping
-        if (filters.category.length > 0) {
+                if (filters.category.length > 0) {
           const matchesCategory = filters.category.some((cat) => {
             if (!cat) return false;
-            return p.category === cat;
+            if (p.category === cat) return true;
+            // Aliases & Arabic variations for shop by category
+            if (
+              (cat === "ترابيزة شاشه" || cat === "ترابيزة شاشة" || cat === "ترابيزات شاشه" || cat === "ترابيزة تليفزيون") &&
+              (p.category === "ترابيزة تليفزيون" || p.category === "ترابيزات" || p.category === "ترابيزة شاشه" || p.category === "ترابيزة شاشة" || (p.name && (p.name.includes("شاشة") || p.name.includes("تليفزيون"))))
+            ) {
+              return true;
+            }
+            if (
+              (cat === "كوفي كورنر" || cat === "كوفي كلاسيك") &&
+              (p.category === "كوفي كورنر" || (p.name && p.name.includes("كوفي كورنر")))
+            ) {
+              return true;
+            }
+            if (
+              (cat === "جزامات" || cat === "جزامة") &&
+              (p.category === "جزامات" || p.category === "جزامة" || (p.name && (p.name.includes("جزامة") || p.name.includes("جزامات"))))
+            ) {
+              return true;
+            }
+            if ((cat === "دواليب" || cat === "دولاب") && (p.category === "دواليب" || p.category === "دولاب")) {
+              return true;
+            }
+            if ((cat === "ركن" || cat === "ركنة") && (p.category === "ركن" || p.category === "ركنة")) {
+              return true;
+            }
+            if (cat === "كراسي مريحة" && (p.category === "انتريهات" || p.category === "ليزي بوي")) {
+              return true;
+            }
+            return false;
           });
           if (!matchesCategory) return false;
         }
