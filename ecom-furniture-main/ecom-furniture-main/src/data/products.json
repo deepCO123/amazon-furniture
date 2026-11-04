@@ -1,5 +1,97 @@
 [
   {
+    "id": "prod_shoe_rack_szg10",
+    "name": "جزامة بيج عمودية بتخزين مغلق – SZG10",
+    "slug": "vertical-shoe-rack-beige-closed-storage-szg10",
+    "sku": "SZG10",
+    "code": "SZG10",
+    "category": "جزامات",
+    "price": 10333,
+    "originalPrice": 12960,
+    "rating": 5,
+    "reviewCount": 27,
+    "stockQuantity": 8,
+    "inStock": true,
+    "featured": true,
+    "color": "بيج خشبي طبيعي",
+    "material": "خشب MDF كثافة 16.5 مم مع ميكانيزم تركي",
+    "dimensions": {
+      "width": 80,
+      "height": 128,
+      "depth": 36
+    },
+    "weight": 44,
+    "images": [
+      "/products/shoe-racks/szg10-vertical-beige-main.jpg",
+      "/products/shoe-racks/szg10-dimensions.png"
+    ],
+    "description": "جزامة بيج عمودية بتصميم دولاب مغلق كود SZG10، توفر مساحة تخزين عمودية هائلة لأكثر من 25 زوجاً من الأحذية في مساحة أرضية مدمجة. مصنعة من خشب MDF عالي الكثافة 16.5 مم بلون بيج خشبي طبيعي دافئ مع ميكانيزم ومفصلات تركية هيدروليكية صامتة. مقاس 80×36 سم بارتفاع 128 سم. ضمان معتمد 3 سنوات، تبديل واسترجاع خلال 14 يوماً، وتوصيل من 15 إلى 20 يوم عمل.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "15 إلى 20 يوم عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "جزامات",
+      "جزامة عمودية",
+      "بيج",
+      "SZG10",
+      "تخزين مغلق",
+      "ميكانيزم تركي",
+      "خشب MDF",
+      "تنظيم أحذية",
+      "مدخل المنزل"
+    ],
+    "createdAt": "2026-11-04T17:09:59.236Z",
+    "updatedAt": "2026-11-04T17:09:59.236Z",
+    "totalSold": 14,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_shoe_rack_szg11",
+    "name": "جزامة مودرن أسود وبيج بأرفف متدرجة – SZG11",
+    "slug": "modern-shoe-rack-black-beige-szg11",
+    "sku": "SZG11",
+    "code": "SZG11",
+    "category": "جزامات",
+    "price": 8706,
+    "originalPrice": 10920,
+    "rating": 5,
+    "reviewCount": 21,
+    "stockQuantity": 10,
+    "inStock": true,
+    "featured": true,
+    "color": "أسود وبيج",
+    "material": "خشب MDF كثافة 16.5 مم مع ميكانيزم تركي",
+    "dimensions": {
+      "width": 100,
+      "height": 110,
+      "depth": 30
+    },
+    "weight": 38,
+    "images": [
+      "/products/shoe-racks/szg11-black-beige-main.jpg",
+      "/products/shoe-racks/szg11-dimensions.png"
+    ],
+    "description": "جزامة مودرن أسود وبيج كود SZG11 تجمع بين الفخامة والعملية، مزودة بباب جرار أنيق باللون الأسود وأرفف مائلة متدرجة لعرض وتخزين الأحذية بسهولة وتنظيم فائق. مصنعة من خشب MDF عالي الكثافة 16.5 مم مع ميكانيزم تركي سلس وعالي التحمل. مقاس 100×30 سم بارتفاع 110 سم. ضمان 3 سنوات، تبديل واسترجاع خلال 14 يوماً، وتوصيل من 15 إلى 20 يوم عمل.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "15 إلى 20 يوم عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "جزامات",
+      "جزامة مودرن",
+      "أسود وبيج",
+      "SZG11",
+      "أرفف متدرجة",
+      "ميكانيزم تركي",
+      "خشب MDF",
+      "تنظيم أحذية",
+      "مدخل المنزل"
+    ],
+    "createdAt": "2026-11-04T17:09:59.228Z",
+    "updatedAt": "2026-11-04T17:09:59.236Z",
+    "totalSold": 9,
+    "returnCount": 0
+  },
+  {
     "id": "prod_shoe_rack_szg13",
     "name": "جزامة أبيض وبيج بـ3 أدراج – SZG13",
     "slug": "shoe-rack-white-beige-3-drawers-szg13",
