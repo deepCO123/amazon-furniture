@@ -1,5 +1,51 @@
 [
   {
+    "id": "prod_shoe_rack_szg13",
+    "name": "جزامة أبيض وبيج بـ3 أدراج – SZG13",
+    "slug": "shoe-rack-white-beige-3-drawers-szg13",
+    "sku": "SZG13",
+    "code": "SZG13",
+    "category": "جزامات",
+    "price": 5658,
+    "originalPrice": 7044,
+    "rating": 5,
+    "reviewCount": 19,
+    "stockQuantity": 15,
+    "inStock": true,
+    "featured": true,
+    "color": "أبيض وبيج",
+    "material": "خشب MDF كثافة 16.5 مم مع ميكانيزم تركي",
+    "dimensions": {
+      "width": 80,
+      "height": 110,
+      "depth": 40
+    },
+    "weight": 34,
+    "images": [
+      "/products/shoe-racks/szg13-white-beige-main.jpg",
+      "/products/shoe-racks/szg13-dimensions.png"
+    ],
+    "description": "جزامة عصرية أبيض وبيج بـ 3 أدراج قلاب كود SZG13، مصممة بأناقة فائقة وموفرة للمساحة تناسب المداخل والممرات وغرف النوم. مصنعة من خشب MDF عالي الكثافة 16.5 مم ومزودة بميكانيزم تركي أصلي متين لتحمل الاستخدام اليومي الشاق. مقاس 80×40 سم وارتفاع 110 سم مع أرجل خشبية أنيقة ومقابض مذهبة راقية. ضمان 3 سنوات، إمكانية التبديل والإرجاع خلال 14 يوماً، وتوصيل سريع من 15 إلى 20 يوم عمل.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "15 إلى 20 يوم عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "جزامات",
+      "جزامة 3 أدراج",
+      "أبيض وبيج",
+      "SZG13",
+      "ميكانيزم تركي",
+      "خشب MDF",
+      "تنظيم أحذية",
+      "مدخل المنزل",
+      "عروض خاصة"
+    ],
+    "createdAt": "2026-11-04T17:01:27.193Z",
+    "updatedAt": "2026-11-04T17:01:27.197Z",
+    "totalSold": 12,
+    "returnCount": 0
+  },
+  {
     "id": "prod_shoe_rack_szg14",
     "name": "جزامة عريضة أبيض وبيج – SZG14",
     "slug": "wide-shoe-rack-white-beige-szg14",

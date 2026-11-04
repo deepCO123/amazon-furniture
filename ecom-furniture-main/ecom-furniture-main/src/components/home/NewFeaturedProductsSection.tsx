@@ -204,11 +204,10 @@ export default function NewFeaturedProductsSection() {
                         className="p-1 rounded-full hover:bg-[#FAF4ED] dark:hover:bg-[#2B1E16] transition-colors cursor-pointer"
                       >
                         <Heart
-                          className={`w-3.5 h-3.5 transition-colors ${
-                            isWish
+                          className={`w-3.5 h-3.5 transition-colors ${isWish
                               ? "fill-[#E03131] text-[#E03131]"
                               : "text-[#9E8E81] dark:text-[#A8988A] group-hover:text-[#2B1E16] dark:group-hover:text-white"
-                          }`}
+                            }`}
                           strokeWidth={1.8}
                         />
                       </button>
@@ -254,11 +253,10 @@ export default function NewFeaturedProductsSection() {
                       <button
                         onClick={(e) => handleAddToCart(e, prod)}
                         aria-label="أضف إلى السلة"
-                        className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${
-                          isJustAdded
+                        className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${isJustAdded
                             ? "bg-[#2B8A3E] text-white scale-110"
                             : "bg-[#422C1D] hover:bg-[#2B1E16] active:scale-90 text-white shadow-2xs"
-                        }`}
+                          }`}
                       >
                         {isJustAdded ? (
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
