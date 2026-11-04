@@ -76,19 +76,22 @@ router.get('/google', (req, res, next) => {
   })(req, res, next);
 });
 
-// استقبال الرد من Google بعد موافقة المستخدم
-router.get(
-  '/google/callback',
-  (req, res, next) => {
-    if (!isGoogleConfigured()) {
-      return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:3000'}/auth/login?error=google_not_configured`);
-    }
-    passport.authenticate('google', {
-      session: false,
-      failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:3000'}/auth/login?error=google_failed`,
-    })(req, res, next);
-  },
-  authController.googleCallback
-);
+// استقبال الرد من Google بعد موافقة المستخدم (يدعم كلا المسارين)
+const handleGoogleCallback = (req, res, next) => {
+  if (!isGoogleConfigured()) {
+    return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:3000'}/auth/login?error=google_not_configured`);
+  }
+  passport.authenticate('google', {
+    session: false,
+    failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:3000'}/auth/login?error=google_failed`,
+  })(req, res, next);
+};
+
+router.get('/google/callback', handleGoogleCallback, authController.googleCallback);
+router.get('/callback/google', handleGoogleCallback, authController.googleCallback);
+
+// التحقق المباشر من Google ID Token (Google One-Tap & GIS Client)
+router.post('/google-verify', authLimiter, authController.googleVerify);
+router.post('/google', authLimiter, authController.googleVerify);
 
 module.exports = router;

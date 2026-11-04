@@ -341,12 +341,108 @@ const googleCallback = (req, res) => {
   }
 };
 
+// -------------------------------------------------------------
+// 6. Direct Google ID Token Verification (One-Tap & Client GIS)
+// -------------------------------------------------------------
+const googleVerify = async (req, res) => {
+  try {
+    const { credential, idToken, token: clientToken } = req.body;
+    const tokenToVerify = credential || idToken || clientToken;
+
+    if (!tokenToVerify) {
+      return res.status(400).json({ success: false, message: 'Google token is required' });
+    }
+
+    // Verify token with Google official tokeninfo endpoint
+    const googleRes = await fetch(
+      `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(tokenToVerify)}`
+    );
+    if (!googleRes.ok) {
+      return res.status(401).json({ success: false, message: 'Invalid or expired Google token' });
+    }
+
+    const payload = await googleRes.json();
+    const googleClientId = process.env.GOOGLE_CLIENT_ID;
+    if (googleClientId && payload.aud !== googleClientId) {
+      return res.status(401).json({ success: false, message: 'Google token audience mismatch' });
+    }
+
+    const googleId = payload.sub;
+    const email = (payload.email || '').toLowerCase();
+    const name = payload.name || payload.given_name || email.split('@')[0];
+    const avatar = payload.picture || '';
+
+    // Find or create in Customer model
+    let customer = await Customer.findOne({ $or: [{ googleId }, { email }] });
+    if (customer) {
+      if (!customer.googleId) customer.googleId = googleId;
+      if (!customer.provider) customer.provider = 'google';
+      if (avatar && !customer.avatar) customer.avatar = avatar;
+      await customer.save();
+    } else {
+      customer = await Customer.create({
+        id: `cust_g_${Date.now()}`,
+        name,
+        email,
+        googleId,
+        provider: 'google',
+        role: 'customer',
+        avatar,
+        ordersCount: 0,
+        totalSpent: 0,
+      });
+    }
+
+    const token = attachTokenCookie(res, customer);
+
+    // Sync to local jsonCache in background
+    setImmediate(async () => {
+      try {
+        const customers = await jsonCache.read('customers.json', []);
+        const exists = customers.some((c) => c.email.toLowerCase() === customer.email.toLowerCase());
+        if (!exists) {
+          customers.unshift({
+            id: customer.id,
+            name: customer.name,
+            email: customer.email,
+            avatar: customer.avatar || '',
+            phone: customer.phone || '',
+            city: customer.city || 'المنصورة',
+            provider: 'google',
+            ordersCount: 0,
+            totalSpent: 0,
+            createdAt: new Date().toISOString(),
+          });
+          await jsonCache.write('customers.json', customers);
+        }
+      } catch (e) {}
+    });
+
+    return res.json({
+      success: true,
+      user: {
+        id: customer.id,
+        name: customer.name,
+        email: customer.email,
+        role: customer.role || 'customer',
+        avatar: customer.avatar,
+      },
+      token,
+      message: 'تم تسجيل الدخول بنجاح عبر Google',
+    });
+  } catch (error) {
+    console.error('[Google Verify Error]', error);
+    return res.status(500).json({ success: false, message: 'فشل التحقق من حساب Google' });
+  }
+};
+
 module.exports = {
   customerLogin,
   adminLogin,
   logout,
   getMe,
   googleCallback,
+  googleVerify,
   attachTokenCookie,
 };
 
