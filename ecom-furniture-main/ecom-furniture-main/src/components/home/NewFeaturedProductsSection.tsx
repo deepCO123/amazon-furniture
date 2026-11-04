@@ -78,11 +78,11 @@ const featuredProductsList: FeaturedProductItem[] = [
   },
   {
     id: "prod-shoe-rack-deluxe",
-    slug: "modern-wooden-shoe-rack",
-    name: "جزامة خشبية راقية للأحذية 3 أبواب",
-    price: 3950,
+    slug: "wide-shoe-rack-white-beige-szg14",
+    name: "جزامة عريضة أبيض وبيج – SZG14",
+    price: 15272,
     rating: 5,
-    image: "/redesign/cat-shoerack.png",
+    image: "/products/shoe-racks/szg14-white-beige-main.jpg",
     category: "جزامات",
   },
   {

@@ -1,5 +1,51 @@
 [
   {
+    "id": "prod_shoe_rack_szg14",
+    "name": "جزامة عريضة أبيض وبيج – SZG14",
+    "slug": "wide-shoe-rack-white-beige-szg14",
+    "sku": "SZG14",
+    "code": "SZG14",
+    "category": "جزامات",
+    "price": 15272,
+    "originalPrice": 19320,
+    "rating": 5,
+    "reviewCount": 24,
+    "stockQuantity": 12,
+    "inStock": true,
+    "featured": true,
+    "color": "أبيض وبيج",
+    "material": "خشب MDF كثافة 16.5 مم مع ميكانيزم تركي",
+    "dimensions": {
+      "width": 140,
+      "height": 110,
+      "depth": 40
+    },
+    "weight": 48,
+    "images": [
+      "/products/shoe-racks/szg14-white-beige-main.jpg",
+      "/products/shoe-racks/szg14-dimensions.jpg"
+    ],
+    "description": "جزامة عريضة مودرن أبيض وبيج كود SZG14 بتصميم عصري وأنيق لتنظيم الأحذية في المداخل وغرف المعيشة. مصنعة من خشب MDF عالي الكثافة (16.5 مم) مع ميكانيزم تركي أصلي متين. مقاس 140×40 سم بارتفاع 110 سم. تحتوي على درج علوي للأكسسوارات والمتعلقات، وأرفف تخزين داخلية مقسمة بعناية، بالإضافة إلى رف سفلي مفتوح للأحذية اليومية. ضمان معتمد 3 سنوات، تبديل وإرجاع خلال 14 يوماً، وتوصيل من 15 إلى 20 يوم عمل.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "15 إلى 20 يوم عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "جزامات",
+      "جزامة عريضة",
+      "أبيض وبيج",
+      "SZG14",
+      "ميكانيزم تركي",
+      "خشب MDF",
+      "تنظيم أحذية",
+      "مدخل المنزل",
+      "عروض خاصة"
+    ],
+    "createdAt": "2026-11-04T16:27:43.826Z",
+    "updatedAt": "2026-11-04T16:27:43.836Z",
+    "totalSold": 8,
+    "returnCount": 0
+  },
+  {
     "id": "prod_leather_chair_dark_chocolate",
     "name": "كرسي مدير تنفيذي ظهر عالي جلد بني شوكولاتة داكن بشاسيه كروم هندسي - كود LC-915",
     "code": "LC-915",
