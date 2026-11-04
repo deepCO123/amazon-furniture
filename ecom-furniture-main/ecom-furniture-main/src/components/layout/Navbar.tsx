@@ -183,12 +183,12 @@ export default function Navbar() {
             {/* Showroom Address & Hotline (Right side in RTL) */}
             <div className="flex items-center gap-3 sm:gap-6 font-semibold">
               <a
-                href="tel:01012345678"
+                href="tel:01091084863"
                 className="flex items-center gap-1.5 text-white/95 hover:text-[#C59B63] transition-colors"
                 title="الخط الساخن والمبيعات"
               >
                 <Phone className="w-3.5 h-3.5 text-[#C59B63]" />
-                <span dir="ltr" className="font-bold">01012345678</span>
+                <span dir="ltr" className="font-bold">01091084863</span>
               </a>
 
               <span className="text-white/20 hidden md:inline">|</span>
@@ -202,7 +202,7 @@ export default function Navbar() {
             {/* WhatsApp Quick Consultation & Tools (Left side in RTL) */}
             <div className="flex items-center gap-3 sm:gap-4">
               <a
-                href="https://wa.me/201012345678?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D9%84%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%20%D9%85%D9%83%D8%AA%D8%A8%20%D8%A3%D9%88%20%D8%B4%D8%B1%D9%83%D8%A9"
+                href="https://wa.me/201091084863?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D9%84%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%20%D9%85%D9%83%D8%AA%D8%A8%20%D8%A3%D9%88%20%D8%B4%D8%B1%D9%83%D8%A9"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#4ADE80] px-2.5 py-0.5 rounded-full font-bold transition-all border border-[#25D366]/40"
