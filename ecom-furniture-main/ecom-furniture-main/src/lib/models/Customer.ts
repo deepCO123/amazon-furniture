@@ -48,3 +48,4 @@ const CustomerSchema = new Schema(
 export const CustomerModel =
   mongoose.models.Customer ||
   mongoose.model<ICustomer>("Customer", CustomerSchema);
+
