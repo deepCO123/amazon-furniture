@@ -30,17 +30,6 @@ const heroSlides: HeroSlide[] = [
     secondaryCtaLink: "#consultation",
   },
   {
-    id: "modern-shoeracks-home",
-    image: "/redesign/hero-living-room-clean.jpg",
-    badge: "⭐ جديد المعرض: تشكيلة جزامات ووحدات تخزين مودرن",
-    title: "أناقة ولمسة عصرية لمدخل منزلك",
-    subtitle: "أحدث موديلات الجزامات والكوفي كورنر خشب MDF تركي معالج 16.5 مم مع ميكانيزم تركي أصلي وضمان 3 سنوات.",
-    primaryCtaText: "تسوق تشكيلة الجزامات الحديثة",
-    primaryCtaLink: `/products?category=${encodeURIComponent("جزامات")}`,
-    secondaryCtaText: "اكتشف الأكثر مبيعاً SZG14",
-    secondaryCtaLink: `/products/wide-shoe-rack-white-beige-szg14`,
-  },
-  {
     id: "modern-workstations",
     image: "/redesign/office-meeting-lounge.jpg",
     badge: "🏢 قاعات اجتماعات ومحطات عمل ذكية",
