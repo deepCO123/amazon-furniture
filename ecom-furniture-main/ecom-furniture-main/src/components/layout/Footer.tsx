@@ -109,8 +109,13 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/products?category=ستائر مكتبية" className="hover:text-[#C59B63] transition-colors">
-                    ستائر مكتبية وذكية
+                  <Link href="/products?category=جزامات" className="hover:text-[#C59B63] transition-colors">
+                    جزامات مودرن ووحدات تخزين
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/products?category=كوفي كورنر" className="hover:text-[#C59B63] transition-colors">
+                    كوفي كورنر وترابيزات شاشه
                   </Link>
                 </li>
                 <li>

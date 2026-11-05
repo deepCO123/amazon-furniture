@@ -72,8 +72,14 @@ export default function Navbar() {
     highlight?: boolean;
   }
 
-  // Strictly organized corporate & executive office solutions menu matching architecture
+  // Strictly organized categories matching real catalog products
   const secondaryNavLinks: NavLinkItem[] = [
+    {
+      href: "/products?category=" + encodeURIComponent("جزامات"),
+      label: language === "en" ? "Modern Shoe Racks" : "جزامات مودرن",
+      hasBadge: true,
+      badge: "جديدنا ✨",
+    },
     {
       href: "/products?category=" + encodeURIComponent("مكاتب"),
       label: language === "en" ? "Executive Desks" : "مكاتب تنفيذية",
@@ -81,18 +87,18 @@ export default function Navbar() {
       badge: "VIP",
     },
     {
-      href: "/products?category=" + encodeURIComponent("كراسي طبية"),
-      label: language === "en" ? "Ergonomic Chairs" : "كراسي شبك طبية",
+      href: "/products?category=" + encodeURIComponent("كراسي جلد"),
+      label: language === "en" ? "Manager Leather Chairs" : "كراسي جلد للمديرين",
       hasBadge: true,
       badge: "الأكثر طلباً",
     },
     {
-      href: "/products?category=" + encodeURIComponent("كراسي جلد"),
-      label: language === "en" ? "Manager Leather Chairs" : "كراسي جلد للمديرين",
+      href: "/products?category=" + encodeURIComponent("كراسي طبية"),
+      label: language === "en" ? "Ergonomic Chairs" : "كراسي شبك طبية",
     },
     {
-      href: "/products?category=" + encodeURIComponent("ستائر مكتبية"),
-      label: language === "en" ? "Office Blinds" : "ستائر مكتبية",
+      href: "/products?category=" + encodeURIComponent("كوفي كورنر"),
+      label: language === "en" ? "Coffee Corner" : "كوفي كورنر وترابيزات",
     },
     {
       href: "/products?category=" + encodeURIComponent("انتريهات"),
@@ -107,17 +113,15 @@ export default function Navbar() {
   ];
 
   const allCategoriesList = [
-    { name: "مكاتب تنفيذية ومحطات عمل", category: "مكاتب", count: "12 منتج" },
-    { name: "كراسي طبية وشبكية إرجونوميك", category: "كراسي طبية", count: "18 منتج" },
-    { name: "كراسي جلد فاخرة للمديرين", category: "كراسي جلد", count: "14 منتج" },
-    { name: "ستائر مكتبية عازلة وموتورايزد", category: "ستائر مكتبية", count: "8 منتجات" },
-    { name: "كاونترات استقبال وأثاث انتظار", category: "انتريهات", count: "10 منتجات" },
-    { name: "دواليب ووحدات حفظ ملفات", category: "دواليب", count: "9 منتجات" },
-    { name: "ركن واستراحات مكاتب", category: "ركن", count: "11 منتج" },
-    { name: "كراسي استرخاء ليزي بوي", category: "ليزي بوي", count: "6 منتجات" },
-    { name: "وحدات كوفي كورنر وركن القهوة", category: "كوفي كورنر", count: "5 منتجات" },
-    { name: "جزامات مودرن وأرفف أحذية", category: "جزامات", count: "7 منتجات" },
-    { name: "ترابيزات شاشة وتليفزيون عصرية", category: "ترابيزة شاشه", count: "6 منتجات" },
+    { name: "جزامات مودرن تركي SZG", category: "جزامات", count: "9 موديلات" },
+    { name: "كراسي جلد فاخرة للمديرين", category: "كراسي جلد", count: "28 منتج" },
+    { name: "كراسي طبية إرجونوميك معتمدة", category: "كراسي طبية", count: "20 منتج" },
+    { name: "مكاتب تنفيذية بقوائم هندسية", category: "مكاتب", count: "13 منتج" },
+    { name: "كراسي شبك عالية التهوية", category: "كراسي شبك", count: "6 منتجات" },
+    { name: "وحدات كوفي كورنر وركن القهوة", category: "كوفي كورنر", count: "4 موديلات" },
+    { name: "كاونترات استقبال وأطقم انتظار", category: "انتريهات", count: "3 أطقم" },
+    { name: "ترابيزات شاشة وتليفزيون عصرية", category: "ترابيزات", count: "2 موديل" },
+    { name: "كرسي استرخاء ليزي بوي طبي", category: "ليزي بوي", count: "متوفر" },
   ];
 
   // Filtered search results

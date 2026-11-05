@@ -33,23 +33,17 @@ const COLOR_OPTIONS = [
   { name: "أسود / Black", hex: "#111827" },
 ];
 
-// All categories ordered logically
+// All categories ordered logically by popularity & relevance
 const ORDERED_CATEGORIES = [
+  "جزامات",
+  "كراسي جلد",
+  "مكاتب",
+  "كراسي طبية",
   "كوفي كورنر",
   "كراسي شبك",
-  "كراسي طبية",
-  "ترابيزة شاشه",
-  "ترابيزة تليفزيون",
   "ترابيزات",
-  "ستائر مكتبية",
-  "مكاتب",
   "انتريهات",
-  "كراسي جلد",
   "ليزي بوي",
-  "ركن",
-  "سراير",
-  "دولاب",
-  "جزامات",
   "تسريحه",
 ];
 
