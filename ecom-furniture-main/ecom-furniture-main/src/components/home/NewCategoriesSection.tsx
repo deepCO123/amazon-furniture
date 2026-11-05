@@ -19,6 +19,12 @@ const categories: CategoryItem[] = [
     href: "/products?category=" + encodeURIComponent("جزامات"),
   },
   {
+    id: "desks",
+    name: "مكاتب",
+    image: "/redesign/cat-desk.png",
+    href: "/products?category=" + encodeURIComponent("مكاتب"),
+  },
+  {
     id: "leather-chairs",
     name: "كراسي جلد",
     image: "/redesign/cat-leather-chair.png",
@@ -31,28 +37,34 @@ const categories: CategoryItem[] = [
     href: "/products?category=" + encodeURIComponent("كراسي طبية"),
   },
   {
-    id: "desks",
-    name: "مكاتب",
-    image: "/redesign/cat-desk.png",
-    href: "/products?category=" + encodeURIComponent("مكاتب"),
+    id: "reception-desks",
+    name: "مكاتب استقبال",
+    image: "/delivered/delivered-reception-cnc-islamic.jpg",
+    href: "/products?category=" + encodeURIComponent("مكاتب استقبال"),
+  },
+  {
+    id: "storage-drawers",
+    name: "وحدات أدراج وتخزين",
+    image: "/products/desks/desk-black-double-pedestal-10drawers.jpg",
+    href: "/products?category=" + encodeURIComponent("وحدات ادراج تخزين"),
+  },
+  {
+    id: "bar-stools",
+    name: "كراسي بار",
+    image: "/uploads/gl135-high-black-front.jpg",
+    href: "/products?category=" + encodeURIComponent("كراسي بار"),
+  },
+  {
+    id: "office-blinds",
+    name: "ستائر مكتبية",
+    image: "/redesign/cat-corner-sofa.png",
+    href: "/products?category=" + encodeURIComponent("ستائر مكتبية"),
   },
   {
     id: "coffee-corner",
     name: "كوفي كورنر",
     image: "/redesign/cat-coffee-corner.png",
     href: "/products?category=" + encodeURIComponent("كوفي كورنر"),
-  },
-  {
-    id: "tv-tables",
-    name: "ترابيزة شاشه",
-    image: "/redesign/cat-tv-table.png",
-    href: "/products?category=" + encodeURIComponent("ترابيزات"),
-  },
-  {
-    id: "mesh-chairs",
-    name: "كراسي شبك",
-    image: "/redesign/cat-medical-chair.png",
-    href: "/products?category=" + encodeURIComponent("كراسي شبك"),
   },
   {
     id: "reception-sofas",

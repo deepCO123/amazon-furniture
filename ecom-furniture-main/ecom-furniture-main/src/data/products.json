@@ -3138,42 +3138,6 @@
     "weight": 28
   },
   {
-    "id": "prod_vanity_1",
-    "category": "تسريحه",
-    "code": "VN-01",
-    "color": "أبيض سماوي ناعم",
-    "createdAt": "2026-10-19T19:12:18.988Z",
-    "description": "تسريحة فاخرة بتصميم ناعم ومريح مع مرآة كريستال نقية و6 أدراج واسعة لتخزين أدوات التجميل والإكسسوارات.",
-    "dimensions": {
-      "width": 120,
-      "height": 140,
-      "depth": 45
-    },
-    "featured": true,
-    "images": [
-      "/categories/vanity.png"
-    ],
-    "inStock": true,
-    "material": "خشب إم دي إف تركي + أرجل زان",
-    "name": "تسريحة مودرن مع مرآة كريستال وأدراج تنظيم مستحضرات",
-    "originalPrice": 9200,
-    "price": 7800,
-    "rating": 5,
-    "returnCount": 0,
-    "reviewCount": 8,
-    "sku": "VN-01",
-    "slug": "modern-vanity-dressing-table-mirror",
-    "stockQuantity": 8,
-    "tags": [
-      "تسريحه",
-      "ميك اب",
-      "أثاث منزلي"
-    ],
-    "totalSold": 0,
-    "updatedAt": "2026-10-20T18:31:31.895Z",
-    "weight": 40
-  },
-  {
     "id": "prod_shoe_rack_1",
     "category": "جزامات",
     "code": "SH-01",
@@ -3208,42 +3172,6 @@
     "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 26
-  },
-  {
-    "id": "prod_lazy_boy_1",
-    "category": "ليزي بوي",
-    "code": "LZ-01",
-    "color": "رمادي",
-    "createdAt": "2026-10-19T19:12:18.988Z",
-    "description": "كرسي استرخاء ليزي بوي ميكانيزم أمريكي هزاز ودوار 360 درجة مع فرد كامل لمسند القدمين والظهر لتوفير أقصى درجات الراحة والاسترخاء.",
-    "dimensions": {
-      "width": 95,
-      "height": 105,
-      "depth": 95
-    },
-    "featured": true,
-    "images": [
-      "/categories/lazy-boy.png"
-    ],
-    "inStock": true,
-    "material": "قماش قطيفة فاخر معالج + شاسيه حديد صلب",
-    "name": "كرسي ليزي بوي ريكلاينر استرخاء هزاز ودوار فاخر",
-    "originalPrice": 11500,
-    "price": 9850,
-    "rating": 5,
-    "returnCount": 0,
-    "reviewCount": 9,
-    "sku": "LZ-01",
-    "slug": "lazy-boy-rocker-recliner-armchair",
-    "stockQuantity": 7,
-    "tags": [
-      "ليزي بوي",
-      "ريكلاينر",
-      "كرسي استرخاء"
-    ],
-    "totalSold": 0,
-    "updatedAt": "2026-10-20T18:31:31.895Z",
-    "weight": 42
   },
   {
     "id": "prod_cc_4",
@@ -3282,39 +3210,495 @@
     "weight": 35
   },
   {
-    "id": "prod_coffee_table_1",
-    "category": "ترابيزات",
-    "code": "CT-01",
-    "color": "خشبي وأسود",
-    "createdAt": "2026-10-19T19:12:18.988Z",
-    "description": "ترابيزة قهوة مركزية بتصميم هندسي فخم يدمج دفء خشب الزان الطبيعي مع صلابة الشاسيه المعدني الإلكتروستاتيك.",
+    "id": "prod_blinds_zebra_dual_tone",
+    "name": "ستائر مكتبية رول زيبرا عازلة للشمس والحرارة - أحدث طراز",
+    "slug": "office-zebra-dual-tone-blinds",
+    "sku": "BL-Z01",
+    "code": "BL-Z01",
+    "category": "ستائر مكتبية",
+    "price": 1850,
+    "originalPrice": 2400,
+    "rating": 5,
+    "reviewCount": 16,
+    "stockQuantity": 15,
+    "inStock": true,
+    "featured": true,
+    "color": "رمادي فاتح وبيج مكتبي",
+    "material": "نسيج بوليستر كوري عازل للحرارة مع شاسيه ألومنيوم تركي",
+    "dimensions": {
+      "width": 150,
+      "height": 200,
+      "depth": 8
+    },
+    "weight": 5,
+    "images": [
+      "/redesign/cat-corner-sofa.png"
+    ],
+    "description": "ستائر زيبرا مكتبية ثنائية الطبقات تمنحك تحكماً كاملاً في دخول الإضاءة والخصوصية وعزل حرارة الشمس المباشرة بنسبة تصل إلى 95%. مزودة بماسورة ألمونيوم قوية مضادة للصدأ وميكانيزم سلسلة تركي سلس للغاية، وسهلة التنظيف ومقاومة للأتربة. ضمان سنتين ضد عيوب الصناعة مع إمكانية التفصيل بمقاسات شباكك بالمليمتر.",
+    "warranty": "سنتين",
+    "deliveryTime": "3 إلى 5 أيام عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "ستائر مكتبية",
+      "ستائر زيبرا",
+      "عازلة للحرارة",
+      "مكاتب شركات",
+      "BL-Z01"
+    ],
+    "createdAt": "2026-11-05T12:58:20.387Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_blinds_blackout_executive",
+    "name": "ستائر رول بلاك أوت معتمة 100% لقاعات الاجتماعات والمكاتب التنفيذية",
+    "slug": "executive-blackout-roller-blinds",
+    "sku": "BL-B02",
+    "code": "BL-B02",
+    "category": "ستائر مكتبية",
+    "price": 2100,
+    "originalPrice": 2700,
+    "rating": 5,
+    "reviewCount": 22,
+    "stockQuantity": 12,
+    "inStock": true,
+    "featured": false,
+    "color": "أوف وايت / رصاصي داكن",
+    "material": "قماش ثلاثي الطبقات معتم Blackout عاكس للأشعة ومقاوم للحريق",
+    "dimensions": {
+      "width": 180,
+      "height": 220,
+      "depth": 8
+    },
+    "weight": 6,
+    "images": [
+      "/redesign/cat-corner-sofa.png"
+    ],
+    "description": "ستائر رول عاتمة تماماً تمنع تسرب الضوء بنسبة 100%، مثالية لغرف الاجتماعات والعرض التقديمي (بروجكتور) وغرف المديرين التي تتطلب هدوءاً وخصوصية تامة، مع عزل حراري يقلل استهلاك التكييف صيفاً.",
+    "warranty": "سنتين",
+    "deliveryTime": "3 إلى 5 أيام عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "ستائر مكتبية",
+      "بلاك أوت",
+      "عتمة كاملة",
+      "قاعات اجتماعات",
+      "BL-B02"
+    ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_blinds_vertical_aluminum",
+    "name": "ستائر شرائح رأسية فورتيكال إيطالي للمقرات والشركات الكبرى",
+    "slug": "corporate-vertical-aluminum-blinds",
+    "sku": "BL-V03",
+    "code": "BL-V03",
+    "category": "ستائر مكتبية",
+    "price": 1600,
+    "originalPrice": 2100,
+    "rating": 4.9,
+    "reviewCount": 14,
+    "stockQuantity": 20,
+    "inStock": true,
+    "featured": false,
+    "color": "بيج إداري / أبيض ثلجي",
+    "material": "شرائح فايبر جلاس معالجة ضد الرطوبة والأتربة + شاسيه ألمونيوم",
+    "dimensions": {
+      "width": 200,
+      "height": 250,
+      "depth": 10
+    },
+    "weight": 7,
+    "images": [
+      "/redesign/cat-corner-sofa.png"
+    ],
+    "description": "ستائر شرائح رأسية عملية وقوية، تدور 180 درجة للتحكم في اتجاه الضوء بدقة، سهلة الصيانة والتنظيف ومثالية للواجهات الزجاجية الواسعة في البنوك والشركات والمستشفيات.",
+    "warranty": "سنتين",
+    "deliveryTime": "3 إلى 5 أيام عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "ستائر مكتبية",
+      "ستائر شرائح",
+      "فورتيكال",
+      "بنوك وشركات",
+      "BL-V03"
+    ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_bar_stool_black_chrome",
+    "name": "كرسي بار هيدروليك جلد فاخر شاسيه كروم دوار 360 درجة - كود BS-101",
+    "slug": "hydraulic-black-leather-bar-stool-bs101",
+    "sku": "BS-101",
+    "code": "BS-101",
+    "category": "كراسي بار",
+    "price": 2450,
+    "originalPrice": 3100,
+    "rating": 5,
+    "reviewCount": 31,
+    "stockQuantity": 18,
+    "inStock": true,
+    "featured": true,
+    "color": "أسود تيتانيوم مع نيكل كروم",
+    "material": "جلد صناعي مستورد مبطن فوم عالي الكثافة + قاعدة صلب كرومية",
+    "dimensions": {
+      "width": 45,
+      "height": 110,
+      "depth": 45
+    },
+    "weight": 9,
+    "images": [
+      "/uploads/gl135-high-black-front.jpg"
+    ],
+    "description": "كرسي بار وكاونتر فاخر بنظام رفع هيدروليكي فئة Class 3 للتحكم السلس في الارتفاع من 65 إلى 85 سم، مقعد ومسند ظهر مريحين بتنجيد جلد فاخر، قاعدة دائرية عريضة بقطر 41 سم مضادة للانزلاق ومسند قدم متين.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "24 إلى 48 ساعة",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "كراسي بار",
+      "هيدروليك",
+      "كروم",
+      "كاونتر",
+      "BS-101"
+    ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_bar_stool_wood_velvet",
+    "name": "كرسي بار اسكندنافي مودرن خشب زان وتنجيد قطيفة ناعمة - كود BS-102",
+    "slug": "modern-wood-velvet-bar-chair-bs102",
+    "sku": "BS-102",
+    "code": "BS-102",
+    "category": "كراسي بار",
+    "price": 2800,
+    "originalPrice": 3500,
+    "rating": 4.9,
+    "reviewCount": 19,
+    "stockQuantity": 14,
+    "inStock": true,
+    "featured": false,
+    "color": "كافيه وأرجل خشب زان طبيعي",
+    "material": "خشب زان أحمر مجفف + تنجيد إسفنج مضغوط سوفت قماش بوكليه مخملي",
+    "dimensions": {
+      "width": 48,
+      "height": 98,
+      "depth": 48
+    },
+    "weight": 8,
+    "images": [
+      "/uploads/gl135-armchair-grey.jpg"
+    ],
+    "description": "كرسي بار خشب زان أنيق يجمع بين الدفء الخشبي الطبيعي والمظهر العصري للكافيهات والمنازل وركن القهوة والمطابخ المودرن، مزود برباط معدني دائري لدعم القدمين وزيادة الصلابة.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "3 إلى 5 أيام عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "كراسي بار",
+      "خشب زان",
+      "كافيه",
+      "كوفي كورنر",
+      "BS-102"
+    ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_bar_stool_drafting_mesh",
+    "name": "كرسي كاونتر واستقبال شبك طبي إرجونوميك هيدروليك عالي - كود BS-103",
+    "slug": "ergonomic-drafting-high-mesh-chair-bs103",
+    "sku": "BS-103",
+    "code": "BS-103",
+    "category": "كراسي بار",
+    "price": 3200,
+    "originalPrice": 4000,
+    "rating": 5,
+    "reviewCount": 25,
+    "stockQuantity": 10,
+    "inStock": true,
+    "featured": false,
+    "color": "أسود إداري",
+    "material": "شبك طبي مرن مقاوم للحرارة + قاعدة خماسية حديد مع حلقة أقدام كروم",
+    "dimensions": {
+      "width": 55,
+      "height": 125,
+      "depth": 55
+    },
+    "weight": 12,
+    "images": [
+      "/redesign/cat-medical-chair.png"
+    ],
+    "description": "كرسي كاونتر واستقبال مرتفع (Drafting Stool) مخصص لموظفي الاستقبال، الصيدليات، المعامل، ومهندسي التصميم. ارتفاع هيدروليك يمتد حتى 90 سم، حلقة أقدام قابلة لتعديل الارتفاع، ودعم قطني ممتاز للفقرات أثناء ساعات الجلوس الطويلة.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "24 إلى 48 ساعة",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "كراسي بار",
+      "كرسي كاونتر",
+      "استقبال",
+      "شبك طبي",
+      "BS-103"
+    ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_reception_desk_islamic_cnc",
+    "name": "مكتب وكاونتر استقبال رئاسي أرابيسك مفرغ CNC إسلامي فاخر - كود RC-202",
+    "slug": "luxury-islamic-cnc-reception-desk-rc202",
+    "sku": "RC-202",
+    "code": "RC-202",
+    "category": "مكاتب استقبال",
+    "price": 21900,
+    "originalPrice": 27500,
+    "rating": 5,
+    "reviewCount": 18,
+    "stockQuantity": 5,
+    "inStock": true,
+    "featured": true,
+    "color": "أبيض ثلجي وذهبي ميتاليك",
+    "material": "خشب زان أحمر وخشب MDF تركي مفرغ بالكمبيوتر CNC دهانات دوكو فرن",
+    "dimensions": {
+      "width": 240,
+      "height": 115,
+      "depth": 80
+    },
+    "weight": 85,
+    "images": [
+      "/delivered/delivered-reception-cnc-islamic.jpg",
+      "/redesign/cat-desk.png"
+    ],
+    "description": "واجهة استقبال فخمة تعكس الهيبة والرقي لشركتك أو عيادتك أو فندقك. تصميم أرابيسك إسلامي مفرغ بدقة ماكينات CNC مع إمكانية إضافة إضاءة خلفية، سطح عمل داخلي واسع للموظف مع 3 أدراج تخزين بقفل مركزي ومنافذ شبكة وأسلاك.",
+    "warranty": "5 سنوات",
+    "deliveryTime": "10 إلى 15 يوم عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "مكاتب استقبال",
+      "كاونتر استقبال",
+      "أرابيسك CNC",
+      "شركات وفنادق",
+      "RC-202"
+    ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_reception_desk_modern_marble_led",
+    "name": "كاونتر استقبال مودرن خشب إسباني مع بديل رخام إيطالي وإضاءة LED - كود RC-201",
+    "slug": "modern-marble-led-reception-counter-rc201",
+    "sku": "RC-201",
+    "code": "RC-201",
+    "category": "مكاتب استقبال",
+    "price": 18500,
+    "originalPrice": 23000,
+    "rating": 5,
+    "reviewCount": 27,
+    "stockQuantity": 6,
+    "inStock": true,
+    "featured": true,
+    "color": "رمادي رخامي مع خشب جوزي وإضاءة دافئة",
+    "material": "خشب MDF إسباني 18 مم + بديل رخام مقاوم للخدش + شريط إضاءة LED مدمج",
+    "dimensions": {
+      "width": 200,
+      "height": 110,
+      "depth": 75
+    },
+    "weight": 72,
+    "images": [
+      "/products/desks/desk-executive-loop-credenza.jpg"
+    ],
+    "description": "كاونتر استقبال عصري وأنيق للشركات والمراكز الطبية والمقرات الحديثة، مزود بشريط LED مخفي يمنح المدخل فخامة مذهلة، سطح عمل واسع مع وحدة أدراج تخزين مدمجة.",
+    "warranty": "5 سنوات",
+    "deliveryTime": "7 إلى 10 أيام عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "مكاتب استقبال",
+      "كاونتر مودرن",
+      "بديل رخام",
+      "إضاءة LED",
+      "RC-201"
+    ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_reception_desk_compact_medical",
+    "name": "كاونتر استقبال مدمج للمكاتب الصغيرة والعيادات الذكية - كود RC-203",
+    "slug": "compact-corporate-clinic-reception-counter-rc203",
+    "sku": "RC-203",
+    "code": "RC-203",
+    "category": "مكاتب استقبال",
+    "price": 12800,
+    "originalPrice": 15900,
+    "rating": 4.8,
+    "reviewCount": 15,
+    "stockQuantity": 8,
+    "inStock": true,
+    "featured": false,
+    "color": "أبيض ناصع مع لمسات خشبية",
+    "material": "خشب ميلامين تركي 16.5 مم عالي الكثافة مقاوم للبكتيريا والخدوش",
+    "dimensions": {
+      "width": 150,
+      "height": 105,
+      "depth": 70
+    },
+    "weight": 55,
+    "images": [
+      "/products/desks/desk-loop-metal-white-modesty.jpg"
+    ],
+    "description": "تصميم مدروس للمساحات المحدودة والمداخل الذكية، كاونتر استقبال عملي يوفر خصوصية تامة لموظف الاستقبال، درج للمستندات النقدية بقفل، وفتحات كابلات مرتبة.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "5 إلى 7 أيام عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "مكاتب استقبال",
+      "كاونتر مدمج",
+      "عيادات ومكاتب",
+      "RC-203"
+    ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_storage_mobile_pedestal_3drawers",
+    "name": "وحدة أدراج مكتبية متحركة 3 أدراج بقفل مركزي سنترلوك وعجلات سيليكون - كود DR-301",
+    "slug": "mobile-pedestal-3drawers-central-lock-dr301",
+    "sku": "DR-301",
+    "code": "DR-301",
+    "category": "وحدات ادراج تخزين",
+    "price": 2750,
+    "originalPrice": 3400,
+    "rating": 5,
+    "reviewCount": 38,
+    "stockQuantity": 25,
+    "inStock": true,
+    "featured": true,
+    "color": "خشب جوزي غامق / رمادي مكتبي / أسود",
+    "material": "خشب MDF ميلامين تركي 16.5 مم + مجاري رولمان بلي تركي صامت + قفل سنترلوك",
+    "dimensions": {
+      "width": 42,
+      "height": 62,
+      "depth": 48
+    },
+    "weight": 16,
+    "images": [
+      "/products/desks/desk-specs-components.jpg"
+    ],
+    "description": "وحدة أدراج مكتبية ذكية مصممة لتوضع بسلاسة تحت أي مكتب عمل. تتكون من 3 أدراج واسعة لتنظيم المستندات والأدوات والمتعلقات الشخصية، مزودة بقفل مركزي رئيسي يغلق كافة الأدراج معاً بمفتاحين، و5 عجلات سيليكون متينة مع عجلة أمان أمامية لمنع الانقلاب.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "24 إلى 48 ساعة",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "وحدات ادراج تخزين",
+      "وحدة ادراج",
+      "سنترلوك",
+      "متحركة",
+      "DR-301"
+    ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_storage_double_pedestal_10drawers",
+    "name": "وحدة تخزين وأرشيف مكتبية مزدوجة 10 أدراج فاخرة خشب أسود مع مقسم ملفات - كود DR-302",
+    "slug": "double-pedestal-10drawers-filing-storage-dr302",
+    "sku": "DR-302",
+    "code": "DR-302",
+    "category": "وحدات ادراج تخزين",
+    "price": 6400,
+    "originalPrice": 7900,
+    "rating": 5,
+    "reviewCount": 21,
+    "stockQuantity": 12,
+    "inStock": true,
+    "featured": false,
+    "color": "أسود تيتانيوم مط",
+    "material": "خشب MDF تركي معالج كثافة 18 مم + مجاري فولاذية هيدروليكية + مقابض ألومنيوم",
     "dimensions": {
       "width": 90,
-      "height": 45,
-      "depth": 90
+      "height": 85,
+      "depth": 50
     },
-    "featured": true,
+    "weight": 42,
     "images": [
-      "/categories/coffee-table.png"
+      "/products/desks/desk-black-double-pedestal-10drawers.jpg"
     ],
-    "inStock": true,
-    "material": "خشب زان + شاسيه حديد معالج",
-    "name": "ترابيزة قهوة مودرن خشب زان وشاسيه حديد أسود مفرغ",
-    "originalPrice": 4200,
-    "price": 3600,
-    "rating": 5,
-    "returnCount": 0,
-    "reviewCount": 11,
-    "sku": "CT-01",
-    "slug": "modern-coffee-table-red-beech-black-frame",
-    "stockQuantity": 14,
+    "description": "وحدة أرشيف وحفظ ملفات كبرى تتألف من صفين متجاورين بإجمالي 10 أدراج واسعة، مصممة خصيصاً للمكاتب القانونية، الحسابات، المقرات الإدارية، وإدارات الموارد البشرية لتنظيم كميات ضخمة من الملفات الورقية بأمان وسهولة.",
+    "warranty": "5 سنوات",
+    "deliveryTime": "3 إلى 5 أيام عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
     "tags": [
-      "ترابيزات",
-      "ترابيزة قهوة",
-      "صالون"
+      "وحدات ادراج تخزين",
+      "أرشيف ملفات",
+      "10 أدراج",
+      "مكاتب محاماة وحسابات",
+      "DR-302"
     ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
     "totalSold": 0,
-    "updatedAt": "2026-10-20T18:31:31.895Z",
-    "weight": 22
+    "returnCount": 0
+  },
+  {
+    "id": "prod_storage_employee_lockers_9doors",
+    "name": "دولاب لوكر موظفين 9 خانات بأقفال أمان مستقلة وفتحات تهوية - كود DR-303",
+    "slug": "employee-storage-lockers-9doors-dr303",
+    "sku": "DR-303",
+    "code": "DR-303",
+    "category": "وحدات ادراج تخزين",
+    "price": 11200,
+    "originalPrice": 14000,
+    "rating": 5,
+    "reviewCount": 17,
+    "stockQuantity": 7,
+    "inStock": true,
+    "featured": false,
+    "color": "بيج مكتبي مع أبواب خشبية",
+    "material": "خشب ميلامين تركي 18 مم مقاوم للصدمات والحرارة مع أقفال اسطوانية خاصة",
+    "dimensions": {
+      "width": 120,
+      "height": 185,
+      "depth": 45
+    },
+    "weight": 78,
+    "images": [
+      "/delivered/delivered-employee-lockers-9doors.jpg"
+    ],
+    "description": "وحدة لوكر متكاملة مخصصة للشركات، المصانع، النوادي، والمدارس. تحتوي على 9 خانات تخزين واسعة لحفظ الحقائب والمتعلقات الخاصة بكل موظف، مع قفل مستقل ومفتاحين لكل خانة وفتحات تهوية مضادة للرطوبة.",
+    "warranty": "5 سنوات",
+    "deliveryTime": "5 إلى 7 أيام عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "وحدات ادراج تخزين",
+      "لوكر موظفين",
+      "أمان",
+      "شركات ومصانع",
+      "DR-303"
+    ],
+    "createdAt": "2026-11-05T12:58:20.388Z",
+    "updatedAt": "2026-11-05T12:58:20.388Z",
+    "totalSold": 0,
+    "returnCount": 0
   }
 ]

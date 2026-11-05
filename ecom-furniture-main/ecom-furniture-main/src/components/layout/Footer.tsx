@@ -99,8 +99,13 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/products?category=كراسي طبية" className="hover:text-[#C59B63] transition-colors">
-                    كراسي شبك طبية هيدروليكية
+                  <Link href="/products?category=جزامات" className="hover:text-[#C59B63] transition-colors">
+                    جزامات مودرن ووحدات تخزين
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/products?category=مكاتب استقبال" className="hover:text-[#C59B63] transition-colors">
+                    مكاتب وكاونترات استقبال
                   </Link>
                 </li>
                 <li>
@@ -109,13 +114,23 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/products?category=جزامات" className="hover:text-[#C59B63] transition-colors">
-                    جزامات مودرن ووحدات تخزين
+                  <Link href="/products?category=كراسي طبية" className="hover:text-[#C59B63] transition-colors">
+                    كراسي شبك طبية هيدروليكية
                   </Link>
                 </li>
                 <li>
-                  <Link href="/products?category=كوفي كورنر" className="hover:text-[#C59B63] transition-colors">
-                    كوفي كورنر وترابيزات شاشه
+                  <Link href="/products?category=كراسي بار" className="hover:text-[#C59B63] transition-colors">
+                    كراسي بار وكاونتر
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/products?category=وحدات ادراج تخزين" className="hover:text-[#C59B63] transition-colors">
+                    وحدات أدراج وتخزين
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/products?category=ستائر مكتبية" className="hover:text-[#C59B63] transition-colors">
+                    ستائر مكتبية ورول
                   </Link>
                 </li>
                 <li>

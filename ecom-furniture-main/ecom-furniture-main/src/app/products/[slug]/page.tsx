@@ -59,11 +59,14 @@ export default function ProductDetailPage({
     if (sameCategory.length < 8) {
       const cat = product.category || "";
       let targetCats: string[] = [];
-      if (cat.includes("جزامات")) targetCats = ["كوفي كورنر", "ترابيزات", "مكاتب"];
-      else if (cat.includes("مكاتب")) targetCats = ["كراسي جلد", "كراسي طبية", "كراسي شبك"];
-      else if (cat.includes("كراسي جلد")) targetCats = ["مكاتب", "كراسي طبية", "كراسي شبك"];
-      else if (cat.includes("كراسي")) targetCats = ["مكاتب", "كراسي جلد"];
-      else if (cat.includes("كوفي")) targetCats = ["جزامات", "ترابيزات", "مكاتب"];
+      if (cat.includes("جزامات")) targetCats = ["كوفي كورنر", "مكاتب", "وحدات ادراج تخزين"];
+      else if (cat.includes("مكاتب استقبال")) targetCats = ["كراسي بار", "انتريهات", "مكاتب", "وحدات ادراج تخزين"];
+      else if (cat.includes("مكاتب")) targetCats = ["كراسي جلد", "كراسي طبية", "وحدات ادراج تخزين", "مكاتب استقبال"];
+      else if (cat.includes("كراسي بار")) targetCats = ["مكاتب استقبال", "كوفي كورنر", "كراسي شبك"];
+      else if (cat.includes("ستائر")) targetCats = ["مكاتب", "كراسي جلد", "مكاتب استقبال"];
+      else if (cat.includes("ادراج") || cat.includes("تخزين")) targetCats = ["مكاتب", "كراسي جلد", "مكاتب استقبال"];
+      else if (cat.includes("كراسي")) targetCats = ["مكاتب", "كراسي جلد", "مكاتب استقبال"];
+      else if (cat.includes("كوفي")) targetCats = ["جزامات", "كراسي بار", "مكاتب"];
       else targetCats = ["جزامات", "كراسي جلد", "مكاتب"];
 
       complementary = effectiveAllProducts.filter(

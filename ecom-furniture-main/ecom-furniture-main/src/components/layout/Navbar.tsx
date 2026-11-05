@@ -53,15 +53,17 @@ export default function Navbar() {
   // Search categories matching store
   const searchCategories = [
     { value: "all", label: t.searchAllCategories },
-    { value: "كراسي شبك", label: t.meshChairsLink },
-    { value: "كراسي طبية", label: t.medicalChairsLink },
-    { value: "ترابيزة تليفزيون", label: t.tvTablesLink },
-    { value: "ستائر مكتبية", label: t.officeCurtainsLink },
-    { value: "مكاتب", label: t.desksLink },
-    { value: "انتريهات", label: t.livingSetsLink },
-    { value: "كراسي جلد", label: t.leatherChairsLink },
-    { value: "كوفي كورنر", label: language === "en" ? "Coffee Corner" : "كوفي كورنر" },
     { value: "جزامات", label: language === "en" ? "Shoe Racks" : "جزامات" },
+    { value: "مكاتب", label: t.desksLink },
+    { value: "كراسي جلد", label: t.leatherChairsLink },
+    { value: "كراسي طبية", label: t.medicalChairsLink },
+    { value: "مكاتب استقبال", label: language === "en" ? "Reception Desks" : "مكاتب استقبال" },
+    { value: "وحدات ادراج تخزين", label: language === "en" ? "Storage Drawers" : "وحدات ادراج تخزين" },
+    { value: "كراسي بار", label: language === "en" ? "Bar Stools" : "كراسي بار" },
+    { value: "ستائر مكتبية", label: t.officeCurtainsLink },
+    { value: "كوفي كورنر", label: language === "en" ? "Coffee Corner" : "كوفي كورنر" },
+    { value: "كراسي شبك", label: t.meshChairsLink },
+    { value: "انتريهات", label: t.livingSetsLink },
   ];
 
   interface NavLinkItem {
@@ -87,6 +89,10 @@ export default function Navbar() {
       badge: "VIP",
     },
     {
+      href: "/products?category=" + encodeURIComponent("مكاتب استقبال"),
+      label: language === "en" ? "Reception Desks" : "مكاتب استقبال",
+    },
+    {
       href: "/products?category=" + encodeURIComponent("كراسي جلد"),
       label: language === "en" ? "Manager Leather Chairs" : "كراسي جلد للمديرين",
       hasBadge: true,
@@ -97,12 +103,20 @@ export default function Navbar() {
       label: language === "en" ? "Ergonomic Chairs" : "كراسي شبك طبية",
     },
     {
-      href: "/products?category=" + encodeURIComponent("كوفي كورنر"),
-      label: language === "en" ? "Coffee Corner" : "كوفي كورنر وترابيزات",
+      href: "/products?category=" + encodeURIComponent("كراسي بار"),
+      label: language === "en" ? "Bar Stools" : "كراسي بار",
     },
     {
-      href: "/products?category=" + encodeURIComponent("انتريهات"),
-      label: language === "en" ? "Reception Lounge" : "أثاث استقبال وانتظار",
+      href: "/products?category=" + encodeURIComponent("وحدات ادراج تخزين"),
+      label: language === "en" ? "Storage Drawers" : "وحدات أدراج وتخزين",
+    },
+    {
+      href: "/products?category=" + encodeURIComponent("ستائر مكتبية"),
+      label: language === "en" ? "Office Blinds" : "ستائر مكتبية",
+    },
+    {
+      href: "/products?category=" + encodeURIComponent("كوفي كورنر"),
+      label: language === "en" ? "Coffee Corner" : "كوفي كورنر",
     },
     {
       href: "/custom-order",
@@ -117,11 +131,13 @@ export default function Navbar() {
     { name: "كراسي جلد فاخرة للمديرين", category: "كراسي جلد", count: "28 منتج" },
     { name: "كراسي طبية إرجونوميك معتمدة", category: "كراسي طبية", count: "20 منتج" },
     { name: "مكاتب تنفيذية بقوائم هندسية", category: "مكاتب", count: "13 منتج" },
+    { name: "مكاتب وكاونترات استقبال فاخرة", category: "مكاتب استقبال", count: "3 موديلات" },
+    { name: "وحدات أدراج وتخزين وأرشيف", category: "وحدات ادراج تخزين", count: "3 وحدات" },
+    { name: "كراسي بار وكاونتر هيدروليك", category: "كراسي بار", count: "3 موديلات" },
+    { name: "ستائر مكتبية رول وزيبرا وبلاك أوت", category: "ستائر مكتبية", count: "3 أنواع" },
     { name: "كراسي شبك عالية التهوية", category: "كراسي شبك", count: "6 منتجات" },
     { name: "وحدات كوفي كورنر وركن القهوة", category: "كوفي كورنر", count: "4 موديلات" },
     { name: "كاونترات استقبال وأطقم انتظار", category: "انتريهات", count: "3 أطقم" },
-    { name: "ترابيزات شاشة وتليفزيون عصرية", category: "ترابيزات", count: "2 موديل" },
-    { name: "كرسي استرخاء ليزي بوي طبي", category: "ليزي بوي", count: "متوفر" },
   ];
 
   // Filtered search results

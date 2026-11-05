@@ -36,15 +36,16 @@ const COLOR_OPTIONS = [
 // All categories ordered logically by popularity & relevance
 const ORDERED_CATEGORIES = [
   "جزامات",
-  "كراسي جلد",
   "مكاتب",
+  "كراسي جلد",
   "كراسي طبية",
-  "كوفي كورنر",
+  "مكاتب استقبال",
+  "وحدات ادراج تخزين",
+  "كراسي بار",
+  "ستائر مكتبية",
   "كراسي شبك",
-  "ترابيزات",
+  "كوفي كورنر",
   "انتريهات",
-  "ليزي بوي",
-  "تسريحه",
 ];
 
 export default function ProductGrid() {
@@ -128,8 +129,26 @@ export default function ProductGrid() {
             if (p.category === cat) return true;
             // Aliases & Arabic variations for shop by category
             if (
-              (cat === "ترابيزة شاشه" || cat === "ترابيزة شاشة" || cat === "ترابيزات شاشه" || cat === "ترابيزة تليفزيون") &&
-              (p.category === "ترابيزة تليفزيون" || p.category === "ترابيزات" || p.category === "ترابيزة شاشه" || p.category === "ترابيزة شاشة" || (p.name && (p.name.includes("شاشة") || p.name.includes("تليفزيون"))))
+              (cat === "ستائر مكتبية" || cat === "الستائر المكتبية" || cat === "ستائر") &&
+              (p.category === "ستائر مكتبية" || (p.name && p.name.includes("ستائر")))
+            ) {
+              return true;
+            }
+            if (
+              (cat === "كراسي بار" || cat === "الكراسي البار" || cat === "كرسي بار") &&
+              (p.category === "كراسي بار" || (p.name && (p.name.includes("بار") || p.name.includes("كاونتر"))))
+            ) {
+              return true;
+            }
+            if (
+              (cat === "مكاتب استقبال" || cat === "مكتب استقبال" || cat === "كاونتر استقبال") &&
+              (p.category === "مكاتب استقبال" || (p.name && p.name.includes("استقبال")))
+            ) {
+              return true;
+            }
+            if (
+              (cat === "وحدات ادراج تخزين" || cat === "وحدات أدراج وتخزين" || cat === "ادراج تخزين" || cat === "وحدات تخزين") &&
+              (p.category === "وحدات ادراج تخزين" || (p.name && (p.name.includes("أدراج") || p.name.includes("ادراج") || p.name.includes("تخزين") || p.name.includes("لوكر"))))
             ) {
               return true;
             }
@@ -143,15 +162,6 @@ export default function ProductGrid() {
               (cat === "جزامات" || cat === "جزامة") &&
               (p.category === "جزامات" || p.category === "جزامة" || (p.name && (p.name.includes("جزامة") || p.name.includes("جزامات"))))
             ) {
-              return true;
-            }
-            if ((cat === "دواليب" || cat === "دولاب") && (p.category === "دواليب" || p.category === "دولاب")) {
-              return true;
-            }
-            if ((cat === "ركن" || cat === "ركنة") && (p.category === "ركن" || p.category === "ركنة")) {
-              return true;
-            }
-            if (cat === "كراسي مريحة" && (p.category === "انتريهات" || p.category === "ليزي بوي")) {
               return true;
             }
             return false;
