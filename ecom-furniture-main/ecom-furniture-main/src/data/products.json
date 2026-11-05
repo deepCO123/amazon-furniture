@@ -1,5 +1,97 @@
 [
   {
+    "id": "prod_shoe_rack_szg08",
+    "name": "جزامة MDF بيضاء للمداخل الضيقة – SZG08",
+    "slug": "slim-white-mdf-shoe-rack-szg08",
+    "sku": "SZG08",
+    "code": "SZG08",
+    "category": "جزامات",
+    "price": 9309,
+    "originalPrice": 11664,
+    "rating": 5,
+    "reviewCount": 31,
+    "stockQuantity": 14,
+    "inStock": true,
+    "featured": true,
+    "color": "أبيض ناصع",
+    "material": "خشب MDF كثافة 16.5 مم مع ميكانيزم تركي",
+    "dimensions": {
+      "width": 80,
+      "height": 100,
+      "depth": 25
+    },
+    "weight": 32,
+    "images": [
+      "/products/shoe-racks/szg08-white-slim-main.jpg",
+      "/products/shoe-racks/szg08-dimensions.jpg"
+    ],
+    "description": "جزامة بيضاء أنيقة بتصميم نحيف مخصص للمداخل الضيقة والممرات كود SZG08، بعمق مدمج 25 سم فقط لتوفير المساحة بالكامل دون التنازل عن سعة التخزين. مصنعة من خشب MDF عالي الكثافة (16.5 مم) ومزودة بميكانيزم قلاب تركي عالي الجودة مع أدراج قلاب مقسمة داخلياً ورف سفلي مفتوح لسليبرز الاستخدام السريع، ومقابض وأرجل أنيقة باللون الذهبي. مقاس 80×25 سم بارتفاع 100 سم. ضمان 3 سنوات، تبديل واسترجاع خلال 14 يوماً، وتوصيل من 15 إلى 20 يوم عمل.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "15 إلى 20 يوم عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "جزامات",
+      "جزامة للمداخل الضيقة",
+      "أبيض",
+      "SZG08",
+      "تصميم نحيف",
+      "ميكانيزم تركي",
+      "خشب MDF",
+      "تنظيم أحذية",
+      "مدخل المنزل"
+    ],
+    "createdAt": "2026-11-05T10:53:29.135Z",
+    "updatedAt": "2026-11-05T10:53:29.135Z",
+    "totalSold": 18,
+    "returnCount": 0
+  },
+  {
+    "id": "prod_shoe_rack_szg09",
+    "name": "جزامة مودرن أبيض وبيج بأرفف متعددة – SZG09",
+    "slug": "modern-shoe-rack-white-beige-multi-shelf-szg09",
+    "sku": "SZG09",
+    "code": "SZG09",
+    "category": "جزامات",
+    "price": 15925,
+    "originalPrice": 19944,
+    "rating": 5,
+    "reviewCount": 26,
+    "stockQuantity": 9,
+    "inStock": true,
+    "featured": true,
+    "color": "أبيض وبيج",
+    "material": "خشب MDF كثافة 16.5 مم مع ميكانيزم تركي",
+    "dimensions": {
+      "width": 120,
+      "height": 110,
+      "depth": 40
+    },
+    "weight": 46,
+    "images": [
+      "/products/shoe-racks/szg09-white-beige-main.jpg",
+      "/products/shoe-racks/szg09-dimensions.jpg"
+    ],
+    "description": "جزامة مودرن فاخرة أبيض وبيج كود SZG09 بتصميم راقي يجمع بين الأبواب الجرارة والأرفف المتعددة المفتوحة لعرض وتنظيم الأحذية بسلاسة وأناقة. مصنعة من خشب MDF عالي الكثافة (16.5 مم) المقاوم للرطوبة والخدش مع ميكانيزم جرار تركي أصلي متين. مقاس 120×40 سم بارتفاع 110 سم مع أرجل خشبية صلبة ومقابض عصرية. ضمان 3 سنوات، إمكانية التبديل والإرجاع خلال 14 يوماً، وتوصيل سريع من 15 إلى 20 يوم عمل.",
+    "warranty": "3 سنوات",
+    "deliveryTime": "15 إلى 20 يوم عمل",
+    "returnPolicy": "التبديل والاسترجاع خلال 14 يوماً",
+    "tags": [
+      "جزامات",
+      "جزامة مودرن",
+      "أبيض وبيج",
+      "SZG09",
+      "أرفف متعددة",
+      "ميكانيزم تركي",
+      "خشب MDF",
+      "تنظيم أحذية",
+      "مدخل المنزل"
+    ],
+    "createdAt": "2026-11-05T10:53:29.132Z",
+    "updatedAt": "2026-11-05T10:53:29.135Z",
+    "totalSold": 11,
+    "returnCount": 0
+  },
+  {
     "id": "prod_shoe_rack_szg10",
     "name": "جزامة بيج عمودية بتخزين مغلق – SZG10",
     "slug": "vertical-shoe-rack-beige-closed-storage-szg10",
