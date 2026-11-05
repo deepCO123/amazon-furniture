@@ -106,3 +106,30 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    const all = searchParams.get("all");
+
+    await connectToDatabase();
+
+    if (all === "true") {
+      await OrderModel.deleteMany({});
+      return NextResponse.json({ success: true, message: "تم حذف جميع الطلبات" });
+    }
+
+    if (!id) {
+      return NextResponse.json({ error: "id is required" }, { status: 400 });
+    }
+
+    await OrderModel.findOneAndDelete({ id });
+    return NextResponse.json({ success: true, message: "تم حذف الطلب بنجاح" });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Failed to delete order";
+    console.error("[Next.js API] DELETE /api/orders error:", err);
+    return NextResponse.json({ error: msg }, { status: 500 });
+  }
+}
+

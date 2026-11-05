@@ -42,7 +42,7 @@
     ],
     "createdAt": "2026-11-05T11:01:36.923Z",
     "updatedAt": "2026-11-05T11:01:36.923Z",
-    "totalSold": 12,
+    "totalSold": 0,
     "returnCount": 0
   },
   {
@@ -87,7 +87,7 @@
     ],
     "createdAt": "2026-11-05T11:01:36.915Z",
     "updatedAt": "2026-11-05T11:01:36.923Z",
-    "totalSold": 8,
+    "totalSold": 0,
     "returnCount": 0
   },
   {
@@ -133,7 +133,7 @@
     ],
     "createdAt": "2026-11-05T10:53:29.135Z",
     "updatedAt": "2026-11-05T10:53:29.135Z",
-    "totalSold": 18,
+    "totalSold": 0,
     "returnCount": 0
   },
   {
@@ -179,7 +179,7 @@
     ],
     "createdAt": "2026-11-05T10:53:29.132Z",
     "updatedAt": "2026-11-05T10:53:29.135Z",
-    "totalSold": 11,
+    "totalSold": 0,
     "returnCount": 0
   },
   {
@@ -225,7 +225,7 @@
     ],
     "createdAt": "2026-11-04T17:09:59.236Z",
     "updatedAt": "2026-11-04T17:09:59.236Z",
-    "totalSold": 14,
+    "totalSold": 0,
     "returnCount": 0
   },
   {
@@ -271,7 +271,7 @@
     ],
     "createdAt": "2026-11-04T17:09:59.228Z",
     "updatedAt": "2026-11-04T17:09:59.236Z",
-    "totalSold": 9,
+    "totalSold": 0,
     "returnCount": 0
   },
   {
@@ -317,7 +317,7 @@
     ],
     "createdAt": "2026-11-04T17:01:27.193Z",
     "updatedAt": "2026-11-04T17:01:27.197Z",
-    "totalSold": 12,
+    "totalSold": 0,
     "returnCount": 0
   },
   {
@@ -363,7 +363,7 @@
     ],
     "createdAt": "2026-11-04T16:27:43.826Z",
     "updatedAt": "2026-11-04T16:27:43.836Z",
-    "totalSold": 8,
+    "totalSold": 0,
     "returnCount": 0
   },
   {
@@ -389,7 +389,7 @@
     "weight": 21,
     "stockQuantity": 13,
     "returnCount": 0,
-    "totalSold": 3,
+    "totalSold": 0,
     "rating": 4.8,
     "reviewCount": 29,
     "inStock": true,
@@ -427,7 +427,7 @@
     "weight": 25,
     "stockQuantity": 10,
     "returnCount": 0,
-    "totalSold": 6,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 51,
     "inStock": true,
@@ -465,7 +465,7 @@
     "weight": 23,
     "stockQuantity": 11,
     "returnCount": 0,
-    "totalSold": 5,
+    "totalSold": 0,
     "rating": 5,
     "reviewCount": 38,
     "inStock": true,
@@ -503,7 +503,7 @@
     "weight": 24,
     "stockQuantity": 9,
     "returnCount": 0,
-    "totalSold": 3,
+    "totalSold": 0,
     "rating": 5,
     "reviewCount": 47,
     "inStock": true,
@@ -541,7 +541,7 @@
     "weight": 22,
     "stockQuantity": 14,
     "returnCount": 0,
-    "totalSold": 4,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 35,
     "inStock": true,
@@ -579,7 +579,7 @@
     "weight": 26,
     "stockQuantity": 10,
     "returnCount": 0,
-    "totalSold": 7,
+    "totalSold": 0,
     "rating": 5,
     "reviewCount": 56,
     "inStock": true,
@@ -617,7 +617,7 @@
     "weight": 22,
     "stockQuantity": 8,
     "returnCount": 0,
-    "totalSold": 2,
+    "totalSold": 0,
     "rating": 5,
     "reviewCount": 42,
     "inStock": true,
@@ -655,7 +655,7 @@
     "weight": 19,
     "stockQuantity": 16,
     "returnCount": 0,
-    "totalSold": 5,
+    "totalSold": 0,
     "rating": 4.8,
     "reviewCount": 24,
     "inStock": true,
@@ -693,7 +693,7 @@
     "weight": 21,
     "stockQuantity": 14,
     "returnCount": 0,
-    "totalSold": 4,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 29,
     "inStock": true,
@@ -731,7 +731,7 @@
     "weight": 23,
     "stockQuantity": 12,
     "returnCount": 0,
-    "totalSold": 3,
+    "totalSold": 0,
     "rating": 5,
     "reviewCount": 33,
     "inStock": true,
@@ -769,7 +769,7 @@
     "weight": 18,
     "stockQuantity": 11,
     "returnCount": 0,
-    "totalSold": 2,
+    "totalSold": 0,
     "rating": 4.8,
     "reviewCount": 23,
     "inStock": true,
@@ -807,7 +807,7 @@
     "weight": 19,
     "stockQuantity": 14,
     "returnCount": 0,
-    "totalSold": 5,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 27,
     "inStock": true,
@@ -845,7 +845,7 @@
     "weight": 20,
     "stockQuantity": 10,
     "returnCount": 0,
-    "totalSold": 3,
+    "totalSold": 0,
     "rating": 5,
     "reviewCount": 31,
     "inStock": true,
@@ -883,7 +883,7 @@
     "weight": 24,
     "stockQuantity": 15,
     "returnCount": 0,
-    "totalSold": 6,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 48,
     "inStock": true,
@@ -921,7 +921,7 @@
     "weight": 22,
     "stockQuantity": 12,
     "returnCount": 0,
-    "totalSold": 4,
+    "totalSold": 0,
     "rating": 5,
     "reviewCount": 36,
     "inStock": true,
@@ -959,7 +959,7 @@
     "weight": 22,
     "stockQuantity": 18,
     "returnCount": 0,
-    "totalSold": 8,
+    "totalSold": 0,
     "rating": 4.8,
     "reviewCount": 34,
     "inStock": true,
@@ -997,7 +997,7 @@
     "weight": 28,
     "stockQuantity": 10,
     "returnCount": 0,
-    "totalSold": 5,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 41,
     "inStock": true,
@@ -1035,7 +1035,7 @@
     "weight": 24,
     "stockQuantity": 15,
     "returnCount": 0,
-    "totalSold": 6,
+    "totalSold": 0,
     "rating": 4.8,
     "reviewCount": 29,
     "inStock": true,
@@ -1073,7 +1073,7 @@
     "weight": 58,
     "stockQuantity": 12,
     "returnCount": 0,
-    "totalSold": 4,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 38,
     "inStock": true,
@@ -1112,7 +1112,7 @@
     "weight": 88,
     "stockQuantity": 11,
     "returnCount": 0,
-    "totalSold": 4,
+    "totalSold": 0,
     "rating": 5,
     "reviewCount": 25,
     "inStock": true,
@@ -1151,7 +1151,7 @@
     "weight": 72,
     "stockQuantity": 8,
     "returnCount": 0,
-    "totalSold": 3,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 52,
     "inStock": true,
@@ -1190,7 +1190,7 @@
     "weight": 38,
     "stockQuantity": 15,
     "returnCount": 0,
-    "totalSold": 6,
+    "totalSold": 0,
     "rating": 4.8,
     "reviewCount": 38,
     "inStock": true,
@@ -1229,7 +1229,7 @@
     "weight": 95,
     "stockQuantity": 5,
     "returnCount": 0,
-    "totalSold": 2,
+    "totalSold": 0,
     "rating": 5,
     "reviewCount": 29,
     "inStock": true,
@@ -1268,7 +1268,7 @@
     "weight": 68,
     "stockQuantity": 9,
     "returnCount": 0,
-    "totalSold": 5,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 41,
     "inStock": true,
@@ -1308,7 +1308,7 @@
     "weight": 52,
     "stockQuantity": 10,
     "returnCount": 0,
-    "totalSold": 4,
+    "totalSold": 0,
     "rating": 4.8,
     "reviewCount": 27,
     "inStock": true,
@@ -1346,7 +1346,7 @@
     "weight": 85,
     "stockQuantity": 6,
     "returnCount": 0,
-    "totalSold": 1,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 22,
     "inStock": true,
@@ -1385,7 +1385,7 @@
     "weight": 120,
     "stockQuantity": 8,
     "returnCount": 0,
-    "totalSold": 2,
+    "totalSold": 0,
     "rating": 5,
     "reviewCount": 18,
     "inStock": true,
@@ -1425,7 +1425,7 @@
     "weight": 48,
     "stockQuantity": 14,
     "returnCount": 0,
-    "totalSold": 3,
+    "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 34,
     "inStock": true,
@@ -1793,7 +1793,7 @@
     },
     "weight": 18,
     "stockQuantity": 6,
-    "returnCount": 1,
+    "returnCount": 0,
     "totalSold": 0,
     "rating": 4.9,
     "reviewCount": 142,
@@ -1974,7 +1974,7 @@
     },
     "weight": 20,
     "stockQuantity": 3,
-    "returnCount": 3,
+    "returnCount": 0,
     "totalSold": 0,
     "rating": 5,
     "reviewCount": 1,
@@ -3579,7 +3579,7 @@
       "أثاث منزلي",
       "ديكور"
     ],
-    "totalSold": 5,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 38
   },
@@ -3616,7 +3616,7 @@
       "إضاءة ليد",
       "خشب طبيعي"
     ],
-    "totalSold": 3,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 62
   },
@@ -3652,7 +3652,7 @@
       "مينيمال",
       "اسكندنافي"
     ],
-    "totalSold": 7,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 28
   },
@@ -3688,7 +3688,7 @@
       "ميك اب",
       "أثاث منزلي"
     ],
-    "totalSold": 12,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 40
   },
@@ -3724,7 +3724,7 @@
       "انتريهات",
       "كنب حرف U"
     ],
-    "totalSold": 8,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 95
   },
@@ -3760,7 +3760,7 @@
       "تنظيم أحذية",
       "مدخل المنزل"
     ],
-    "totalSold": 22,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 26
   },
@@ -3796,7 +3796,7 @@
       "غرف نوم",
       "كابوتنيه"
     ],
-    "totalSold": 14,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 68
   },
@@ -3832,7 +3832,7 @@
       "ريكلاينر",
       "كرسي استرخاء"
     ],
-    "totalSold": 11,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 42
   },
@@ -3868,7 +3868,7 @@
       "تخزين ملابس",
       "أثاث مودرن"
     ],
-    "totalSold": 9,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 85
   },
@@ -3904,7 +3904,7 @@
       "كوفي بار",
       "أدراج"
     ],
-    "totalSold": 6,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 35
   },
@@ -3940,7 +3940,7 @@
       "ترابيزة قهوة",
       "صالون"
     ],
-    "totalSold": 18,
+    "totalSold": 0,
     "updatedAt": "2026-10-20T18:31:31.895Z",
     "weight": 22
   }
