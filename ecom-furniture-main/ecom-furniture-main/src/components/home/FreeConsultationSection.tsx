@@ -39,7 +39,7 @@ export default function FreeConsultationSection() {
   const [submitted, setSubmitted] = useState(false);
   const [lastWaUrl, setLastWaUrl] = useState("");
 
-  const showroomMapsUrl = "https://maps.app.goo.gl/NP3m16vbWodtcp9c8?g_st=ic";
+  const showroomMapsUrl = "https://www.google.com/maps/place/%D8%A7%D9%85%D8%A7%D8%B2%D9%88%D9%86+%D9%84%D9%84%D8%A7%D8%AB%D8%A7%D8%AB+%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A+%D9%88%D8%A7%D9%84%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%D8%A7%D8%AA%E2%80%AD/@31.0318629,31.3619766,17z/data=!4m6!3m5!1s0x14f79d9d9c5eed19:0x3d5d67c0dfa6fa5e!8m2!3d31.0318603!4d31.3645535!16s%2Fg%2F11fqxyhm9m?entry=ttu";
 
   // Automatic GPS Geolocation Detection
   const handleGetLocation = () => {
@@ -309,7 +309,7 @@ ${notes ? `📝 *ملاحظات وتفاصيل خاصة:* ${notes.trim()}\n` : "
                   <MapPin size={16} className="text-red-500 shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-primary block">العنوان الدقيق:</span>
-                    <span>المنصورة، الدقهلية — متاح استقبالكم ومعاينة جميع الكراسي والمكاتب على الطبيعة.</span>
+                    <span>المنصورة: 52 شارع سامية الجمل، قسم ثان المنصورة، الدقهلية — متاح استقبالكم ومعاينة جميع الكراسي والمكاتب على الطبيعة.</span>
                   </div>
                 </div>
 

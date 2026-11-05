@@ -139,18 +139,18 @@ export default function NewShowroomConsultationSection() {
               {/* Address & Working Hours Details */}
               <div className="space-y-2.5 mb-5 text-xs sm:text-[13px] font-semibold text-white/95 text-right">
                 <div className="flex items-center justify-end gap-2.5 bg-white/5 p-2 rounded-xl border border-white/5">
-                  <span className="leading-snug">العنوان: المنصورة - ش سامية الجمل تقاطع أحمد ماهر (أمازون للأثاث المكتبي)</span>
+                  <span className="leading-snug">العنوان: المنصورة: 52 شارع سامية الجمل، قسم ثان (أمازون للأثاث المكتبي والتجهيزات)</span>
                   <MapPin className="w-4 h-4 text-[#E8D4B0] shrink-0" />
                 </div>
                 <div className="flex items-center justify-end gap-2.5 bg-white/5 p-2 rounded-xl border border-white/5">
-                  <span className="leading-snug">مواعيد العمل: يومياً من 10:00 صباحاً حتى 10:00 مساءً</span>
+                  <span className="leading-snug">مواعيد العمل: يومياً من 10:00 صباحاً حتى 11:00 مساءً</span>
                   <Clock className="w-4 h-4 text-[#E8D4B0] shrink-0" />
                 </div>
               </div>
 
               {/* Google Maps Button */}
               <a
-                href="https://maps.app.goo.gl/NP3m16vbWodtcp9c8?g_st=ic"
+                href="https://www.google.com/maps/place/%D8%A7%D9%85%D8%A7%D8%B2%D9%88%D9%86+%D9%84%D9%84%D8%A7%D8%AB%D8%A7%D8%AB+%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A+%D9%88%D8%A7%D9%84%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%D8%A7%D8%AA%E2%80%AD/@31.0318629,31.3619766,17z/data=!4m6!3m5!1s0x14f79d9d9c5eed19:0x3d5d67c0dfa6fa5e!8m2!3d31.0318603!4d31.3645535!16s%2Fg%2F11fqxyhm9m?entry=ttu"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full bg-[#2C211C] hover:bg-[#3D2C22] active:scale-[0.99] border border-white/10 text-white font-bold text-xs sm:text-sm py-3 rounded-full shadow-md transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer mt-auto"
@@ -400,7 +400,7 @@ export default function NewShowroomConsultationSection() {
                   معرض متكامل من طابقين يضم أكثر من 500 موديل
                 </h4>
                 <p className="text-xs text-white/80 max-w-md">
-                  المنصورة - ش سامية الجمل تقاطع أحمد ماهر (أمازون للأثاث المكتبي) • يومياً من 10 صباحاً وحتى 10 مساءً
+                  المنصورة: 52 شارع سامية الجمل، قسم ثان (أمازون للأثاث المكتبي والتجهيزات) • يومياً حتى 11 مساءً
                 </p>
               </div>
             </div>

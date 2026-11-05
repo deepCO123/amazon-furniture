@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
                 </div>
               </div>
               <div class="footer">
-                <strong>معرض أمازون للأثاث المكتبي:</strong> المنصورة - ش سامية الجمل تقاطع أحمد ماهر<br/>
+                <strong>معرض أمازون للأثاث المكتبي والتجهيزات:</strong> المنصورة: 52 شارع سامية الجمل، قسم ثان المنصورة<br/>
                 خدمة العملاء والواتساب: 01091084863 • الدعم الفني: support@amazonfurniture.eg<br/>
                 © ${new Date().getFullYear()} Amazon Furniture. جميع الحقوق محفوظة.
               </div>

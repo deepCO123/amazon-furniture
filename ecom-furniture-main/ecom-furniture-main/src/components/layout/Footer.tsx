@@ -167,11 +167,11 @@ export default function Footer() {
                   </a>
                 </li>
                 <li className="flex items-center justify-end gap-2">
-                  <span>المنصورة - ش سامية الجمل تقاطع أحمد ماهر (أمازون للأثاث المكتبي)</span>
+                  <span>المنصورة: 52 شارع سامية الجمل، قسم ثان المنصورة (أمازون للأثاث المكتبي والتجهيزات)</span>
                   <MapPin className="w-3.5 h-3.5 text-[#C59B63] shrink-0" />
                 </li>
                 <li className="flex items-center justify-end gap-2 pt-1 border-t border-white/10 text-[#E8D4B0]">
-                  <span>مواعيد العمل: يومياً من 10:00 ص حتى 10:00 م</span>
+                  <span>مواعيد العمل: يومياً حتى 11:00 م (من 10:00 ص إلى 11:00 م)</span>
                   <Clock className="w-3.5 h-3.5 text-[#C59B63] shrink-0" />
                 </li>
               </ul>
@@ -186,7 +186,7 @@ export default function Footer() {
               <div className="rounded-2xl overflow-hidden border border-white/15 shadow-md h-40 relative group">
                 <iframe
                   title="Amazon Furniture Mansoura Showroom"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13697.877839352932!2d31.3654!3d31.0425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f79db7b6d19119%3A0xb35151f1f1d7a8d5!2sFaculty%20of%20Engineering%2C%20Mansoura%20University!5e0!3m2!1sen!2seg!4v1700000000000!5m2!1sen!2seg"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3424.470559798544!2d31.3619766!3d31.0318629!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f79d9d9c5eed19%3A0x3d5d67c0dfa6fa5e!2z2KfZhdin2LLZiNmGINmE2YTYp9ir2KfYqyDYp9mE2YXZg9iq2KjZiiDZiNin2YTYqNis2YfZitiy2KfYqiDigK0!5e0!3m2!1sar!2seg!4v1700000000000!5m2!1sar!2seg"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -196,7 +196,7 @@ export default function Footer() {
                   className="w-full h-full filter contrast-105"
                 />
                 <a
-                  href="https://maps.app.goo.gl/NP3m16vbWodtcp9c8?g_st=ic"
+                  href="https://www.google.com/maps/place/%D8%A7%D9%85%D8%A7%D8%B2%D9%88%D9%86+%D9%84%D9%84%D8%A7%D8%AB%D8%A7%D8%AB+%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A+%D9%88%D8%A7%D9%84%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%D8%A7%D8%AA%E2%80%AD/@31.0318629,31.3619766,17z/data=!4m6!3m5!1s0x14f79d9d9c5eed19:0x3d5d67c0dfa6fa5e!8m2!3d31.0318603!4d31.3645535!16s%2Fg%2F11fqxyhm9m?entry=ttu"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="absolute inset-0 bg-[#1F2421]/60 backdrop-blur-2xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-2"

@@ -218,10 +218,16 @@ export default function Navbar() {
 
               <span className="text-white/20 hidden md:inline">|</span>
 
-              <div className="hidden sm:flex items-center gap-1.5 text-white/80">
+              <a
+                href="https://www.google.com/maps/place/%D8%A7%D9%85%D8%A7%D8%B2%D9%88%D9%86+%D9%84%D9%84%D8%A7%D8%AB%D8%A7%D8%AB+%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A+%D9%88%D8%A7%D9%84%D8%AA%D8%AC%D9%87%D9%8A%D8%B2%D8%A7%D8%AA%E2%80%AD/@31.0318629,31.3619766,17z/data=!4m6!3m5!1s0x14f79d9d9c5eed19:0x3d5d67c0dfa6fa5e!8m2!3d31.0318603!4d31.3645535!16s%2Fg%2F11fqxyhm9m?entry=ttu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:flex items-center gap-1.5 text-white/80 hover:text-[#C59B63] transition-colors"
+                title="عرض موقع المعرض على Google Maps"
+              >
                 <MapPin className="w-3.5 h-3.5 text-[#C59B63]" />
-                <span>المنصورة - ش سامية الجمل تقاطع أحمد ماهر (أمازون للأثاث المكتبي)</span>
-              </div>
+                <span>المنصورة: 52 شارع سامية الجمل (أمازون للأثاث المكتبي والتجهيزات)</span>
+              </a>
             </div>
 
             {/* WhatsApp Quick Consultation & Tools (Left side in RTL) */}
