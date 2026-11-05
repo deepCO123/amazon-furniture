@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -18,6 +18,8 @@ import { useLanguageStore } from "@/store/languageStore";
 import { useHydrated } from "@/hooks/useHydrated";
 import { useProductStore } from "@/store/productStore";
 import { getReviewsByProduct } from "@/data/reviews";
+import initialProductsData from "@/data/products.json";
+import type { Product } from "@/types";
 import { formatPrice, getProductUrl } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
@@ -34,13 +36,46 @@ export default function ProductDetailPage({
   const { slug } = use(params);
   const router = useRouter();
   const storeProduct = useProductStore((s) => s.getProductBySlug(slug));
-  const product = storeProduct;
   const allProducts = useProductStore((s) => s.products);
-  const related = product
-    ? allProducts
-        .filter((p) => p.id !== product.id && p.category === product.category)
-        .slice(0, 4)
-    : [];
+  const effectiveAllProducts = (
+    allProducts && allProducts.length > 0
+      ? allProducts
+      : (initialProductsData as unknown as Product[])
+  ) as Product[];
+  const product =
+    storeProduct ||
+    effectiveAllProducts.find((p) => p.slug === slug || p.id === slug);
+
+  const related = useMemo(() => {
+    if (!product) return [];
+
+    // 1. Same category items first (excluding current product)
+    const sameCategory = effectiveAllProducts.filter(
+      (p) => p.id !== product.id && p.category === product.category
+    );
+
+    // 2. Complementary categories
+    let complementary: Product[] = [];
+    if (sameCategory.length < 8) {
+      const cat = product.category || "";
+      let targetCats: string[] = [];
+      if (cat.includes("جزامات")) targetCats = ["كوفي كورنر", "ترابيزات", "مكاتب"];
+      else if (cat.includes("مكاتب")) targetCats = ["كراسي جلد", "كراسي طبية", "كراسي شبك"];
+      else if (cat.includes("كراسي جلد")) targetCats = ["مكاتب", "كراسي طبية", "كراسي شبك"];
+      else if (cat.includes("كراسي")) targetCats = ["مكاتب", "كراسي جلد"];
+      else if (cat.includes("كوفي")) targetCats = ["جزامات", "ترابيزات", "مكاتب"];
+      else targetCats = ["جزامات", "كراسي جلد", "مكاتب"];
+
+      complementary = effectiveAllProducts.filter(
+        (p) =>
+          p.id !== product.id &&
+          p.category !== product.category &&
+          targetCats.includes(p.category)
+      );
+    }
+
+    return [...sameCategory, ...complementary].slice(0, 8);
+  }, [product, effectiveAllProducts]);
   const reviews = product ? getReviewsByProduct(product.id) : [];
   const addItem = useCartStore((s) => s.addItem);
   const { addItem: addWishlist, removeItem: removeWishlist, isInWishlist } =
@@ -593,21 +628,30 @@ ${fullImgUrl ? `*صورة القطعة:* ${fullImgUrl}\n` : ""}*رابط الم�
           </div>
         </div>
 
-        {/* ── 6. Related Products (Strictly from same category) ─────────── */}
+        {/* ── 6. Related Products (تشكيلة منتجات ذات صلة تناسب اختيارك) ─────────── */}
         {related.length > 0 && (
-          <div className="mt-14">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl sm:text-2xl font-black text-[#1F2421] dark:text-[#E8D4B0]">
-                منتجات أخرى من قسم {product.category}
-              </h3>
+          <div className="mt-12 bg-white dark:bg-[#151A24] rounded-3xl p-5 sm:p-8 border border-gray-200/80 dark:border-[#232B3C] shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-gray-100 dark:border-[#232B3C]">
+              <div>
+                <div className="inline-flex items-center gap-1.5 bg-[#FAF0E6] dark:bg-[#2B1E16] text-[#A3704C] dark:text-[#D4A373] text-xs font-black px-3 py-1 rounded-full mb-1.5">
+                  <span>✨ منتجات مكملة وذات صلة</span>
+                </div>
+                <h3 className="text-lg sm:text-2xl font-black text-[#1F2421] dark:text-[#E8D4B0]">
+                  منتجات ذات صلة تناسب اختيارك
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  اختر قطعاً متناسقة مع طلبك لإكمال أناقة المكان بتوصيل وشحن موحد وضمان مصنع Amazon Furniture
+                </p>
+              </div>
               <Link
                 href={`/products?category=${encodeURIComponent(product.category)}`}
-                className="text-xs sm:text-sm font-bold text-[#D97706] hover:underline"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#C58B45] hover:text-[#A3704C] transition-colors self-start sm:self-center"
               >
-                عرض كل قسم {product.category} ←
+                <span>عرض جميع منتجات {product.category}</span>
+                <span>←</span>
               </Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
               {related.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}

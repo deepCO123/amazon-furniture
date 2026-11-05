@@ -7,6 +7,7 @@ import { Heart, ShoppingBag, Star, ArrowLeft, Check } from "lucide-react";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useCartStore } from "@/store/cartStore";
 import { formatPrice } from "@/lib/utils";
+import initialProductsData from "@/data/products.json";
 import type { Product } from "@/types";
 
 interface FeaturedProductItem {
@@ -20,97 +21,107 @@ interface FeaturedProductItem {
   category: string;
 }
 
-// 10 Featured products (2 rows of 5 on desktop, 5 clean rows of 2 on mobile)
+// 10 Real Genuine Featured Products (2 rows of 5 on desktop, clean rows of 2 on mobile)
 const featuredProductsList: FeaturedProductItem[] = [
   {
-    id: "prod-bed-royal",
-    slug: "luxury-royal-bed",
-    name: "سرير عصري فاخر",
-    price: 4900,
+    id: "prod_shoe_rack_szg14",
+    slug: "wide-shoe-rack-white-beige-szg14",
+    name: "جزامة عريضة أبيض وبيج – SZG14",
+    price: 15272,
+    originalPrice: 19320,
     rating: 5,
-    image: "/redesign/prod-bed.png",
-    category: "غرف نوم",
+    image: "/products/shoe-racks/szg14-white-beige-main.jpg",
+    category: "جزامات",
   },
   {
     id: "prod_executive_metal_leg_desk",
     slug: "modern-executive-desk-metal-legs",
     name: "مكتب تنفيذي مودرن بقوائم هندسية",
     price: 6850,
+    originalPrice: 8500,
     rating: 5,
     image: "/products/desks/desk-executive-metal-leg.jpg",
     category: "مكاتب",
   },
   {
-    id: "prod-chair-modern",
-    slug: "modern-comfy-chair",
-    name: "كرسي مريح حديث",
-    price: 3850,
+    id: "prod_shoe_rack_szg13",
+    slug: "shoe-rack-white-beige-3-drawers-szg13",
+    name: "جزامة أبيض وبيج بـ3 أدراج – SZG13",
+    price: 5658,
+    originalPrice: 7044,
     rating: 5,
-    image: "/redesign/prod-chair.png",
-    category: "كراسي جلد",
-  },
-  {
-    id: "prod-wardrobe-deluxe",
-    slug: "luxury-wood-wardrobe",
-    name: "دولاب خشب فاخر",
-    price: 7800,
-    rating: 5,
-    image: "/redesign/prod-wardrobe.png",
-    category: "دواليب",
-  },
-  {
-    id: "prod-sofa-corner",
-    slug: "luxury-corner-sofa",
-    name: "ركنة مريحة عصرية",
-    price: 11500,
-    rating: 5,
-    image: "/redesign/prod-sofa.png",
-    category: "ركن",
-  },
-  {
-    id: "prod-coffee-corner-luxury",
-    slug: "luxury-coffee-corner-shelf",
-    name: "وحدة كوفي كورنر مودرن متكاملة",
-    price: 6200,
-    rating: 5,
-    image: "/redesign/cat-coffee-corner.png",
-    category: "كوفي كورنر",
-  },
-  {
-    id: "prod-shoe-rack-deluxe",
-    slug: "wide-shoe-rack-white-beige-szg14",
-    name: "جزامة عريضة أبيض وبيج – SZG14",
-    price: 15272,
-    rating: 5,
-    image: "/products/shoe-racks/szg14-white-beige-main.jpg",
+    image: "/products/shoe-racks/szg13-white-beige-main.jpg",
     category: "جزامات",
   },
   {
-    id: "prod-tv-table-modern",
-    slug: "modern-tv-table-unit",
-    name: "ترابيزة شاشة وتليفزيون عصرية",
-    price: 4800,
+    id: "prod_leather_chair_dark_chocolate",
+    slug: "dark-chocolate-executive-leather-chair",
+    name: "كرسي مدير تنفيذي ظهر عالي جلد بني شوكولاتة - LC-915",
+    price: 5300,
+    originalPrice: 6600,
     rating: 5,
-    image: "/redesign/cat-tv-table.png",
-    category: "ترابيزة شاشه",
-  },
-  {
-    id: "prod-medical-lumbar-chair",
-    slug: "orthopedic-lumbar-chair",
-    name: "كرسي شبك طبي إرجونوميك هيدروليك",
-    price: 4200,
-    rating: 5,
-    image: "/redesign/cat-medical-chair.png",
-    category: "كراسي طبية",
-  },
-  {
-    id: "prod-leather-manager-deluxe",
-    slug: "luxury-leather-manager-chair",
-    name: "كرسي مدير تنفيذي جلد طبيعي",
-    price: 5400,
-    rating: 5,
-    image: "/redesign/cat-leather-chair.png",
+    image: "/products/leather-chairs/chair-chocolate-brown-chrome.png",
     category: "كراسي جلد",
+  },
+  {
+    id: "prod_shoe_rack_szg11",
+    slug: "modern-shoe-rack-black-beige-szg11",
+    name: "جزامة مودرن أسود وبيج بأرفف متدرجة – SZG11",
+    price: 8706,
+    originalPrice: 10920,
+    rating: 5,
+    image: "/products/shoe-racks/szg11-black-beige-main.jpg",
+    category: "جزامات",
+  },
+  {
+    id: "prod_shoe_rack_szg09",
+    slug: "modern-shoe-rack-white-beige-multi-shelf-szg09",
+    name: "جزامة مودرن أبيض وبيج بأرفف متعددة – SZG09",
+    price: 15925,
+    originalPrice: 19944,
+    rating: 5,
+    image: "/products/shoe-racks/szg09-white-beige-main.jpg",
+    category: "جزامات",
+  },
+  {
+    id: "prod_shoe_rack_szg10",
+    slug: "vertical-shoe-rack-beige-closed-storage-szg10",
+    name: "جزامة بيج عمودية بتخزين مغلق – SZG10",
+    price: 10333,
+    originalPrice: 12960,
+    rating: 5,
+    image: "/products/shoe-racks/szg10-vertical-beige-main.jpg",
+    category: "جزامات",
+  },
+  {
+    id: "prod_leather_chair_burgundy_mahogany",
+    slug: "classic-burgundy-mahogany-leather-chair",
+    name: "كرسي مكتب رئاسي كلاسيكي جلد نبيذي - LC-914",
+    price: 5900,
+    originalPrice: 7200,
+    rating: 5,
+    image: "/products/leather-chairs/chair-burgundy-classic-executive.png",
+    category: "كراسي جلد",
+  },
+  {
+    id: "prod_shoe_rack_szg06",
+    slug: "modern-white-beige-shoe-cabinet-drawer-szg06",
+    name: "جزامة مودرن أبيض وبيج بتخزين مغلق – SZG06",
+    price: 8947,
+    originalPrice: 11220,
+    rating: 5,
+    image: "/products/shoe-racks/szg06-white-beige-closed-storage-main.jpg",
+    category: "جزامات",
+  },
+  {
+    id: "prod_shoe_rack_szg08",
+    slug: "slim-white-mdf-shoe-rack-szg08",
+    name: "جزامة MDF بيضاء للمداخل الضيقة – SZG08",
+    price: 9309,
+    originalPrice: 11664,
+    rating: 5,
+    image: "/products/shoe-racks/szg08-white-slim-main.jpg",
+    category: "جزامات",
   },
 ];
 
@@ -119,26 +130,33 @@ export default function NewFeaturedProductsSection() {
   const { addItem: addToCart } = useCartStore();
   const [addedItem, setAddedItem] = useState<string | null>(null);
 
-  const toProduct = (prod: FeaturedProductItem): Product => ({
-    id: prod.id,
-    name: prod.name,
-    slug: prod.slug,
-    price: prod.price,
-    originalPrice: prod.originalPrice,
-    images: [prod.image],
-    category: prod.category,
-    description: "قطعة أثاث فاخرة من تصميم وتنفيذ مصنع ومعرض Amazon Furniture بخامات عالية الجودة.",
-    material: "خشب وخامات فاخرة",
-    color: "طبيعي",
-    dimensions: { width: 100, height: 80, depth: 80 },
-    weight: 18,
-    inStock: true,
-    featured: true,
-    tags: [prod.category],
-    rating: prod.rating,
-    reviewCount: 12,
-    stockQuantity: 10,
-  });
+  const toProduct = (prod: FeaturedProductItem): Product => {
+    const found = (initialProductsData as unknown as Product[]).find(
+      (p) => p.id === prod.id || p.slug === prod.slug
+    );
+    if (found) return found;
+
+    return {
+      id: prod.id,
+      name: prod.name,
+      slug: prod.slug,
+      price: prod.price,
+      originalPrice: prod.originalPrice,
+      images: [prod.image],
+      category: prod.category,
+      description: "قطعة أثاث فاخرة من تصميم وتنفيذ مصنع ومعرض Amazon Furniture بخامات عالية الجودة.",
+      material: "خشب وخامات فاخرة",
+      color: "طبيعي",
+      dimensions: { width: 100, height: 80, depth: 80 },
+      weight: 18,
+      inStock: true,
+      featured: true,
+      tags: [prod.category],
+      rating: prod.rating,
+      reviewCount: 12,
+      stockQuantity: 10,
+    };
+  };
 
   const handleToggleWishlist = (e: React.MouseEvent, prod: FeaturedProductItem) => {
     e.preventDefault();

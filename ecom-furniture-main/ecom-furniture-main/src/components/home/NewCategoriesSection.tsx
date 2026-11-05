@@ -13,16 +13,22 @@ interface CategoryItem {
 
 const categories: CategoryItem[] = [
   {
+    id: "shoeracks",
+    name: "جزامات",
+    image: "/redesign/cat-shoerack.png",
+    href: "/products?category=" + encodeURIComponent("جزامات"),
+  },
+  {
     id: "leather-chairs",
     name: "كراسي جلد",
     image: "/redesign/cat-leather-chair.png",
     href: "/products?category=" + encodeURIComponent("كراسي جلد"),
   },
   {
-    id: "comfortable-chairs",
-    name: "كراسي مريحة",
-    image: "/redesign/cat-sofa.png",
-    href: "/products?category=" + encodeURIComponent("انتريهات"),
+    id: "medical-chairs",
+    name: "كراسي طبية",
+    image: "/redesign/cat-medical-chair.png",
+    href: "/products?category=" + encodeURIComponent("كراسي طبية"),
   },
   {
     id: "desks",
@@ -31,40 +37,28 @@ const categories: CategoryItem[] = [
     href: "/products?category=" + encodeURIComponent("مكاتب"),
   },
   {
-    id: "tv-tables",
-    name: "ترابيزة شاشه",
-    image: "/redesign/cat-tv-table.png",
-    href: "/products?category=" + encodeURIComponent("ترابيزة شاشه"),
-  },
-  {
-    id: "wardrobes",
-    name: "دواليب",
-    image: "/redesign/cat-wardrobe.png",
-    href: "/products?category=" + encodeURIComponent("دواليب"),
-  },
-  {
     id: "coffee-corner",
     name: "كوفي كورنر",
     image: "/redesign/cat-coffee-corner.png",
     href: "/products?category=" + encodeURIComponent("كوفي كورنر"),
   },
   {
-    id: "corners",
-    name: "ركن",
-    image: "/redesign/cat-corner-sofa.png",
-    href: "/products?category=" + encodeURIComponent("ركن"),
+    id: "tv-tables",
+    name: "ترابيزة شاشه",
+    image: "/redesign/cat-tv-table.png",
+    href: "/products?category=" + encodeURIComponent("ترابيزات"),
   },
   {
-    id: "shoeracks",
-    name: "جزامات",
-    image: "/redesign/cat-shoerack.png",
-    href: "/products?category=" + encodeURIComponent("جزامات"),
-  },
-  {
-    id: "medical-chairs",
-    name: "كراسي طبية",
+    id: "mesh-chairs",
+    name: "كراسي شبك",
     image: "/redesign/cat-medical-chair.png",
-    href: "/products?category=" + encodeURIComponent("كراسي طبية"),
+    href: "/products?category=" + encodeURIComponent("كراسي شبك"),
+  },
+  {
+    id: "reception-sofas",
+    name: "انتريهات",
+    image: "/redesign/cat-sofa.png",
+    href: "/products?category=" + encodeURIComponent("انتريهات"),
   },
 ];
 

@@ -25,6 +25,9 @@ import Breadcrumb from "@/components/layout/Breadcrumb";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { FREE_SHIPPING_THRESHOLD } from "@/data/shippingRates";
 import { validateCoupon, type Coupon } from "@/data/coupons";
+import ProductCard from "@/components/products/ProductCard";
+import initialProductsData from "@/data/products.json";
+import type { Product } from "@/types";
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotal, clearCart } = useCartStore();
@@ -37,6 +40,10 @@ export default function CartPage() {
   const [couponFeedback, setCouponFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const total = getTotal();
+  const cartItemIds = new Set(items.map((i) => i.product.id));
+  const suggestedProducts = (initialProductsData as unknown as Product[])
+    .filter((p) => !cartItemIds.has(p.id))
+    .slice(0, 3);
   const isFreeShipping = total >= FREE_SHIPPING_THRESHOLD;
   const grandTotal = Math.max(0, total - couponDiscount);
 
@@ -255,6 +262,29 @@ export default function CartPage() {
                 {isEn ? "Clear Cart" : "إفراغ السلة بالكامل"}
               </button>
             </div>
+
+            {/* Cross-sell suggested products */}
+            {suggestedProducts.length > 0 && (
+              <div className="mt-8 pt-6 border-t border-gray-200 dark:border-[#232B3C]">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm sm:text-base font-black text-[#1F2421] dark:text-[#E8D4B0] flex items-center gap-1.5">
+                    <span>✨</span>
+                    <span>{isEn ? "Suggested to Complete Your Order" : "قطع مقترحة قد تعجبك لإكمال طلبك"}</span>
+                  </h3>
+                  <Link
+                    href="/products"
+                    className="text-xs font-bold text-[#C58B45] hover:underline"
+                  >
+                    {isEn ? "View all" : "تصفح الكل ←"}
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {suggestedProducts.map((prod) => (
+                    <ProductCard key={prod.id} product={prod} />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Order Summary */}
