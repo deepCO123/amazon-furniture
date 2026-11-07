@@ -43,6 +43,7 @@ import {
   FileSpreadsheet,
   Ruler,
   Menu,
+  Settings,
 } from "lucide-react";
 import { useAdminAuthStore } from "@/store/adminAuthStore";
 import { useProductStore } from "@/store/productStore";
@@ -71,8 +72,11 @@ const QuotationModal = dynamic(() => import("@/components/admin/QuotationModal")
 const ImportProducts = dynamic(() => import("@/components/admin/ImportProducts"), {
   ssr: false,
 });
+const StoreSettingsTab = dynamic(() => import("@/components/admin/StoreSettingsTab"), {
+  ssr: false,
+});
 
-type AdminTab = "products" | "customers" | "orders" | "returns" | "quotations" | "consultations" | "analytics" | "emails" | "custom_orders";
+type AdminTab = "products" | "customers" | "orders" | "returns" | "quotations" | "consultations" | "analytics" | "emails" | "custom_orders" | "settings";
 
 export default function AdminDashboardPage() {
   const {
@@ -702,6 +706,7 @@ export default function AdminDashboardPage() {
     { id: "returns" as AdminTab, label: "المرتجعات وفحص الجودة", shortLabel: "المرتجعات", icon: RotateCcw, count: returns.length },
     { id: "analytics" as AdminTab, label: "تحليلات الأثاث والـ Feed", shortLabel: "التحليلات", icon: BarChart3 },
     { id: "emails" as AdminTab, label: "سجل الإيميلات", shortLabel: "الإيميلات", icon: Mail, count: emails.length },
+    { id: "settings" as AdminTab, label: "إعدادات الدفع والبيكسل", shortLabel: "الإعدادات", icon: Settings },
   ];
   const currentTabObj = navTabs.find((t) => t.id === activeTab) || navTabs[0];
   const CurrentTabIcon = currentTabObj.icon;
@@ -1087,6 +1092,7 @@ export default function AdminDashboardPage() {
                 {activeTab === "returns" && "طلبات الاسترجاع وفحص الجودة"}
                 {activeTab === "analytics" && "تحليلات المشاهدات ومبيعات الأثاث"}
                 {activeTab === "emails" && "سجل الإيميلات والتنبيهات الآلية"}
+                {activeTab === "settings" && "إعدادات بيكسل ميتا والدفع السريع (InstaPay & فودافون كاش)"}
               </h1>
               <p className={`text-xs font-medium mt-0.5 ${textMuted}`}>
                 تتبع أداء حملاتك، مبيعاتك، ومخزونك بدقة لحظية
@@ -1252,6 +1258,7 @@ export default function AdminDashboardPage() {
                 {activeTab === "returns" && "فحص المرتجعات وتقارير الجودة"}
                 {activeTab === "analytics" && "لوحة التحليلات المتقدمة"}
                 {activeTab === "emails" && "سجل الإيميلات والتنبيهات الآلية"}
+                {activeTab === "settings" && "إعدادات الدفع والعربون وبيكسل الإعلانات (Meta Pixel)"}
               </h2>
             </div>
 
@@ -2167,12 +2174,18 @@ export default function AdminDashboardPage() {
                               )}
 
                               {/* Payment Status */}
-                              <div className="pt-0.5">
+                              <div className="pt-0.5 space-y-1">
                                 {order.paymentStatus === "paid" ? (
                                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${
                                     isDark ? "bg-emerald-950/60 text-emerald-300 border-emerald-500/40" : "bg-emerald-50 text-emerald-600 border-emerald-200"
                                   }`}>
-                                    مدفوع ✓
+                                    مدفوع بالكامل ✓
+                                  </span>
+                                ) : order.paymentStatus === "deposit_paid" ? (
+                                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${
+                                    isDark ? "bg-amber-950/60 text-amber-300 border-amber-500/40" : "bg-amber-50 text-amber-700 border-amber-200"
+                                  }`}>
+                                    عربون محول ✓
                                   </span>
                                 ) : order.paymentStatus === "verified" ? (
                                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${
@@ -2186,6 +2199,17 @@ export default function AdminDashboardPage() {
                                   }`}>
                                     معلق / عند الاستلام
                                   </span>
+                                )}
+
+                                {order.paymentDetails?.depositType === "deposit" && (
+                                  <div className="text-[10px] space-y-0.5 pt-0.5">
+                                    <span className="text-amber-600 dark:text-amber-400 font-bold block">
+                                      عربون: {formatPrice(order.paymentDetails.depositAmount || 0)}
+                                    </span>
+                                    <span className={`block text-[9px] ${textMuted}`}>
+                                      المتبقي: {formatPrice(order.paymentDetails.remainingAmount || 0)}
+                                    </span>
+                                  </div>
                                 )}
                               </div>
                             </div>
@@ -3576,6 +3600,18 @@ export default function AdminDashboardPage() {
             />
           </div>
         </div>
+      )}
+
+      {/* ── 10. Store Settings Tab (Meta Pixel, InstaPay & Vodafone Cash) ── */}
+      {activeTab === "settings" && (
+        <StoreSettingsTab
+          isDark={isDark}
+          panelCls={panelCls}
+          cardCls={cardCls}
+          inputCls={inputCls}
+          textMuted={textMuted}
+          showNotification={showNotification}
+        />
       )}
 
         </div>

@@ -28,6 +28,7 @@ import { validateCoupon, type Coupon } from "@/data/coupons";
 import ProductCard from "@/components/products/ProductCard";
 import initialProductsData from "@/data/products.json";
 import type { Product } from "@/types";
+import { trackInitiateCheckout, trackWhatsAppClick } from "@/lib/analytics";
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotal, clearCart } = useCartStore();
@@ -419,7 +420,11 @@ export default function CartPage() {
               </div>
 
               {/* Main Checkout button */}
-              <Link href="/checkout" className="block mt-6">
+              <Link
+                href="/checkout"
+                onClick={() => trackInitiateCheckout(items, total)}
+                className="block mt-6"
+              >
                 <Button size="lg" className="w-full font-bold text-base shadow-sm">
                   <span>{isEn ? "Proceed to Checkout" : "متابعة إتمام الطلب والدفع"}</span>
                   <ArrowRight size={18} className="ms-2" />
@@ -431,6 +436,7 @@ export default function CartPage() {
                 href={generateQuickCartWhatsapp()}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackWhatsAppClick("cart_page", "طلب سلة المشتريات عبر واتساب")}
                 className="mt-3 w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm shadow-sm transition-all"
               >
                 <MessageCircle size={18} />

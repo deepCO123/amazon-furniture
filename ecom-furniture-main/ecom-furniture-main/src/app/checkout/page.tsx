@@ -31,6 +31,7 @@ import {
   FileText,
   Award,
   CheckCircle2,
+  Percent,
 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
@@ -42,7 +43,7 @@ import Breadcrumb from "@/components/layout/Breadcrumb";
 import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import { useProductStore } from "@/store/productStore";
 import type { Order } from "@/types";
-import { trackPurchase } from "@/lib/analytics";
+import { trackPurchase, trackInitiateCheckout } from "@/lib/analytics";
 import { EGYPT_GOVERNORATES, getShippingRate, FREE_SHIPPING_THRESHOLD } from "@/data/shippingRates";
 import { validateCoupon, type Coupon } from "@/data/coupons";
 
@@ -85,6 +86,32 @@ export default function CheckoutPage() {
   const [transactionRef, setTransactionRef] = useState("");
   const [senderPhone, setSenderPhone] = useState("");
   const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  // Store Settings (Dynamic Meta Pixel, InstaPay, Vodafone Cash, Deposit Percentage)
+  const [storeSettings, setStoreSettings] = useState({
+    instapayAddress: "amazonfurniture@instapay",
+    instapayPhone: "01091084863",
+    vodafoneCashNumber: "01091084863",
+    depositPercentage: 25,
+    depositEnabled: true,
+  });
+
+  // Payment Plan: deposit (عربون) vs full (سداد بالكامل)
+  const [paymentPlan, setPaymentPlan] = useState<"deposit" | "full">("deposit");
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.settings) {
+          setStoreSettings((prev) => ({
+            ...prev,
+            ...data.settings,
+          }));
+        }
+      })
+      .catch(() => {});
+  }, []);
   
   // Payment Receipt Upload State (for InstaPay and Vodafone Cash)
   const [receiptImage, setReceiptImage] = useState<string>("");
@@ -100,6 +127,20 @@ export default function CheckoutPage() {
   const shippingInfo = getShippingRate(selectedGovernorate, total);
   const shippingCost = shippingInfo.cost;
   const grandTotal = Math.max(0, total - couponDiscount + shippingCost);
+
+  // Dynamic Deposit Calculations
+  const depositPercent = storeSettings.depositPercentage || 25;
+  const depositAmount = Math.round((grandTotal * depositPercent) / 100);
+  const remainingAmount = Math.max(0, grandTotal - depositAmount);
+  const isDeposit = (paymentMethod === "instapay" || paymentMethod === "wallet") && paymentPlan === "deposit" && storeSettings.depositEnabled;
+  const activePayAmount = isDeposit ? depositAmount : grandTotal;
+
+  // Track InitiateCheckout on mount
+  useEffect(() => {
+    if (items.length > 0) {
+      trackInitiateCheckout(items, grandTotal);
+    }
+  }, []);
 
   const {
     register,
@@ -265,8 +306,13 @@ export default function CheckoutPage() {
     const customerEmail = customerData.email || user?.email || "customer@amazonfurniture.com";
 
     // Payment details construction
-    const paymentStatus: NonNullable<Order["paymentStatus"]> = "pending";
-    const paymentDetailsPayload: NonNullable<Order["paymentDetails"]> = {};
+    const paymentStatus: NonNullable<Order["paymentStatus"]> = isDeposit ? "deposit_paid" : "pending";
+    const paymentDetailsPayload: NonNullable<Order["paymentDetails"]> = {
+      depositType: isDeposit ? "deposit" : "full",
+      depositAmount: isDeposit ? depositAmount : grandTotal,
+      remainingAmount: isDeposit ? remainingAmount : 0,
+      depositPercentage: isDeposit ? depositPercent : 100,
+    };
     if (paymentMethod === "instapay" && transactionRef) paymentDetailsPayload.transactionRef = transactionRef;
     if (paymentMethod === "wallet" && senderPhone) paymentDetailsPayload.walletPhone = senderPhone;
     if ((paymentMethod === "instapay" || paymentMethod === "wallet") && receiptImage) {
@@ -282,21 +328,38 @@ export default function CheckoutPage() {
     // Construct WhatsApp message with rich payment metadata, shipping and coupon
     let paymentMetaText = `💳 *طريقة الدفع:* ${getPaymentMethodLabel(paymentMethod)}\n`;
     if (paymentMethod === "instapay") {
-      paymentMetaText += `⚡ *تحويل إنستاباي* إلى: amazonfurniture@instapay\n`;
+      if (isDeposit) {
+        paymentMetaText += `⚡ *خطة السداد:* دفع عربون جدية (${depositPercent}%) والباقي عند الاستلام والمعاينة\n`;
+        paymentMetaText += `💰 *مبلغ العربون المطلوب:* ${formatPrice(depositAmount)}\n`;
+        paymentMetaText += `📦 *المبلغ المتبقي عند الاستلام:* ${formatPrice(remainingAmount)}\n`;
+      } else {
+        paymentMetaText += `⚡ *خطة السداد:* سداد إجمالي الفاتورة بالكامل مقدماً (100%)\n`;
+        paymentMetaText += `💰 *المبلغ المحول بالكامل:* ${formatPrice(grandTotal)}\n`;
+      }
+      paymentMetaText += `🏦 *تحويل إنستاباي* إلى: ${storeSettings.instapayAddress}\n`;
+      paymentMetaText += `📱 *رقم الهاتف المرتبط:* ${storeSettings.instapayPhone}\n`;
       if (transactionRef) paymentMetaText += `🔖 *المرجع/الاسم:* ${transactionRef}\n`;
       if (receiptImage) {
         const fullReceiptUrl = receiptImage.startsWith("http") ? receiptImage : `${origin}${receiptImage}`;
         paymentMetaText += `📸 *صورة إيصال التحويل:* ${fullReceiptUrl}\n`;
       }
     } else if (paymentMethod === "wallet") {
-      paymentMetaText += `📱 *تحويل كاش* إلى: 01091084863\n`;
+      if (isDeposit) {
+        paymentMetaText += `⚡ *خطة السداد:* دفع عربون جدية (${depositPercent}%) والباقي عند الاستلام والمعاينة\n`;
+        paymentMetaText += `💰 *مبلغ العربون المطلوب:* ${formatPrice(depositAmount)}\n`;
+        paymentMetaText += `📦 *المبلغ المتبقي عند الاستلام:* ${formatPrice(remainingAmount)}\n`;
+      } else {
+        paymentMetaText += `⚡ *خطة السداد:* سداد إجمالي الفاتورة بالكامل مقدماً (100%)\n`;
+        paymentMetaText += `💰 *المبلغ المحول بالكامل:* ${formatPrice(grandTotal)}\n`;
+      }
+      paymentMetaText += `📱 *تحويل كاش* إلى محفظة: ${storeSettings.vodafoneCashNumber}\n`;
       if (senderPhone) paymentMetaText += `📞 *المحفظة المحول منها:* ${senderPhone}\n`;
       if (receiptImage) {
         const fullReceiptUrl = receiptImage.startsWith("http") ? receiptImage : `${origin}${receiptImage}`;
         paymentMetaText += `📸 *صورة إيصال التحويل:* ${fullReceiptUrl}\n`;
       }
     } else {
-      paymentMetaText += `💵 *الدفع عند الاستلام:* كاش بعد المعاينة والفحص\n`;
+      paymentMetaText += `💵 *الدفع عند الاستلام:* كاش بعد المعاينة والفحص (0% مقدماً)\n`;
     }
 
     const shippingText = shippingInfo.isFree
@@ -702,6 +765,23 @@ ${itemsListText}
                         {confirmedPaymentInfo ? getPaymentMethodLabel(confirmedPaymentInfo.method) : "الدفع عند الاستلام"}
                       </span>
                     </div>
+
+                    {confirmedPaymentInfo?.details?.depositType === "deposit" && (
+                      <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-950 space-y-1 text-xs">
+                        <div className="flex justify-between font-bold text-amber-900">
+                          <span>خطة السداد:</span>
+                          <span>عربون تأكيد ({confirmedPaymentInfo.details.depositPercentage || 25}%) والباقي عند الاستلام</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">مبلغ العربون المطلوب:</span>
+                          <span className="font-bold text-emerald-700">{formatPrice(confirmedPaymentInfo.details.depositAmount || 0)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">المتبقي عند المعاينة والاستلام:</span>
+                          <span className="font-bold text-slate-900">{formatPrice(confirmedPaymentInfo.details.remainingAmount || 0)}</span>
+                        </div>
+                      </div>
+                    )}
 
                     {confirmedPaymentInfo?.method === "instapay" && (
                       <div className="p-2.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-950 space-y-1">
@@ -1216,17 +1296,89 @@ ${itemsListText}
                             animate={{ opacity: 1, height: "auto" }}
                             className="mt-4 pt-3 border-t border-indigo-100 text-xs space-y-3"
                           >
+                            {/* Deposit Plan Selector */}
+                            {storeSettings.depositEnabled && (
+                              <div className="p-3 rounded-xl bg-indigo-50/80 dark:bg-indigo-950/30 border border-indigo-200/80 dark:border-indigo-800/40 space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-bold text-xs text-indigo-950 dark:text-indigo-200 flex items-center gap-1.5">
+                                    <span>🛡️ خطة دفع قيمة الطلب:</span>
+                                  </span>
+                                  <span className="text-[10px] font-bold text-indigo-700 bg-white dark:bg-indigo-900/50 px-2 py-0.5 rounded-full border border-indigo-200">
+                                    {paymentPlan === "deposit" ? `عربون جدية (${depositPercent}%)` : "سداد كامل (100%)"}
+                                  </span>
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setPaymentPlan("deposit");
+                                    }}
+                                    className={`p-2.5 rounded-lg border-2 text-start transition-all cursor-pointer ${
+                                      paymentPlan === "deposit"
+                                        ? "border-indigo-600 bg-white dark:bg-slate-900 shadow-xs"
+                                        : "border-indigo-200/50 bg-white/60 dark:bg-slate-900/40 opacity-70 hover:opacity-100"
+                                    }`}
+                                  >
+                                    <div className="flex items-center justify-between">
+                                      <span className="font-bold text-xs text-slate-900 dark:text-white">
+                                        دفع عربون ({depositPercent}%)
+                                      </span>
+                                      <span className={`w-2.5 h-2.5 rounded-full ${paymentPlan === "deposit" ? "bg-indigo-600" : "border border-slate-400"}`} />
+                                    </div>
+                                    <div className="mt-1">
+                                      <span className="text-indigo-700 dark:text-indigo-300 font-extrabold text-sm block">
+                                        تحويل الآن: {formatPrice(depositAmount)}
+                                      </span>
+                                      <span className="text-slate-500 text-[10px] block">
+                                        الباقي عند الاستلام: {formatPrice(remainingAmount)}
+                                      </span>
+                                    </div>
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setPaymentPlan("full");
+                                    }}
+                                    className={`p-2.5 rounded-lg border-2 text-start transition-all cursor-pointer ${
+                                      paymentPlan === "full"
+                                        ? "border-indigo-600 bg-white dark:bg-slate-900 shadow-xs"
+                                        : "border-slate-200 bg-white/60 dark:bg-slate-900/40 opacity-70 hover:opacity-100"
+                                    }`}
+                                  >
+                                    <div className="flex items-center justify-between">
+                                      <span className="font-bold text-xs text-slate-900 dark:text-white">
+                                        دفع الفاتورة كاملة (100%)
+                                      </span>
+                                      <span className={`w-2.5 h-2.5 rounded-full ${paymentPlan === "full" ? "bg-indigo-600" : "border border-slate-400"}`} />
+                                    </div>
+                                    <div className="mt-1">
+                                      <span className="text-indigo-700 dark:text-indigo-300 font-extrabold text-sm block">
+                                        تحويل الآن: {formatPrice(grandTotal)}
+                                      </span>
+                                      <span className="text-slate-500 text-[10px] block">
+                                        الباقي عند الاستلام: 0 ج
+                                      </span>
+                                    </div>
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-white dark:bg-[#151D2A] p-3 rounded-lg border border-indigo-100 dark:border-indigo-900/40">
                               <div className="flex items-center justify-between">
                                 <div>
                                   <span className="text-muted block text-[10px]">{isEn ? "Instant Payment Address (IPA):" : "عنوان الدفع اللحظي (IPA):"}</span>
-                                  <span className="font-mono font-bold text-slate-900 dark:text-white">amazonfurniture@instapay</span>
+                                  <span className="font-mono font-bold text-slate-900 dark:text-white">{storeSettings.instapayAddress}</span>
                                 </div>
                                 <button
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    copyToClipboard("amazonfurniture@instapay", "ipa");
+                                    copyToClipboard(storeSettings.instapayAddress, "ipa");
                                   }}
                                   className="p-1.5 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 rounded cursor-pointer"
                                   title={isEn ? "Copy" : "نسخ"}
@@ -1238,13 +1390,13 @@ ${itemsListText}
                               <div className="flex items-center justify-between border-t sm:border-t-0 sm:border-s border-indigo-100 dark:border-indigo-900/40 pt-2 sm:pt-0 sm:ps-3">
                                 <div>
                                   <span className="text-muted block text-[10px]">{isEn ? "Linked Phone Number:" : "رقم الهاتف المرتبط:"}</span>
-                                  <span className="font-mono font-bold text-slate-900 dark:text-white" dir="ltr">01091084863</span>
+                                  <span className="font-mono font-bold text-slate-900 dark:text-white" dir="ltr">{storeSettings.instapayPhone}</span>
                                 </div>
                                 <button
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    copyToClipboard("01091084863", "instapay-phone");
+                                    copyToClipboard(storeSettings.instapayPhone, "instapay-phone");
                                   }}
                                   className="p-1.5 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 rounded cursor-pointer"
                                   title={isEn ? "Copy" : "نسخ"}
@@ -1390,16 +1542,88 @@ ${itemsListText}
                             animate={{ opacity: 1, height: "auto" }}
                             className="mt-4 pt-3 border-t border-red-100 text-xs space-y-3"
                           >
+                            {/* Deposit Plan Selector */}
+                            {storeSettings.depositEnabled && (
+                              <div className="p-3 rounded-xl bg-red-50/80 dark:bg-red-950/30 border border-red-200/80 dark:border-red-800/40 space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-bold text-xs text-red-950 dark:text-red-200 flex items-center gap-1.5">
+                                    <span>🛡️ خطة دفع قيمة الطلب:</span>
+                                  </span>
+                                  <span className="text-[10px] font-bold text-red-700 bg-white dark:bg-red-900/50 px-2 py-0.5 rounded-full border border-red-200">
+                                    {paymentPlan === "deposit" ? `عربون جدية (${depositPercent}%)` : "سداد كامل (100%)"}
+                                  </span>
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setPaymentPlan("deposit");
+                                    }}
+                                    className={`p-2.5 rounded-lg border-2 text-start transition-all cursor-pointer ${
+                                      paymentPlan === "deposit"
+                                        ? "border-red-600 bg-white dark:bg-slate-900 shadow-xs"
+                                        : "border-red-200/50 bg-white/60 dark:bg-slate-900/40 opacity-70 hover:opacity-100"
+                                    }`}
+                                  >
+                                    <div className="flex items-center justify-between">
+                                      <span className="font-bold text-xs text-slate-900 dark:text-white">
+                                        دفع عربون ({depositPercent}%)
+                                      </span>
+                                      <span className={`w-2.5 h-2.5 rounded-full ${paymentPlan === "deposit" ? "bg-red-600" : "border border-slate-400"}`} />
+                                    </div>
+                                    <div className="mt-1">
+                                      <span className="text-red-700 dark:text-red-300 font-extrabold text-sm block">
+                                        تحويل الآن: {formatPrice(depositAmount)}
+                                      </span>
+                                      <span className="text-slate-500 text-[10px] block">
+                                        الباقي عند الاستلام: {formatPrice(remainingAmount)}
+                                      </span>
+                                    </div>
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setPaymentPlan("full");
+                                    }}
+                                    className={`p-2.5 rounded-lg border-2 text-start transition-all cursor-pointer ${
+                                      paymentPlan === "full"
+                                        ? "border-red-600 bg-white dark:bg-slate-900 shadow-xs"
+                                        : "border-slate-200 bg-white/60 dark:bg-slate-900/40 opacity-70 hover:opacity-100"
+                                    }`}
+                                  >
+                                    <div className="flex items-center justify-between">
+                                      <span className="font-bold text-xs text-slate-900 dark:text-white">
+                                        دفع الفاتورة كاملة (100%)
+                                      </span>
+                                      <span className={`w-2.5 h-2.5 rounded-full ${paymentPlan === "full" ? "bg-red-600" : "border border-slate-400"}`} />
+                                    </div>
+                                    <div className="mt-1">
+                                      <span className="text-red-700 dark:text-red-300 font-extrabold text-sm block">
+                                        تحويل الآن: {formatPrice(grandTotal)}
+                                      </span>
+                                      <span className="text-slate-500 text-[10px] block">
+                                        الباقي عند الاستلام: 0 ج
+                                      </span>
+                                    </div>
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+
                             <div className="flex items-center justify-between bg-white dark:bg-[#151D2A] p-3 rounded-lg border border-red-100 dark:border-red-900/40">
                               <div>
                                 <span className="text-muted block text-[10px]">{isEn ? "Official Showroom Wallet Number:" : "رقم محفظة كاش المعتمد للمعرض:"}</span>
-                                <span className="font-mono font-bold text-slate-900 dark:text-white text-sm" dir="ltr">01091084863</span>
+                                <span className="font-mono font-bold text-slate-900 dark:text-white text-sm" dir="ltr">{storeSettings.vodafoneCashNumber}</span>
                               </div>
                               <button
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  copyToClipboard("01091084863", "wallet-phone");
+                                  copyToClipboard(storeSettings.vodafoneCashNumber, "wallet-phone");
                                 }}
                                 className="px-2.5 py-1 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/60 rounded-lg flex items-center gap-1 cursor-pointer"
                               >
@@ -1526,6 +1750,18 @@ ${itemsListText}
                           <span>{isEn ? "Total Amount:" : "المبلغ الإجمالي للدفع:"}</span>
                           <span className="text-accent-dark">{formatPrice(grandTotal)}</span>
                         </div>
+                        {isDeposit && (
+                          <div className="mt-2 p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/40 space-y-1">
+                            <div className="flex justify-between text-amber-900 dark:text-amber-200 font-bold">
+                              <span>عربون مطلوب ({depositPercent}%):</span>
+                              <span className="text-amber-700 dark:text-amber-300">{formatPrice(depositAmount)}</span>
+                            </div>
+                            <div className="flex justify-between text-slate-600 dark:text-slate-400 text-[10px]">
+                              <span>متبقي عند الاستلام:</span>
+                              <span className="font-semibold text-slate-900 dark:text-white">{formatPrice(remainingAmount)}</span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -1703,6 +1939,19 @@ ${itemsListText}
                       {formatPrice(grandTotal)}
                     </span>
                   </div>
+
+                  {isDeposit && (
+                    <div className="mt-2.5 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/40 space-y-1.5 text-xs">
+                      <div className="flex justify-between items-center text-amber-900 dark:text-amber-200 font-bold">
+                        <span>العربون المطلوب تحويله ({depositPercent}%):</span>
+                        <span className="text-sm font-black text-amber-700 dark:text-amber-300">{formatPrice(depositAmount)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-slate-600 dark:text-slate-400 text-[11px]">
+                        <span>المتبقي عند المعاينة والاستلام:</span>
+                        <span className="font-bold text-slate-900 dark:text-slate-100">{formatPrice(remainingAmount)}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Manager Card */}

@@ -98,8 +98,12 @@ export interface Order {
   leadTimeDays?: number;
   requiresAssembly?: boolean;
   paymentMethod?: "cod" | "instapay" | "wallet" | "card" | "fawry";
-  paymentStatus?: "pending" | "verified" | "paid" | "failed";
+  paymentStatus?: "pending" | "deposit_paid" | "verified" | "paid" | "failed";
   paymentDetails?: {
+    depositType?: "deposit" | "full";
+    depositAmount?: number;
+    remainingAmount?: number;
+    depositPercentage?: number;
     transactionRef?: string;
     walletPhone?: string;
     fawryCode?: string;

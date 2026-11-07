@@ -38,6 +38,7 @@ const OrderSchema = new Schema(
     },
     paymentMethod: { type: String, default: "cod" },
     paymentStatus: { type: String, default: "pending" },
+    paymentDetails: { type: Schema.Types.Mixed, default: {} },
     shippingAddress: { type: Schema.Types.Mixed, default: {} },
     notes: { type: String, default: "" },
     date: { type: String, default: () => new Date().toISOString() },

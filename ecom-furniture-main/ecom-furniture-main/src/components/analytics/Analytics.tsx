@@ -8,9 +8,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || process.env.NEXT_PUBLIC_GA_ID;
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 
-// Validate IDs (avoid sending requests with placeholder or invalid IDs)
+// Validate IDs
 const isGaValid = Boolean(GA_ID && GA_ID.startsWith("G-") && GA_ID !== "G-ECOMFURNITURE");
-const isPixelValid = Boolean(PIXEL_ID && /^\d+$/.test(PIXEL_ID) && PIXEL_ID !== "987654321098765");
+const isEnvPixelValid = Boolean(PIXEL_ID && /^\d+$/.test(PIXEL_ID) && PIXEL_ID !== "987654321098765");
 
 // ── Global TypeScript definitions for window ──
 declare global {
@@ -19,6 +19,40 @@ declare global {
     dataLayer?: unknown[];
     fbq?: (...args: unknown[]) => void;
     _fbq?: unknown;
+    _meta_pixel_id?: string;
+  }
+}
+
+/**
+ * Initializes Meta Pixel dynamically if not already initialized
+ */
+export function initMetaPixel(id: string) {
+  if (typeof window === "undefined" || !id || !/^\d+$/.test(id)) return;
+  if (window._meta_pixel_id === id && typeof window.fbq === "function") return;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (function(f: any, b: any, e: any, v: any, n?: any, t?: any, s?: any) {
+    if (f.fbq) return;
+    n = f.fbq = function() {
+      // eslint-disable-next-line prefer-rest-params
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = !0;
+    n.version = "2.0";
+    n.queue = [];
+    t = b.createElement(e);
+    t.async = !0;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s);
+  })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+
+  if (typeof window.fbq === "function") {
+    window.fbq("init", id);
+    window.fbq("track", "PageView");
+    window._meta_pixel_id = id;
   }
 }
 
@@ -29,7 +63,7 @@ export function trackPageView(url: string) {
   if (isGaValid && typeof window.gtag === "function") {
     window.gtag("config", GA_ID!, { page_path: url });
   }
-  if (isPixelValid && typeof window.fbq === "function") {
+  if (typeof window.fbq === "function") {
     window.fbq("track", "PageView");
   }
 }
@@ -55,7 +89,7 @@ export function trackViewItem(product: {
       ],
     });
   }
-  if (isPixelValid && typeof window.fbq === "function") {
+  if (typeof window.fbq === "function") {
     window.fbq("track", "ViewContent", {
       content_name: product.name,
       content_ids: [product.id],
@@ -90,7 +124,7 @@ export function trackAddToCart(product: {
       ],
     });
   }
-  if (isPixelValid && typeof window.fbq === "function") {
+  if (typeof window.fbq === "function") {
     window.fbq("track", "AddToCart", {
       content_name: product.name,
       content_ids: [product.id],
@@ -109,7 +143,7 @@ export function trackInitiateCheckout(total: number, itemsCount: number) {
       value: total,
     });
   }
-  if (isPixelValid && typeof window.fbq === "function") {
+  if (typeof window.fbq === "function") {
     window.fbq("track", "InitiateCheckout", {
       value: total,
       currency: "EGP",
@@ -136,7 +170,7 @@ export function trackPurchase(order: {
       })),
     });
   }
-  if (isPixelValid && typeof window.fbq === "function") {
+  if (typeof window.fbq === "function") {
     window.fbq("track", "Purchase", {
       value: order.total,
       currency: "EGP",
@@ -154,7 +188,7 @@ export function trackWhatsAppClick(source: string, itemName?: string) {
       event_label: itemName ? `${source}: ${itemName}` : source,
     });
   }
-  if (isPixelValid && typeof window.fbq === "function") {
+  if (typeof window.fbq === "function") {
     window.fbq("track", "Contact", {
       content_name: itemName || source,
       status: "WhatsApp Clicked",
@@ -177,6 +211,21 @@ function PageViewTracker() {
 
 // ── Main Analytics Scripts Component ──
 export default function Analytics() {
+  // Check dynamic settings for Meta Pixel if not configured via env
+  useEffect(() => {
+    if (!isEnvPixelValid) {
+      fetch("/api/settings")
+        .then((res) => res.json())
+        .then((data) => {
+          const pixelId = data?.settings?.metaPixelId;
+          if (pixelId && /^\d+$/.test(pixelId)) {
+            initMetaPixel(pixelId);
+          }
+        })
+        .catch(() => {});
+    }
+  }, []);
+
   return (
     <>
       <Suspense fallback={null}>
@@ -208,8 +257,8 @@ export default function Analytics() {
         </>
       )}
 
-      {/* ─── 2. Meta Pixel (Facebook Pixel) ──────────────── */}
-      {isPixelValid && (
+      {/* ─── 2. Meta Pixel (Facebook Pixel) from ENV ─────── */}
+      {isEnvPixelValid && (
         <>
           <Script
             id="meta-pixel"
