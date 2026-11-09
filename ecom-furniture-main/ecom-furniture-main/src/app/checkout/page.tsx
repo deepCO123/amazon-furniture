@@ -235,27 +235,44 @@ export default function CheckoutPage() {
     setUploadingReceipt(true);
     setReceiptError(null);
 
-    try {
-      const formData = new FormData();
-      formData.append("receipt", file);
-
-      const res = await fetch("/api/upload/receipt", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (res.ok && data.url) {
-        setReceiptImage(data.url);
-      } else {
-        setReceiptError(data.error || (isEn ? "Failed to upload receipt" : "تعذر رفع صورة الإيصال"));
+    // 1. Immediately read file locally as Base64 to guarantee receipt persistence even if network/server upload fails
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const base64Data = event.target?.result as string;
+      if (base64Data) {
+        setReceiptImage(base64Data);
       }
-    } catch (err) {
-      console.error("Receipt upload error:", err);
-      setReceiptError(isEn ? "Error uploading image" : "حدث خطأ أثناء رفع الصورة");
-    } finally {
+
+      // 2. Attempt remote upload to CDN/server for lightweight URL reference
+      try {
+        const formData = new FormData();
+        formData.append("receipt", file);
+        formData.append("file", file);
+
+        const res = await fetch("/api/upload/receipt", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.url) {
+            setReceiptImage(data.url);
+          }
+        }
+      } catch (err) {
+        console.warn("[Receipt Upload] Server upload notice, preserved base64 fallback:", err);
+      } finally {
+        setUploadingReceipt(false);
+      }
+    };
+
+    reader.onerror = () => {
+      setReceiptError(isEn ? "Error reading image file" : "حدث خطأ أثناء قراءة ملف الصورة");
       setUploadingReceipt(false);
-    }
+    };
+
+    reader.readAsDataURL(file);
   };
 
 
@@ -275,6 +292,10 @@ export default function CheckoutPage() {
 
   const generateAndSendOrder = async () => {
     if (!customerData) return;
+    if (uploadingReceipt) {
+      alert(isEn ? "Please wait a moment while your payment screenshot finishes uploading..." : "يرجى الانتظار لحظة حتى يكتمل رفع سكرين شوت التحويل...");
+      return;
+    }
     setSubmittingOrder(true);
 
     // eslint-disable-next-line react-hooks/purity
@@ -315,7 +336,7 @@ export default function CheckoutPage() {
     };
     if (paymentMethod === "instapay" && transactionRef) paymentDetailsPayload.transactionRef = transactionRef;
     if (paymentMethod === "wallet" && senderPhone) paymentDetailsPayload.walletPhone = senderPhone;
-    if ((paymentMethod === "instapay" || paymentMethod === "wallet") && receiptImage) {
+    if (receiptImage) {
       paymentDetailsPayload.receiptImage = receiptImage;
     }
 
@@ -434,6 +455,7 @@ ${itemsListText}
           paymentMethod,
           paymentStatus,
           paymentDetails: paymentDetailsPayload,
+          receiptImage: receiptImage || undefined,
         }),
       });
 
@@ -470,6 +492,7 @@ ${itemsListText}
       paymentMethod,
       paymentStatus,
       paymentDetails: paymentDetailsPayload,
+      receiptImage: receiptImage || undefined,
     };
 
     setCompletedOrder(order);
@@ -1769,15 +1792,24 @@ ${itemsListText}
                     <div className="space-y-3 pt-2">
                       <button
                         onClick={generateAndSendOrder}
-                        disabled={submittingOrder}
+                        disabled={submittingOrder || uploadingReceipt}
                         className="w-full py-4 px-6 rounded-xl bg-accent hover:bg-accent-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-lg flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer min-h-[48px]"
                       >
-                        <ShieldCheck size={22} />
-                        <span>
-                          {submittingOrder
-                            ? (isEn ? "Confirming order..." : "جاري تسجيل وتأكيد الطلب...")
-                            : (isEn ? "Confirm Order & Reserve" : "تأكيد الطلب وحجز المنتجات")}
-                        </span>
+                        {uploadingReceipt ? (
+                          <div className="flex items-center justify-center gap-2">
+                            <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            <span>{isEn ? "Uploading screenshot..." : "جاري رفع صورة الإيصال..."}</span>
+                          </div>
+                        ) : (
+                          <>
+                            <ShieldCheck size={22} />
+                            <span>
+                              {submittingOrder
+                                ? (isEn ? "Confirming order..." : "جاري تسجيل وتأكيد الطلب...")
+                                : (isEn ? "Confirm Order & Reserve" : "تأكيد الطلب وحجز المنتجات")}
+                            </span>
+                          </>
+                        )}
                       </button>
 
                       <button

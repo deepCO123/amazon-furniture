@@ -98,6 +98,7 @@ export default function CustomOrderPage() {
     try {
       const formData = new FormData();
       formData.append("receipt", file);
+      formData.append("file", file);
 
       const res = await fetch("/api/upload/receipt", {
         method: "POST",
@@ -105,14 +106,32 @@ export default function CustomOrderPage() {
       });
 
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || (isEn ? "Failed to upload image" : "فشل رفع الصورة"));
+      if (res.ok && data.url) {
+        setReferenceImage(data.url);
+      } else {
+        // Fallback to local Data URL
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (typeof reader.result === "string") {
+            setReferenceImage(reader.result);
+          }
+        };
+        reader.readAsDataURL(file);
       }
-
-      setReferenceImage(data.url);
     } catch (err) {
-      const errMsg = err instanceof Error ? err.message : null;
-      setUploadError(errMsg || (isEn ? "Error uploading image" : "حدث خطأ أثناء رفع الصورة"));
+      console.warn("Custom order upload error, using local Data URL fallback:", err);
+      try {
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (typeof reader.result === "string") {
+            setReferenceImage(reader.result);
+          }
+        };
+        reader.readAsDataURL(file);
+      } catch {
+        const errMsg = err instanceof Error ? err.message : null;
+        setUploadError(errMsg || (isEn ? "Error uploading image" : "حدث خطأ أثناء رفع الصورة"));
+      }
     } finally {
       setUploadingImage(false);
     }

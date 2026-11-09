@@ -11,7 +11,7 @@ export async function GET() {
     return NextResponse.json(orders || []);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Failed to fetch orders";
-    console.error("[Next.js API] GET /api/orders error:", err);
+    console.error("[Next.js API] GET /api/orders error:", msg);
     return NextResponse.json([], { status: 200 });
   }
 }
@@ -22,11 +22,19 @@ export async function POST(req: NextRequest) {
     await connectToDatabase();
 
     const orderId = body.id || `AF-${Math.floor(100000 + Math.random() * 900000)}`;
+    const paymentDetails = { ...(body.paymentDetails || {}) };
+    const receiptImage = body.receiptImage || paymentDetails.receiptImage || paymentDetails.receipt || paymentDetails.screenshot || paymentDetails.receiptUrl;
+    if (receiptImage) {
+      paymentDetails.receiptImage = receiptImage;
+    }
+
     const newOrder = {
       ...body,
       id: orderId,
       date: body.date || new Date().toISOString(),
       status: body.status || "under_review",
+      paymentDetails,
+      receiptImage: receiptImage || undefined,
     };
 
     const created = await OrderModel.create(newOrder);
@@ -79,26 +87,39 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
-    const { orderId, status } = body;
+    const { orderId, status, paymentStatus, paymentDetails, notes } = body;
 
-    if (!orderId || !status) {
+    if (!orderId) {
       return NextResponse.json(
-        { error: "orderId and status are required" },
+        { error: "orderId is required" },
         { status: 400 }
       );
     }
 
     await connectToDatabase();
+
+    const updateFields: Record<string, unknown> = {};
+    if (status) updateFields.status = status;
+    if (paymentStatus) updateFields.paymentStatus = paymentStatus;
+    if (paymentDetails) {
+      const existing = await OrderModel.findOne({ id: orderId }).lean();
+      updateFields.paymentDetails = {
+        ...(existing?.paymentDetails || {}),
+        ...paymentDetails,
+      };
+    }
+    if (typeof notes === "string") updateFields.notes = notes;
+
     const updated = await OrderModel.findOneAndUpdate(
       { id: orderId },
-      { $set: { status } },
+      { $set: updateFields },
       { new: true }
     ).lean();
 
     return NextResponse.json({
       success: true,
       order: updated,
-      message: "تم تحديث حالة الطلب بنجاح",
+      message: "تم تحديث الطلب بنجاح",
     });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Failed to update order status";

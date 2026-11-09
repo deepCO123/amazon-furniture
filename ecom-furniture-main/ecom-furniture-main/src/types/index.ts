@@ -99,6 +99,7 @@ export interface Order {
   requiresAssembly?: boolean;
   paymentMethod?: "cod" | "instapay" | "wallet" | "card" | "fawry";
   paymentStatus?: "pending" | "deposit_paid" | "verified" | "paid" | "failed";
+  receiptImage?: string;
   paymentDetails?: {
     depositType?: "deposit" | "full";
     depositAmount?: number;

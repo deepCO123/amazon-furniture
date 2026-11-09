@@ -25,10 +25,41 @@ export async function GET(
       return new NextResponse("Invalid filename", { status: 400 });
     }
 
-    // Resolve upload path
-    const filePath = path.join(process.cwd(), "public", "uploads", filename);
+    // Resolve upload path with multi-location fallback
+    const candidatePaths = [
+      path.join(process.cwd(), "public", "uploads", filename),
+      path.join(process.cwd(), "ecom-furniture-main", "ecom-furniture-main", "public", "uploads", filename),
+      path.resolve(__dirname, "../../../../../public/uploads", filename),
+      path.resolve(__dirname, "../../../../../../public/uploads", filename),
+      path.resolve(__dirname, "../../../../../backend/uploads", filename),
+      path.resolve(process.cwd(), "..", "backend", "uploads", filename),
+    ];
 
-    if (!existsSync(filePath)) {
+    const filePath = candidatePaths.find((p) => existsSync(p));
+
+    if (!filePath) {
+      // Fallback: Attempt to proxy from backend if available
+      const backendUrl = (process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000").trim().replace(/\/$/, "");
+      try {
+        const backendRes = await fetch(`${backendUrl}/uploads/${encodeURIComponent(filename)}`, {
+          cache: "no-store",
+        });
+        if (backendRes.ok) {
+          const arrayBuf = await backendRes.arrayBuffer();
+          const ext = path.extname(filename).toLowerCase();
+          const contentType = backendRes.headers.get("content-type") || MIME_TYPES[ext] || "image/jpeg";
+          return new NextResponse(Buffer.from(arrayBuf), {
+            status: 200,
+            headers: {
+              "Content-Type": contentType,
+              "Cache-Control": "public, max-age=31536000, immutable",
+            },
+          });
+        }
+      } catch {
+        // Backend fallback failed
+      }
+
       return new NextResponse("Image not found", { status: 404 });
     }
 

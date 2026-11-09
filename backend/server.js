@@ -5,6 +5,7 @@
  */
 
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 const http = require('http');
 const { Server } = require('socket.io');
@@ -120,6 +121,18 @@ app.use(compression({
 // ─── 1. طبقات الحماية وتأمين الـ HTTP Headers ──────────────
 app.use(helmetConfig);
 app.use(corsConfig);
+
+// ─── 1.1 خدمة الملفات والصور المرفوعة محلياً (/uploads) ────────
+const publicUploadsDir = path.resolve(__dirname, '..', 'ecom-furniture-main', 'ecom-furniture-main', 'public', 'uploads');
+const backendUploadsDir = path.resolve(__dirname, 'uploads');
+try {
+  if (!fs.existsSync(publicUploadsDir)) fs.mkdirSync(publicUploadsDir, { recursive: true });
+  if (!fs.existsSync(backendUploadsDir)) fs.mkdirSync(backendUploadsDir, { recursive: true });
+} catch (e) {
+  console.warn('Uploads directory creation notice:', e.message);
+}
+app.use('/uploads', express.static(publicUploadsDir));
+app.use('/uploads', express.static(backendUploadsDir));
 
 // ─── 2. تحليل الـ Body مع حد أقصى مرن (50mb) ─────────────────
 app.use(express.json({ limit: '50mb' }));

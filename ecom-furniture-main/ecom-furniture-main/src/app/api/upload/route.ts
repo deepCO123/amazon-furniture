@@ -13,7 +13,9 @@ export const runtime = "nodejs";
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
-    const file = formData.get("file") as File | null;
+    const file = (formData.get("file") ||
+      formData.get("receipt") ||
+      formData.get("image")) as File | null;
 
     if (!file) {
       return NextResponse.json(

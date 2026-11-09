@@ -166,6 +166,12 @@ router.post('/', async (req, res) => {
   const orderId = body.id || `AF-${Math.floor(100000 + Math.random() * 900000)}`;
   const userId = body.userId;
 
+  const incomingDetails = { ...(body.paymentDetails || {}) };
+  const incomingReceipt = body.receiptImage || incomingDetails.receiptImage || incomingDetails.receipt || incomingDetails.screenshot || incomingDetails.receiptUrl || '';
+  if (incomingReceipt) {
+    incomingDetails.receiptImage = incomingReceipt;
+  }
+
   // تجهيز كائن الطلب الموحد بالأسعار المحسوبة من الـ Backend
   const newOrder = {
     id: orderId,
@@ -197,7 +203,8 @@ router.post('/', async (req, res) => {
     notes: notes || '',
     paymentMethod: body.paymentMethod || 'cod',
     paymentStatus: body.paymentStatus || (body.paymentMethod === 'cod' ? 'pending' : 'verified'),
-    paymentDetails: body.paymentDetails || {},
+    paymentDetails: incomingDetails,
+    receiptImage: incomingReceipt,
   };
 
   let customerObjectId = undefined;
@@ -409,12 +416,12 @@ router.post('/', async (req, res) => {
   });
 });
 
-// ─── 3. تحديث حالة الطلب (للأدمن فقط) ───────────────────────
+// ─── 3. تحديث حالة وتفاصيل الطلب (للأدمن فقط) ───────────────────────
 router.patch('/', verifyToken, checkRole('admin'), async (req, res) => {
   try {
-    const { orderId, status } = req.body;
-    if (!orderId || !status) {
-      return res.status(400).json({ error: 'orderId and status are required' });
+    const { orderId, status, paymentStatus, paymentDetails, notes } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ error: 'orderId is required' });
     }
 
     const orders = await jsonCache.read('orders.json', []);
@@ -423,12 +430,27 @@ router.patch('/', verifyToken, checkRole('admin'), async (req, res) => {
       return res.status(404).json({ error: 'Order not found' });
     }
 
-    orders[idx].status = status;
+    if (status) orders[idx].status = status;
+    if (paymentStatus) orders[idx].paymentStatus = paymentStatus;
+    if (paymentDetails) {
+      orders[idx].paymentDetails = {
+        ...(orders[idx].paymentDetails || {}),
+        ...paymentDetails,
+      };
+    }
+    if (typeof notes === 'string') orders[idx].notes = notes;
+
     await jsonCache.write('orders.json', orders);
 
     if (jsonCache.isMongoConnected()) {
       try {
-        await Order.findOneAndUpdate({ id: orderId }, { status });
+        const updateFields = {};
+        if (status) updateFields.status = status;
+        if (paymentStatus) updateFields.paymentStatus = paymentStatus;
+        if (paymentDetails) updateFields.paymentDetails = orders[idx].paymentDetails;
+        if (typeof notes === 'string') updateFields.notes = notes;
+
+        await Order.findOneAndUpdate({ id: orderId }, { $set: updateFields });
       } catch (err) {
         console.warn('Order Mongo update notice:', err.message);
       }

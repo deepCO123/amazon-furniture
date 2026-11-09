@@ -40,7 +40,6 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -141,21 +140,7 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          {/* Quick Admin Demo Fill Shortcut */}
-          <div className="mt-4 p-2.5 bg-slate-50 dark:bg-[#0D121B] border border-slate-200 dark:border-slate-800 rounded-xl text-xs flex items-center justify-between text-slate-600 dark:text-slate-300">
-            <span className="text-[11px]">{isEn ? "System Administrator?" : "هل أنت مسؤول النظام؟"}</span>
-            <button
-              type="button"
-              onClick={() => {
-                setValue("email", "admin@amazonfurniture.eg");
-                setValue("password", "Admin@Pass2026!");
-                setError("");
-              }}
-              className="text-[#C58B45] hover:text-[#93662a] font-bold text-[11px] underline cursor-pointer"
-            >
-              {isEn ? "Autofill Admin Credentials ⚡" : "تعبئة بيانات الأدمن تلقائياً ⚡"}
-            </button>
-          </div>
+
 
           <div className="mt-6 text-center">
             <p className="text-sm text-muted">

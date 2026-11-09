@@ -75,16 +75,13 @@ const orderSchema = new mongoose.Schema(
     },
     paymentStatus: {
       type: String,
-      enum: ['pending', 'paid', 'verified', 'failed'],
+      enum: ['pending', 'deposit_paid', 'paid', 'verified', 'failed'],
       default: 'pending',
       index: true,
     },
     paymentDetails: {
-      transactionRef: { type: String, default: '' },
-      walletPhone: { type: String, default: '' },
-      fawryCode: { type: String, default: '' },
-      paidAt: { type: String, default: '' },
-      receiptImage: { type: String, default: '' },
+      type: mongoose.Schema.Types.Mixed,
+      default: () => ({}),
     },
   },
   {

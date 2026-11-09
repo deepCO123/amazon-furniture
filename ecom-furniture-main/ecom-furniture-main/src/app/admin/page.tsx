@@ -44,13 +44,16 @@ import {
   Ruler,
   Menu,
   Settings,
+  PanelRightClose,
+  PanelRightOpen,
+  Upload,
 } from "lucide-react";
 import { useAdminAuthStore } from "@/store/adminAuthStore";
 import { useProductStore } from "@/store/productStore";
 import { useThemeStore } from "@/store/themeStore";
 import type { Product, User, Order, EmailLog, ReturnRequest, Quotation, ConsultationBooking, CustomOrder } from "@/types";
 import { categories } from "@/data/categories";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, getOrderReceiptImage } from "@/lib/utils";
 import { apiClient } from "@/lib/apiClient";
 import dynamic from "next/dynamic";
 import { useToastStore } from "@/components/ui/Toast";
@@ -94,6 +97,30 @@ export default function AdminDashboardPage() {
   const [activeTab, setActiveTab] = useState<AdminTab>("products");
   const { theme } = useThemeStore();
   const isDark = theme === "dark";
+
+  // Desktop Sidebar Collapse State
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("amazon_admin_sidebar_collapsed");
+      if (saved !== null) {
+        queueMicrotask(() => {
+          setIsSidebarCollapsed(saved === "true");
+        });
+      }
+    } catch {}
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("amazon_admin_sidebar_collapsed", String(next));
+      } catch {}
+      return next;
+    });
+  };
 
   // Dynamic Theme Styling Tokens
   const panelCls = isDark
@@ -380,6 +407,60 @@ export default function AdminDashboardPage() {
     loadEmails();
     loadCustomOrders();
     showNotification("تم تحديث ومزامنة جميع البيانات بنجاح!");
+  };
+
+  const [attachingReceiptOrderId, setAttachingReceiptOrderId] = useState<string | null>(null);
+
+  const handleAttachReceiptToOrder = async (order: Order, file: File) => {
+    try {
+      setAttachingReceiptOrderId(order.id);
+      showNotification("جاري رفع سكرين شوت التحويل...");
+      const uploadRes = await apiClient.uploadReceipt(file);
+      if (!uploadRes.success || !uploadRes.url) {
+        addToast(uploadRes.error || "تعذر رفع الصورة", "error");
+        return;
+      }
+
+      const receiptUrl = uploadRes.url;
+      const existingDetails =
+        typeof order.paymentDetails === "object" && order.paymentDetails !== null
+          ? order.paymentDetails
+          : {};
+
+      const updatedDetails = {
+        ...existingDetails,
+        receiptImage: receiptUrl,
+      };
+
+      const updateRes = await apiClient.updateOrderStatus(
+        order.id,
+        order.status,
+        order.paymentStatus || "verified",
+        updatedDetails
+      );
+
+      if (updateRes.success) {
+        setOrders((prev) =>
+          prev.map((o) =>
+            o.id === order.id ? { ...o, paymentDetails: updatedDetails } : o
+          )
+        );
+        if (viewingReceiptOrder?.id === order.id) {
+          setViewingReceiptOrder({
+            ...order,
+            paymentDetails: updatedDetails,
+          });
+        }
+        addToast("تم حفظ وتحديث سكرين شوت التحويل للطلب بنجاح ✓", "success");
+      } else {
+        addToast("تعذر تحديث بيانات الطلب على السيرفر", "error");
+      }
+    } catch (err) {
+      console.error("Attach receipt error:", err);
+      addToast("حدث خطأ أثناء حفظ الإيصال", "error");
+    } finally {
+      setAttachingReceiptOrderId(null);
+    }
   };
 
   useEffect(() => {
@@ -725,7 +806,12 @@ export default function AdminDashboardPage() {
       )}
 
       {/* Desktop spacer to preserve layout flow while sidebar is fixed */}
-      <div className="hidden lg:block lg:w-64 xl:w-72 shrink-0" aria-hidden="true" />
+      <div
+        className={`hidden lg:block shrink-0 transition-all duration-300 ease-in-out ${
+          isSidebarCollapsed ? "lg:w-20" : "lg:w-64 xl:w-72"
+        }`}
+        aria-hidden="true"
+      />
 
       {/* ── Mobile Sticky Top App Bar (Sleek, Compact & Responsive) ── */}
       <header className={`lg:hidden sticky top-0 z-40 w-full border-b backdrop-blur-md px-3.5 py-2.5 flex items-center justify-between transition-colors shadow-xs ${panelCls} ${borderSep}`}>
@@ -950,26 +1036,66 @@ export default function AdminDashboardPage() {
       )}
 
       {/* ── 1. Desktop Right Sidebar (100% Fixed to Viewport on Desktop) ── */}
-      <aside className={`hidden lg:flex lg:fixed lg:top-0 lg:right-0 lg:w-64 xl:w-72 lg:h-screen lg:max-h-screen shrink-0 border-s p-4 lg:p-5 flex-col justify-between z-40 transition-colors duration-200 ${panelCls}`}>
-        <div className="flex flex-col flex-1 min-h-0">
-          {/* Brand header */}
-          <div className={`flex items-center justify-between pb-4 border-b mb-3 shrink-0 ${borderSep}`}>
-            <div className="flex items-center gap-3 min-w-0">
+      <aside
+        className={`hidden lg:flex lg:fixed lg:top-0 lg:right-0 lg:h-screen lg:max-h-screen shrink-0 border-s flex-col justify-between z-40 transition-all duration-300 ease-in-out ${
+          isSidebarCollapsed
+            ? "lg:w-20 p-3 items-center"
+            : "lg:w-64 xl:w-72 p-4 lg:p-5"
+        } ${panelCls}`}
+      >
+        <div className="flex flex-col flex-1 min-h-0 w-full">
+          {/* Brand header & Collapse Toggle Button */}
+          {isSidebarCollapsed ? (
+            <div className={`flex flex-col items-center gap-2.5 pb-3 border-b mb-3 shrink-0 w-full ${borderSep}`}>
               <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-lg border border-[#c98d74]/40 bg-[#171B24] shrink-0 p-1">
                 <Image src="/logo/amazon-mark-color.svg" alt="AMAZON" fill className="object-contain" />
               </div>
-              <div className="min-w-0">
-                <h2 className={`font-black text-sm truncate ${textTitle}`}>AMAZON</h2>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="w-2 h-2 rounded-full bg-[#c98d74] animate-pulse" />
-                  <span className={`text-[10px] font-bold ${textMuted} truncate`}>Premium Living Solutions</span>
+              <button
+                type="button"
+                onClick={toggleSidebar}
+                title="توسيع القائمة الجانبية (Expand sidebar)"
+                aria-label="توسيع القائمة الجانبية"
+                className={`w-9 h-9 rounded-xl border flex items-center justify-center transition-all cursor-pointer ${
+                  isDark
+                    ? "border-[#282E3E] bg-[#161B24] hover:bg-[#1E2433] text-slate-300 hover:text-cyan-400"
+                    : "border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-cyan-700 shadow-xs"
+                }`}
+              >
+                <PanelRightOpen size={18} />
+              </button>
+            </div>
+          ) : (
+            <div className={`flex items-center justify-between pb-4 border-b mb-3 shrink-0 ${borderSep}`}>
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-lg border border-[#c98d74]/40 bg-[#171B24] shrink-0 p-1">
+                  <Image src="/logo/amazon-mark-color.svg" alt="AMAZON" fill className="object-contain" />
+                </div>
+                <div className="min-w-0">
+                  <h2 className={`font-black text-sm truncate ${textTitle}`}>AMAZON</h2>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span className="w-2 h-2 rounded-full bg-[#c98d74] animate-pulse" />
+                    <span className={`text-[10px] font-bold ${textMuted} truncate`}>Premium Living Solutions</span>
+                  </div>
                 </div>
               </div>
+              <button
+                type="button"
+                onClick={toggleSidebar}
+                title="طي القائمة الجانبية (Collapse sidebar)"
+                aria-label="طي القائمة الجانبية"
+                className={`p-2 rounded-xl border flex items-center justify-center transition-all cursor-pointer ${
+                  isDark
+                    ? "border-[#282E3E] bg-[#161B24] hover:bg-[#1E2433] text-slate-400 hover:text-cyan-400"
+                    : "border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-cyan-700 shadow-xs"
+                }`}
+              >
+                <PanelRightClose size={18} />
+              </button>
             </div>
-          </div>
+          )}
 
           {/* Navigation Items (Scrollable internally with no-scrollbar if viewport is short) */}
-          <nav className="space-y-1 overflow-y-auto no-scrollbar flex-1 pe-0.5">
+          <nav className="space-y-1 overflow-y-auto no-scrollbar flex-1 w-full pe-0.5">
             {navTabs.map((tab) => {
               const isActive = activeTab === tab.id;
               const Icon = tab.icon;
@@ -980,7 +1106,12 @@ export default function AdminDashboardPage() {
                     setActiveTab(tab.id as AdminTab);
                     setMobileNavOpen(false);
                   }}
-                  className={`w-full text-right px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between transition-all cursor-pointer min-h-[44px] ${
+                  title={tab.label}
+                  className={`w-full rounded-xl font-bold transition-all cursor-pointer ${
+                    isSidebarCollapsed
+                      ? "p-2.5 flex items-center justify-center min-h-[44px]"
+                      : "text-right px-3 py-2.5 text-xs sm:text-sm flex items-center justify-between min-h-[44px]"
+                  } ${
                     isActive
                       ? isDark
                         ? "bg-[#182a3d] text-cyan-400 border border-cyan-500/30 shadow-lg shadow-cyan-950/40 font-black"
@@ -990,11 +1121,16 @@ export default function AdminDashboardPage() {
                         : "text-slate-600 hover:text-slate-950 hover:bg-slate-100 border border-transparent"
                   }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <Icon size={17} className={isActive ? "text-cyan-500" : isDark ? "text-slate-400" : "text-slate-500"} />
-                    <span>{tab.label}</span>
+                  <div className={`flex items-center ${isSidebarCollapsed ? "justify-center relative" : "gap-2.5"}`}>
+                    <Icon size={isSidebarCollapsed ? 20 : 17} className={isActive ? "text-cyan-500" : isDark ? "text-slate-400" : "text-slate-500"} />
+                    {!isSidebarCollapsed && <span>{tab.label}</span>}
+                    {isSidebarCollapsed && tab.count !== undefined && tab.count > 0 && (
+                      <span className="absolute -top-2 -end-2 text-[9px] font-black px-1 rounded-full bg-cyan-500 text-slate-950 min-w-3.5 h-3.5 flex items-center justify-center shadow-xs">
+                        {tab.count > 99 ? "99+" : tab.count}
+                      </span>
+                    )}
                   </div>
-                  {tab.count !== undefined && (
+                  {!isSidebarCollapsed && tab.count !== undefined && (
                     <span
                       className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
                         isActive
@@ -1017,58 +1153,108 @@ export default function AdminDashboardPage() {
             <div className="pt-2">
               <Link
                 href="/admin/returns-intelligence"
-                className={`w-full text-right px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between transition-all cursor-pointer min-h-[44px] ${
+                title="ذكاء المرتجعات & المخزون"
+                className={`w-full rounded-xl font-bold transition-all cursor-pointer ${
+                  isSidebarCollapsed
+                    ? "p-2.5 flex items-center justify-center min-h-[44px]"
+                    : "text-right px-3 py-2.5 text-xs sm:text-sm flex items-center justify-between min-h-[44px]"
+                } ${
                   isDark
                     ? "bg-gradient-to-r from-amber-500/15 via-red-500/10 to-transparent text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 shadow-md shadow-amber-950/20"
                     : "bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100 shadow-xs"
                 }`}
               >
-                <div className="flex items-center gap-2.5">
-                  <ShieldAlert size={17} className="text-amber-400 shrink-0" />
-                  <span className="font-black">ذكاء المرتجعات &amp; المخزون</span>
+                <div className={`flex items-center ${isSidebarCollapsed ? "justify-center" : "gap-2.5"}`}>
+                  <ShieldAlert size={isSidebarCollapsed ? 20 : 17} className="text-amber-400 shrink-0" />
+                  {!isSidebarCollapsed && <span className="font-black">ذكاء المرتجعات &amp; المخزون</span>}
                 </div>
-                <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">
-                  AI Pro
-                </span>
+                {!isSidebarCollapsed && (
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                    AI Pro
+                  </span>
+                )}
               </Link>
             </div>
           </nav>
         </div>
 
         {/* Sidebar Footer Actions (Firmly Pinned in Viewport at all times) */}
-        <div className={`pt-3 border-t space-y-2 mt-2 shrink-0 ${borderSep}`}>
-          <ThemeToggle variant="sidebar" />
+        <div className={`pt-3 border-t space-y-2 mt-2 shrink-0 w-full ${borderSep}`}>
+          {isSidebarCollapsed ? (
+            <div className="flex flex-col items-center gap-2 w-full">
+              <ThemeToggle variant="minimal" />
 
-          <button
-            onClick={handleOpenCreate}
-            className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25 transition-all cursor-pointer"
-          >
-            <Plus size={16} strokeWidth={2.5} />
-            <span>إضافة منتج جديد +</span>
-          </button>
+              <button
+                type="button"
+                onClick={handleOpenCreate}
+                title="إضافة منتج جديد +"
+                className="w-10 h-10 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black flex items-center justify-center shadow-lg shadow-cyan-500/25 transition-all cursor-pointer"
+              >
+                <Plus size={18} strokeWidth={2.5} />
+              </button>
 
-          <Link
-            href="/"
-            target="_blank"
-            className={`w-full py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors ${
-              isDark
-                ? "bg-[#171B24] hover:bg-[#1E2330] text-slate-300 hover:text-white"
-                : "bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-950 border border-slate-200"
-            }`}
-          >
-            <ExternalLink size={14} />
-            <span>معاينة المتجر ↗</span>
-          </Link>
+              <Link
+                href="/"
+                target="_blank"
+                title="معاينة المتجر ↗"
+                className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+                  isDark
+                    ? "bg-[#171B24] hover:bg-[#1E2330] text-slate-300 hover:text-white"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-950 border border-slate-200"
+                }`}
+              >
+                <ExternalLink size={16} />
+              </Link>
 
-          <button
-            onClick={handleLogout}
-            className={`w-full py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-              isDark ? "text-red-400 hover:bg-red-500/10 hover:text-red-300" : "text-red-600 hover:bg-red-50 hover:text-red-700"
-            }`}
-          >
-            <LogOut size={14} />
-            <span>تسجيل الخروج</span>
-          </button>
+              <button
+                type="button"
+                onClick={handleLogout}
+                title="تسجيل الخروج"
+                className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors cursor-pointer ${
+                  isDark ? "text-red-400 hover:bg-red-500/10 hover:text-red-300" : "text-red-600 hover:bg-red-50 hover:text-red-700"
+                }`}
+              >
+                <LogOut size={16} />
+              </button>
+            </div>
+          ) : (
+            <>
+              <ThemeToggle variant="sidebar" />
+
+              <button
+                type="button"
+                onClick={handleOpenCreate}
+                className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25 transition-all cursor-pointer"
+              >
+                <Plus size={16} strokeWidth={2.5} />
+                <span>إضافة منتج جديد +</span>
+              </button>
+
+              <Link
+                href="/"
+                target="_blank"
+                className={`w-full py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors ${
+                  isDark
+                    ? "bg-[#171B24] hover:bg-[#1E2330] text-slate-300 hover:text-white"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-950 border border-slate-200"
+                }`}
+              >
+                <ExternalLink size={14} />
+                <span>معاينة المتجر ↗</span>
+              </Link>
+
+              <button
+                type="button"
+                onClick={handleLogout}
+                className={`w-full py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                  isDark ? "text-red-400 hover:bg-red-500/10 hover:text-red-300" : "text-red-600 hover:bg-red-50 hover:text-red-700"
+                }`}
+              >
+                <LogOut size={14} />
+                <span>تسجيل الخروج</span>
+              </button>
+            </>
+          )}
         </div>
       </aside>
 
@@ -1078,6 +1264,21 @@ export default function AdminDashboardPage() {
         <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border rounded-2xl p-4 sm:p-5 shadow-lg transition-colors ${panelCls}`}>
           {/* Right: Section title & live radar icon */}
           <div className="flex items-center gap-3.5">
+            {/* Desktop Sidebar Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleSidebar}
+              title={isSidebarCollapsed ? "توسيع القائمة الجانبية (Expand sidebar)" : "طي القائمة الجانبية (Collapse sidebar)"}
+              aria-label={isSidebarCollapsed ? "توسيع القائمة الجانبية" : "طي القائمة الجانبية"}
+              className={`hidden lg:flex items-center justify-center w-10 h-10 rounded-xl border transition-all cursor-pointer shrink-0 ${
+                isDark
+                  ? "border-[#282E3E] bg-[#161B24] hover:bg-[#1E2433] text-slate-300 hover:text-cyan-400"
+                  : "border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-cyan-700 shadow-xs"
+              }`}
+            >
+              {isSidebarCollapsed ? <PanelRightOpen size={19} /> : <PanelRightClose size={19} />}
+            </button>
+
             <div className="w-11 h-11 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-md shadow-cyan-500/10 shrink-0">
               <Activity size={22} className="animate-pulse" />
             </div>
@@ -2156,8 +2357,8 @@ export default function AdminDashboardPage() {
                                 </span>
                               )}
 
-                              {/* Receipt Proof Inspection Button */}
-                              {order.paymentDetails?.receiptImage && (
+                              {/* Receipt Proof Inspection Button & Missing Proof Attachment */}
+                              {Boolean(getOrderReceiptImage(order)) ? (
                                 <button
                                   type="button"
                                   onClick={() => setViewingReceiptOrder(order)}
@@ -2171,7 +2372,40 @@ export default function AdminDashboardPage() {
                                   <Eye size={12} />
                                   <span>📸 فحص إيصال التحويل</span>
                                 </button>
-                              )}
+                              ) : (order.paymentMethod === "instapay" || order.paymentMethod === "wallet") ? (
+                                <div className="flex items-center gap-1 mt-1">
+                                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50">
+                                    ⚠️ لم يُرفق إيصال
+                                  </span>
+                                  <label
+                                    className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold text-cyan-600 dark:text-cyan-400 hover:bg-cyan-50 dark:hover:bg-cyan-950/40 border border-cyan-300 dark:border-cyan-800 transition-colors cursor-pointer ${
+                                      attachingReceiptOrderId === order.id ? "opacity-50 pointer-events-none" : ""
+                                    }`}
+                                    title="إرفاق سكرين شوت التحويل المستلم عبر واتساب"
+                                  >
+                                    {attachingReceiptOrderId === order.id ? (
+                                      <span>جاري الرفع...</span>
+                                    ) : (
+                                      <>
+                                        <Upload size={10} />
+                                        <span>+ إرفاق</span>
+                                        <input
+                                          type="file"
+                                          accept="image/*"
+                                          className="hidden"
+                                          disabled={attachingReceiptOrderId === order.id}
+                                          onChange={async (e) => {
+                                            const file = e.target.files?.[0];
+                                            if (!file) return;
+                                            await handleAttachReceiptToOrder(order, file);
+                                            e.target.value = "";
+                                          }}
+                                        />
+                                      </>
+                                    )}
+                                  </label>
+                                </div>
+                              ) : null}
 
                               {/* Payment Status */}
                               <div className="pt-0.5 space-y-1">
@@ -3884,131 +4118,183 @@ export default function AdminDashboardPage() {
       )}
 
       {/* Payment Receipt Inspection Modal */}
-      {viewingReceiptOrder && viewingReceiptOrder.paymentDetails?.receiptImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
-          <div className={`relative w-full max-w-lg rounded-2xl shadow-2xl border overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in duration-150 ${cardCls}`}>
-            {/* Header */}
-            <div className={`flex items-center justify-between px-5 py-4 border-b ${borderSep}`}>
-              <div className="flex items-center gap-2">
-                <span className="p-2 rounded-xl bg-amber-500/15 text-amber-500 border border-amber-500/30">
-                  <CreditCard size={18} />
-                </span>
-                <div>
-                  <h3 className={`font-bold text-base ${textTitle}`}>
-                    إيصال التحويل البنكي / المحفظة
-                  </h3>
-                  <span className={`text-xs font-mono ${textMuted}`}>
-                    طلب #{viewingReceiptOrder.id} • {viewingReceiptOrder.customerName}
+      {(() => {
+        if (!viewingReceiptOrder) return null;
+        const receiptUrl = getOrderReceiptImage(viewingReceiptOrder);
+        if (!receiptUrl) return null;
+        const details =
+          typeof viewingReceiptOrder.paymentDetails === "object" && viewingReceiptOrder.paymentDetails !== null
+            ? viewingReceiptOrder.paymentDetails
+            : typeof viewingReceiptOrder.paymentDetails === "string"
+            ? (() => {
+                try {
+                  return JSON.parse(viewingReceiptOrder.paymentDetails);
+                } catch {
+                  return {};
+                }
+              })()
+            : {};
+
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
+            <div className={`relative w-full max-w-lg rounded-2xl shadow-2xl border overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in duration-150 ${cardCls}`}>
+              {/* Header */}
+              <div className={`flex items-center justify-between px-5 py-4 border-b ${borderSep}`}>
+                <div className="flex items-center gap-2">
+                  <span className="p-2 rounded-xl bg-amber-500/15 text-amber-500 border border-amber-500/30">
+                    <CreditCard size={18} />
                   </span>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setViewingReceiptOrder(null)}
-                className={`p-1.5 rounded-xl transition-colors cursor-pointer ${textMuted} hover:${textTitle}`}
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            {/* Content: Details & Full Image */}
-            <div className="p-5 overflow-y-auto space-y-4">
-              <div className={`grid grid-cols-2 gap-2 text-xs p-3 rounded-xl border ${subcardCls}`}>
-                <div>
-                  <span className={`block text-[11px] ${textMuted}`}>طريقة الدفع:</span>
-                  <strong className={`font-bold ${textTitle}`}>
-                    {viewingReceiptOrder.paymentMethod === "instapay"
-                      ? "إنستاباي (InstaPay)"
-                      : viewingReceiptOrder.paymentMethod === "wallet"
-                      ? "فودافون كاش / محفظة"
-                      : viewingReceiptOrder.paymentMethod}
-                  </strong>
-                </div>
-                <div>
-                  <span className={`block text-[11px] ${textMuted}`}>إجمالي الفاتورة:</span>
-                  <strong className="text-amber-500 font-extrabold text-sm">
-                    {formatPrice(viewingReceiptOrder.total)}
-                  </strong>
-                </div>
-                {viewingReceiptOrder.paymentDetails.transactionRef && (
-                  <div className={`col-span-2 pt-1 border-t ${borderSep}`}>
-                    <span className={`text-[11px] ${textMuted}`}>المرجع / اسم المحول: </span>
-                    <strong className={`font-mono ${textTitle}`}>
-                      {viewingReceiptOrder.paymentDetails.transactionRef}
-                    </strong>
+                  <div>
+                    <h3 className={`font-bold text-base ${textTitle}`}>
+                      إيصال التحويل البنكي / المحفظة
+                    </h3>
+                    <span className={`text-xs font-mono ${textMuted}`}>
+                      طلب #{viewingReceiptOrder.id} • {viewingReceiptOrder.customerName}
+                    </span>
                   </div>
-                )}
-                {viewingReceiptOrder.paymentDetails.walletPhone && (
-                  <div className={`col-span-2 pt-1 border-t ${borderSep}`}>
-                    <span className={`text-[11px] ${textMuted}`}>رقم المحفظة المحول منها: </span>
-                    <strong className={`font-mono ${textTitle}`} dir="ltr">
-                      {viewingReceiptOrder.paymentDetails.walletPhone}
-                    </strong>
-                  </div>
-                )}
-              </div>
-
-              {/* Receipt Image Display */}
-              <div className={`rounded-xl overflow-hidden border relative max-h-[50vh] flex items-center justify-center p-1 ${isDark ? "bg-[#0b0e14] border-slate-800" : "bg-slate-100 border-slate-200"}`}>
-                <img
-                  src={viewingReceiptOrder.paymentDetails.receiptImage}
-                  alt={`Receipt for order ${viewingReceiptOrder.id}`}
-                  className="w-full max-h-[50vh] object-contain rounded-lg"
-                />
-              </div>
-
-              <div className="flex items-center justify-between text-xs pt-1">
-                <a
-                  href={viewingReceiptOrder.paymentDetails.receiptImage}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 text-cyan-500 hover:text-cyan-400 font-bold hover:underline"
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setViewingReceiptOrder(null)}
+                  className={`p-1.5 rounded-xl transition-colors cursor-pointer ${textMuted} hover:${textTitle}`}
                 >
-                  <ExternalLink size={14} />
-                  <span>فتح الصورة بحجمها الكامل في نافذة جديدة</span>
-                </a>
+                  <X size={20} />
+                </button>
               </div>
-            </div>
 
-            {/* Footer with Actions */}
-            <div className={`flex items-center justify-between px-5 py-3.5 border-t gap-3 ${borderSep} ${isDark ? "bg-[#10141d]" : "bg-slate-50"}`}>
-              <button
-                type="button"
-                onClick={async () => {
-                  try {
-                    const res = await apiClient.updateOrderStatus(viewingReceiptOrder.id, "confirmed");
-                    if (res.success) {
-                      setOrders((prev) =>
-                        prev.map((o) =>
-                          o.id === viewingReceiptOrder.id ? { ...o, status: "confirmed", paymentStatus: "paid" } : o
-                        )
-                      );
-                      addToast("تم اعتماد الدفع وتأكيد الطلب بنجاح ✓", "success");
-                      setViewingReceiptOrder(null);
+              {/* Content: Details & Full Image */}
+              <div className="p-5 overflow-y-auto space-y-4">
+                <div className={`grid grid-cols-2 gap-2 text-xs p-3 rounded-xl border ${subcardCls}`}>
+                  <div>
+                    <span className={`block text-[11px] ${textMuted}`}>طريقة الدفع:</span>
+                    <strong className={`font-bold ${textTitle}`}>
+                      {viewingReceiptOrder.paymentMethod === "instapay"
+                        ? "إنستاباي (InstaPay)"
+                        : viewingReceiptOrder.paymentMethod === "wallet"
+                        ? "فودافون كاش / محفظة"
+                        : viewingReceiptOrder.paymentMethod}
+                    </strong>
+                  </div>
+                  <div>
+                    <span className={`block text-[11px] ${textMuted}`}>إجمالي الفاتورة:</span>
+                    <strong className="text-amber-500 font-extrabold text-sm">
+                      {formatPrice(viewingReceiptOrder.total)}
+                    </strong>
+                  </div>
+                  {details.transactionRef && (
+                    <div className={`col-span-2 pt-1 border-t ${borderSep}`}>
+                      <span className={`text-[11px] ${textMuted}`}>المرجع / اسم المحول: </span>
+                      <strong className={`font-mono ${textTitle}`}>
+                        {details.transactionRef}
+                      </strong>
+                    </div>
+                  )}
+                  {details.walletPhone && (
+                    <div className={`col-span-2 pt-1 border-t ${borderSep}`}>
+                      <span className={`text-[11px] ${textMuted}`}>رقم المحفظة المحول منها: </span>
+                      <strong className={`font-mono ${textTitle}`} dir="ltr">
+                        {details.walletPhone}
+                      </strong>
+                    </div>
+                  )}
+                </div>
+
+                {/* Receipt Image Display */}
+                <div className={`rounded-xl overflow-hidden border relative max-h-[50vh] flex items-center justify-center p-1 ${isDark ? "bg-[#0b0e14] border-slate-800" : "bg-slate-100 border-slate-200"}`}>
+                  <img
+                    src={receiptUrl}
+                    alt={`Receipt for order ${viewingReceiptOrder.id}`}
+                    className="w-full max-h-[50vh] object-contain rounded-lg"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      const backendUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000").replace(/\/$/, "");
+                      if (!target.dataset.retried && receiptUrl.startsWith("/uploads/")) {
+                        target.dataset.retried = "true";
+                        target.src = `${backendUrl}${receiptUrl}`;
+                        return;
+                      }
+                      target.style.display = "none";
+                      const parent = target.parentElement;
+                      if (parent && !parent.querySelector(".img-error-fallback")) {
+                        const div = document.createElement("div");
+                        div.className = "img-error-fallback p-6 text-center text-rose-500 text-xs font-bold";
+                        div.textContent = "تعذر تحميل الصورة من المسار المحدد. يمكنك استبدال أو إعادة رفع الإيصال بالزر أدناه.";
+                        parent.appendChild(div);
+                      }
+                    }}
+                  />
+                </div>
+
+                <div className="flex flex-wrap items-center justify-between text-xs pt-1 gap-2">
+                  <a
+                    href={receiptUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 text-cyan-500 hover:text-cyan-400 font-bold hover:underline"
+                  >
+                    <ExternalLink size={14} />
+                    <span>فتح الصورة بحجمها الكامل في نافذة جديدة</span>
+                  </a>
+
+                  <label className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer text-slate-700 dark:text-slate-200">
+                    <RefreshCw size={13} className={attachingReceiptOrderId === viewingReceiptOrder.id ? "animate-spin" : ""} />
+                    <span>{attachingReceiptOrderId === viewingReceiptOrder.id ? "جاري التحديث..." : "استبدال / تحديث الإيصال"}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      disabled={attachingReceiptOrderId === viewingReceiptOrder.id}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        await handleAttachReceiptToOrder(viewingReceiptOrder, file);
+                        e.target.value = "";
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
+
+              {/* Footer with Actions */}
+              <div className={`flex items-center justify-between px-5 py-3.5 border-t gap-3 ${borderSep} ${isDark ? "bg-[#10141d]" : "bg-slate-50"}`}>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      const res = await apiClient.updateOrderStatus(viewingReceiptOrder.id, "confirmed", "paid");
+                      if (res.success) {
+                        setOrders((prev) =>
+                          prev.map((o) =>
+                            o.id === viewingReceiptOrder.id ? { ...o, status: "confirmed", paymentStatus: "paid" } : o
+                          )
+                        );
+                        addToast("تم اعتماد الدفع وتأكيد الطلب بنجاح ✓", "success");
+                        setViewingReceiptOrder(null);
+                      }
+                    } catch {
+                      addToast("حدث خطأ أثناء اعتماد الطلب", "error");
                     }
-                  } catch {
-                    addToast("حدث خطأ أثناء اعتماد الطلب", "error");
-                  }
-                }}
-                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
-              >
-                <CheckCircle2 size={15} />
-                <span>اعتماد الدفع وتأكيد الطلب</span>
-              </button>
+                  }}
+                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+                >
+                  <CheckCircle2 size={15} />
+                  <span>اعتماد الدفع وتأكيد الطلب</span>
+                </button>
 
-              <button
-                type="button"
-                onClick={() => setViewingReceiptOrder(null)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
-                  isDark ? "bg-slate-800 hover:bg-slate-700 text-slate-300" : "bg-slate-200 hover:bg-slate-300 text-slate-700"
-                }`}
-              >
-                إغلاق
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setViewingReceiptOrder(null)}
+                  className={`px-4 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
+                    isDark ? "bg-slate-800 hover:bg-slate-700 text-slate-300" : "bg-slate-200 hover:bg-slate-300 text-slate-700"
+                  }`}
+                >
+                  إغلاق
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 }

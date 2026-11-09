@@ -74,3 +74,47 @@ export function getProductUrl(slug: string): string {
   }
   return `http://localhost:3000/products/${slug}`;
 }
+
+/**
+ * Extracts and normalizes the money transfer receipt screenshot from an order object,
+ * handling multiple schema shapes, legacy keys, stringified JSON paymentDetails, and nested paths.
+ */
+export function getOrderReceiptImage(order?: unknown): string | null {
+  if (!order || typeof order !== "object") return null;
+  const o = order as Record<string, unknown>;
+
+  let pd = o.paymentDetails;
+  if (typeof pd === "string") {
+    try {
+      pd = JSON.parse(pd);
+    } catch {
+      pd = {};
+    }
+  }
+  const details = (pd && typeof pd === "object" ? pd : {}) as Record<string, unknown>;
+
+  const candidate =
+    details.receiptImage ||
+    details.receiptUrl ||
+    details.receipt ||
+    details.screenshot ||
+    details.image ||
+    details.transferProof ||
+    details.proofImage ||
+    o.receiptImage ||
+    o.receiptUrl ||
+    o.receipt ||
+    o.screenshot ||
+    o.transferProof;
+
+  if (typeof candidate === "string" && candidate.trim().length > 0) {
+    const trimmed = candidate.trim();
+    // Ignore placeholder strings
+    if (trimmed === "null" || trimmed === "undefined" || trimmed === "[object Object]") {
+      return null;
+    }
+    return trimmed;
+  }
+
+  return null;
+}

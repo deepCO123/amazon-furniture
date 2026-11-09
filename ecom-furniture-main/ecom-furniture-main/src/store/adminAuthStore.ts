@@ -88,15 +88,16 @@ export const useAdminAuthStore = create<AdminAuthState>()(
               },
             });
             return true;
+          } else if (res && res.success === false) {
+            if (typeof window !== "undefined") {
+              localStorage.removeItem("amazon_token");
+            }
+            set({ isAuthenticated: false, user: null });
+            return false;
           }
         } catch {
-          // Session check failed
+          // Network error / offline mode: preserve persistent session if present
         }
-
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("amazon_token");
-        }
-        set({ isAuthenticated: false, user: null });
         return false;
       },
     }),

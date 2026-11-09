@@ -255,11 +255,43 @@ class ApiClient {
     });
   }
 
-  async updateOrderStatus(orderId: string, status: string): Promise<{ success: boolean; order?: Order }> {
+  async updateOrderStatus(
+    orderId: string,
+    status?: string,
+    paymentStatus?: string,
+    paymentDetails?: Partial<NonNullable<Order["paymentDetails"]>>
+  ): Promise<{ success: boolean; order?: Order }> {
+    const payload: Record<string, unknown> = { orderId };
+    if (status) payload.status = status;
+    if (paymentStatus) payload.paymentStatus = paymentStatus;
+    if (paymentDetails) payload.paymentDetails = paymentDetails;
+
     return this.request("/api/orders", {
       method: "PATCH",
-      body: JSON.stringify({ orderId, status }),
+      body: JSON.stringify(payload),
     });
+  }
+
+  async uploadReceipt(file: File): Promise<{ success: boolean; url?: string; error?: string }> {
+    try {
+      const formData = new FormData();
+      formData.append("receipt", file);
+      formData.append("file", file);
+
+      const res = await fetch("/api/upload/receipt", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.url) {
+        return { success: true, url: data.url };
+      }
+      return { success: false, error: data.error || "فشل رفع صورة الإيصال" };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "حدث خطأ أثناء رفع صورة الإيصال";
+      return { success: false, error: msg };
+    }
   }
 
   async deleteOrder(id: string): Promise<{ success: boolean }> {
